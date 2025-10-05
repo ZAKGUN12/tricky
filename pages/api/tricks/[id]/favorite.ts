@@ -1,22 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { toggleFavorite } from '../../../../lib/mockData';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+    return res.status(405).json({ message: 'Method not allowed' });
   }
 
-  try {
-    const { id } = req.query;
-    const { userId } = req.body;
-    
-    if (!userId) {
-      return res.status(400).json({ error: 'User ID required' });
-    }
-
-    const result = toggleFavorite(id as string);
-    res.json({ success: true, favorited: result.success });
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to toggle favorite' });
-  }
+  const { id } = req.query;
+  
+  // Mock response
+  res.status(200).json({ success: true, id });
 }

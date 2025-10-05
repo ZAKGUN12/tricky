@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Trick } from '../lib/types';
 import { mockTricks, countries } from '../lib/mockData';
 import CountryChain from '../components/CountryChain';
+import TopTricks from '../components/TopTricks';
 
 function HomeContent() {
   const [tricks, setTricks] = useState<Trick[]>(mockTricks);
@@ -60,42 +61,56 @@ function HomeContent() {
         </select>
       </div>
 
-      <div className="tricks-grid">
-        {filteredTricks.map(trick => {
-          const country = countries.find(c => c.code === trick.countryCode);
-          return (
-            <div key={trick.id} className="trick-card">
-              <div className="trick-header">
-                <span className="country-flag">{country?.flag}</span>
-                <span className="difficulty-badge">
-                  {trick.difficulty === 'easy' ? '🟢' : 
-                   trick.difficulty === 'medium' ? '🟡' : '🔴'}
-                </span>
-              </div>
-              
-              <h3>{trick.title}</h3>
-              <p>{trick.description}</p>
-              
-              <div className="trick-tags">
-                {trick.tags.slice(0, 3).map(tag => (
-                  <span key={tag} className="tag">#{tag}</span>
-                ))}
-              </div>
-              
-              <div className="trick-actions">
-                <button 
-                  onClick={() => handleKudos(trick.id)}
-                  className="kudos-btn"
-                >
-                  👍 {trick.kudos}
-                </button>
-                <Link href={`/trick/${trick.id}`} className="view-btn">
-                  View →
-                </Link>
-              </div>
-            </div>
-          );
-        })}
+      <div className="main-content">
+        <div className="left-sidebar">
+          <TopTricks />
+        </div>
+        
+        <div className="feed">
+          <div className="tricks-feed">
+            {filteredTricks.map(trick => {
+              const country = countries.find(c => c.code === trick.countryCode);
+              return (
+                <div key={trick.id} className="trick-post">
+                  <div className="post-header">
+                    <span className="country-flag">{country?.flag}</span>
+                    <div className="post-meta">
+                      <span className="country-name">{country?.name}</span>
+                      <span className="difficulty-badge">
+                        {trick.difficulty === 'easy' ? '🟢' : 
+                         trick.difficulty === 'medium' ? '🟡' : '🔴'}
+                      </span>
+                    </div>
+                    <span className="time">{trick.timeEstimate}</span>
+                  </div>
+                  
+                  <h3 className="post-title">{trick.title}</h3>
+                  <p className="post-description">{trick.description}</p>
+                  
+                  <div className="post-tags">
+                    {trick.tags.slice(0, 3).map(tag => (
+                      <span key={tag} className="tag">#{tag}</span>
+                    ))}
+                  </div>
+                  
+                  <div className="post-actions">
+                    <button 
+                      onClick={() => handleKudos(trick.id)}
+                      className="action-btn kudos"
+                    >
+                      👍 {trick.kudos}
+                    </button>
+                    <span className="action-btn">💬 {trick.comments}</span>
+                    <span className="action-btn">👁️ {trick.views}</span>
+                    <Link href={`/trick/${trick.id}`} className="view-link">
+                      View →
+                    </Link>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
 
       {filteredTricks.length === 0 && (
