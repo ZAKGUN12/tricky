@@ -250,7 +250,7 @@ function TrickDetailContent() {
             ))}
           </div>
           {userRating > 0 && (
-            <span className="rating-text">You rated this {userRating} star{userRating !== 1 ? &apos;s&apos; : &apos;&apos;}</span>
+            <span className="rating-text">You rated this {userRating} star{userRating !== 1 ? 's' : ''}</span>
           )}
         </div>
       </div>
