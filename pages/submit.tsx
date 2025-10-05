@@ -39,7 +39,11 @@ export default function Submit() {
       router.push('/');
     } catch (error) {
       console.error('Error submitting trick:', error);
-      alert('Failed to submit trick. Please try again.');
+      // Log more details for debugging
+      if (error instanceof Error) {
+        console.error('Error message:', error.message);
+      }
+      alert(`Failed to submit trick: ${error instanceof Error ? error.message : 'Unknown error'}. Please try again.`);
     }
   };
 
