@@ -474,6 +474,13 @@ body {
   }
 }
 
+.trick-count {
+  font-size: 11px;
+  color: #667eea;
+  font-weight: 600;
+  margin-left: 4px;
+}
+
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
