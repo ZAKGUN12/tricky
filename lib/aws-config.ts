@@ -1,9 +1,14 @@
 export const awsConfig = {
   Auth: {
     Cognito: {
-      userPoolId: 'eu-west-1_3ckjVhgRq',
-      userPoolClientId: '2sukplim9dhaugu4e1gf01ji7h',
-      identityPoolId: 'eu-west-1:73491b39-99e4-4090-a775-aafa9047aa07'
+      userPoolId: 'eu-west-1_yZS9dVviI',
+      userPoolClientId: '5hdfa24ogh4an99q3njpsf7u89',
+      signUpVerificationMethod: 'code' as const,
+      loginWith: {
+        email: true,
+        username: false,
+        phone: false
+      }
     }
   }
 };

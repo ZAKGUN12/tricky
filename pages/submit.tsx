@@ -1,10 +1,23 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react';
 import { countries } from '../lib/mockData';
 import { TrickShareAPI } from '../lib/api';
+import AuthWrapper from '../components/AuthWrapper';
 
 export default function Submit() {
+  return (
+    <Authenticator>
+      <AuthWrapper>
+        <SubmitContent />
+      </AuthWrapper>
+    </Authenticator>
+  );
+}
+
+function SubmitContent() {
+  const { user } = useAuthenticator((context) => [context.user]);
   const router = useRouter();
   const [formData, setFormData] = useState({
     title: '',
@@ -31,7 +44,8 @@ export default function Submit() {
         country: formData.country,
         difficulty: formData.difficulty,
         tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
-        authorName: 'Anonymous' // TODO: Add user authentication
+        authorName: user?.signInDetails?.loginId || 'Anonymous',
+        authorId: user?.userId || 'anonymous'
       };
       
       await TrickShareAPI.createTrick(trickData);
