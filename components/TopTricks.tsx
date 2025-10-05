@@ -8,42 +8,56 @@ export default function TopTricks() {
 
   return (
     <div className="bg-white rounded-lg shadow p-6 mb-8">
-      <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+      <h2 className="text-xl font-bold mb-6 text-center">
         🏆 Top 10 Best Tricks
       </h2>
-      <div className="space-y-3">
+      <div className="flex flex-wrap justify-center gap-4">
         {topTricks.map((trick, index) => (
           <div 
             key={trick.id} 
-            className="flex items-center gap-3 p-3 hover:bg-gray-50 rounded cursor-pointer transition-colors"
+            className="relative group"
           >
+            {/* Chain connector */}
+            {index < topTricks.length - 1 && (
+              <div className="absolute top-1/2 -right-2 w-4 h-0.5 bg-gradient-to-r from-yellow-400 to-transparent z-0" />
+            )}
+            
+            {/* Trick circle */}
             <div className={`
-              w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm
-              ${index < 3 ? 'bg-yellow-100 text-yellow-800' : 'bg-gray-100 text-gray-600'}
+              relative w-16 h-16 rounded-full flex flex-col items-center justify-center
+              cursor-pointer transition-all duration-300 z-10
+              ${index < 3 
+                ? 'bg-gradient-to-br from-yellow-300 to-yellow-500 text-yellow-900 shadow-lg' 
+                : 'bg-gradient-to-br from-blue-100 to-blue-200 text-blue-800 shadow-md'
+              }
+              hover:scale-110 hover:shadow-xl
             `}>
-              #{index + 1}
-            </div>
-            <div className="flex-1">
-              <div className="font-medium text-sm line-clamp-1">{trick.title}</div>
-              <div className="text-xs text-gray-500 flex items-center gap-3">
-                <span>👍 {trick.kudos.toLocaleString()}</span>
-                <span>⭐ {trick.favorites}</span>
-                <span>💬 {trick.comments}</span>
-                <span>{trick.countryCode === 'IT' ? '🇮🇹' : 
-                       trick.countryCode === 'JP' ? '🇯🇵' : 
-                       trick.countryCode === 'US' ? '🇺🇸' : 
-                       trick.countryCode === 'GB' ? '🇬🇧' : 
-                       trick.countryCode === 'FR' ? '🇫🇷' : 
-                       trick.countryCode === 'IN' ? '🇮🇳' : 
-                       trick.countryCode === 'ES' ? '🇪🇸' : '🌍'}</span>
+              <div className="text-xs font-bold">#{index + 1}</div>
+              <div className="text-lg">
+                {trick.countryCode === 'IT' ? '🇮🇹' : 
+                 trick.countryCode === 'JP' ? '🇯🇵' : 
+                 trick.countryCode === 'US' ? '🇺🇸' : 
+                 trick.countryCode === 'GB' ? '🇬🇧' : 
+                 trick.countryCode === 'FR' ? '🇫🇷' : 
+                 trick.countryCode === 'IN' ? '🇮🇳' : 
+                 trick.countryCode === 'ES' ? '🇪🇸' : 
+                 trick.countryCode === 'GR' ? '🇬🇷' : 
+                 trick.countryCode === 'AR' ? '🇦🇷' : '🌍'}
               </div>
             </div>
-            <div className="text-xs text-gray-400">
-              {trick.difficulty === 'easy' ? '🟢' : 
-               trick.difficulty === 'medium' ? '🟡' : '🔴'}
+
+            {/* Tooltip */}
+            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-20">
+              <div className="bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap max-w-32 text-center">
+                <div className="font-medium">{trick.title}</div>
+                <div className="text-yellow-300">👍 {trick.kudos.toLocaleString()}</div>
+              </div>
             </div>
           </div>
         ))}
+        
+        {/* Closing chain link */}
+        <div className="w-4 h-0.5 bg-gradient-to-r from-yellow-400 to-yellow-600 self-center animate-pulse" />
       </div>
     </div>
   );
