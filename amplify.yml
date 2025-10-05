@@ -8,13 +8,9 @@ frontend:
       commands:
         - npm run build
   artifacts:
-    baseDirectory: .next
+    baseDirectory: out
     files:
       - '**/*'
   cache:
     paths:
       - node_modules/**/*
-  env:
-    variables:
-      AMPLIFY_DIFF_DEPLOY: false
-      AMPLIFY_MONOREPO_APP_ROOT: .
