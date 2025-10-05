@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuthenticator } from '@aws-amplify/ui-react';
-import { Authenticator } from '@aws-amplify/ui-react';
 import { Trick, UserStats } from '../lib/types';
+import AuthWrapper from '../components/AuthWrapper';
 
 function ProfileContent() {
   const { signOut, user } = useAuthenticator();
@@ -137,8 +137,8 @@ function ProfileContent() {
 
 export default function Profile() {
   return (
-    <Authenticator>
+    <AuthWrapper>
       <ProfileContent />
-    </Authenticator>
+    </AuthWrapper>
   );
 }

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAuthenticator } from '@aws-amplify/ui-react';
-import { Authenticator } from '@aws-amplify/ui-react';
+import AuthWrapper from '../components/AuthWrapper';
 
 const countries = [
   { code: 'US', name: '🇺🇸 United States' },
@@ -191,8 +191,8 @@ function SubmitForm() {
 
 export default function Submit() {
   return (
-    <Authenticator>
+    <AuthWrapper>
       <SubmitForm />
-    </Authenticator>
+    </AuthWrapper>
   );
 }

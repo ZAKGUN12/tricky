@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { Trick, Comment } from '../../lib/types';
+import AuthWrapper from '../../components/AuthWrapper';
 
-export default function TrickDetail() {
+function TrickDetailContent() {
   const router = useRouter();
   const { id } = router.query;
   const { user } = useAuthenticator((context) => [context.user]);
@@ -237,5 +238,13 @@ export default function TrickDetail() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function TrickDetail() {
+  return (
+    <AuthWrapper>
+      <TrickDetailContent />
+    </AuthWrapper>
   );
 }
