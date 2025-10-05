@@ -1,0 +1,52 @@
+type Comment {
+  id: ID!
+  trickId: String!
+  userId: String!
+  content: String!
+  timestamp: String!
+  userName: String
+}
+
+type Notification {
+  id: ID!
+  userId: String!
+  type: String!
+  message: String!
+  trickId: String
+  timestamp: String!
+  read: Boolean!
+}
+
+type Activity {
+  id: ID!
+  type: String!
+  userId: String!
+  userName: String!
+  trickId: String!
+  trickTitle: String!
+  timestamp: String!
+}
+
+type Mutation {
+  addComment(trickId: String!, content: String!): Comment
+  liketrick(trickId: String!): Boolean
+  markNotificationRead(notificationId: String!): Boolean
+}
+
+type Query {
+  getComments(trickId: String!): [Comment]
+  getNotifications(userId: String!): [Notification]
+  getActivityFeed(limit: Int): [Activity]
+  getTrendingTricks: [String]
+}
+
+type Subscription {
+  onCommentAdded(trickId: String!): Comment
+    @aws_subscribe(mutations: ["addComment"])
+  
+  onNotificationReceived(userId: String!): Notification
+    @aws_subscribe(mutations: ["addComment", "liketrick"])
+  
+  onActivityUpdate: Activity
+    @aws_subscribe(mutations: ["addComment", "liketrick"])
+}
