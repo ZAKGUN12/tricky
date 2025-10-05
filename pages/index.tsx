@@ -4,6 +4,7 @@ import { Trick } from '../lib/types';
 import { mockTricks, countries } from '../lib/mockData';
 import CountryChain from '../components/CountryChain';
 import AnimatedCounter from '../components/AnimatedCounter';
+import TopTricks from '../components/TopTricks';
 
 function HomeContent() {
   const [tricks, setTricks] = useState<Trick[]>([]);
@@ -143,6 +144,11 @@ function HomeContent() {
         selectedCountry={selectedCountry}
         onCountrySelect={setSelectedCountry}
       />
+
+      {/* Top Tricks Section */}
+      {selectedCountry === '' && (
+        <TopTricks />
+      )}
 
       {/* Tricks Grid */}
       <div className="tricks-grid">
