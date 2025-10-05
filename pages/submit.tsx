@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { useAuthenticator } from '@aws-amplify/ui-react';
+import { Authenticator } from '@aws-amplify/ui-react';
 
 const countries = [
   { code: 'US', name: '🇺🇸 United States' },
@@ -19,8 +21,9 @@ const popularTags = [
   'money', 'fitness', 'study', 'work', 'home', 'garden'
 ];
 
-export default function Submit() {
+function SubmitForm() {
   const router = useRouter();
+  const { user } = useAuthenticator();
   const [form, setForm] = useState({
     title: '',
     description: '',
@@ -58,6 +61,8 @@ export default function Submit() {
     const trick = {
       ...form,
       languageCode: 'en',
+      authorId: user?.userId,
+      authorName: user?.signInDetails?.loginId?.split('@')[0] || 'Anonymous',
       steps: form.steps.filter(step => step.trim()),
       tags: form.tags.split(',').map(tag => tag.trim()).filter(Boolean)
     };
@@ -99,6 +104,9 @@ export default function Submit() {
       <header className="header">
         <h1>Share Your Trick</h1>
         <p>Help others with your life hack ✨</p>
+        <div style={{ fontSize: '14px', opacity: 0.8, marginTop: '10px' }}>
+          Signed in as: {user?.signInDetails?.loginId}
+        </div>
       </header>
       
       <form className="form" onSubmit={handleSubmit}>
@@ -252,9 +260,17 @@ export default function Submit() {
           fontSize: '12px', 
           color: '#666' 
         }}>
-          Your trick will be reviewed and published shortly
+          Your trick will be published immediately
         </p>
       </form>
     </div>
+  );
+}
+
+export default function Submit() {
+  return (
+    <Authenticator>
+      <SubmitForm />
+    </Authenticator>
   );
 }

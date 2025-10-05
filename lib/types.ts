@@ -7,6 +7,7 @@ export interface Trick {
   languageCode: string;
   tags: string[];
   authorId?: string;
+  authorName?: string;
   kudos: number;
   status: 'pending' | 'approved' | 'rejected';
   createdAt: string;

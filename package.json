@@ -16,7 +16,9 @@
     "@aws-sdk/client-dynamodb": "^3.450.0",
     "@aws-sdk/lib-dynamodb": "^3.450.0",
     "@aws-sdk/client-s3": "^3.450.0",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "aws-amplify": "^6.0.0",
+    "@aws-amplify/ui-react": "^6.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
