@@ -77,7 +77,7 @@ function HomeContent() {
             {filteredTricks.map(trick => {
               const country = countries.find(c => c.code === trick.countryCode);
               return (
-                <div key={trick.id} className="trick-post">
+                <div key={trick.id} className={`trick-post difficulty-${trick.difficulty}`}>
                   <div className="post-header">
                     <span className="country-flag">{country?.flag}</span>
                     <div className="post-meta">

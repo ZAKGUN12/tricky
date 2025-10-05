@@ -65,39 +65,21 @@ export default function CountryRace() {
 
       <style jsx>{`
         .country-race {
-          background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+          background: var(--glass-bg);
           backdrop-filter: blur(20px);
           border-radius: 20px;
           padding: 20px;
           margin-bottom: 25px;
-          border: 1px solid rgba(255, 255, 255, 0.18);
-          box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
+          border: 1px solid var(--glass-border);
+          box-shadow: var(--glass-shadow);
           position: relative;
           overflow: hidden;
-        }
-        
-        .country-race::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: radial-gradient(circle at 30% 70%, rgba(255, 215, 0, 0.1) 0%, transparent 50%);
-          pointer-events: none;
-        }
-        
-        .race-header {
-          text-align: center;
-          margin-bottom: 20px;
-          position: relative;
-          z-index: 2;
         }
         
         .race-header h3 {
           font-size: 1.3rem;
           font-weight: 800;
-          background: linear-gradient(135deg, #ff6b6b, #ffd93d, #6bcf7f);
+          background: var(--primary-gradient);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -107,14 +89,8 @@ export default function CountryRace() {
         
         .race-header p {
           font-size: 0.85rem;
-          color: rgba(0, 0, 0, 0.6);
+          color: var(--text-muted);
           margin: 0;
-        }
-        
-        .race-track {
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
         }
         
         .race-lane {
@@ -123,30 +99,18 @@ export default function CountryRace() {
           align-items: center;
           gap: 12px;
           padding: 10px;
-          background: rgba(255, 255, 255, 0.1);
+          background: var(--glass-bg);
           border-radius: 12px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          border: 1px solid var(--glass-border);
           transition: all 0.3s ease;
           animation: laneFloat 4s ease-in-out infinite;
           animation-delay: calc(var(--index) * 0.2s);
         }
         
         .race-lane.podium {
-          background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 255, 255, 0.1));
+          background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), var(--glass-bg));
           border-color: rgba(255, 215, 0, 0.3);
           transform: scale(1.02);
-        }
-        
-        .race-lane:hover {
-          transform: translateY(-2px) scale(1.02);
-          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-        }
-        
-        .country-info {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          font-size: 0.9rem;
         }
         
         .rank {
@@ -155,52 +119,19 @@ export default function CountryRace() {
           min-width: 25px;
         }
         
-        .flag {
-          font-size: 1.2rem;
-          animation: flagWave 3s ease-in-out infinite;
-        }
-        
         .name {
           font-weight: 600;
-          color: #2c3e50;
+          color: var(--text-primary);
           flex: 1;
-        }
-        
-        .medal {
-          font-size: 1rem;
-          animation: medalSpin 2s ease-in-out infinite;
-        }
-        
-        .progress-track {
-          background: rgba(0, 0, 0, 0.1);
-          border-radius: 10px;
-          height: 8px;
-          position: relative;
-          overflow: hidden;
         }
         
         .progress-bar {
           height: 100%;
-          background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+          background: var(--primary-gradient);
           border-radius: 10px;
           position: relative;
           transition: width 2s ease-out;
           animation: progressPulse 2s ease-in-out infinite;
-        }
-        
-        .progress-glow {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-          animation: progressShine 3s infinite;
-        }
-        
-        .stats {
-          text-align: right;
-          font-size: 0.8rem;
         }
         
         .score {
@@ -213,7 +144,7 @@ export default function CountryRace() {
           display: flex;
           flex-direction: column;
           gap: 2px;
-          color: #666;
+          color: var(--text-muted);
           font-size: 0.7rem;
         }
         
