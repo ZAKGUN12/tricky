@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 interface UserStatsProps {
   userId: string;
@@ -14,11 +14,7 @@ export default function UserStats({ userId }: UserStatsProps) {
   const [stats, setStats] = useState<UserStats>({ score: 0, tricksSubmitted: 0, kudosReceived: 0 });
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchStats();
-  }, [userId]); // Remove fetchStats from dependencies
-
-  const fetchStats = async () => {
+  const fetchStats = useCallback(async () => {
     try {
       const response = await fetch(`/api/user/stats?userId=${userId}`);
       if (response.ok) {
@@ -30,7 +26,11 @@ export default function UserStats({ userId }: UserStatsProps) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [userId]);
+
+  useEffect(() => {
+    fetchStats();
+  }, [fetchStats]);
 
   if (loading) {
     return <span className="user-stats">Loading...</span>;
