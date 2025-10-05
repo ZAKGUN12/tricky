@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { countries } from '../lib/mockData';
+import { TrickShareAPI } from '../lib/api';
 
 export default function Submit() {
   const router = useRouter();
@@ -14,7 +15,7 @@ export default function Submit() {
     tags: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Simple validation
     if (!formData.title || !formData.description || !formData.country) {
@@ -22,9 +23,24 @@ export default function Submit() {
       return;
     }
     
-    // Simulate submission
-    alert('Trick submitted successfully!');
-    router.push('/');
+    try {
+      const trickData = {
+        title: formData.title,
+        description: formData.description,
+        steps: formData.steps.filter(step => step.trim()),
+        country: formData.country,
+        difficulty: formData.difficulty,
+        tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
+        authorName: 'Anonymous' // TODO: Add user authentication
+      };
+      
+      await TrickShareAPI.createTrick(trickData);
+      alert('Trick submitted successfully!');
+      router.push('/');
+    } catch (error) {
+      console.error('Error submitting trick:', error);
+      alert('Failed to submit trick. Please try again.');
+    }
   };
 
   const addStep = () => {
