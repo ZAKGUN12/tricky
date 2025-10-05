@@ -48,6 +48,54 @@ export const mockTricks: Trick[] = [
     kudos: 35,
     status: 'approved',
     createdAt: '2024-01-13T09:15:00Z'
+  },
+  {
+    id: '4',
+    title: 'French Coffee Press Technique',
+    description: 'Perfect coffee extraction using French press method',
+    steps: [
+      'Use coarse ground coffee, 1:15 ratio',
+      'Pour hot water (200°F), stir once',
+      'Steep for 4 minutes, press slowly'
+    ],
+    countryCode: 'FR',
+    languageCode: 'en',
+    tags: ['coffee', 'french', 'brewing'],
+    kudos: 67,
+    status: 'approved',
+    createdAt: '2024-01-12T08:00:00Z'
+  },
+  {
+    id: '5',
+    title: 'Italian Pasta Water Secret',
+    description: 'Use pasta water to create perfect sauce consistency',
+    steps: [
+      'Save 1 cup of starchy pasta water before draining',
+      'Add pasta water gradually to sauce while mixing',
+      'The starch helps sauce stick to pasta perfectly'
+    ],
+    countryCode: 'IT',
+    languageCode: 'en',
+    tags: ['pasta', 'italian', 'cooking'],
+    kudos: 89,
+    status: 'approved',
+    createdAt: '2024-01-11T19:30:00Z'
+  },
+  {
+    id: '6',
+    title: 'Swedish Lagom Productivity',
+    description: 'Balance work and life with Swedish lagom philosophy',
+    steps: [
+      'Work in focused 90-minute blocks',
+      'Take 20-minute breaks between blocks',
+      'End work at a fixed time daily'
+    ],
+    countryCode: 'SE',
+    languageCode: 'en',
+    tags: ['productivity', 'swedish', 'balance'],
+    kudos: 54,
+    status: 'approved',
+    createdAt: '2024-01-10T14:15:00Z'
   }
 ];
 
@@ -68,4 +116,14 @@ export const addTrick = (trick: Omit<Trick, 'id' | 'kudos' | 'status' | 'created
 export const addKudos = (id: string) => {
   const trick = tricks.find(t => t.id === id);
   if (trick) trick.kudos++;
+};
+
+export const searchTricks = (query: string) => {
+  const lowercaseQuery = query.toLowerCase();
+  return tricks.filter(trick => 
+    trick.title.toLowerCase().includes(lowercaseQuery) ||
+    trick.description.toLowerCase().includes(lowercaseQuery) ||
+    trick.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery)) ||
+    trick.steps.some(step => step.toLowerCase().includes(lowercaseQuery))
+  );
 };
