@@ -5,6 +5,7 @@ import { mockTricks, countries } from '../lib/mockData';
 import CountryChain from '../components/CountryChain';
 import AnimatedCounter from '../components/AnimatedCounter';
 import TopTricks from '../components/TopTricks';
+import { analytics, performanceMonitor } from '../lib/analytics';
 
 function HomeContent() {
   const [tricks, setTricks] = useState<Trick[]>([]);
@@ -12,6 +13,10 @@ function HomeContent() {
   const [selectedCountry, setSelectedCountry] = useState<string>('');
   const [selectedTrickId, setSelectedTrickId] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [selectedDifficulty, setSelectedDifficulty] = useState<string>('');
+  const [selectedTimeRange, setSelectedTimeRange] = useState<string>('');
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const [loading, setLoading] = useState(true);
   const tricksRef = useRef<HTMLDivElement>(null);
   const [totalStats, setTotalStats] = useState({
@@ -23,15 +28,19 @@ function HomeContent() {
 
   useEffect(() => {
     fetchUserData();
+    analytics.trackPageView('home', 'TrickShare - Discover Life Tricks');
+    performanceMonitor.startTiming('page_load');
   }, []);
 
   useEffect(() => {
     filterTricks();
-  }, [selectedCountry, searchQuery, tricks, selectedTrickId]);
+  }, [selectedCountry, searchQuery, tricks, selectedTrickId, selectedTags, selectedDifficulty, selectedTimeRange]);
 
   const fetchUserData = async () => {
     try {
       setLoading(true);
+      performanceMonitor.startTiming('data_fetch');
+      
       // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 800));
       
@@ -45,10 +54,13 @@ function HomeContent() {
         totalCountries: countries.filter(c => c.tricks > 0).length
       };
       setTotalStats(stats);
+      
+      performanceMonitor.endTiming('data_fetch');
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
       setLoading(false);
+      performanceMonitor.endTiming('page_load');
     }
   };
 
@@ -62,6 +74,7 @@ function HomeContent() {
       // Normal filtering
       if (selectedCountry) {
         filtered = filtered.filter(trick => trick.countryCode === selectedCountry);
+        analytics.trackFilter('country', selectedCountry);
       }
       
       if (searchQuery) {
@@ -70,10 +83,65 @@ function HomeContent() {
           trick.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
           trick.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
         );
+        analytics.trackSearch(searchQuery, filtered.length);
+      }
+
+      // Advanced filters
+      if (selectedTags.length > 0) {
+        filtered = filtered.filter(trick =>
+          selectedTags.some(tag => trick.tags.includes(tag))
+        );
+        analytics.trackFilter('tags', selectedTags.join(','));
+      }
+
+      if (selectedDifficulty) {
+        filtered = filtered.filter(trick => trick.difficulty === selectedDifficulty);
+        analytics.trackFilter('difficulty', selectedDifficulty);
+      }
+
+      if (selectedTimeRange) {
+        filtered = filtered.filter(trick => {
+          const timeEstimate = trick.timeEstimate.toLowerCase();
+          switch (selectedTimeRange) {
+            case 'quick':
+              return timeEstimate.includes('minute') && !timeEstimate.includes('hour');
+            case 'medium':
+              return timeEstimate.includes('hour') || timeEstimate.includes('30');
+            case 'long':
+              return timeEstimate.includes('hours') || timeEstimate.includes('days') || timeEstimate.includes('months') || timeEstimate.includes('years');
+            default:
+              return true;
+          }
+        });
+        analytics.trackFilter('time_range', selectedTimeRange);
       }
     }
     
     setFilteredTricks(filtered);
+  };
+
+  // Get all unique tags from tricks
+  const getAllTags = () => {
+    const allTags = tricks.flatMap(trick => trick.tags);
+    return [...new Set(allTags)].sort();
+  };
+
+  const handleTagToggle = (tag: string) => {
+    setSelectedTags(prev => 
+      prev.includes(tag) 
+        ? prev.filter(t => t !== tag)
+        : [...prev, tag]
+    );
+    setSelectedTrickId(''); // Clear trick selection
+  };
+
+  const clearAllFilters = () => {
+    setSelectedTrickId('');
+    setSelectedCountry('');
+    setSearchQuery('');
+    setSelectedTags([]);
+    setSelectedDifficulty('');
+    setSelectedTimeRange('');
   };
 
   const handleTrickSelect = (trickId: string) => {
@@ -93,6 +161,11 @@ function HomeContent() {
   };
 
   const handleKudos = async (trickId: string) => {
+    const trick = tricks.find(t => t.id === trickId);
+    if (trick) {
+      analytics.trackTrickKudos(trickId, trick.title);
+    }
+    
     setTricks(prev => prev.map(trick => 
       trick.id === trickId 
         ? { ...trick, kudos: trick.kudos + 1 }
@@ -101,6 +174,11 @@ function HomeContent() {
   };
 
   const handleFavorite = async (trickId: string) => {
+    const trick = tricks.find(t => t.id === trickId);
+    if (trick) {
+      analytics.trackTrickFavorite(trickId, trick.title);
+    }
+    
     setTricks(prev => prev.map(trick => 
       trick.id === trickId 
         ? { ...trick, favorites: trick.favorites + 1 }
@@ -168,7 +246,105 @@ function HomeContent() {
               setSelectedTrickId(''); // Clear trick selection when searching
             }}
           />
+          <button 
+            className="advanced-toggle"
+            onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+          >
+            ⚙️ {showAdvancedFilters ? 'Hide' : 'Advanced'}
+          </button>
         </div>
+
+        {/* Advanced Filters */}
+        {showAdvancedFilters && (
+          <div className="advanced-filters">
+            {/* Tags Filter */}
+            <div className="filter-group">
+              <label className="filter-label">🏷️ Tags</label>
+              <div className="tags-filter">
+                {getAllTags().map(tag => (
+                  <button
+                    key={tag}
+                    className={`tag-filter ${selectedTags.includes(tag) ? 'active' : ''}`}
+                    onClick={() => handleTagToggle(tag)}
+                  >
+                    #{tag}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Difficulty Filter */}
+            <div className="filter-group">
+              <label className="filter-label">📊 Difficulty</label>
+              <div className="difficulty-filter">
+                <button
+                  className={`difficulty-btn ${selectedDifficulty === '' ? 'active' : ''}`}
+                  onClick={() => setSelectedDifficulty('')}
+                >
+                  All
+                </button>
+                <button
+                  className={`difficulty-btn easy ${selectedDifficulty === 'easy' ? 'active' : ''}`}
+                  onClick={() => setSelectedDifficulty('easy')}
+                >
+                  🟢 Easy
+                </button>
+                <button
+                  className={`difficulty-btn medium ${selectedDifficulty === 'medium' ? 'active' : ''}`}
+                  onClick={() => setSelectedDifficulty('medium')}
+                >
+                  🟡 Medium
+                </button>
+                <button
+                  className={`difficulty-btn hard ${selectedDifficulty === 'hard' ? 'active' : ''}`}
+                  onClick={() => setSelectedDifficulty('hard')}
+                >
+                  🔴 Hard
+                </button>
+              </div>
+            </div>
+
+            {/* Time Range Filter */}
+            <div className="filter-group">
+              <label className="filter-label">⏱️ Time Required</label>
+              <div className="time-filter">
+                <button
+                  className={`time-btn ${selectedTimeRange === '' ? 'active' : ''}`}
+                  onClick={() => setSelectedTimeRange('')}
+                >
+                  Any Time
+                </button>
+                <button
+                  className={`time-btn ${selectedTimeRange === 'quick' ? 'active' : ''}`}
+                  onClick={() => setSelectedTimeRange('quick')}
+                >
+                  ⚡ Quick (&lt; 30 min)
+                </button>
+                <button
+                  className={`time-btn ${selectedTimeRange === 'medium' ? 'active' : ''}`}
+                  onClick={() => setSelectedTimeRange('medium')}
+                >
+                  ⏰ Medium (30 min - 2 hrs)
+                </button>
+                <button
+                  className={`time-btn ${selectedTimeRange === 'long' ? 'active' : ''}`}
+                  onClick={() => setSelectedTimeRange('long')}
+                >
+                  🕐 Long (2+ hrs)
+                </button>
+              </div>
+            </div>
+
+            {/* Clear Filters */}
+            {(selectedTags.length > 0 || selectedDifficulty || selectedTimeRange || searchQuery || selectedCountry) && (
+              <div className="filter-actions">
+                <button className="clear-filters" onClick={clearAllFilters}>
+                  🔄 Clear All Filters
+                </button>
+              </div>
+            )}
+          </div>
+        )}
       </section>
 
       {/* Country Filter Section */}
@@ -180,7 +356,7 @@ function HomeContent() {
       </section>
 
       {/* Top 10 Section */}
-      {selectedCountry === '' && !searchQuery && (
+      {selectedCountry === '' && !searchQuery && selectedTags.length === 0 && !selectedDifficulty && !selectedTimeRange && (
         <section className="top-tricks-section">
           <TopTricks 
             onTrickSelect={handleTrickSelect}
@@ -196,6 +372,9 @@ function HomeContent() {
             {selectedTrickId ? '🎯 Selected Trick' : 
              selectedCountry ? `🌍 Tricks from ${countries.find(c => c.code === selectedCountry)?.name}` :
              searchQuery ? `🔍 Search Results for "${searchQuery}"` :
+             selectedTags.length > 0 ? `🏷️ Tagged: ${selectedTags.join(', ')}` :
+             selectedDifficulty ? `📊 ${selectedDifficulty.charAt(0).toUpperCase() + selectedDifficulty.slice(1)} Tricks` :
+             selectedTimeRange ? `⏱️ ${selectedTimeRange.charAt(0).toUpperCase() + selectedTimeRange.slice(1)} Duration` :
              '📚 All Tricks'}
           </h2>
           <p className="section-subtitle">
@@ -208,24 +387,21 @@ function HomeContent() {
             <div className="empty-state">
               <h3>No tricks found</h3>
               <p>Try adjusting your search or filters</p>
-              {(selectedTrickId || selectedCountry || searchQuery) && (
+              {(selectedTrickId || selectedCountry || searchQuery || selectedTags.length > 0 || selectedDifficulty || selectedTimeRange) && (
                 <button 
                   className="reset-btn"
-                  onClick={() => {
-                    setSelectedTrickId('');
-                    setSelectedCountry('');
-                    setSearchQuery('');
-                  }}
+                  onClick={clearAllFilters}
                 >
-                  🔄 Show All Tricks
+                  🔄 Clear All Filters
                 </button>
               )}
             </div>
           ) : (
             filteredTricks.map((trick, index) => (
-              <div 
+              <Link 
                 key={trick.id} 
-                className={`trick-card ${selectedTrickId === trick.id ? 'highlighted' : ''}`}
+                href={`/trick/${trick.id}`}
+                className={`trick-card-link ${selectedTrickId === trick.id ? 'highlighted' : ''}`}
                 style={{ animationDelay: `${index * 0.05}s` }}
               >
                 <div className="trick-title">{trick.title}</div>
@@ -258,17 +434,23 @@ function HomeContent() {
                   <div className="trick-actions">
                     <button 
                       className="action-btn"
-                      onClick={() => handleKudos(trick.id)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleKudos(trick.id);
+                      }}
                     >
                       👍 <AnimatedCounter value={trick.kudos} duration={300} />
                     </button>
                     <button 
                       className="action-btn"
-                      onClick={() => handleFavorite(trick.id)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleFavorite(trick.id);
+                      }}
                     >
                       ⭐ <AnimatedCounter value={trick.favorites} duration={300} />
                     </button>
-                    <button className="action-btn">
+                    <button className="action-btn" onClick={(e) => e.preventDefault()}>
                       💬 {trick.comments}
                     </button>
                   </div>
@@ -282,7 +464,7 @@ function HomeContent() {
                     <span className="tag">+{trick.tags.length - 3}</span>
                   )}
                 </div>
-              </div>
+              </Link>
             ))
           )}
         </div>
