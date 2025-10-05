@@ -3,403 +3,221 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { countries } from '../lib/mockData';
 
-function SubmitForm() {
+export default function Submit() {
   const router = useRouter();
-  // Mock user for now
-  const user = { 
-    username: 'demo@example.com',
-    userId: 'demo-user-123',
-    signInDetails: { loginId: 'demo@example.com' }
-  };
-
-  const [form, setForm] = useState({
+  const [formData, setFormData] = useState({
     title: '',
     description: '',
-    steps: ['', '', ''],
-    countryCode: '',
-    tags: '',
-    difficulty: 'easy' as 'easy' | 'medium' | 'hard',
-    timeEstimate: '',
-    category: 'general'
+    steps: [''],
+    country: '',
+    difficulty: 'easy',
+    tags: ''
   });
-  const [submitting, setSubmitting] = useState(false);
-  const [isStepBased, setIsStepBased] = useState(true);
-  const [images, setImages] = useState<File[]>([]);
-  const [previewMode, setPreviewMode] = useState(false);
 
-  const handleInputChange = (field: string, value: string) => {
-    setForm(prev => ({ ...prev, [field]: value }));
-  };
-
-  const handleStepChange = (index: number, value: string) => {
-    const newSteps = [...form.steps];
-    newSteps[index] = value;
-    setForm(prev => ({ ...prev, steps: newSteps }));
-  };
-
-  const addStep = () => {
-    setForm(prev => ({ ...prev, steps: [...prev.steps, ''] }));
-  };
-
-  const removeStep = (index: number) => {
-    if (form.steps.length > 1) {
-      const newSteps = form.steps.filter((_, i) => i !== index);
-      setForm(prev => ({ ...prev, steps: newSteps }));
-    }
-  };
-
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files || []);
-    setImages(prev => [...prev, ...files].slice(0, 5)); // Max 5 images
-  };
-
-  const removeImage = (index: number) => {
-    setImages(prev => prev.filter((_, i) => i !== index));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.title || !form.description || !form.countryCode) {
+    // Simple validation
+    if (!formData.title || !formData.description || !formData.country) {
       alert('Please fill in all required fields');
       return;
     }
-
-    setSubmitting(true);
     
-    try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      const trickData = {
-        ...form,
-        id: Date.now().toString(),
-        authorId: user.userId,
-        authorName: user.signInDetails?.loginId?.split('@')[0] || 'Anonymous',
-        kudos: 0,
-        views: 0,
-        favorites: 0,
-        comments: 0,
-        status: 'pending' as const,
-        createdAt: new Date().toISOString(),
-        tags: form.tags.split(',').map(tag => tag.trim()).filter(Boolean),
-        steps: isStepBased ? form.steps.filter(step => step.trim()) : []
-      };
+    // Simulate submission
+    alert('Trick submitted successfully!');
+    router.push('/');
+  };
 
-      console.log('Submitting trick:', trickData);
-      alert('Trick submitted successfully! It will be reviewed before publishing.');
-      router.push('/');
-    } catch (error) {
-      console.error('Error submitting trick:', error);
-      alert('Error submitting trick. Please try again.');
-    } finally {
-      setSubmitting(false);
+  const addStep = () => {
+    if (formData.steps.length < 3) {
+      setFormData(prev => ({
+        ...prev,
+        steps: [...prev.steps, '']
+      }));
     }
   };
 
-  const selectedCountry = countries.find(c => c.code === form.countryCode);
+  const updateStep = (index: number, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      steps: prev.steps.map((step, i) => i === index ? value : step)
+    }));
+  };
 
   return (
     <div className="container">
-      <div className="submit-header">
-        <h1>✨ Share Your Trick</h1>
-        <p>Help others by sharing your amazing life tricks and tips</p>
-      </div>
+      <header className="page-header">
+        <Link href="/" className="back-btn">← Back</Link>
+        <h1>Share Your Trick</h1>
+      </header>
 
-      <div className="submit-container">
-        {/* Form Type Toggle */}
-        <div className="form-type-toggle">
-          <button
-            type="button"
-            className={`toggle-btn ${isStepBased ? 'active' : ''}`}
-            onClick={() => setIsStepBased(true)}
-          >
-            📋 Step-by-Step Guide
-          </button>
-          <button
-            type="button"
-            className={`toggle-btn ${!isStepBased ? 'active' : ''}`}
-            onClick={() => setIsStepBased(false)}
-          >
-            💡 Quick Tip
-          </button>
+      <form onSubmit={handleSubmit} className="submit-form">
+        <div className="form-group">
+          <label>Title *</label>
+          <input
+            type="text"
+            value={formData.title}
+            onChange={(e) => setFormData(prev => ({...prev, title: e.target.value}))}
+            placeholder="What's your trick?"
+            required
+          />
         </div>
 
-        <form onSubmit={handleSubmit} className="submit-form">
-          {/* Basic Information */}
-          <div className="form-section">
-            <h2>📝 Basic Information</h2>
-            
-            <div className="form-group">
-              <label className="form-label">Title *</label>
-              <input
-                type="text"
-                className="form-input"
-                placeholder="Give your trick a catchy title..."
-                value={form.title}
-                onChange={(e) => handleInputChange('title', e.target.value)}
-                maxLength={100}
-                required
-              />
-              <div className="char-count">{form.title.length}/100</div>
-            </div>
+        <div className="form-group">
+          <label>Description *</label>
+          <textarea
+            value={formData.description}
+            onChange={(e) => setFormData(prev => ({...prev, description: e.target.value}))}
+            placeholder="Briefly describe your trick..."
+            rows={3}
+            required
+          />
+        </div>
 
-            <div className="form-group">
-              <label className="form-label">Description *</label>
-              <textarea
-                className="form-textarea"
-                placeholder="Describe what your trick does and why it's useful..."
-                value={form.description}
-                onChange={(e) => handleInputChange('description', e.target.value)}
-                rows={4}
-                maxLength={500}
-                required
-              />
-              <div className="char-count">{form.description.length}/500</div>
-            </div>
-
-            <div className="form-row">
-              <div className="form-group">
-                <label className="form-label">Country/Origin *</label>
-                <select
-                  className="form-select"
-                  value={form.countryCode}
-                  onChange={(e) => handleInputChange('countryCode', e.target.value)}
-                  required
-                >
-                  <option value="">Select country...</option>
-                  {countries.map(country => (
-                    <option key={country.code} value={country.code}>
-                      {country.flag} {country.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Category</label>
-                <select
-                  className="form-select"
-                  value={form.category}
-                  onChange={(e) => handleInputChange('category', e.target.value)}
-                >
-                  <option value="general">🌟 General</option>
-                  <option value="cooking">🍳 Cooking</option>
-                  <option value="cleaning">🧹 Cleaning</option>
-                  <option value="productivity">⚡ Productivity</option>
-                  <option value="health">💪 Health & Wellness</option>
-                  <option value="technology">💻 Technology</option>
-                  <option value="travel">✈️ Travel</option>
-                  <option value="diy">🔨 DIY & Crafts</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          {/* Content Section */}
-          <div className="form-section">
-            <h2>{isStepBased ? '📋 Steps' : '💡 Tip Content'}</h2>
-            
-            {isStepBased ? (
-              <div className="steps-container">
-                {form.steps.map((step, index) => (
-                  <div key={index} className="step-input-group">
-                    <label className="step-label">Step {index + 1}</label>
-                    <div className="step-input-container">
-                      <textarea
-                        className="form-textarea step-input"
-                        placeholder={`Describe step ${index + 1}...`}
-                        value={step}
-                        onChange={(e) => handleStepChange(index, e.target.value)}
-                        rows={2}
-                      />
-                      {form.steps.length > 1 && (
-                        <button
-                          type="button"
-                          className="remove-step"
-                          onClick={() => removeStep(index)}
-                        >
-                          ❌
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                ))}
-                
-                <button
-                  type="button"
-                  className="add-step"
-                  onClick={addStep}
-                  disabled={form.steps.length >= 10}
-                >
-                  ➕ Add Step ({form.steps.length}/10)
-                </button>
-              </div>
-            ) : (
-              <div className="tip-editor">
-                <p className="tip-note">
-                  💡 For quick tips, provide a detailed explanation in the description above. 
-                  No steps needed - just share your wisdom!
-                </p>
-              </div>
-            )}
-          </div>
-
-          {/* Images Section */}
-          <div className="form-section">
-            <h2>📸 Images (Optional)</h2>
-            <div className="image-upload">
-              <input
-                type="file"
-                id="images"
-                multiple
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="image-input"
-              />
-              <label htmlFor="images" className="image-upload-label">
-                📷 Add Images (Max 5)
-              </label>
-              
-              {images.length > 0 && (
-                <div className="image-previews">
-                  {images.map((image, index) => (
-                    <div key={index} className="image-preview">
-                      <img 
-                        src={URL.createObjectURL(image)} 
-                        alt={`Preview ${index + 1}`}
-                        className="preview-img"
-                      />
-                      <button
-                        type="button"
-                        className="remove-image"
-                        onClick={() => removeImage(index)}
-                      >
-                        ❌
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Metadata Section */}
-          <div className="form-section">
-            <h2>⚙️ Details</h2>
-            
-            <div className="form-row">
-              <div className="form-group">
-                <label className="form-label">Difficulty</label>
-                <div className="difficulty-selector">
-                  {(['easy', 'medium', 'hard'] as const).map(level => (
-                    <button
-                      key={level}
-                      type="button"
-                      className={`difficulty-option ${form.difficulty === level ? 'active' : ''}`}
-                      onClick={() => handleInputChange('difficulty', level)}
-                    >
-                      {level === 'easy' ? '🟢 Easy' : 
-                       level === 'medium' ? '🟡 Medium' : '🔴 Hard'}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Time Required</label>
-                <input
-                  type="text"
-                  className="form-input"
-                  placeholder="e.g., 5 minutes, 1 hour, etc."
-                  value={form.timeEstimate}
-                  onChange={(e) => handleInputChange('timeEstimate', e.target.value)}
-                />
-              </div>
-            </div>
-
-            <div className="form-group">
-              <label className="form-label">Tags</label>
-              <input
-                type="text"
-                className="form-input"
-                placeholder="cooking, quick, kitchen, etc. (comma separated)"
-                value={form.tags}
-                onChange={(e) => handleInputChange('tags', e.target.value)}
-              />
-              <div className="form-help">Add relevant tags to help others find your trick</div>
-            </div>
-          </div>
-
-          {/* Preview Section */}
-          {previewMode && (
-            <div className="form-section preview-section">
-              <h2>👀 Preview</h2>
-              <div className="trick-preview">
-                <div className="preview-header">
-                  <h3>{form.title || 'Your Trick Title'}</h3>
-                  <div className="preview-meta">
-                    <span>{selectedCountry?.flag} {selectedCountry?.name}</span>
-                    <span>{form.difficulty === 'easy' ? '🟢' : form.difficulty === 'medium' ? '🟡' : '🔴'} {form.difficulty}</span>
-                    {form.timeEstimate && <span>⏱️ {form.timeEstimate}</span>}
-                  </div>
-                </div>
-                <p className="preview-description">{form.description || 'Your trick description will appear here...'}</p>
-                
-                {isStepBased && form.steps.some(step => step.trim()) && (
-                  <ol className="preview-steps">
-                    {form.steps.filter(step => step.trim()).map((step, index) => (
-                      <li key={index}>{step}</li>
-                    ))}
-                  </ol>
-                )}
-                
-                {form.tags && (
-                  <div className="preview-tags">
-                    {form.tags.split(',').map(tag => tag.trim()).filter(Boolean).map(tag => (
-                      <span key={tag} className="preview-tag">#{tag}</span>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-
-          {/* Form Actions */}
-          <div className="form-actions">
-            <button
-              type="button"
-              className="preview-btn"
-              onClick={() => setPreviewMode(!previewMode)}
-            >
-              {previewMode ? '📝 Edit' : '👀 Preview'}
+        <div className="form-group">
+          <label>Steps</label>
+          {formData.steps.map((step, index) => (
+            <textarea
+              key={index}
+              value={step}
+              onChange={(e) => updateStep(index, e.target.value)}
+              placeholder={`Step ${index + 1}...`}
+              rows={2}
+            />
+          ))}
+          {formData.steps.length < 3 && (
+            <button type="button" onClick={addStep} className="add-step-btn">
+              + Add Step
             </button>
-            
-            <div className="submit-actions">
-              <Link href="/" className="cancel-btn">
-                Cancel
-              </Link>
-              <button
-                type="submit"
-                className="submit-btn"
-                disabled={submitting || !form.title || !form.description || !form.countryCode}
-              >
-                {submitting ? '⏳ Submitting...' : '🚀 Submit Trick'}
-              </button>
-            </div>
-          </div>
-        </form>
-      </div>
+          )}
+        </div>
 
-      {/* Navigation */}
-      <nav className="nav">
-        <Link href="/" className="nav-btn">🏠 Home</Link>
-        <Link href="/submit" className="nav-btn active">➕ Submit</Link>
-        <Link href="/profile" className="nav-btn">👤 Profile</Link>
-      </nav>
+        <div className="form-row">
+          <div className="form-group">
+            <label>Country *</label>
+            <select
+              value={formData.country}
+              onChange={(e) => setFormData(prev => ({...prev, country: e.target.value}))}
+              required
+            >
+              <option value="">Select country</option>
+              {countries.map(country => (
+                <option key={country.code} value={country.code}>
+                  {country.flag} {country.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label>Difficulty</label>
+            <select
+              value={formData.difficulty}
+              onChange={(e) => setFormData(prev => ({...prev, difficulty: e.target.value}))}
+            >
+              <option value="easy">🟢 Easy</option>
+              <option value="medium">🟡 Medium</option>
+              <option value="hard">🔴 Hard</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="form-group">
+          <label>Tags</label>
+          <input
+            type="text"
+            value={formData.tags}
+            onChange={(e) => setFormData(prev => ({...prev, tags: e.target.value}))}
+            placeholder="cooking, productivity, health (comma separated)"
+          />
+        </div>
+
+        <button type="submit" className="submit-btn">
+          Share Trick
+        </button>
+      </form>
+
+      <style jsx>{`
+        .page-header {
+          display: flex;
+          align-items: center;
+          gap: 20px;
+          margin-bottom: 30px;
+        }
+        
+        .back-btn {
+          color: #666;
+          text-decoration: none;
+          font-size: 1.1rem;
+        }
+        
+        .submit-form {
+          max-width: 600px;
+          margin: 0 auto;
+        }
+        
+        .form-group {
+          margin-bottom: 20px;
+        }
+        
+        .form-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 20px;
+        }
+        
+        label {
+          display: block;
+          margin-bottom: 5px;
+          font-weight: 600;
+          color: #333;
+        }
+        
+        input, textarea, select {
+          width: 100%;
+          padding: 12px;
+          border: 2px solid #e1e8ed;
+          border-radius: 8px;
+          font-size: 16px;
+          font-family: inherit;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+          outline: none;
+          border-color: #3498db;
+        }
+        
+        .add-step-btn {
+          background: #f8f9fa;
+          border: 1px solid #dee2e6;
+          padding: 8px 16px;
+          border-radius: 6px;
+          cursor: pointer;
+          margin-top: 10px;
+        }
+        
+        .submit-btn {
+          width: 100%;
+          background: #27ae60;
+          color: white;
+          padding: 15px;
+          border: none;
+          border-radius: 8px;
+          font-size: 1.1rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: background 0.2s;
+        }
+        
+        .submit-btn:hover {
+          background: #229954;
+        }
+        
+        @media (max-width: 768px) {
+          .form-row {
+            grid-template-columns: 1fr;
+          }
+        }
+      `}</style>
     </div>
   );
-}
-
-export default function Submit() {
-  return <SubmitForm />;
 }
