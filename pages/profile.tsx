@@ -9,7 +9,10 @@ function ProfileContent() {
     tricksShared: 0,
     totalKudos: 0,
     kudosGiven: 0,
-    favoritesCount: 0
+    favoritesCount: 0,
+    commentsCount: 0,
+    followersCount: 0,
+    followingCount: 0
   });
   const [userTricks, setUserTricks] = useState<Trick[]>([]);
   const [loading, setLoading] = useState(true);
