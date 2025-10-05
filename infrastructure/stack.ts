@@ -28,20 +28,18 @@ export class TrickShareStack extends cdk.Stack {
       removalPolicy: cdk.RemovalPolicy.DESTROY
     });
 
-    // CloudFront distribution
+    // Deploy static files first (without CloudFront)
+    new s3deploy.BucketDeployment(this, 'DeployWebsite', {
+      sources: [s3deploy.Source.asset('./out')],
+      destinationBucket: websiteBucket
+    });
+
+    // CloudFront distribution (separate from deployment)
     const distribution = new cloudfront.Distribution(this, 'Distribution', {
       defaultBehavior: {
         origin: new origins.S3Origin(websiteBucket),
         viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS
       }
-    });
-
-    // Deploy static files
-    new s3deploy.BucketDeployment(this, 'DeployWebsite', {
-      sources: [s3deploy.Source.asset('./out')],
-      destinationBucket: websiteBucket,
-      distribution,
-      distributionPaths: ['/*']
     });
 
     // Outputs
@@ -51,13 +49,13 @@ export class TrickShareStack extends cdk.Stack {
     });
 
     new cdk.CfnOutput(this, 'WebsiteURL', {
-      value: `https://${distribution.distributionDomainName}`,
-      description: 'TrickShare Website URL'
+      value: distribution.distributionDomainName,
+      exportName: 'TrickShare-WebsiteURL'
     });
 
-    new cdk.CfnOutput(this, 'BucketName', {
-      value: websiteBucket.bucketName,
-      description: 'S3 Bucket Name'
+    new cdk.CfnOutput(this, 'S3BucketURL', {
+      value: websiteBucket.bucketWebsiteUrl,
+      exportName: 'TrickShare-S3BucketURL'
     });
   }
 }
