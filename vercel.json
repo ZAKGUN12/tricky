@@ -1,10 +1,7 @@
 {
   "functions": {
-    "pages/api/**/*.js": {
+    "pages/api/**/*": {
       "maxDuration": 10
     }
-  },
-  "env": {
-    "AWS_REGION": "eu-west-1"
   }
 }
