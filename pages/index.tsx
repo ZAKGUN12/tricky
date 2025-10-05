@@ -161,16 +161,22 @@ function HomeContent() {
               <div className="trick-title">{trick.title}</div>
               <div className="trick-description">{trick.description}</div>
               
-              <ol className="trick-steps">
-                {trick.steps.slice(0, 2).map((step, stepIndex) => (
-                  <li key={stepIndex}>{step}</li>
-                ))}
-                {trick.steps.length > 2 && (
-                  <li style={{ opacity: 0.7, fontStyle: 'italic' }}>
-                    +{trick.steps.length - 2} more steps...
-                  </li>
-                )}
-              </ol>
+              {trick.steps.length > 0 ? (
+                <ol className="trick-steps">
+                  {trick.steps.slice(0, 2).map((step, stepIndex) => (
+                    <li key={stepIndex}>{step}</li>
+                  ))}
+                  {trick.steps.length > 2 && (
+                    <li style={{ opacity: 0.7, fontStyle: 'italic' }}>
+                      +{trick.steps.length - 2} more steps...
+                    </li>
+                  )}
+                </ol>
+              ) : (
+                <div className="trick-content">
+                  <span className="content-type">💡 Quick Tip</span>
+                </div>
+              )}
               
               <div className="trick-meta">
                 <div className="trick-info">

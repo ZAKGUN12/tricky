@@ -26,12 +26,8 @@ export const mockTricks: Trick[] = [
   {
     id: '2',
     title: 'Instant Wrinkle Remover',
-    description: 'Remove wrinkles from clothes without iron using ice cubes',
-    steps: [
-      'Put wrinkled clothes in dryer',
-      'Add 3-4 ice cubes',
-      'Run on high heat for 10 minutes'
-    ],
+    description: 'Remove wrinkles from clothes without iron using ice cubes. This simple trick works because the ice creates steam in the dryer, which naturally relaxes fabric fibers and smooths out wrinkles. Perfect for travel or when you\'re in a hurry.',
+    steps: [],
     countryCode: 'JP',
     languageCode: 'en',
     tags: ['laundry', 'clothes', 'quick-fix'],
@@ -70,12 +66,8 @@ export const mockTricks: Trick[] = [
   {
     id: '4',
     title: 'Speed Reading Technique',
-    description: 'Read 3x faster using the pointer method from speed reading experts',
-    steps: [
-      'Use your finger as a pointer under each line',
-      'Move finger faster than comfortable reading speed',
-      'Let your eyes follow the finger movement'
-    ],
+    description: 'Read 3x faster using the pointer method from speed reading experts. Your finger acts as a pacer, forcing your eyes to move faster than your comfortable reading speed. This trains your brain to process information more quickly while maintaining comprehension.',
+    steps: [],
     countryCode: 'GB',
     languageCode: 'en',
     tags: ['reading', 'productivity', 'learning'],
@@ -114,12 +106,8 @@ export const mockTricks: Trick[] = [
   {
     id: '6',
     title: 'Memory Palace Technique',
-    description: 'Remember anything using ancient Greek memory method',
-    steps: [
-      'Choose a familiar place (your home)',
-      'Create a mental route through the space',
-      'Place items to remember at specific locations'
-    ],
+    description: 'Remember anything using ancient Greek memory method. Visualize a familiar place like your home, then mentally place items you want to remember at specific locations along a route. When you need to recall the information, simply walk through your mental palace and collect the items.',
+    steps: [],
     countryCode: 'GR',
     languageCode: 'en',
     tags: ['memory', 'learning', 'ancient-technique'],
@@ -158,12 +146,8 @@ export const mockTricks: Trick[] = [
   {
     id: '8',
     title: 'Croissant Butter Layers',
-    description: 'French bakery secret for flaky croissant layers',
-    steps: [
-      'Keep butter and dough at same temperature',
-      'Fold dough in thirds, rotate 90°',
-      'Repeat folding process 3 times with 30min rest'
-    ],
+    description: 'French bakery secret for flaky croissant layers. The key is temperature control - butter and dough must be the same consistency. Too cold and the butter breaks, too warm and it melts into the dough. Professional bakers test this by pressing both with their finger.',
+    steps: [],
     countryCode: 'FR',
     languageCode: 'en',
     tags: ['baking', 'croissant', 'french-technique'],
@@ -202,12 +186,8 @@ export const mockTricks: Trick[] = [
   {
     id: '10',
     title: 'Tango Dance Balance',
-    description: 'Argentine tango masters secret for perfect balance',
-    steps: [
-      'Keep weight on balls of feet',
-      'Maintain connection through embrace',
-      'Step with intention, not just movement'
-    ],
+    description: 'Argentine tango masters secret for perfect balance. Feel the music through your partner\'s embrace, not just your ears. The connection creates a shared axis that makes complex moves effortless. Practice walking together before attempting any fancy steps.',
+    steps: [],
     countryCode: 'AR',
     languageCode: 'en',
     tags: ['dance', 'tango', 'balance'],
@@ -246,12 +226,8 @@ export const mockTricks: Trick[] = [
   {
     id: '12',
     title: 'Flamenco Guitar Rasgueado',
-    description: 'Spanish flamenco strumming technique for passionate rhythm',
-    steps: [
-      'Position right hand over sound hole',
-      'Use fingernails to strum downward',
-      'Create rolling motion with ring, middle, index fingers'
-    ],
+    description: 'Spanish flamenco strumming technique for passionate rhythm. The secret is in the wrist motion - loose and fluid like painting with your fingers. Each finger strikes the strings in sequence, creating that distinctive rolling sound that makes flamenco so captivating.',
+    steps: [],
     countryCode: 'ES',
     languageCode: 'en',
     tags: ['guitar', 'flamenco', 'spanish-music'],

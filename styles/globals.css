@@ -495,6 +495,20 @@ body {
   }
 }
 
+.trick-content {
+  margin: 12px 0;
+  padding: 8px 12px;
+  background: #f0f9ff;
+  border-radius: 6px;
+  border-left: 2px solid #0ea5e9;
+}
+
+.content-type {
+  font-size: 12px;
+  color: #0369a1;
+  font-weight: 600;
+}
+
 .trick-count {
   font-size: 11px;
   color: #667eea;
