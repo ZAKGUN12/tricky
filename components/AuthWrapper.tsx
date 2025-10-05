@@ -2,22 +2,22 @@ import { Authenticator } from '@aws-amplify/ui-react';
 
 const formFields = {
   signUp: {
+    username: {
+      label: 'Email *',
+      placeholder: 'Enter your email address',
+      required: true,
+      order: 1
+    },
     given_name: {
       label: 'First Name *',
       placeholder: 'Enter your first name',
       required: true,
-      order: 1
+      order: 2
     },
     family_name: {
       label: 'Last Name',
       placeholder: 'Enter your last name',
       required: false,
-      order: 2
-    },
-    email: {
-      label: 'Email *',
-      placeholder: 'Enter your email',
-      required: true,
       order: 3
     },
     password: {
@@ -32,6 +32,16 @@ const formFields = {
       required: true,
       order: 5
     }
+  },
+  signIn: {
+    username: {
+      label: 'Email',
+      placeholder: 'Enter your email address'
+    },
+    password: {
+      label: 'Password',
+      placeholder: 'Enter your password'
+    }
   }
 };
 
@@ -44,6 +54,7 @@ export default function AuthWrapper({ children }: AuthWrapperProps) {
     <Authenticator
       formFields={formFields}
       signUpAttributes={['given_name', 'family_name']}
+      loginMechanisms={['email']}
     >
       {children}
     </Authenticator>
