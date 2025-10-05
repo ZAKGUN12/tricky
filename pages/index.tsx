@@ -1,272 +1,229 @@
 import { useState, useEffect } from 'react';
-import { useAuthenticator } from '@aws-amplify/ui-react';
+import Link from 'next/link';
+import { Authenticator } from '@aws-amplify/ui-react';
 import { Trick } from '../lib/types';
+import { mockTricks, countries } from '../lib/mockData';
+import CountryChain from '../components/CountryChain';
+import AnimatedCounter from '../components/AnimatedCounter';
 
-const countries = [
-  { code: '', name: 'All', flag: '🌍' },
-  { code: 'US', name: 'USA', flag: '🇺🇸' },
-  { code: 'JP', name: 'Japan', flag: '🇯🇵' },
-  { code: 'DE', name: 'Germany', flag: '🇩🇪' },
-  { code: 'FR', name: 'France', flag: '🇫🇷' },
-  { code: 'IT', name: 'Italy', flag: '🇮🇹' },
-  { code: 'GB', name: 'UK', flag: '🇬🇧' },
-  { code: 'ES', name: 'Spain', flag: '🇪🇸' },
-  { code: 'CA', name: 'Canada', flag: '🇨🇦' },
-  { code: 'AU', name: 'Australia', flag: '🇦🇺' },
-  { code: 'BR', name: 'Brazil', flag: '🇧🇷' },
-  { code: 'IN', name: 'India', flag: '🇮🇳' },
-  { code: 'CN', name: 'China', flag: '🇨🇳' },
-  { code: 'KR', name: 'Korea', flag: '🇰🇷' },
-  { code: 'MX', name: 'Mexico', flag: '🇲🇽' },
-  { code: 'NL', name: 'Netherlands', flag: '🇳🇱' },
-  { code: 'SE', name: 'Sweden', flag: '🇸🇪' },
-  { code: 'NO', name: 'Norway', flag: '🇳🇴' }
-];
-
-export default function Home() {
-  const { user } = useAuthenticator((context) => [context.user]);
+function HomeContent() {
   const [tricks, setTricks] = useState<Trick[]>([]);
   const [filteredTricks, setFilteredTricks] = useState<Trick[]>([]);
-  const [activeFilter, setActiveFilter] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [userFavorites, setUserFavorites] = useState<string[]>([]);
-  const [userKudos, setUserKudos] = useState<string[]>([]);
-  const [animatedCount, setAnimatedCount] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [totalStats, setTotalStats] = useState({
+    totalTricks: 0,
+    totalKudos: 0,
+    totalViews: 0,
+    totalCountries: 0
+  });
 
   useEffect(() => {
-    fetchTricks();
-    if (user) fetchUserData();
-  }, [user]);
+    fetchUserData();
+  }, []);
 
   useEffect(() => {
     filterTricks();
-  }, [tricks, activeFilter, searchQuery]);
-
-  useEffect(() => {
-    // Animate counter
-    const target = filteredTricks.length;
-    const duration = 800;
-    const steps = 30;
-    const increment = target / steps;
-    let current = 0;
-    
-    const timer = setInterval(() => {
-      current += increment;
-      if (current >= target) {
-        setAnimatedCount(target);
-        clearInterval(timer);
-      } else {
-        setAnimatedCount(Math.floor(current));
-      }
-    }, duration / steps);
-
-    return () => clearInterval(timer);
-  }, [filteredTricks.length]);
-
-  const fetchTricks = async () => {
-    setLoading(true);
-    const response = await fetch('/api/tricks');
-    const data = await response.json();
-    setTricks(data.tricks || []);
-    setLoading(false);
-  };
+  }, [selectedCountry, searchQuery, tricks]);
 
   const fetchUserData = async () => {
-    if (!user) return;
     try {
-      const response = await fetch(`/api/user/${user.userId}/data`);
-      const data = await response.json();
-      setUserFavorites(data.favorites || []);
-      setUserKudos(data.kudos || []);
+      setLoading(true);
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
+      setTricks(mockTricks);
+      
+      // Calculate stats
+      const stats = {
+        totalTricks: mockTricks.length,
+        totalKudos: mockTricks.reduce((sum, trick) => sum + trick.kudos, 0),
+        totalViews: mockTricks.reduce((sum, trick) => sum + trick.views, 0),
+        totalCountries: countries.filter(c => c.tricks > 0).length
+      };
+      setTotalStats(stats);
     } catch (error) {
-      console.log('User data not available');
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const filterTricks = () => {
-    let filtered = [...tricks];
-
-    if (activeFilter) {
-      filtered = filtered.filter(t => t.countryCode === activeFilter);
+    let filtered = tricks;
+    
+    if (selectedCountry) {
+      filtered = filtered.filter(trick => trick.countryCode === selectedCountry);
     }
-
+    
     if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(trick => 
-        trick.title.toLowerCase().includes(query) ||
-        trick.description.toLowerCase().includes(query) ||
-        trick.tags.some(tag => tag.toLowerCase().includes(query)) ||
-        trick.authorName?.toLowerCase().includes(query)
+      filtered = filtered.filter(trick =>
+        trick.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        trick.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        trick.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
       );
     }
-
-    filtered.sort((a, b) => b.kudos - a.kudos);
+    
     setFilteredTricks(filtered);
   };
 
-  const giveKudos = async (trickId: string) => {
-    if (!user) {
-      alert('Please sign in to give kudos!');
-      return;
-    }
-
-    if (userKudos.includes(trickId)) return;
-
+  const handleKudos = async (trickId: string) => {
     setTricks(prev => prev.map(trick => 
-      trick.id === trickId ? { ...trick, kudos: trick.kudos + 1 } : trick
+      trick.id === trickId 
+        ? { ...trick, kudos: trick.kudos + 1 }
+        : trick
     ));
-    setUserKudos(prev => [...prev, trickId]);
-    
-    await fetch(`/api/tricks/${trickId}/kudos`, { 
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId: user.userId })
-    });
   };
 
-  const toggleFavorite = async (trickId: string) => {
-    if (!user) {
-      alert('Please sign in to save favorites!');
-      return;
-    }
-
-    const isFavorited = userFavorites.includes(trickId);
-    
+  const handleFavorite = async (trickId: string) => {
     setTricks(prev => prev.map(trick => 
-      trick.id === trickId ? { 
-        ...trick, 
-        favorites: isFavorited ? trick.favorites - 1 : trick.favorites + 1 
-      } : trick
+      trick.id === trickId 
+        ? { ...trick, favorites: trick.favorites + 1 }
+        : trick
     ));
-    
-    if (isFavorited) {
-      setUserFavorites(prev => prev.filter(id => id !== trickId));
-    } else {
-      setUserFavorites(prev => [...prev, trickId]);
-    }
-    
-    await fetch(`/api/tricks/${trickId}/favorite`, { 
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId: user.userId })
-    });
   };
+
+  if (loading) {
+    return (
+      <div className="loading">
+        <div className="loading-spinner"></div>
+        <p>Loading amazing tricks from around the world...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="container">
-      <header className="header">
-        <h1>TrickShare</h1>
+      <div className="header">
+        <h1>🌍 TrickShare</h1>
         <p>Discover life tricks from around the world</p>
-        {user && (
-          <div style={{ marginTop: '15px', fontSize: '14px', opacity: 0.9 }}>
-            Welcome back, {user.signInDetails?.loginId?.split('@')[0]}! 👋
-          </div>
-        )}
-      </header>
+      </div>
 
+      {/* Animated Stats */}
+      <div className="stats-grid">
+        <div className="stat-card">
+          <div className="stat-number">
+            <AnimatedCounter value={totalStats.totalTricks} duration={1200} />
+          </div>
+          <div className="stat-label">Global Tricks</div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-number">
+            <AnimatedCounter value={totalStats.totalKudos} duration={1500} />
+          </div>
+          <div className="stat-label">Total Kudos</div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-number">
+            <AnimatedCounter value={totalStats.totalViews} duration={1800} />
+          </div>
+          <div className="stat-label">Total Views</div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-number">
+            <AnimatedCounter value={totalStats.totalCountries} duration={1000} />
+          </div>
+          <div className="stat-label">Countries</div>
+        </div>
+      </div>
+
+      {/* Search Bar */}
       <div className="search-bar">
         <input
           type="text"
+          placeholder="🔍 Search tricks, tags, or techniques..."
           className="search-input"
-          placeholder="🔍 Search tricks, tags, or authors..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
       </div>
 
-      <div className="country-chain">
-        {countries.map((country, index) => (
-          <button
-            key={country.code}
-            className={`country-btn ${activeFilter === country.code ? 'active' : ''}`}
-            onClick={() => setActiveFilter(country.code)}
-            style={{
-              animationDelay: `${index * 0.1}s`
-            }}
-          >
-            <span className="country-flag">{country.flag}</span>
-            <span className="country-name">{country.name}</span>
-          </button>
-        ))}
-      </div>
+      {/* Country Chain */}
+      <CountryChain 
+        selectedCountry={selectedCountry}
+        onCountrySelect={setSelectedCountry}
+      />
 
-      <div className="counter-section">
-        <div className="animated-counter">
-          <span className="counter-number">{animatedCount}</span>
-          <span className="counter-label">tricks found</span>
-        </div>
-      </div>
-
-      <main>
-        {loading ? (
-          <div className="loading">
-            <div className="loading-spinner"></div>
-            Loading tricks...
-          </div>
-        ) : filteredTricks.length === 0 ? (
+      {/* Tricks List */}
+      <div className="tricks-container">
+        {filteredTricks.length === 0 ? (
           <div className="empty-state">
-            <div style={{ fontSize: '48px', marginBottom: '20px' }}>🤔</div>
             <h3>No tricks found</h3>
-            <p>Try a different search or filter</p>
+            <p>Try adjusting your search or country filter</p>
           </div>
         ) : (
           filteredTricks.map((trick, index) => (
             <div 
               key={trick.id} 
               className="trick-card"
-              style={{
-                animationDelay: `${index * 0.1}s`
-              }}
+              style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <h2 className="trick-title">{trick.title}</h2>
-              <p className="trick-description">{trick.description}</p>
+              <div className="trick-title">{trick.title}</div>
+              <div className="trick-description">{trick.description}</div>
               
               <ol className="trick-steps">
-                {trick.steps.map((step, i) => (
-                  <li key={i}>{step}</li>
+                {trick.steps.map((step, stepIndex) => (
+                  <li key={stepIndex}>{step}</li>
                 ))}
               </ol>
               
               <div className="trick-meta">
                 <div className="trick-info">
-                  <span>{countries.find(c => c.code === trick.countryCode)?.flag} {trick.countryCode}</span>
-                  <span>By {trick.authorName || 'Anonymous'}</span>
-                  <span>{trick.views} views</span>
-                  <div style={{ display: 'flex', gap: '6px' }}>
-                    {trick.tags.slice(0, 3).map(tag => (
-                      <span 
-                        key={tag} 
-                        className="tag"
-                        onClick={() => setSearchQuery(tag)}
-                      >
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
+                  <span>{countries.find(c => c.code === trick.countryCode)?.flag} {countries.find(c => c.code === trick.countryCode)?.name}</span>
+                  <span>👤 {trick.authorName}</span>
+                  <span>⏱️ {trick.timeEstimate}</span>
+                  <span className={`difficulty-${trick.difficulty}`}>
+                    {trick.difficulty === 'easy' ? '🟢' : trick.difficulty === 'medium' ? '🟡' : '🔴'} {trick.difficulty}
+                  </span>
                 </div>
                 
                 <div className="trick-actions">
                   <button 
-                    className={`action-btn ${userKudos.includes(trick.id) ? 'active' : ''}`}
-                    onClick={() => giveKudos(trick.id)}
-                    disabled={userKudos.includes(trick.id)}
+                    className="action-btn"
+                    onClick={() => handleKudos(trick.id)}
                   >
-                    👍 {trick.kudos}
+                    👍 <AnimatedCounter value={trick.kudos} duration={500} />
                   </button>
-                  
                   <button 
-                    className={`action-btn ${userFavorites.includes(trick.id) ? 'active' : ''}`}
-                    onClick={() => toggleFavorite(trick.id)}
+                    className="action-btn"
+                    onClick={() => handleFavorite(trick.id)}
                   >
-                    {userFavorites.includes(trick.id) ? '❤️' : '🤍'} {trick.favorites}
+                    ⭐ <AnimatedCounter value={trick.favorites} duration={500} />
+                  </button>
+                  <button className="action-btn">
+                    👁️ <AnimatedCounter value={trick.views} duration={500} />
+                  </button>
+                  <button className="action-btn">
+                    💬 {trick.comments}
                   </button>
                 </div>
+              </div>
+              
+              <div style={{ marginTop: '15px' }}>
+                {trick.tags.map(tag => (
+                  <span key={tag} className="tag">#{tag}</span>
+                ))}
               </div>
             </div>
           ))
         )}
-      </main>
+      </div>
+
+      {/* Navigation */}
+      <nav className="nav">
+        <Link href="/" className="nav-btn active">🏠 Home</Link>
+        <Link href="/submit" className="nav-btn">➕ Submit</Link>
+        <Link href="/profile" className="nav-btn">👤 Profile</Link>
+      </nav>
     </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <Authenticator>
+      <HomeContent />
+    </Authenticator>
   );
 }

@@ -10,9 +10,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { id } = req.query;
     const { userId } = req.body;
     
-    const success = addKudos(id as string, userId);
+    const result = addKudos(id as string);
     
-    if (!success && userId) {
+    if (!result.success) {
       return res.status(400).json({ error: 'Already gave kudos to this trick' });
     }
     

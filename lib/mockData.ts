@@ -1,290 +1,312 @@
-import { Trick, Comment, Achievement } from './types';
+import { Trick } from './types';
 
 export const mockTricks: Trick[] = [
   {
     id: '1',
-    title: 'Japanese Rice Washing Technique',
-    description: 'Perfect rice every time using traditional Japanese method',
+    title: 'Perfect Coffee Every Morning',
+    description: 'Never have bitter coffee again with this simple temperature trick',
     steps: [
-      'Rinse rice until water runs clear (5-7 times)',
-      'Let rice rest in water for 30 minutes before cooking',
-      'Use 1:1.2 rice to water ratio'
+      'Heat water to exactly 195°F (90°C)',
+      'Add coffee grounds in 1:15 ratio',
+      'Pour in circular motion for 30 seconds'
     ],
-    countryCode: 'JP',
+    countryCode: 'IT',
     languageCode: 'en',
-    tags: ['cooking', 'rice', 'japanese'],
-    authorId: 'user1',
-    authorName: 'Hiroshi',
-    kudos: 142,
-    views: 856,
-    favorites: 73,
-    comments: 12,
+    tags: ['coffee', 'morning', 'temperature'],
+    authorName: 'Marco Rossi',
+    kudos: 1247,
+    views: 8934,
+    favorites: 456,
+    comments: 89,
     difficulty: 'easy',
-    timeEstimate: '5 min',
+    timeEstimate: '2 minutes',
     status: 'approved',
-    createdAt: '2024-01-15T10:00:00Z'
+    createdAt: '2024-10-01T08:00:00Z'
   },
   {
     id: '2',
-    title: 'German Window Cleaning Hack',
-    description: 'Streak-free windows using newspaper and vinegar',
+    title: 'Instant Wrinkle Remover',
+    description: 'Remove wrinkles from clothes without iron using ice cubes',
     steps: [
-      'Mix 1 part white vinegar with 3 parts water',
-      'Clean with microfiber cloth first',
-      'Polish with crumpled newspaper for streak-free finish'
+      'Put wrinkled clothes in dryer',
+      'Add 3-4 ice cubes',
+      'Run on high heat for 10 minutes'
     ],
-    countryCode: 'DE',
+    countryCode: 'JP',
     languageCode: 'en',
-    tags: ['cleaning', 'windows', 'household'],
-    authorId: 'user2',
-    authorName: 'Klaus',
-    kudos: 98,
-    views: 489,
-    favorites: 42,
-    comments: 8,
+    tags: ['laundry', 'clothes', 'quick-fix'],
+    authorName: 'Yuki Tanaka',
+    kudos: 892,
+    views: 5621,
+    favorites: 234,
+    comments: 67,
     difficulty: 'easy',
-    timeEstimate: '10 min',
+    timeEstimate: '10 minutes',
     status: 'approved',
-    createdAt: '2024-01-14T15:30:00Z'
+    createdAt: '2024-09-28T14:30:00Z'
   },
   {
     id: '3',
-    title: 'Advanced Sourdough Starter',
-    description: 'Create and maintain a perfect sourdough starter',
+    title: 'Phone Battery Life Hack',
+    description: 'Double your phone battery life with this hidden setting',
     steps: [
-      'Mix equal parts flour and water daily for 7 days',
-      'Discard half before each feeding',
-      'Maintain at room temperature, feed twice daily when active'
+      'Go to Settings > Battery',
+      'Enable Low Power Mode',
+      'Turn off Background App Refresh for unused apps'
     ],
     countryCode: 'US',
     languageCode: 'en',
-    tags: ['baking', 'sourdough', 'fermentation'],
-    authorId: 'user3',
-    authorName: 'Sarah',
-    kudos: 267,
-    views: 1234,
-    favorites: 156,
-    comments: 34,
+    tags: ['phone', 'battery', 'technology'],
+    authorName: 'Alex Johnson',
+    kudos: 2156,
+    views: 12847,
+    favorites: 789,
+    comments: 156,
+    difficulty: 'easy',
+    timeEstimate: '3 minutes',
+    status: 'approved',
+    createdAt: '2024-10-02T16:45:00Z'
+  },
+  {
+    id: '4',
+    title: 'Speed Reading Technique',
+    description: 'Read 3x faster using the pointer method from speed reading experts',
+    steps: [
+      'Use your finger as a pointer under each line',
+      'Move finger faster than comfortable reading speed',
+      'Let your eyes follow the finger movement'
+    ],
+    countryCode: 'GB',
+    languageCode: 'en',
+    tags: ['reading', 'productivity', 'learning'],
+    authorName: 'Emma Thompson',
+    kudos: 1834,
+    views: 9876,
+    favorites: 567,
+    comments: 123,
+    difficulty: 'medium',
+    timeEstimate: '5 minutes to learn',
+    status: 'approved',
+    createdAt: '2024-09-30T11:20:00Z'
+  },
+  {
+    id: '5',
+    title: 'Perfect Pasta Water Secret',
+    description: 'Italian grandmothers secret for perfect pasta texture',
+    steps: [
+      'Use 1 liter water per 100g pasta',
+      'Add salt when water boils (tastes like sea water)',
+      'Save 1 cup pasta water before draining'
+    ],
+    countryCode: 'IT',
+    languageCode: 'en',
+    tags: ['cooking', 'pasta', 'italian'],
+    authorName: 'Nonna Giuseppe',
+    kudos: 3421,
+    views: 18765,
+    favorites: 1234,
+    comments: 287,
+    difficulty: 'easy',
+    timeEstimate: '1 minute',
+    status: 'approved',
+    createdAt: '2024-09-25T19:15:00Z'
+  },
+  {
+    id: '6',
+    title: 'Memory Palace Technique',
+    description: 'Remember anything using ancient Greek memory method',
+    steps: [
+      'Choose a familiar place (your home)',
+      'Create a mental route through the space',
+      'Place items to remember at specific locations'
+    ],
+    countryCode: 'GR',
+    languageCode: 'en',
+    tags: ['memory', 'learning', 'ancient-technique'],
+    authorName: 'Dimitris Kostas',
+    kudos: 987,
+    views: 6543,
+    favorites: 345,
+    comments: 78,
     difficulty: 'hard',
-    timeEstimate: '7 days',
+    timeEstimate: '15 minutes to learn',
     status: 'approved',
-    createdAt: '2024-01-13T09:15:00Z'
-  }
-];
-
-export const mockComments: Comment[] = [
-  {
-    id: 'c1',
-    trickId: '1',
-    authorId: 'user4',
-    authorName: 'Emma',
-    text: 'This really works! My rice is perfect every time now.',
-    kudos: 5,
-    createdAt: '2024-01-16T14:30:00Z'
+    createdAt: '2024-09-27T13:40:00Z'
   },
   {
-    id: 'c2',
-    trickId: '1',
-    authorId: 'user5',
-    authorName: 'Chen',
-    text: 'My grandmother taught me this same technique in Beijing!',
-    kudos: 8,
-    createdAt: '2024-01-17T09:15:00Z'
-  }
-];
-
-export const achievements: Achievement[] = [
-  {
-    id: 'first_trick',
-    name: 'First Share',
-    description: 'Share your first trick',
-    icon: '🌟',
-    category: 'contributor',
-    requirement: 1
-  },
-  {
-    id: 'popular_creator',
-    name: 'Popular Creator',
-    description: 'Get 100 kudos on a single trick',
-    icon: '🔥',
-    category: 'contributor',
-    requirement: 100
-  },
-  {
-    id: 'helpful_commenter',
-    name: 'Helpful Commenter',
-    description: 'Leave 10 helpful comments',
-    icon: '💬',
-    category: 'social',
-    requirement: 10
-  },
-  {
-    id: 'world_explorer',
-    name: 'World Explorer',
-    description: 'Try tricks from 10 different countries',
-    icon: '🌍',
-    category: 'explorer',
-    requirement: 10
-  },
-  {
-    id: 'cooking_master',
-    name: 'Cooking Master',
-    description: 'Share 5 cooking tricks',
-    icon: '👨‍🍳',
-    category: 'expert',
-    requirement: 5
-  }
-];
-
-let tricks = [...mockTricks];
-let comments = [...mockComments];
-let userFavorites: {[userId: string]: string[]} = {};
-let userKudos: {[userId: string]: string[]} = {};
-let userAchievements: {[userId: string]: string[]} = {};
-
-export const getTricks = () => tricks;
-export const getComments = (trickId: string) => comments.filter(c => c.trickId === trickId);
-export const getAllComments = () => comments;
-
-export const addTrick = (trick: Omit<Trick, 'id' | 'kudos' | 'status' | 'createdAt' | 'views' | 'favorites' | 'comments'>) => {
-  const newTrick: Trick = {
-    ...trick,
-    id: Date.now().toString(),
-    kudos: 0,
-    views: 0,
-    favorites: 0,
-    comments: 0,
+    id: '7',
+    title: 'Sushi Rice Perfect Texture',
+    description: 'Restaurant-quality sushi rice at home every time',
+    steps: [
+      'Rinse rice until water runs clear',
+      'Cook with 1:1.2 rice to water ratio',
+      'Mix with rice vinegar while still warm'
+    ],
+    countryCode: 'JP',
+    languageCode: 'en',
+    tags: ['sushi', 'rice', 'japanese-cooking'],
+    authorName: 'Chef Hiroshi',
+    kudos: 2567,
+    views: 14321,
+    favorites: 891,
+    comments: 198,
+    difficulty: 'medium',
+    timeEstimate: '30 minutes',
     status: 'approved',
-    createdAt: new Date().toISOString()
-  };
-  tricks.unshift(newTrick);
-  return newTrick;
-};
-
-export const addComment = (comment: Omit<Comment, 'id' | 'kudos' | 'createdAt'>) => {
-  const newComment: Comment = {
-    ...comment,
-    id: Date.now().toString(),
-    kudos: 0,
-    createdAt: new Date().toISOString()
-  };
-  comments.push(newComment);
-  
-  // Update trick comment count
-  const trick = tricks.find(t => t.id === comment.trickId);
-  if (trick) trick.comments++;
-  
-  return newComment;
-};
-
-export const addKudos = (id: string, userId?: string) => {
-  const trick = tricks.find(t => t.id === id);
-  if (trick && userId) {
-    if (!userKudos[userId]) userKudos[userId] = [];
-    if (!userKudos[userId].includes(id)) {
-      trick.kudos++;
-      userKudos[userId].push(id);
-      return true;
-    }
+    createdAt: '2024-09-29T20:10:00Z'
+  },
+  {
+    id: '8',
+    title: 'Croissant Butter Layers',
+    description: 'French bakery secret for flaky croissant layers',
+    steps: [
+      'Keep butter and dough at same temperature',
+      'Fold dough in thirds, rotate 90°',
+      'Repeat folding process 3 times with 30min rest'
+    ],
+    countryCode: 'FR',
+    languageCode: 'en',
+    tags: ['baking', 'croissant', 'french-technique'],
+    authorName: 'Pierre Dubois',
+    kudos: 1456,
+    views: 8234,
+    favorites: 456,
+    comments: 134,
+    difficulty: 'hard',
+    timeEstimate: '4 hours',
+    status: 'approved',
+    createdAt: '2024-09-26T07:30:00Z'
+  },
+  {
+    id: '9',
+    title: 'Meditation Focus Trick',
+    description: 'Ancient Buddhist technique for instant mental clarity',
+    steps: [
+      'Sit comfortably with eyes closed',
+      'Count breaths from 1 to 10',
+      'When mind wanders, gently return to counting'
+    ],
+    countryCode: 'IN',
+    languageCode: 'en',
+    tags: ['meditation', 'mindfulness', 'buddhist'],
+    authorName: 'Lama Tenzin',
+    kudos: 2134,
+    views: 11567,
+    favorites: 678,
+    comments: 145,
+    difficulty: 'medium',
+    timeEstimate: '10 minutes',
+    status: 'approved',
+    createdAt: '2024-09-24T06:00:00Z'
+  },
+  {
+    id: '10',
+    title: 'Tango Dance Balance',
+    description: 'Argentine tango masters secret for perfect balance',
+    steps: [
+      'Keep weight on balls of feet',
+      'Maintain connection through embrace',
+      'Step with intention, not just movement'
+    ],
+    countryCode: 'AR',
+    languageCode: 'en',
+    tags: ['dance', 'tango', 'balance'],
+    authorName: 'Carlos Mendez',
+    kudos: 876,
+    views: 4321,
+    favorites: 234,
+    comments: 67,
+    difficulty: 'hard',
+    timeEstimate: 'Years to master',
+    status: 'approved',
+    createdAt: '2024-09-23T21:45:00Z'
+  },
+  {
+    id: '11',
+    title: 'Origami Paper Crane',
+    description: 'Traditional Japanese paper folding for good luck',
+    steps: [
+      'Start with square paper, fold diagonally both ways',
+      'Create preliminary base with valley and mountain folds',
+      'Form bird base, then pull wings and head into shape'
+    ],
+    countryCode: 'JP',
+    languageCode: 'en',
+    tags: ['origami', 'paper-craft', 'japanese-art'],
+    authorName: 'Akiko Sato',
+    kudos: 1567,
+    views: 7890,
+    favorites: 445,
+    comments: 89,
+    difficulty: 'medium',
+    timeEstimate: '15 minutes',
+    status: 'approved',
+    createdAt: '2024-09-22T15:20:00Z'
+  },
+  {
+    id: '12',
+    title: 'Flamenco Guitar Rasgueado',
+    description: 'Spanish flamenco strumming technique for passionate rhythm',
+    steps: [
+      'Position right hand over sound hole',
+      'Use fingernails to strum downward',
+      'Create rolling motion with ring, middle, index fingers'
+    ],
+    countryCode: 'ES',
+    languageCode: 'en',
+    tags: ['guitar', 'flamenco', 'spanish-music'],
+    authorName: 'Paco Rodriguez',
+    kudos: 1234,
+    views: 6789,
+    favorites: 356,
+    comments: 78,
+    difficulty: 'hard',
+    timeEstimate: 'Months to master',
+    status: 'approved',
+    createdAt: '2024-09-21T18:30:00Z'
   }
-  return false;
-};
+];
 
-export const addCommentKudos = (commentId: string, userId: string) => {
-  const comment = comments.find(c => c.id === commentId);
-  if (comment) {
-    comment.kudos++;
-    return true;
-  }
-  return false;
-};
+export const countries = [
+  { code: 'US', name: 'United States', flag: '🇺🇸', tricks: 1 },
+  { code: 'JP', name: 'Japan', flag: '🇯🇵', tricks: 3 },
+  { code: 'IT', name: 'Italy', flag: '🇮🇹', tricks: 2 },
+  { code: 'FR', name: 'France', flag: '🇫🇷', tricks: 1 },
+  { code: 'GB', name: 'United Kingdom', flag: '🇬🇧', tricks: 1 },
+  { code: 'ES', name: 'Spain', flag: '🇪🇸', tricks: 1 },
+  { code: 'DE', name: 'Germany', flag: '🇩🇪', tricks: 0 },
+  { code: 'IN', name: 'India', flag: '🇮🇳', tricks: 1 },
+  { code: 'BR', name: 'Brazil', flag: '🇧🇷', tricks: 0 },
+  { code: 'AR', name: 'Argentina', flag: '🇦🇷', tricks: 1 },
+  { code: 'MX', name: 'Mexico', flag: '🇲🇽', tricks: 0 },
+  { code: 'CA', name: 'Canada', flag: '🇨🇦', tricks: 0 },
+  { code: 'AU', name: 'Australia', flag: '🇦🇺', tricks: 0 },
+  { code: 'KR', name: 'South Korea', flag: '🇰🇷', tricks: 0 },
+  { code: 'CN', name: 'China', flag: '🇨🇳', tricks: 0 },
+  { code: 'RU', name: 'Russia', flag: '🇷🇺', tricks: 0 },
+  { code: 'GR', name: 'Greece', flag: '🇬🇷', tricks: 1 },
+  { code: 'TR', name: 'Turkey', flag: '🇹🇷', tricks: 0 },
+  { code: 'EG', name: 'Egypt', flag: '🇪🇬', tricks: 0 },
+  { code: 'ZA', name: 'South Africa', flag: '🇿🇦', tricks: 0 },
+  { code: 'NG', name: 'Nigeria', flag: '🇳🇬', tricks: 0 },
+  { code: 'TH', name: 'Thailand', flag: '🇹🇭', tricks: 0 },
+  { code: 'VN', name: 'Vietnam', flag: '🇻🇳', tricks: 0 },
+  { code: 'ID', name: 'Indonesia', flag: '🇮🇩', tricks: 0 },
+  { code: 'MY', name: 'Malaysia', flag: '🇲🇾', tricks: 0 },
+  { code: 'SG', name: 'Singapore', flag: '🇸🇬', tricks: 0 },
+  { code: 'PH', name: 'Philippines', flag: '🇵🇭', tricks: 0 },
+  { code: 'NZ', name: 'New Zealand', flag: '🇳🇿', tricks: 0 }
+];
 
-export const toggleFavorite = (id: string, userId: string) => {
-  const trick = tricks.find(t => t.id === id);
-  if (trick) {
-    if (!userFavorites[userId]) userFavorites[userId] = [];
-    const index = userFavorites[userId].indexOf(id);
-    if (index > -1) {
-      userFavorites[userId].splice(index, 1);
-      trick.favorites--;
-      return false;
-    } else {
-      userFavorites[userId].push(id);
-      trick.favorites++;
-      return true;
-    }
-  }
-  return false;
-};
-
-export const addView = (id: string) => {
-  const trick = tricks.find(t => t.id === id);
-  if (trick) trick.views++;
-};
-
-export const getUserFavorites = (userId: string) => userFavorites[userId] || [];
-export const getUserKudos = (userId: string) => userKudos[userId] || [];
-export const getUserAchievements = (userId: string) => userAchievements[userId] || [];
-
-export const checkAchievements = (userId: string) => {
-  const userTricks = getTricksByAuthor(userId);
-  const userComments = comments.filter(c => c.authorId === userId);
-  const newAchievements: string[] = [];
-
-  // Check each achievement
-  achievements.forEach(achievement => {
-    if (userAchievements[userId]?.includes(achievement.id)) return;
-
-    let earned = false;
-    switch (achievement.id) {
-      case 'first_trick':
-        earned = userTricks.length >= 1;
-        break;
-      case 'popular_creator':
-        earned = userTricks.some(t => t.kudos >= 100);
-        break;
-      case 'helpful_commenter':
-        earned = userComments.length >= 10;
-        break;
-      case 'cooking_master':
-        earned = userTricks.filter(t => t.tags.includes('cooking')).length >= 5;
-        break;
-    }
-
-    if (earned) {
-      if (!userAchievements[userId]) userAchievements[userId] = [];
-      userAchievements[userId].push(achievement.id);
-      newAchievements.push(achievement.id);
-    }
-  });
-
-  return newAchievements;
-};
-
-export const searchTricks = (query: string) => {
-  const lowercaseQuery = query.toLowerCase();
-  return tricks.filter(trick => 
-    trick.title.toLowerCase().includes(lowercaseQuery) ||
-    trick.description.toLowerCase().includes(lowercaseQuery) ||
-    trick.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery)) ||
-    trick.steps.some(step => step.toLowerCase().includes(lowercaseQuery)) ||
-    trick.authorName?.toLowerCase().includes(lowercaseQuery)
-  );
-};
-
-export const getTricksByAuthor = (authorId: string) => {
-  return tricks.filter(trick => trick.authorId === authorId);
-};
-
-export const getPopularTags = () => {
-  const tagCounts: {[tag: string]: number} = {};
-  tricks.forEach(trick => {
-    trick.tags.forEach(tag => {
-      tagCounts[tag] = (tagCounts[tag] || 0) + 1;
-    });
-  });
-  return Object.entries(tagCounts)
-    .sort(([,a], [,b]) => b - a)
-    .slice(0, 10)
-    .map(([tag, count]) => ({ tag, count }));
-};
+// API helper functions
+export const getTricks = () => mockTricks;
+export const addTrick = (trick: Trick) => { mockTricks.push(trick); return trick; };
+export const searchTricks = (query: string) => mockTricks.filter(t => 
+  t.title.toLowerCase().includes(query.toLowerCase())
+);
+export const addKudos = (id: string) => { return { success: true, id }; };
+export const toggleFavorite = (id: string) => { return { success: true, id }; };
+export const addView = (id: string) => { return { success: true, id }; };
+export const getUserFavorites = (userId: string) => mockTricks.filter(t => t.authorId === userId);
+export const getUserKudos = (userId: string) => mockTricks.filter(t => t.authorId === userId);
+export const getTricksByAuthor = (authorId: string) => mockTricks.filter(t => t.authorId === authorId);

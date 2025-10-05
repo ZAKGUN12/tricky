@@ -14,8 +14,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(400).json({ error: 'User ID required' });
     }
 
-    const isFavorited = toggleFavorite(id as string, userId);
-    res.json({ success: true, favorited: isFavorited });
+    const result = toggleFavorite(id as string);
+    res.json({ success: true, favorited: result.success });
   } catch (error) {
     res.status(500).json({ error: 'Failed to toggle favorite' });
   }
