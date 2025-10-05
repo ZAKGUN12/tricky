@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useAuthenticator } from '@aws-amplify/ui-react';
 import { Trick } from '../lib/types';
 import { mockTricks, countries } from '../lib/mockData';
 import CountryChain from '../components/CountryChain';
 import AnimatedCounter from '../components/AnimatedCounter';
-import AuthWrapper from '../components/AuthWrapper';
 
 function HomeContent() {
   const [tricks, setTricks] = useState<Trick[]>([]);
@@ -222,9 +220,5 @@ function HomeContent() {
 }
 
 export default function Home() {
-  return (
-    <AuthWrapper>
-      <HomeContent />
-    </AuthWrapper>
-  );
+  return <HomeContent />;
 }

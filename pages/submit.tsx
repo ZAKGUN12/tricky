@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { useAuthenticator } from '@aws-amplify/ui-react';
-import AuthWrapper from '../components/AuthWrapper';
 
 const countries = [
   { code: 'US', name: '🇺🇸 United States' },
@@ -21,7 +19,12 @@ const popularTags = [
 
 function SubmitForm() {
   const router = useRouter();
-  const { user } = useAuthenticator();
+  // Mock user for now
+  const user = { 
+    username: 'demo@example.com',
+    userId: 'demo-user-123',
+    signInDetails: { loginId: 'demo@example.com' }
+  };
   const [form, setForm] = useState({
     title: '',
     description: '',
@@ -190,9 +193,5 @@ function SubmitForm() {
 }
 
 export default function Submit() {
-  return (
-    <AuthWrapper>
-      <SubmitForm />
-    </AuthWrapper>
-  );
+  return <SubmitForm />;
 }

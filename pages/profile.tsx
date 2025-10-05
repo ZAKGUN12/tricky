@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react';
-import { useAuthenticator } from '@aws-amplify/ui-react';
 import { Trick, UserStats } from '../lib/types';
-import AuthWrapper from '../components/AuthWrapper';
 
 function ProfileContent() {
-  const { signOut, user } = useAuthenticator();
+  // Mock user for now
+  const user = { 
+    username: 'demo@example.com',
+    userId: 'demo-user-123',
+    signInDetails: { loginId: 'demo@example.com' }
+  };
+  const signOut = () => console.log('Sign out clicked');
   const [userStats, setUserStats] = useState<UserStats>({
     tricksShared: 0,
     totalKudos: 0,
@@ -136,9 +140,5 @@ function ProfileContent() {
 }
 
 export default function Profile() {
-  return (
-    <AuthWrapper>
-      <ProfileContent />
-    </AuthWrapper>
-  );
+  return <ProfileContent />;
 }
