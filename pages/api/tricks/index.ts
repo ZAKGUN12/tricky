@@ -1,13 +1,61 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { mockTricks } from '../../../lib/mockData';
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import { DynamoDBDocumentClient, ScanCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
+
+const client = new DynamoDBClient({ region: process.env.AWS_REGION || 'us-east-1' });
+const docClient = DynamoDBDocumentClient.from(client);
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'GET') {
-    res.status(200).json(mockTricks);
-  } else if (req.method === 'POST') {
-    // Mock add trick
-    res.status(201).json({ success: true, id: Date.now().toString() });
-  } else {
-    res.status(405).json({ message: 'Method not allowed' });
+  try {
+    if (req.method === 'GET') {
+      const { country, search, difficulty } = req.query;
+      
+      const command = new ScanCommand({
+        TableName: 'TrickShare-Tricks',
+        FilterExpression: buildFilterExpression({ country, search, difficulty }),
+        ExpressionAttributeValues: buildExpressionValues({ country, search, difficulty })
+      });
+
+      const result = await docClient.send(command);
+      res.status(200).json(result.Items || []);
+      
+    } else if (req.method === 'POST') {
+      const trick = {
+        id: Date.now().toString(),
+        ...req.body,
+        createdAt: new Date().toISOString(),
+        kudos: 0,
+        views: 0,
+        comments: 0,
+        status: 'approved'
+      };
+
+      await docClient.send(new PutCommand({
+        TableName: 'TrickShare-Tricks',
+        Item: trick
+      }));
+
+      res.status(201).json(trick);
+    } else {
+      res.status(405).json({ error: 'Method not allowed' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
   }
+}
+
+function buildFilterExpression(filters: any) {
+  const expressions = [];
+  if (filters.country) expressions.push('countryCode = :country');
+  if (filters.difficulty) expressions.push('difficulty = :difficulty');
+  if (filters.search) expressions.push('contains(title, :search) OR contains(description, :search)');
+  return expressions.length > 0 ? expressions.join(' AND ') : undefined;
+}
+
+function buildExpressionValues(filters: any) {
+  const values: any = {};
+  if (filters.country) values[':country'] = filters.country;
+  if (filters.difficulty) values[':difficulty'] = filters.difficulty;
+  if (filters.search) values[':search'] = filters.search;
+  return Object.keys(values).length > 0 ? values : undefined;
 }
