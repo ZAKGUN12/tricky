@@ -4,7 +4,7 @@ import { Trick } from '../lib/types';
 import { mockTricks, countries } from '../lib/mockData';
 import CountryChain from '../components/CountryChain';
 import TopTricks from '../components/TopTricks';
-import CountryRace from '../components/CountryRace';
+import UserRace from '../components/UserRace';
 
 function HomeContent() {
   const [tricks, setTricks] = useState<Trick[]>(mockTricks);
@@ -37,7 +37,7 @@ function HomeContent() {
         <p>Discover life tricks from around the world</p>
       </header>
 
-      <CountryRace />
+      <UserRace />
 
       <CountryChain 
         selectedCountry={selectedCountry}
