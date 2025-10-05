@@ -1,18 +1,20 @@
 import Link from 'next/link';
-import { mockTricks } from '../lib/mockData';
+import { mockTricks, countries } from '../lib/mockData';
 
 export default function Profile() {
   // Mock user data
   const user = {
     name: 'Demo User',
     email: 'demo@example.com',
+    countryCode: 'US',
     joinedDate: '2024-01-15',
     tricksSubmitted: 3,
     totalKudos: 45,
     favoriteCount: 12
   };
 
-  const userTricks = mockTricks.slice(0, 3); // Show first 3 as user's tricks
+  const userTricks = mockTricks.slice(0, 3);
+  const country = countries.find(c => c.code === user.countryCode);
 
   return (
     <div className="container">
@@ -23,10 +25,17 @@ export default function Profile() {
 
       <div className="profile-content">
         <div className="profile-card">
-          <div className="avatar">👤</div>
-          <h2>{user.name}</h2>
-          <p className="email">{user.email}</p>
-          <p className="joined">Joined {new Date(user.joinedDate).toLocaleDateString()}</p>
+          <div className="profile-header">
+            <div className="avatar-section">
+              <div className="avatar">👤</div>
+              <span className="country-flag">{country?.flag}</span>
+            </div>
+            <div className="user-info">
+              <h2>{user.name}</h2>
+              <p className="email">{user.email}</p>
+              <p className="joined">Joined {new Date(user.joinedDate).toLocaleDateString()}</p>
+            </div>
+          </div>
         </div>
 
         <div className="stats-grid">
@@ -49,11 +58,18 @@ export default function Profile() {
           <div className="tricks-list">
             {userTricks.map(trick => (
               <div key={trick.id} className="trick-item">
-                <h4>{trick.title}</h4>
+                <div className="trick-header">
+                  <h4>{trick.title}</h4>
+                  <span className={`difficulty-badge ${trick.difficulty}`}>
+                    {trick.difficulty === 'easy' ? '🟢' : 
+                     trick.difficulty === 'medium' ? '🟡' : '🔴'}
+                  </span>
+                </div>
                 <p>{trick.description}</p>
                 <div className="trick-stats">
                   <span>👍 {trick.kudos}</span>
                   <span>👁️ {trick.views}</span>
+                  <span>💬 {trick.comments}</span>
                 </div>
               </div>
             ))}
@@ -65,14 +81,27 @@ export default function Profile() {
         .page-header {
           display: flex;
           align-items: center;
-          gap: 20px;
-          margin-bottom: 30px;
+          gap: var(--space-lg);
+          margin-bottom: var(--space-xl);
+          background: var(--glass-bg);
+          padding: var(--space-lg);
+          border-radius: var(--radius-lg);
+          backdrop-filter: blur(20px);
+          box-shadow: var(--glass-shadow);
+          border: 1px solid var(--glass-border);
         }
         
         .back-btn {
-          color: #666;
+          color: #667eea;
           text-decoration: none;
-          font-size: 1.1rem;
+          font-size: var(--text-lg);
+          font-weight: 600;
+          transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+          color: #764ba2;
+          transform: translateX(-3px);
         }
         
         .profile-content {
@@ -81,106 +110,176 @@ export default function Profile() {
         }
         
         .profile-card {
-          background: white;
-          border-radius: 12px;
-          padding: 30px;
-          text-align: center;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-          margin-bottom: 30px;
+          background: var(--glass-bg);
+          border-radius: var(--radius-lg);
+          padding: var(--space-xl);
+          box-shadow: var(--glass-shadow);
+          border: 1px solid var(--glass-border);
+          margin-bottom: var(--space-xl);
+          backdrop-filter: blur(20px);
+        }
+        
+        .profile-header {
+          display: flex;
+          align-items: center;
+          gap: var(--space-lg);
+        }
+        
+        .avatar-section {
+          position: relative;
         }
         
         .avatar {
           font-size: 4rem;
-          margin-bottom: 15px;
+          width: 80px;
+          height: 80px;
+          background: white;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         
-        .profile-card h2 {
-          color: #2c3e50;
-          margin-bottom: 5px;
+        .country-flag {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          font-size: 1.5rem;
+          background: white;
+          border-radius: 50%;
+          padding: var(--space-xs);
+          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .user-info h2 {
+          color: var(--text-primary);
+          margin-bottom: var(--space-xs);
+          font-size: var(--text-xl);
         }
         
         .email {
-          color: #666;
-          margin-bottom: 10px;
+          color: var(--text-secondary);
+          margin-bottom: var(--space-xs);
+          font-size: var(--text-sm);
         }
         
         .joined {
-          color: #999;
-          font-size: 0.9rem;
+          color: var(--text-muted);
+          font-size: var(--text-xs);
+          margin: 0;
         }
         
         .stats-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
-          gap: 20px;
-          margin-bottom: 30px;
+          gap: var(--space-lg);
+          margin-bottom: var(--space-xl);
         }
         
         .stat-card {
-          background: white;
-          border-radius: 12px;
-          padding: 25px;
+          background: var(--glass-bg);
+          border-radius: var(--radius-lg);
+          padding: var(--space-lg);
           text-align: center;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+          box-shadow: var(--glass-shadow);
+          border: 1px solid var(--glass-border);
+          backdrop-filter: blur(20px);
         }
         
         .stat-number {
-          font-size: 2rem;
+          font-size: var(--text-2xl);
           font-weight: bold;
-          color: #3498db;
-          margin-bottom: 5px;
+          color: #667eea;
+          margin-bottom: var(--space-xs);
         }
         
         .stat-label {
-          color: #666;
-          font-size: 0.9rem;
+          color: var(--text-secondary);
+          font-size: var(--text-sm);
         }
         
         .user-tricks {
-          background: white;
-          border-radius: 12px;
-          padding: 30px;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+          background: var(--glass-bg);
+          border-radius: var(--radius-lg);
+          padding: var(--space-xl);
+          box-shadow: var(--glass-shadow);
+          border: 1px solid var(--glass-border);
+          backdrop-filter: blur(20px);
         }
         
         .user-tricks h3 {
-          color: #2c3e50;
-          margin-bottom: 20px;
+          color: var(--text-primary);
+          margin-bottom: var(--space-lg);
+          font-size: var(--text-lg);
         }
         
         .tricks-list {
           display: flex;
           flex-direction: column;
-          gap: 15px;
+          gap: var(--space-md);
         }
         
         .trick-item {
-          padding: 15px;
-          border: 1px solid #eee;
-          border-radius: 8px;
-          transition: background 0.2s;
+          padding: var(--space-md);
+          border: 1px solid var(--glass-border);
+          border-radius: var(--radius-md);
+          transition: all 0.2s ease;
+          background: rgba(255, 255, 255, 0.5);
         }
         
         .trick-item:hover {
-          background: #f8f9fa;
+          background: rgba(255, 255, 255, 0.8);
+          transform: translateY(-1px);
+        }
+        
+        .trick-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: var(--space-sm);
         }
         
         .trick-item h4 {
-          color: #2c3e50;
-          margin-bottom: 8px;
+          color: var(--text-primary);
+          margin: 0;
+          font-size: var(--text-base);
+        }
+        
+        .difficulty-badge {
+          font-size: var(--text-xs);
+          padding: 2px 8px;
+          border-radius: var(--radius-md);
+          font-weight: 600;
+        }
+        
+        .difficulty-badge.easy {
+          background: rgba(67, 233, 123, 0.2);
+          color: #2d8f47;
+        }
+        
+        .difficulty-badge.medium {
+          background: rgba(254, 202, 87, 0.2);
+          color: #b8860b;
+        }
+        
+        .difficulty-badge.hard {
+          background: rgba(250, 112, 154, 0.2);
+          color: #c53030;
         }
         
         .trick-item p {
-          color: #666;
-          margin-bottom: 10px;
+          color: var(--text-secondary);
+          margin-bottom: var(--space-sm);
           line-height: 1.4;
+          font-size: var(--text-sm);
         }
         
         .trick-stats {
           display: flex;
-          gap: 15px;
-          font-size: 0.9rem;
-          color: #999;
+          gap: var(--space-md);
+          font-size: var(--text-xs);
+          color: var(--text-muted);
         }
         
         @media (max-width: 768px) {
@@ -189,7 +288,12 @@ export default function Profile() {
           }
           
           .profile-card, .user-tricks {
-            padding: 20px;
+            padding: var(--space-lg);
+          }
+          
+          .profile-header {
+            flex-direction: column;
+            text-align: center;
           }
         }
       `}</style>

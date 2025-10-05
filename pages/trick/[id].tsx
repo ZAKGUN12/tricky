@@ -49,12 +49,21 @@ export default function TrickDetail() {
 
       <article className="trick-detail">
         <header className="trick-header">
-          <div className="trick-meta">
-            <span className="country-flag">{country?.flag}</span>
-            <span className="difficulty-badge">
-              {trick.difficulty === 'easy' ? '🟢 Easy' : 
-               trick.difficulty === 'medium' ? '🟡 Medium' : '🔴 Hard'}
-            </span>
+          <div className="author-section">
+            <div className="author-info">
+              <span className="country-flag">{country?.flag}</span>
+              <div className="author-details">
+                <span className="author-name">{trick.authorName || 'Anonymous'}</span>
+                <span className="country-name">{country?.name}</span>
+              </div>
+            </div>
+            <div className="trick-meta">
+              <span className="difficulty-badge">
+                {trick.difficulty === 'easy' ? '🟢 Easy' : 
+                 trick.difficulty === 'medium' ? '🟡 Medium' : '🔴 Hard'}
+              </span>
+              <span className="time-estimate">{trick.timeEstimate}</span>
+            </div>
           </div>
           <h1>{trick.title}</h1>
           <p className="description">{trick.description}</p>
@@ -102,8 +111,9 @@ export default function TrickDetail() {
 
       <style jsx>{`
         .breadcrumb {
-          margin-bottom: 20px;
-          color: rgba(0, 0, 0, 0.6);
+          margin-bottom: var(--space-lg);
+          color: var(--text-muted);
+          font-size: var(--text-sm);
         }
         
         .breadcrumb a {
@@ -119,12 +129,12 @@ export default function TrickDetail() {
         }
         
         .trick-detail {
-          background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+          background: var(--glass-bg);
           backdrop-filter: blur(20px);
-          border-radius: 20px;
-          padding: 30px;
-          box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
-          border: 1px solid rgba(255, 255, 255, 0.18);
+          border-radius: var(--radius-lg);
+          padding: var(--space-xl);
+          box-shadow: var(--glass-shadow);
+          border: 1px solid var(--glass-border);
           position: relative;
           overflow: hidden;
         }

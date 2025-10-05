@@ -140,82 +140,83 @@ export default function Submit() {
         .page-header {
           display: flex;
           align-items: center;
-          gap: 20px;
-          margin-bottom: 30px;
-          background: rgba(255, 255, 255, 0.9);
-          padding: 20px;
-          border-radius: 15px;
-          backdrop-filter: blur(10px);
-          box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+          gap: var(--space-lg);
+          margin-bottom: var(--space-xl);
+          background: var(--glass-bg);
+          padding: var(--space-lg);
+          border-radius: var(--radius-lg);
+          backdrop-filter: blur(20px);
+          box-shadow: var(--glass-shadow);
+          border: 1px solid var(--glass-border);
         }
         
         .back-btn {
           color: #667eea;
           text-decoration: none;
-          font-size: 1.1rem;
+          font-size: var(--text-lg);
           font-weight: 600;
           transition: all 0.3s ease;
         }
         
         .back-btn:hover {
+          color: #764ba2;
           transform: translateX(-3px);
         }
         
         .submit-form {
           max-width: 600px;
           margin: 0 auto;
-          background: rgba(255, 255, 255, 0.95);
-          padding: 30px;
-          border-radius: 20px;
-          backdrop-filter: blur(10px);
-          box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-          border: 1px solid rgba(255, 255, 255, 0.2);
+          background: var(--glass-bg);
+          padding: var(--space-xl);
+          border-radius: var(--radius-lg);
+          backdrop-filter: blur(20px);
+          box-shadow: var(--glass-shadow);
+          border: 1px solid var(--glass-border);
         }
         
         .form-group {
-          margin-bottom: 25px;
+          margin-bottom: var(--space-lg);
         }
         
         .form-row {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 20px;
+          gap: var(--space-lg);
         }
         
         label {
           display: block;
-          margin-bottom: 8px;
+          margin-bottom: var(--space-sm);
           font-weight: 700;
-          color: #2c3e50;
-          font-size: 1rem;
+          color: var(--text-primary);
+          font-size: var(--text-base);
         }
         
         input, textarea, select {
           width: 100%;
-          padding: 15px;
-          border: 2px solid transparent;
-          border-radius: 12px;
-          font-size: 16px;
+          padding: var(--space-md);
+          border: 1px solid #e2e8f0;
+          border-radius: var(--radius-md);
+          font-size: var(--text-base);
           font-family: inherit;
-          background: rgba(255, 255, 255, 0.8);
-          backdrop-filter: blur(5px);
+          background: white;
           transition: all 0.3s ease;
         }
         
         input:focus, textarea:focus, select:focus {
           outline: none;
           border-color: #667eea;
-          transform: translateY(-2px);
-          box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+          box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+          transform: translateY(-1px);
         }
         
         .add-step-btn {
-          background: rgba(255, 255, 255, 0.8);
-          border: 2px solid #e1e8ed;
-          padding: 10px 20px;
-          border-radius: 20px;
+          background: var(--glass-bg);
+          border: 1px solid var(--glass-border);
+          padding: var(--space-sm) var(--space-lg);
+          border-radius: var(--radius-lg);
           cursor: pointer;
-          margin-top: 10px;
+          margin-top: var(--space-sm);
           font-weight: 600;
           transition: all 0.3s ease;
           backdrop-filter: blur(5px);
@@ -230,21 +231,21 @@ export default function Submit() {
         
         .submit-btn {
           width: 100%;
-          background: linear-gradient(135deg, #27ae60, #2ecc71);
+          background: var(--primary-gradient);
           color: white;
-          padding: 18px;
+          padding: var(--space-lg);
           border: none;
-          border-radius: 25px;
-          font-size: 1.2rem;
+          border-radius: var(--radius-lg);
+          font-size: var(--text-lg);
           font-weight: 700;
           cursor: pointer;
           transition: all 0.3s ease;
-          box-shadow: 0 6px 20px rgba(39, 174, 96, 0.3);
+          box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
         }
         
         .submit-btn:hover {
           transform: translateY(-3px);
-          box-shadow: 0 10px 30px rgba(39, 174, 96, 0.4);
+          box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
         }
         
         @media (max-width: 768px) {
@@ -253,7 +254,7 @@ export default function Submit() {
           }
           
           .submit-form {
-            padding: 20px;
+            padding: var(--space-lg);
           }
         }
       `}</style>
