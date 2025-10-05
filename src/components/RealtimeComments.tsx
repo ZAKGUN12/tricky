@@ -19,7 +19,7 @@ export default function RealtimeComments({ trickId }: { trickId: string }) {
     });
 
     return () => subscription.unsubscribe();
-  }, [trickId]);
+  }, [trickId, subscribeToComments]);
 
   const addComment = async () => {
     if (!newComment.trim()) return;
