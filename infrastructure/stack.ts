@@ -50,18 +50,18 @@ export class TrickShareStack extends cdk.Stack {
     tricksTable.grantReadWriteData(apiRole);
     commentsTable.grantReadWriteData(apiRole);
 
-    // Deploy static files
-    new s3deploy.BucketDeployment(this, 'DeployWebsite', {
-      sources: [s3deploy.Source.asset('./out')],
-      destinationBucket: websiteBucket
-    });
-
     // CloudFront distribution
     const distribution = new cloudfront.Distribution(this, 'Distribution', {
       defaultBehavior: {
         origin: new origins.S3Origin(websiteBucket),
         viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS
       }
+    });
+
+    // Deploy static files without cache invalidation to avoid CDK bug
+    new s3deploy.BucketDeployment(this, 'DeployWebsite', {
+      sources: [s3deploy.Source.asset('./out')],
+      destinationBucket: websiteBucket
     });
 
     // Outputs
