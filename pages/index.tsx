@@ -144,8 +144,8 @@ function HomeContent() {
         onCountrySelect={setSelectedCountry}
       />
 
-      {/* Tricks List */}
-      <div className="tricks-container">
+      {/* Tricks Grid */}
+      <div className="tricks-grid">
         {filteredTricks.length === 0 ? (
           <div className="empty-state">
             <h3>No tricks found</h3>
@@ -156,25 +156,27 @@ function HomeContent() {
             <div 
               key={trick.id} 
               className="trick-card"
-              style={{ animationDelay: `${index * 0.1}s` }}
+              style={{ animationDelay: `${index * 0.05}s` }}
             >
               <div className="trick-title">{trick.title}</div>
               <div className="trick-description">{trick.description}</div>
               
               <ol className="trick-steps">
-                {trick.steps.map((step, stepIndex) => (
+                {trick.steps.slice(0, 2).map((step, stepIndex) => (
                   <li key={stepIndex}>{step}</li>
                 ))}
+                {trick.steps.length > 2 && (
+                  <li style={{ opacity: 0.7, fontStyle: 'italic' }}>
+                    +{trick.steps.length - 2} more steps...
+                  </li>
+                )}
               </ol>
               
               <div className="trick-meta">
                 <div className="trick-info">
-                  <span>{countries.find(c => c.code === trick.countryCode)?.flag} {countries.find(c => c.code === trick.countryCode)?.name}</span>
-                  <span>👤 {trick.authorName}</span>
-                  <span>⏱️ {trick.timeEstimate}</span>
-                  <span className={`difficulty-${trick.difficulty}`}>
-                    {trick.difficulty === 'easy' ? '🟢' : trick.difficulty === 'medium' ? '🟡' : '🔴'} {trick.difficulty}
-                  </span>
+                  <span>{countries.find(c => c.code === trick.countryCode)?.flag}</span>
+                  <span>{trick.difficulty === 'easy' ? '🟢' : trick.difficulty === 'medium' ? '🟡' : '🔴'}</span>
+                  <span>{trick.timeEstimate}</span>
                 </div>
                 
                 <div className="trick-actions">
@@ -182,16 +184,13 @@ function HomeContent() {
                     className="action-btn"
                     onClick={() => handleKudos(trick.id)}
                   >
-                    👍 <AnimatedCounter value={trick.kudos} duration={500} />
+                    👍 <AnimatedCounter value={trick.kudos} duration={300} />
                   </button>
                   <button 
                     className="action-btn"
                     onClick={() => handleFavorite(trick.id)}
                   >
-                    ⭐ <AnimatedCounter value={trick.favorites} duration={500} />
-                  </button>
-                  <button className="action-btn">
-                    👁️ <AnimatedCounter value={trick.views} duration={500} />
+                    ⭐ <AnimatedCounter value={trick.favorites} duration={300} />
                   </button>
                   <button className="action-btn">
                     💬 {trick.comments}
@@ -199,10 +198,13 @@ function HomeContent() {
                 </div>
               </div>
               
-              <div style={{ marginTop: '15px' }}>
-                {trick.tags.map(tag => (
+              <div style={{ marginTop: '8px' }}>
+                {trick.tags.slice(0, 3).map(tag => (
                   <span key={tag} className="tag">#{tag}</span>
                 ))}
+                {trick.tags.length > 3 && (
+                  <span className="tag">+{trick.tags.length - 3}</span>
+                )}
               </div>
             </div>
           ))
