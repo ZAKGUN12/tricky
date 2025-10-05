@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Trick } from '../lib/types';
 import { mockTricks, countries } from '../lib/mockData';
+import CountryChain from '../components/CountryChain';
 
 function HomeContent() {
   const [tricks, setTricks] = useState<Trick[]>(mockTricks);
@@ -27,14 +28,19 @@ function HomeContent() {
   return (
     <div className="container">
       <header className="hero">
-        <h1>🔗 TrickShare</h1>
+        <h1>TrickShare</h1>
         <p>Discover life tricks from around the world</p>
       </header>
+
+      <CountryChain 
+        selectedCountry={selectedCountry}
+        onCountrySelect={setSelectedCountry}
+      />
 
       <div className="controls">
         <input
           type="text"
-          placeholder="Search tricks..."
+          placeholder="🔍 Search tricks..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="search-input"
@@ -45,7 +51,7 @@ function HomeContent() {
           onChange={(e) => setSelectedCountry(e.target.value)}
           className="country-select"
         >
-          <option value="">All Countries</option>
+          <option value="">🌍 All Countries</option>
           {countries.map(country => (
             <option key={country.code} value={country.code}>
               {country.flag} {country.name}

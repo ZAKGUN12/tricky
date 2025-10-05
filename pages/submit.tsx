@@ -142,21 +142,38 @@ export default function Submit() {
           align-items: center;
           gap: 20px;
           margin-bottom: 30px;
+          background: rgba(255, 255, 255, 0.9);
+          padding: 20px;
+          border-radius: 15px;
+          backdrop-filter: blur(10px);
+          box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
         
         .back-btn {
-          color: #666;
+          color: #667eea;
           text-decoration: none;
           font-size: 1.1rem;
+          font-weight: 600;
+          transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+          transform: translateX(-3px);
         }
         
         .submit-form {
           max-width: 600px;
           margin: 0 auto;
+          background: rgba(255, 255, 255, 0.95);
+          padding: 30px;
+          border-radius: 20px;
+          backdrop-filter: blur(10px);
+          box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+          border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .form-group {
-          margin-bottom: 20px;
+          margin-bottom: 25px;
         }
         
         .form-row {
@@ -167,54 +184,76 @@ export default function Submit() {
         
         label {
           display: block;
-          margin-bottom: 5px;
-          font-weight: 600;
-          color: #333;
+          margin-bottom: 8px;
+          font-weight: 700;
+          color: #2c3e50;
+          font-size: 1rem;
         }
         
         input, textarea, select {
           width: 100%;
-          padding: 12px;
-          border: 2px solid #e1e8ed;
-          border-radius: 8px;
+          padding: 15px;
+          border: 2px solid transparent;
+          border-radius: 12px;
           font-size: 16px;
           font-family: inherit;
+          background: rgba(255, 255, 255, 0.8);
+          backdrop-filter: blur(5px);
+          transition: all 0.3s ease;
         }
         
         input:focus, textarea:focus, select:focus {
           outline: none;
-          border-color: #3498db;
+          border-color: #667eea;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
         }
         
         .add-step-btn {
-          background: #f8f9fa;
-          border: 1px solid #dee2e6;
-          padding: 8px 16px;
-          border-radius: 6px;
+          background: rgba(255, 255, 255, 0.8);
+          border: 2px solid #e1e8ed;
+          padding: 10px 20px;
+          border-radius: 20px;
           cursor: pointer;
           margin-top: 10px;
+          font-weight: 600;
+          transition: all 0.3s ease;
+          backdrop-filter: blur(5px);
+        }
+        
+        .add-step-btn:hover {
+          background: #667eea;
+          color: white;
+          border-color: #667eea;
+          transform: translateY(-2px);
         }
         
         .submit-btn {
           width: 100%;
-          background: #27ae60;
+          background: linear-gradient(135deg, #27ae60, #2ecc71);
           color: white;
-          padding: 15px;
+          padding: 18px;
           border: none;
-          border-radius: 8px;
-          font-size: 1.1rem;
-          font-weight: 600;
+          border-radius: 25px;
+          font-size: 1.2rem;
+          font-weight: 700;
           cursor: pointer;
-          transition: background 0.2s;
+          transition: all 0.3s ease;
+          box-shadow: 0 6px 20px rgba(39, 174, 96, 0.3);
         }
         
         .submit-btn:hover {
-          background: #229954;
+          transform: translateY(-3px);
+          box-shadow: 0 10px 30px rgba(39, 174, 96, 0.4);
         }
         
         @media (max-width: 768px) {
           .form-row {
             grid-template-columns: 1fr;
+          }
+          
+          .submit-form {
+            padding: 20px;
           }
         }
       `}</style>
