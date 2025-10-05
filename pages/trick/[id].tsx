@@ -103,19 +103,43 @@ export default function TrickDetail() {
       <style jsx>{`
         .breadcrumb {
           margin-bottom: 20px;
-          color: #666;
+          color: rgba(0, 0, 0, 0.6);
         }
         
         .breadcrumb a {
-          color: #3498db;
+          color: #667eea;
           text-decoration: none;
+          font-weight: 500;
+          transition: all 0.3s ease;
+        }
+        
+        .breadcrumb a:hover {
+          color: #764ba2;
+          text-shadow: 0 0 8px rgba(102, 126, 234, 0.3);
         }
         
         .trick-detail {
-          background: white;
-          border-radius: 12px;
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+          backdrop-filter: blur(20px);
+          border-radius: 20px;
           padding: 30px;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+          box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
+          border: 1px solid rgba(255, 255, 255, 0.18);
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .trick-detail::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: 
+            radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.1) 0%, transparent 50%);
+          pointer-events: none;
         }
         
         .trick-header {
