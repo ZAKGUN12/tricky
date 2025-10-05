@@ -76,3 +76,4 @@ Then configure GitHub webhook in AWS Console.
 - Backend: DynamoDB + API routes
 - Hosting: S3 + CloudFront
 - Infrastructure: AWS CDK
+🚀 GitHub Actions CI/CD Pipeline Active!
