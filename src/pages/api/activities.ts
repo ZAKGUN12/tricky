@@ -7,8 +7,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     const result = await dynamodb.send(new ScanCommand({
       TableName: 'TrickShare-Activities',
-      Limit: 20,
-      ScanIndexForward: false
+      Limit: 20
     }));
 
     const activities = result.Items?.map(item => ({
