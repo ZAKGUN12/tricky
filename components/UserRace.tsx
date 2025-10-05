@@ -2,33 +2,41 @@ import { mockTricks, countries } from '../lib/mockData';
 
 export default function UserRace() {
   const getUserStats = () => {
-    const users = [
-      { id: '1', name: 'Sarah Chen', countryCode: 'US' },
-      { id: '2', name: 'Hiroshi Tanaka', countryCode: 'JP' },
-      { id: '3', name: 'Marco Rossi', countryCode: 'IT' },
-      { id: '4', name: 'Emma Schmidt', countryCode: 'DE' },
-      { id: '5', name: 'Lucas Silva', countryCode: 'BR' },
-      { id: '6', name: 'Priya Sharma', countryCode: 'IN' },
-      { id: '7', name: 'Alex Johnson', countryCode: 'CA' },
-      { id: '8', name: 'Marie Dubois', countryCode: 'FR' }
-    ];
-
-    return users.map(user => {
-      const userTricks = mockTricks.filter(() => Math.random() > 0.6);
-      const totalKudos = userTricks.reduce((sum, trick) => sum + Math.floor(trick.kudos * Math.random()), 0);
-      const score = userTricks.length * 50 + totalKudos;
+    // Create users based on actual trick authors
+    const userMap = new Map();
+    
+    mockTricks.forEach(trick => {
+      const authorName = trick.authorName || 'Anonymous';
+      const countryCode = trick.countryCode;
       
-      return {
+      if (!userMap.has(authorName)) {
+        userMap.set(authorName, {
+          name: authorName,
+          countryCode,
+          tricks: [],
+          totalKudos: 0,
+          totalViews: 0
+        });
+      }
+      
+      const user = userMap.get(authorName);
+      user.tricks.push(trick);
+      user.totalKudos += trick.kudos;
+      user.totalViews += trick.views;
+    });
+
+    // Convert to array and calculate scores
+    return Array.from(userMap.values())
+      .map(user => ({
         ...user,
-        tricksCount: userTricks.length,
-        totalKudos,
-        score
-      };
-    }).sort((a, b) => b.score - a.score).slice(0, 6);
+        tricksCount: user.tricks.length,
+        score: user.tricksCount * 100 + user.totalKudos + Math.floor(user.totalViews / 10)
+      }))
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 4); // Show only top 4
   };
 
   const userStats = getUserStats();
-  const maxScore = userStats[0]?.score || 1;
 
   return (
     <div className="user-race">
@@ -36,26 +44,22 @@ export default function UserRace() {
         <h3>🏆 Top Contributors</h3>
       </div>
       
-      <div className="race-list">
+      <div className="contributors-grid">
         {userStats.map((user, index) => {
-          const percentage = (user.score / maxScore) * 100;
           const country = countries.find(c => c.code === user.countryCode);
           
           return (
-            <div key={user.id} className="user-item">
-              <div className="user-info">
-                <span className="rank">#{index + 1}</span>
+            <div key={user.name} className={`contributor-card rank-${index + 1}`}>
+              <div className="rank-badge">#{index + 1}</div>
+              <div className="user-avatar">
                 <span className="flag">{country?.flag}</span>
-                <span className="name">{user.name}</span>
               </div>
-              
-              <div className="progress">
-                <div className="progress-bar" style={{ width: `${percentage}%` }}></div>
-              </div>
-              
-              <div className="stats">
-                <span className="score">{user.score}</span>
-                <span className="tricks">{user.tricksCount} tricks</span>
+              <div className="user-details">
+                <div className="name">{user.name}</div>
+                <div className="stats">
+                  <span>{user.tricksCount} tricks</span>
+                  <span>{user.totalKudos} kudos</span>
+                </div>
               </div>
             </div>
           );
@@ -65,100 +69,112 @@ export default function UserRace() {
       <style jsx>{`
         .user-race {
           background: white;
-          border-radius: 16px;
-          padding: 20px;
-          margin-bottom: 25px;
+          border-radius: 12px;
+          padding: 16px;
+          margin-bottom: 20px;
           box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
           border: 1px solid #e2e8f0;
         }
         
         .race-header h3 {
-          font-size: 1.1rem;
+          font-size: 1rem;
           font-weight: 700;
           color: var(--text-primary);
-          margin-bottom: 16px;
+          margin-bottom: 12px;
+          text-align: center;
         }
         
-        .race-list {
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-        }
-        
-        .user-item {
+        .contributors-grid {
           display: grid;
-          grid-template-columns: 1fr 120px 80px;
-          align-items: center;
-          gap: 12px;
-          padding: 8px 0;
-        }
-        
-        .user-info {
-          display: flex;
-          align-items: center;
+          grid-template-columns: 1fr 1fr;
           gap: 8px;
         }
         
-        .rank {
-          font-weight: 600;
+        .contributor-card {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 8px;
+          border-radius: 8px;
+          background: #f8fafc;
+          border: 1px solid #e2e8f0;
+          transition: all 0.2s ease;
+          position: relative;
+        }
+        
+        .contributor-card:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .contributor-card.rank-1 {
+          background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), #f8fafc);
+          border-color: rgba(255, 215, 0, 0.3);
+        }
+        
+        .rank-badge {
+          font-size: 0.7rem;
+          font-weight: 700;
           color: #667eea;
-          min-width: 20px;
-          font-size: 0.9rem;
+          min-width: 18px;
+        }
+        
+        .user-avatar {
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          background: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: 1px solid #e2e8f0;
         }
         
         .flag {
-          font-size: 1.1rem;
-        }
-        
-        .name {
-          font-weight: 500;
-          color: var(--text-primary);
           font-size: 0.9rem;
         }
         
-        .progress {
-          background: #f1f5f9;
-          border-radius: 6px;
-          height: 6px;
-          overflow: hidden;
+        .user-details {
+          flex: 1;
+          min-width: 0;
         }
         
-        .progress-bar {
-          height: 100%;
-          background: var(--primary-gradient);
-          border-radius: 6px;
-          transition: width 1s ease-out;
+        .name {
+          font-size: 0.8rem;
+          font-weight: 600;
+          color: var(--text-primary);
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
         
         .stats {
-          text-align: right;
-          font-size: 0.8rem;
-        }
-        
-        .score {
-          font-weight: 600;
-          color: #667eea;
-          display: block;
-        }
-        
-        .tricks {
+          display: flex;
+          gap: 8px;
+          font-size: 0.7rem;
           color: var(--text-muted);
+          margin-top: 2px;
+        }
+        
+        .stats span {
+          white-space: nowrap;
         }
         
         @media (max-width: 768px) {
-          .user-item {
-            grid-template-columns: 1fr 60px;
-            gap: 8px;
+          .contributors-grid {
+            grid-template-columns: 1fr;
           }
           
-          .progress {
-            grid-column: 1 / -1;
-            margin-top: 4px;
+          .contributor-card {
+            padding: 6px;
+          }
+          
+          .name {
+            font-size: 0.75rem;
           }
           
           .stats {
-            grid-column: 2;
-            grid-row: 1;
+            font-size: 0.65rem;
           }
         }
       `}</style>
