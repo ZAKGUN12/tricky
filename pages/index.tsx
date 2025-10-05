@@ -79,15 +79,17 @@ function HomeContent() {
               return (
                 <div key={trick.id} className={`trick-post difficulty-${trick.difficulty}`}>
                   <div className="post-header">
-                    <span className="country-flag">{country?.flag}</span>
+                    <div className="author-info">
+                      <span className="country-flag">{country?.flag}</span>
+                      <span className="author-name">{trick.authorName || 'Anonymous'}</span>
+                    </div>
                     <div className="post-meta">
-                      <span className="country-name">{country?.name}</span>
                       <span className="difficulty-badge">
                         {trick.difficulty === 'easy' ? '🟢' : 
                          trick.difficulty === 'medium' ? '🟡' : '🔴'}
                       </span>
+                      <span className="time">{trick.timeEstimate}</span>
                     </div>
-                    <span className="time">{trick.timeEstimate}</span>
                   </div>
                   
                   <h3 className="post-title">{trick.title}</h3>
