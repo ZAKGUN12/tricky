@@ -1,20 +1,22 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Authenticator } from '@aws-amplify/ui-react';
+import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react';
 import { Trick } from '../lib/types';
 import { countries } from '../lib/mockData';
 import { TrickShareAPI } from '../lib/api';
 import CountryChain from '../components/CountryChain';
 import TopTricks from '../components/TopTricks';
 import UserRace from '../components/UserRace';
-import AuthWrapper from '../components/AuthWrapper';
+import UserStats from '../components/UserStats';
 
 function HomeContent() {
+  const { user, signOut } = useAuthenticator((context) => [context.user, context.signOut]);
   const [tricks, setTricks] = useState<Trick[]>([]);
   const [filteredTricks, setFilteredTricks] = useState<Trick[]>([]);
   const [selectedCountry, setSelectedCountry] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   useEffect(() => {
     loadTricks();
@@ -42,6 +44,11 @@ function HomeContent() {
   }, [selectedCountry, searchQuery, tricks]);
 
   const handleKudos = async (trickId: string) => {
+    if (!user) {
+      setShowAuthModal(true);
+      return;
+    }
+    
     try {
       await TrickShareAPI.giveKudos(trickId);
       setTricks(prev => prev.map(trick => 
@@ -54,6 +61,18 @@ function HomeContent() {
 
   return (
     <div className="container">
+      {user && (
+        <div className="auth-header">
+          <div className="user-info">
+            <span>Welcome, {user.signInDetails?.loginId || 'User'}!</span>
+            <UserStats userId={user.userId} />
+          </div>
+          <button onClick={signOut} className="sign-out-btn">
+            Sign Out
+          </button>
+        </div>
+      )}
+
       <header className="hero">
         <div className="hero-decoration"></div>
         <div className="hero-decoration"></div>
@@ -157,20 +176,112 @@ function HomeContent() {
       )}
 
       <div className="submit-section">
-        <Link href="/submit" className="submit-btn">
-          + Share Your Trick
-        </Link>
+        {user ? (
+          <Link href="/submit" className="submit-btn">
+            + Share Your Trick
+          </Link>
+        ) : (
+          <button onClick={() => setShowAuthModal(true)} className="submit-btn">
+            + Share Your Trick
+          </button>
+        )}
       </div>
+
+      {showAuthModal && (
+        <div className="modal-overlay" onClick={() => setShowAuthModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h2>Login Required</h2>
+            <p>Please sign in to share tricks and give kudos.</p>
+            <div className="modal-actions">
+              <button onClick={() => setShowAuthModal(false)} className="cancel-btn">
+                Cancel
+              </button>
+              <Link href="/login" className="login-btn">
+                Sign In
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <style jsx>{`
+        .auth-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: var(--space-md) var(--space-lg);
+          background: var(--glass-bg);
+          border-bottom: 1px solid var(--glass-border);
+          backdrop-filter: blur(20px);
+          margin-bottom: var(--space-lg);
+        }
+
+        .sign-out-btn {
+          background: #e53e3e;
+          color: white;
+          border: none;
+          padding: var(--space-sm) var(--space-lg);
+          border-radius: var(--radius-md);
+          cursor: pointer;
+          font-weight: 600;
+        }
+
+        .modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.5);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 1000;
+        }
+
+        .modal-content {
+          background: white;
+          padding: var(--space-xl);
+          border-radius: var(--radius-lg);
+          text-align: center;
+          max-width: 400px;
+        }
+
+        .modal-actions {
+          display: flex;
+          gap: var(--space-md);
+          margin-top: var(--space-lg);
+        }
+
+        .cancel-btn, .login-btn {
+          flex: 1;
+          padding: var(--space-md);
+          border-radius: var(--radius-md);
+          text-decoration: none;
+          text-align: center;
+          font-weight: 600;
+        }
+
+        .cancel-btn {
+          background: #f7fafc;
+          border: 1px solid #e2e8f0;
+          color: #4a5568;
+        }
+
+        .login-btn {
+          background: var(--primary-gradient);
+          color: white;
+          border: none;
+        }
+      `}</style>
     </div>
   );
 }
 
 export default function Home() {
   return (
-    <Authenticator>
-      <AuthWrapper>
-        <HomeContent />
-      </AuthWrapper>
-    </Authenticator>
+    <Authenticator.Provider>
+      <HomeContent />
+    </Authenticator.Provider>
   );
 }

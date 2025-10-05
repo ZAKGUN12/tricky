@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, ScanCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
+import { DynamoDBDocumentClient, ScanCommand, PutCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
 
 const client = new DynamoDBClient({ region: process.env.AWS_REGION || 'us-east-1' });
 const docClient = DynamoDBDocumentClient.from(client);
@@ -30,10 +30,30 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         status: 'approved'
       };
 
+      // Save trick
       await docClient.send(new PutCommand({
         TableName: 'TrickShare-Tricks',
         Item: trick
       }));
+
+      // Update user stats if authorId provided
+      if (req.body.authorId && req.body.authorId !== 'anonymous') {
+        try {
+          await docClient.send(new UpdateCommand({
+            TableName: 'TrickShare-Users',
+            Key: { userId: req.body.authorId },
+            UpdateExpression: 'ADD tricksSubmitted :inc SET score = if_not_exists(score, :zero) + :points',
+            ExpressionAttributeValues: {
+              ':inc': 1,
+              ':zero': 0,
+              ':points': 10 // 10 points for submitting a trick
+            }
+          }));
+        } catch (error) {
+          console.log('User stats update failed:', error);
+          // Don't fail the trick creation if user stats update fails
+        }
+      }
 
       res.status(201).json(trick);
     } else {
