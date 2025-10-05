@@ -1,13 +1,29 @@
 import { useState, useEffect } from 'react';
 import { getCurrentUser } from 'aws-amplify/auth';
 
+interface Notification {
+  id: string;
+  type: string;
+  message: string;
+  timestamp: string;
+  read: boolean;
+}
+
+interface Activity {
+  id: string;
+  type: string;
+  userName: string;
+  trickTitle: string;
+  timestamp: string;
+}
+
 export const useRealtime = () => {
-  const [notifications, setNotifications] = useState([]);
-  const [activities, setActivities] = useState([]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [activities, setActivities] = useState<Activity[]>([]);
 
   useEffect(() => {
     // Mock real-time data for now
-    const mockNotifications = [
+    const mockNotifications: Notification[] = [
       {
         id: '1',
         type: 'like',
