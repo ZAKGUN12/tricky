@@ -29,6 +29,9 @@ function HomeContent() {
   return (
     <div className="container">
       <header className="hero">
+        <div className="hero-decoration"></div>
+        <div className="hero-decoration"></div>
+        <div className="hero-decoration"></div>
         <h1>TrickShare</h1>
         <p>Discover life tricks from around the world</p>
       </header>
