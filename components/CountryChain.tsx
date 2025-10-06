@@ -53,13 +53,11 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
       
       <style jsx>{`
         .country-selector {
-          background: rgba(255, 255, 255, 0.95);
-          backdrop-filter: blur(12px);
+          background: #15202b;
+          border: 1px solid #38444d;
           border-radius: 16px;
-          padding: 20px;
+          padding: 16px;
           margin: 16px 0;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-          border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .selector-header {
@@ -68,24 +66,20 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
           align-items: center;
           margin-bottom: 16px;
           padding-bottom: 12px;
-          border-bottom: 2px solid rgba(102, 126, 234, 0.1);
+          border-bottom: 1px solid #38444d;
         }
         
         .selector-header h4 {
           margin: 0;
           font-size: 1.1rem;
           font-weight: 700;
-          color: #2d3748;
-          background: linear-gradient(135deg, #667eea, #764ba2);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
+          color: #ffffff;
         }
         
         .total-countries {
           font-size: 0.85rem;
-          color: #718096;
-          background: rgba(102, 126, 234, 0.1);
+          color: #8b98a5;
+          background: rgba(29, 155, 240, 0.1);
           padding: 4px 12px;
           border-radius: 20px;
           font-weight: 600;
@@ -105,12 +99,11 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
         }
         
         .countries-grid::-webkit-scrollbar-track {
-          background: rgba(0, 0, 0, 0.05);
-          border-radius: 2px;
+          background: #15202b;
         }
         
         .countries-grid::-webkit-scrollbar-thumb {
-          background: rgba(102, 126, 234, 0.3);
+          background: #38444d;
           border-radius: 2px;
         }
         
@@ -119,14 +112,14 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
           align-items: center;
           gap: 8px;
           padding: 8px 12px;
-          background: rgba(255, 255, 255, 0.8);
-          border: 1.5px solid rgba(226, 232, 240, 0.8);
+          background: #15202b;
+          border: 1px solid #38444d;
           border-radius: 12px;
           cursor: pointer;
           transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
           font-size: 0.85rem;
           font-weight: 500;
-          color: #4a5568;
+          color: #ffffff;
           position: relative;
           overflow: hidden;
         }
@@ -138,15 +131,14 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
           left: -100%;
           width: 100%;
           height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+          background: linear-gradient(90deg, transparent, rgba(29, 155, 240, 0.1), transparent);
           transition: left 0.5s ease;
         }
         
         .country-pill:hover {
           transform: translateY(-2px);
-          box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
-          border-color: rgba(102, 126, 234, 0.4);
-          background: rgba(255, 255, 255, 1);
+          border-color: #1d9bf0;
+          background: #1e2732;
         }
         
         .country-pill:hover::before {
@@ -154,11 +146,10 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
         }
         
         .country-pill.active {
-          background: linear-gradient(135deg, #667eea, #764ba2);
-          border-color: #667eea;
+          background: #1d9bf0;
+          border-color: #1d9bf0;
           color: white;
           transform: translateY(-1px);
-          box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
         }
         
         .country-pill.active .pill-count {
@@ -168,13 +159,13 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
         
         .all-countries {
           grid-column: 1 / -1;
-          background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
-          border-color: rgba(102, 126, 234, 0.3);
+          background: #1e2732;
+          border-color: #38444d;
           font-weight: 600;
         }
         
         .all-countries.active {
-          background: linear-gradient(135deg, #2d3748, #4a5568);
+          background: #1d9bf0;
         }
         
         .pill-icon, .pill-flag {
@@ -191,8 +182,8 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
         }
         
         .pill-count {
-          background: rgba(102, 126, 234, 0.15);
-          color: #667eea;
+          background: rgba(29, 155, 240, 0.2);
+          color: #1d9bf0;
           padding: 2px 8px;
           border-radius: 10px;
           font-size: 0.75rem;

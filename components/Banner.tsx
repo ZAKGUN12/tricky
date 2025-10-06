@@ -14,12 +14,11 @@ export default function Banner() {
       
       <style jsx>{`
         .banner {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: linear-gradient(135deg, #1d9bf0 0%, #1a8cd8 100%);
           color: white;
-          padding: 12px 20px;
-          margin-bottom: 16px;
-          border-radius: 12px;
-          box-shadow: 0 4px 20px rgba(102, 126, 234, 0.25);
+          padding: 12px 16px;
+          margin-bottom: 0;
+          border-bottom: 1px solid #38444d;
           position: relative;
           overflow: hidden;
         }
@@ -85,7 +84,7 @@ export default function Banner() {
         
         @media (max-width: 768px) {
           .banner {
-            padding: 10px 16px;
+            padding: 10px 12px;
           }
           
           .banner-content {
