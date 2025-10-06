@@ -1,10 +1,49 @@
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { mockTricks, countries } from '../lib/mockData';
+import { countries } from '../lib/mockData';
+
+interface Trick {
+  id: string;
+  title: string;
+  kudos: number;
+  views: number;
+  comments: number;
+  countryCode: string;
+}
 
 export default function TopTricks() {
-  const topTricks = (mockTricks || [])
-    .sort((a, b) => b.kudos - a.kudos)
-    .slice(0, 10);
+  const [topTricks, setTopTricks] = useState<Trick[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchTopTricks();
+  }, []);
+
+  const fetchTopTricks = async () => {
+    try {
+      const response = await fetch('/api/tricks/top');
+      if (response.ok) {
+        const data = await response.json();
+        setTopTricks(data);
+      }
+    } catch (error) {
+      console.error('Error fetching top tricks:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="top-tricks">
+        <div className="section-header">
+          <h3>🔥 Top 10 Tricks</h3>
+          <div className="header-line"></div>
+        </div>
+        <div className="loading">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="top-tricks">
@@ -34,9 +73,9 @@ export default function TopTricks() {
                   <div className="trick-title">{trick.title}</div>
                   
                   <div className="trick-stats">
-                    <span className="stat">👍 {trick.kudos}</span>
-                    <span className="stat">👁️ {trick.views}</span>
-                    <span className="stat">💬 {trick.comments}</span>
+                    <span className="stat">👍 {trick.kudos || 0}</span>
+                    <span className="stat">👁️ {trick.views || 0}</span>
+                    <span className="stat">💬 {trick.comments || 0}</span>
                   </div>
                 </div>
                 
@@ -81,6 +120,12 @@ export default function TopTricks() {
           right: 0;
           height: 2px;
           background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .loading {
+          padding: 20px;
+          text-align: center;
+          color: #666;
         }
         
         .top-list {
