@@ -45,7 +45,7 @@ function SubmitContent() {
         difficulty: formData.difficulty,
         tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
         authorName: user?.signInDetails?.loginId || 'Anonymous',
-        authorId: user?.userId || 'anonymous'
+        authorEmail: user?.signInDetails?.loginId || 'anonymous'
       };
       
       await TrickShareAPI.createTrick(trickData);

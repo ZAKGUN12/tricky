@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 
 interface UserStatsProps {
-  userId: string;
+  userEmail: string;
 }
 
 interface UserStats {
@@ -10,13 +10,13 @@ interface UserStats {
   kudosReceived: number;
 }
 
-export default function UserStats({ userId }: UserStatsProps) {
+export default function UserStats({ userEmail }: UserStatsProps) {
   const [stats, setStats] = useState<UserStats>({ score: 0, tricksSubmitted: 0, kudosReceived: 0 });
   const [loading, setLoading] = useState(true);
 
   const fetchStats = useCallback(async () => {
     try {
-      const response = await fetch(`/api/user/stats?userId=${userId}`);
+      const response = await fetch(`/api/user/stats?email=${encodeURIComponent(userEmail)}`);
       if (response.ok) {
         const data = await response.json();
         setStats(data);
@@ -26,7 +26,7 @@ export default function UserStats({ userId }: UserStatsProps) {
     } finally {
       setLoading(false);
     }
-  }, [userId]);
+  }, [userEmail]);
 
   useEffect(() => {
     fetchStats();

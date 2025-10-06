@@ -36,12 +36,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         Item: trick
       }));
 
-      // Update user stats if authorId provided
-      if (req.body.authorId && req.body.authorId !== 'anonymous') {
+      // Update user stats if authorEmail provided
+      if (req.body.authorEmail && req.body.authorEmail !== 'anonymous') {
         try {
           await docClient.send(new UpdateCommand({
             TableName: 'TrickShare-Users',
-            Key: { userId: req.body.authorId },
+            Key: { email: req.body.authorEmail },
             UpdateExpression: 'ADD tricksSubmitted :inc SET score = if_not_exists(score, :zero) + :points',
             ExpressionAttributeValues: {
               ':inc': 1,

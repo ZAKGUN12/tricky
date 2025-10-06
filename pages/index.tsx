@@ -65,7 +65,7 @@ function HomeContent() {
         <div className="auth-header">
           <div className="user-info">
             <span>Welcome, {user.signInDetails?.loginId || 'User'}!</span>
-            <UserStats userId={user.userId} />
+            <UserStats userEmail={user.signInDetails?.loginId || user.username || ''} />
           </div>
           <button onClick={signOut} className="sign-out-btn">
             Sign Out

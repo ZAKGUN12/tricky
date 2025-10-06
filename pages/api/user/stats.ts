@@ -11,22 +11,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const { userId } = req.query;
+    const { email } = req.query;
 
-    if (!userId) {
-      return res.status(400).json({ error: 'User ID required' });
+    if (!email) {
+      return res.status(400).json({ error: 'Email required' });
     }
 
     // Get user stats
     const result = await docClient.send(new GetCommand({
       TableName: 'TrickShare-Users',
-      Key: { userId: userId as string }
+      Key: { email: email as string }
     }));
 
     if (!result.Item) {
       // Create initial user stats
       const initialStats = {
-        userId: userId as string,
+        email: email as string,
         score: 0,
         tricksSubmitted: 0,
         kudosReceived: 0,
