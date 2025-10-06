@@ -9,11 +9,16 @@ body {
   background: #15202b;
   color: #ffffff;
   height: 100vh;
+  height: 100dvh; /* Dynamic viewport height for mobile */
   overflow: hidden;
+  -webkit-text-size-adjust: 100%; /* Prevent text scaling on iOS */
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight */
+  touch-action: manipulation; /* Improve touch responsiveness */
 }
 
 .container {
   height: 100vh;
+  height: 100dvh; /* Dynamic viewport height for mobile */
   display: flex;
   flex-direction: column;
 }
@@ -413,28 +418,179 @@ body {
   color: #ffffff;
 }
 
-/* Responsive */
+/* Mobile-First Responsive */
 @media (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+  }
+  
+  .container {
+    height: 100vh;
+    height: 100dvh; /* Dynamic viewport height for mobile */
+  }
+  
+  .compact-header {
+    padding: 6px 12px;
+  }
+  
+  .compact-header h1 {
+    font-size: 18px;
+  }
+  
+  .tricks-counter {
+    font-size: 12px;
+  }
+  
   .main-content {
     flex-direction: column;
+    height: calc(100vh - 60px);
+    height: calc(100dvh - 60px);
   }
   
   .sidebar {
     width: 100%;
-    height: auto;
+    height: 200px;
     border-right: none;
     border-bottom: 1px solid #38444d;
+    overflow-x: auto;
+    overflow-y: hidden;
+    display: flex;
+    gap: 8px;
+    padding: 8px;
   }
   
-  .compact-header {
-    padding: 8px 12px;
+  .sidebar > * {
+    min-width: 250px;
+    flex-shrink: 0;
+  }
+  
+  .feed-container {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
   
   .trick-card {
-    padding: 12px;
+    padding: 8px 12px;
+    margin-bottom: 4px;
+    border-radius: 6px;
+  }
+  
+  .card-header {
+    gap: 6px;
+    margin-bottom: 3px;
+  }
+  
+  .country-flag {
+    font-size: 14px;
+  }
+  
+  .author-name {
+    font-size: 13px;
+  }
+  
+  .country-name {
+    font-size: 12px;
+  }
+  
+  .trick-title {
+    font-size: 14px;
+    margin-bottom: 3px;
+  }
+  
+  .trick-description {
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+  
+  .card-actions {
+    max-width: none;
+    gap: 8px;
+  }
+  
+  .action-btn {
+    padding: 6px;
+    font-size: 12px;
+    min-height: 44px; /* Touch target */
+  }
+  
+  .view-link {
+    padding: 6px 12px;
+    font-size: 12px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
   }
   
   .controls {
-    padding: 12px;
+    padding: 8px 12px;
+  }
+  
+  .search-input {
+    padding: 10px 14px;
+    font-size: 16px; /* Prevent zoom on iOS */
+    border-radius: 8px;
+  }
+  
+  /* Banner mobile */
+  .banner {
+    padding: 8px 12px;
+  }
+  
+  .banner-content {
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+  }
+  
+  .banner-message {
+    font-size: 13px;
+  }
+  
+  .stat {
+    font-size: 11px;
+    padding: 2px 6px;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  .compact-header {
+    padding: 4px 8px;
+  }
+  
+  .compact-header h1 {
+    font-size: 16px;
+  }
+  
+  .sidebar {
+    height: 150px;
+    padding: 6px;
+  }
+  
+  .sidebar > * {
+    min-width: 200px;
+  }
+  
+  .trick-card {
+    padding: 6px 8px;
+  }
+  
+  .trick-title {
+    font-size: 13px;
+  }
+  
+  .trick-description {
+    font-size: 12px;
+  }
+  
+  .action-btn {
+    font-size: 11px;
+    padding: 4px;
+  }
+  
+  .view-link {
+    font-size: 11px;
+    padding: 4px 8px;
   }
 }
