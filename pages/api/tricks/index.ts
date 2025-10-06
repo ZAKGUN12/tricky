@@ -1,66 +1,133 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, ScanCommand, PutCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
+import { rateLimit } from '../../../lib/rateLimit';
+import { validateTrick } from '../../../lib/validation';
+import { logger } from '../../../lib/logger';
+import { cache } from '../../../lib/cache';
 
 const client = new DynamoDBClient({ region: process.env.AWS_REGION || 'eu-west-1' });
 const docClient = DynamoDBDocumentClient.from(client);
 
+// Rate limiting middleware
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  maxRequests: 100 // limit each IP to 100 requests per windowMs
+});
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  // Apply rate limiting
+  await new Promise<void>((resolve) => {
+    limiter(req, res, resolve);
+  });
+
   try {
     if (req.method === 'GET') {
-      const { country, search, difficulty } = req.query;
-      
-      const command = new ScanCommand({
-        TableName: 'TrickShare-Tricks',
-        FilterExpression: buildFilterExpression({ country, search, difficulty }),
-        ExpressionAttributeValues: buildExpressionValues({ country, search, difficulty })
-      });
-
-      const result = await docClient.send(command);
-      res.status(200).json(result.Items || []);
-      
+      return await handleGet(req, res);
     } else if (req.method === 'POST') {
-      const trick = {
-        id: Date.now().toString(),
-        ...req.body,
-        createdAt: new Date().toISOString(),
-        kudos: 0,
-        views: 0,
-        comments: 0,
-        status: 'approved'
-      };
-
-      // Save trick
-      await docClient.send(new PutCommand({
-        TableName: 'TrickShare-Tricks',
-        Item: trick
-      }));
-
-      // Update user stats if authorEmail provided
-      if (req.body.authorEmail && req.body.authorEmail !== 'anonymous') {
-        try {
-          await docClient.send(new UpdateCommand({
-            TableName: 'TrickShare-Users',
-            Key: { email: req.body.authorEmail },
-            UpdateExpression: 'ADD tricksSubmitted :inc SET score = if_not_exists(score, :zero) + :points',
-            ExpressionAttributeValues: {
-              ':inc': 1,
-              ':zero': 0,
-              ':points': 10 // 10 points for submitting a trick
-            }
-          }));
-        } catch (error) {
-          console.log('User stats update failed:', error);
-          // Don't fail the trick creation if user stats update fails
-        }
-      }
-
-      res.status(201).json(trick);
+      return await handlePost(req, res);
     } else {
       res.status(405).json({ error: 'Method not allowed' });
     }
   } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
+    logger.error('API Error in /api/tricks', { 
+      error: (error as Error).message, 
+      method: req.method,
+      ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress
+    });
+    
+    res.status(500).json({ 
+      error: 'Internal server error',
+      message: process.env.NODE_ENV === 'development' ? (error as Error).message : undefined
+    });
+  }
+}
+
+async function handleGet(req: NextApiRequest, res: NextApiResponse) {
+  const { country, search, difficulty } = req.query;
+  const cacheKey = `tricks:${JSON.stringify(req.query)}`;
+  
+  // Check cache first
+  const cached = cache.get(cacheKey);
+  if (cached) {
+    logger.info('Cache hit for tricks query');
+    return res.status(200).json(cached);
+  }
+  
+  const command = new ScanCommand({
+    TableName: 'TrickShare-Tricks',
+    FilterExpression: buildFilterExpression({ country, search, difficulty }),
+    ExpressionAttributeValues: buildExpressionValues({ country, search, difficulty })
+  });
+
+  const result = await docClient.send(command);
+  const tricks = result.Items || [];
+  
+  // Cache for 5 minutes
+  cache.set(cacheKey, tricks, 300);
+  
+  logger.info('Tricks fetched successfully', { count: tricks.length });
+  res.status(200).json(tricks);
+}
+
+async function handlePost(req: NextApiRequest, res: NextApiResponse) {
+  try {
+    // Validate and sanitize input
+    const validatedData = validateTrick(req.body);
+    
+    const trick = {
+      id: Date.now().toString(),
+      ...validatedData,
+      createdAt: new Date().toISOString(),
+      kudos: 0,
+      views: 0,
+      comments: 0,
+      status: 'approved'
+    };
+
+    // Save trick
+    await docClient.send(new PutCommand({
+      TableName: 'TrickShare-Tricks',
+      Item: trick
+    }));
+
+    // Update user stats if authorEmail provided
+    if (validatedData.authorEmail && validatedData.authorEmail !== 'anonymous') {
+      try {
+        await docClient.send(new UpdateCommand({
+          TableName: 'TrickShare-Users',
+          Key: { email: validatedData.authorEmail },
+          UpdateExpression: 'ADD tricksSubmitted :inc SET score = if_not_exists(score, :zero) + :points',
+          ExpressionAttributeValues: {
+            ':inc': 1,
+            ':zero': 0,
+            ':points': 10
+          }
+        }));
+      } catch (error) {
+        logger.warn('User stats update failed', { error: (error as Error).message });
+      }
+    }
+
+    // Clear relevant caches
+    cache.clear(); // Simple approach - clear all caches when new data is added
+    
+    logger.info('Trick created successfully', { 
+      id: trick.id, 
+      author: validatedData.authorEmail,
+      country: validatedData.countryCode
+    });
+    
+    res.status(201).json(trick);
+  } catch (error: any) {
+    if (error.name === 'ZodError') {
+      logger.warn('Validation error', { errors: error.errors });
+      return res.status(400).json({ 
+        error: 'Validation failed', 
+        details: error.errors 
+      });
+    }
+    throw error;
   }
 }
 
