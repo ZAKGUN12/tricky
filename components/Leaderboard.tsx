@@ -31,112 +31,211 @@ export default function Leaderboard() {
   };
 
   if (loading) {
-    return <div className="leaderboard loading">Loading leaderboard...</div>;
+    return (
+      <div className="leaderboard-frame">
+        <div className="section-header">
+          <h3>🏆 Top Contributors</h3>
+          <div className="header-line"></div>
+        </div>
+        <div className="loading">Loading...</div>
+      </div>
+    );
   }
 
   return (
-    <div className="leaderboard">
-      <h3>🏆 Top Contributors</h3>
-      {users.length === 0 ? (
-        <p>No contributors yet. Be the first!</p>
-      ) : (
-        <div className="leaderboard-list">
-          {users.map(user => (
-            <div key={user.rank} className={`leaderboard-item rank-${user.rank}`}>
-              <div className="rank">
-                {user.rank === 1 ? '🥇' : user.rank === 2 ? '🥈' : user.rank === 3 ? '🥉' : `#${user.rank}`}
+    <div className="leaderboard-frame">
+      <div className="section-header">
+        <h3>🏆 Top Contributors</h3>
+        <div className="header-line"></div>
+      </div>
+      
+      <div className="leaderboard-list">
+        {users.length === 0 ? (
+          <div className="empty-state">No contributors yet. Be the first!</div>
+        ) : (
+          users.map(user => (
+            <div key={user.rank} className={`leaderboard-item ${user.rank <= 3 ? 'top-three' : ''}`}>
+              <div className="rank-badge">
+                <span className="rank-number">#{user.rank}</span>
+                {user.rank <= 3 && (
+                  <span className="crown">
+                    {user.rank === 1 ? '👑' : user.rank === 2 ? '🥈' : '🥉'}
+                  </span>
+                )}
               </div>
+              
               <div className="user-info">
                 <div className="username">{user.username}</div>
-                <div className="stats">
-                  {user.tricksSubmitted} tricks • {user.kudosReceived} kudos
+                <div className="user-stats">
+                  <span className="stat">💡 {user.tricksSubmitted}</span>
+                  <span className="stat">👍 {user.kudosReceived}</span>
                 </div>
               </div>
-              <div className="score">{user.score} pts</div>
+              
+              <div className="score">{user.score}</div>
             </div>
-          ))}
-        </div>
-      )}
+          ))
+        )}
+      </div>
 
       <style jsx>{`
-        .leaderboard {
-          background: var(--glass-bg);
-          padding: var(--space-lg);
-          border-radius: var(--radius-lg);
-          backdrop-filter: blur(20px);
-          box-shadow: var(--glass-shadow);
-          border: 1px solid var(--glass-border);
+        .leaderboard-frame {
+          background: rgba(255, 255, 255, 0.95);
+          border-radius: 16px;
+          padding: 0;
+          margin-bottom: 30px;
+          backdrop-filter: blur(10px);
+          box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          overflow: hidden;
         }
-
-        .leaderboard h3 {
-          margin: 0 0 var(--space-lg) 0;
+        
+        .section-header {
+          background: linear-gradient(135deg, #667eea, #764ba2);
+          padding: 16px 20px;
+          color: white;
+          position: relative;
+        }
+        
+        .section-header h3 {
+          margin: 0;
+          font-size: 1.1rem;
+          font-weight: 700;
+        }
+        
+        .header-line {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 2px;
+          background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .loading, .empty-state {
+          padding: 20px;
           text-align: center;
-          background: var(--primary-gradient);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
+          color: #666;
         }
-
+        
+        .leaderboard-list {
+          padding: 8px;
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+        }
+        
         .leaderboard-item {
+          background: rgba(255, 255, 255, 0.8);
+          border: 1px solid rgba(0,0,0,0.08);
+          border-radius: 10px;
+          padding: 12px;
           display: flex;
           align-items: center;
-          padding: var(--space-md);
-          margin-bottom: var(--space-sm);
-          background: rgba(255, 255, 255, 0.5);
-          border-radius: var(--radius-md);
-          transition: all 0.3s ease;
+          gap: 12px;
+          transition: all 0.2s ease;
+          position: relative;
+          overflow: hidden;
         }
-
+        
+        .leaderboard-item::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 2px;
+          background: linear-gradient(90deg, #667eea, #764ba2);
+          opacity: 0;
+          transition: opacity 0.2s ease;
+        }
+        
         .leaderboard-item:hover {
           transform: translateY(-2px);
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 6px 20px rgba(102, 126, 234, 0.15);
+          border-color: rgba(102, 126, 234, 0.2);
         }
-
-        .rank-1 {
-          background: linear-gradient(135deg, #ffd700, #ffed4e);
-          color: #8b5a00;
+        
+        .leaderboard-item:hover::before {
+          opacity: 1;
         }
-
-        .rank-2 {
-          background: linear-gradient(135deg, #c0c0c0, #e8e8e8);
-          color: #666;
+        
+        .top-three {
+          background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 255, 255, 0.9));
+          border-color: rgba(255, 215, 0, 0.3);
         }
-
-        .rank-3 {
-          background: linear-gradient(135deg, #cd7f32, #daa520);
-          color: #5d4e37;
+        
+        .rank-badge {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          min-width: 35px;
         }
-
-        .rank {
-          font-size: var(--text-lg);
+        
+        .rank-number {
           font-weight: bold;
-          margin-right: var(--space-md);
-          min-width: 40px;
+          color: #667eea;
+          font-size: 0.9rem;
         }
-
+        
+        .crown {
+          font-size: 0.8rem;
+          margin-top: 2px;
+        }
+        
         .user-info {
           flex: 1;
+          min-width: 0;
         }
-
+        
         .username {
           font-weight: 600;
-          margin-bottom: var(--space-xs);
+          font-size: 0.85rem;
+          color: #2c3e50;
+          line-height: 1.2;
+          margin-bottom: 4px;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
         }
-
-        .stats {
-          font-size: var(--text-sm);
+        
+        .user-stats {
+          display: flex;
+          gap: 8px;
+        }
+        
+        .stat {
+          font-size: 0.7rem;
           color: #666;
+          background: rgba(0,0,0,0.05);
+          padding: 2px 6px;
+          border-radius: 8px;
         }
-
+        
         .score {
           font-weight: bold;
           color: #667eea;
-          font-size: var(--text-lg);
+          font-size: 0.9rem;
         }
-
-        .loading {
-          text-align: center;
-          padding: var(--space-xl);
-          color: #666;
+        
+        @media (max-width: 768px) {
+          .section-header {
+            padding: 12px 16px;
+          }
+          
+          .leaderboard-list {
+            padding: 6px;
+          }
+          
+          .leaderboard-item {
+            padding: 10px;
+            gap: 10px;
+          }
+          
+          .username {
+            font-size: 0.8rem;
+          }
         }
       `}</style>
     </div>
