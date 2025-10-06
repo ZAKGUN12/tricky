@@ -195,45 +195,68 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
         
         @media (max-width: 768px) {
           .country-selector {
-            padding: 16px;
-            margin: 12px 0;
+            padding: 8px;
+            margin: 8px 0;
+            min-height: 180px;
           }
           
           .selector-header {
-            flex-direction: column;
+            flex-direction: row;
             gap: 8px;
-            align-items: flex-start;
+            align-items: center;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+          }
+          
+          .selector-header h4 {
+            font-size: 0.9rem;
+          }
+          
+          .total-countries {
+            font-size: 0.7rem;
+            padding: 2px 6px;
           }
           
           .countries-grid {
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 6px;
-            max-height: 160px;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 4px;
+            max-height: 120px;
           }
           
           .country-pill {
-            padding: 6px 10px;
-            font-size: 0.8rem;
-            gap: 6px;
+            padding: 4px 6px;
+            font-size: 0.7rem;
+            gap: 4px;
           }
           
           .pill-icon, .pill-flag {
-            font-size: 1rem;
+            font-size: 0.8rem;
           }
           
           .pill-count {
-            font-size: 0.7rem;
-            padding: 1px 6px;
+            font-size: 0.6rem;
+            padding: 1px 4px;
+            min-width: 16px;
+          }
+          
+          .all-countries {
+            grid-column: 1 / -1;
           }
         }
         
         @media (max-width: 480px) {
           .countries-grid {
             grid-template-columns: 1fr 1fr;
+            gap: 3px;
           }
           
-          .all-countries {
-            grid-column: 1 / -1;
+          .country-pill {
+            padding: 3px 4px;
+            font-size: 0.65rem;
+          }
+          
+          .pill-count {
+            font-size: 0.55rem;
           }
         }
       `}</style>

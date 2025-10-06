@@ -268,25 +268,61 @@ export default function TopTricks() {
         }
         
         @media (max-width: 768px) {
+          .top-tricks {
+            margin-bottom: 0;
+            min-height: 180px;
+          }
+          
           .section-header {
-            padding: 12px 16px;
+            padding: 8px 12px;
+          }
+          
+          .section-header h3 {
+            font-size: 0.9rem;
           }
           
           .top-list {
-            padding: 6px;
+            padding: 4px;
+            gap: 3px;
           }
           
           .item-frame {
-            padding: 10px;
-            gap: 10px;
+            padding: 6px;
+            gap: 6px;
+          }
+          
+          .rank-badge {
+            min-width: 25px;
+          }
+          
+          .rank-number {
+            font-size: 0.7rem;
+          }
+          
+          .crown {
+            font-size: 0.6rem;
           }
           
           .trick-title {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
+            -webkit-line-clamp: 1;
           }
           
           .country-name {
             display: none;
+          }
+          
+          .trick-stats {
+            gap: 4px;
+          }
+          
+          .stat {
+            font-size: 0.6rem;
+            padding: 1px 3px;
+          }
+          
+          .trend-indicator {
+            font-size: 0.8rem;
           }
         }
       `}</style>
