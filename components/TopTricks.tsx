@@ -270,41 +270,44 @@ export default function TopTricks() {
         @media (max-width: 768px) {
           .top-tricks {
             margin-bottom: 0;
-            min-height: 180px;
+            min-height: 160px;
           }
           
           .section-header {
-            padding: 8px 12px;
+            padding: 6px 8px;
+            min-height: 32px;
           }
           
           .section-header h3 {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            white-space: nowrap;
           }
           
           .top-list {
             padding: 4px;
-            gap: 3px;
+            gap: 2px;
           }
           
           .item-frame {
-            padding: 6px;
-            gap: 6px;
+            padding: 4px;
+            gap: 4px;
           }
           
           .rank-badge {
-            min-width: 25px;
+            min-width: 20px;
           }
           
           .rank-number {
-            font-size: 0.7rem;
-          }
-          
-          .crown {
             font-size: 0.6rem;
           }
           
+          .crown {
+            font-size: 0.5rem;
+          }
+          
           .trick-title {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             -webkit-line-clamp: 1;
           }
           
@@ -313,16 +316,16 @@ export default function TopTricks() {
           }
           
           .trick-stats {
-            gap: 4px;
+            gap: 2px;
           }
           
           .stat {
-            font-size: 0.6rem;
-            padding: 1px 3px;
+            font-size: 0.55rem;
+            padding: 1px 2px;
           }
           
           .trend-indicator {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
           }
         }
       `}</style>

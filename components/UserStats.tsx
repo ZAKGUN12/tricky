@@ -168,39 +168,42 @@ export default function UserStats({ userEmail }: UserStatsProps) {
         @media (max-width: 768px) {
           .user-stats-frame {
             margin-bottom: 0;
-            min-height: 180px;
+            min-height: 160px;
           }
           
           .section-header {
-            padding: 8px 12px;
+            padding: 6px 8px;
+            min-height: 32px;
           }
           
           .section-header h3 {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            white-space: nowrap;
           }
           
           .stats-list {
             padding: 4px;
-            gap: 3px;
+            gap: 2px;
           }
           
           .stat-item {
-            padding: 6px;
-            gap: 6px;
+            padding: 4px;
+            gap: 4px;
           }
           
           .stat-icon {
-            width: 25px;
-            height: 25px;
-            font-size: 0.8rem;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
           }
           
           .stat-label {
-            font-size: 0.6rem;
+            font-size: 0.55rem;
           }
           
           .stat-value {
-            font-size: 0.8rem;
+            font-size: 0.65rem;
           }
         }
       `}</style>

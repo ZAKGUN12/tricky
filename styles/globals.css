@@ -277,6 +277,33 @@ body {
   background: #1a8cd8;
 }
 
+/* Mobile Submit Section - Compact */
+@media (max-width: 768px) {
+  .submit-section {
+    padding: 8px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #15202b;
+    border-top: 1px solid #38444d;
+    z-index: 100;
+  }
+  
+  .submit-btn {
+    padding: 8px 16px;
+    font-size: 13px;
+    border-radius: 16px;
+    width: auto;
+    min-width: 120px;
+  }
+  
+  /* Adjust feed container to account for fixed submit button */
+  .feed-container {
+    padding-bottom: 50px;
+  }
+}
+
 /* Modal */
 .modal-overlay {
   position: fixed;
@@ -449,7 +476,7 @@ body {
   
   .sidebar {
     width: 100%;
-    height: 200px;
+    height: 160px;
     border-right: none;
     border-bottom: 1px solid #38444d;
     overflow-x: auto;
@@ -460,7 +487,7 @@ body {
   }
   
   .sidebar > * {
-    min-width: 250px;
+    min-width: 200px;
     flex-shrink: 0;
   }
   
