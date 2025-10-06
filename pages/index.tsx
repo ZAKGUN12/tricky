@@ -8,6 +8,7 @@ import CountryChain from '../components/CountryChain';
 import TopTricks from '../components/TopTricks';
 import UserRace from '../components/UserRace';
 import UserStats from '../components/UserStats';
+import Leaderboard from '../components/Leaderboard';
 
 function HomeContent() {
   const { user, signOut } = useAuthenticator((context) => [context.user, context.signOut]);
@@ -114,6 +115,7 @@ function HomeContent() {
       <div className="main-content">
         <div className="left-sidebar">
           <TopTricks />
+          <Leaderboard />
         </div>
         
         <div className="feed">
