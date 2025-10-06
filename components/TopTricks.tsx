@@ -38,7 +38,7 @@ export default function TopTricks() {
   return (
     <div className="top-tricks">
       <div className="section-header">
-        <h3>🔥 Top 10 Tricks</h3>
+        <h3>🔥 Top 3 Tricks</h3>
         <div className="header-line"></div>
       </div>
       
@@ -53,15 +53,14 @@ export default function TopTricks() {
         </div>
       ) : (
         <div className="top-list">
-          {topTricks.map((trick, index) => {
+          {topTricks.slice(0, 3).map((trick, index) => {
             const country = countries.find(c => c.code === trick.countryCode);
-            const isTop3 = index < 3;
             return (
-              <Link key={trick.id} href={`/trick/${trick.id}`} className={`top-item ${isTop3 ? 'top-three' : ''}`}>
+              <Link key={trick.id} href={`/trick/${trick.id}`} className="top-item top-three">
                 <div className="item-frame">
                   <div className="rank-badge">
                     <span className="rank-number">#{index + 1}</span>
-                    {isTop3 && <span className="crown">{index === 0 ? '👑' : index === 1 ? '🥈' : '🥉'}</span>}
+                    <span className="crown">{index === 0 ? '👑' : index === 1 ? '🥈' : '🥉'}</span>
                   </div>
                   
                   <div className="trick-info">

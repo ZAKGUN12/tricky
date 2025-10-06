@@ -34,7 +34,7 @@ export default function Leaderboard() {
     return (
       <div className="leaderboard-frame">
         <div className="section-header">
-          <h3>🏆 Top Contributors</h3>
+          <h3>🏆 Top 3 Contributors</h3>
           <div className="header-line"></div>
         </div>
         <div className="loading">Loading...</div>
@@ -53,15 +53,13 @@ export default function Leaderboard() {
         {users.length === 0 ? (
           <div className="empty-state">No contributors yet. Be the first!</div>
         ) : (
-          users.map(user => (
-            <div key={user.rank} className={`leaderboard-item ${user.rank <= 3 ? 'top-three' : ''}`}>
+          users.slice(0, 3).map(user => (
+            <div key={user.rank} className="leaderboard-item top-three">
               <div className="rank-badge">
                 <span className="rank-number">#{user.rank}</span>
-                {user.rank <= 3 && (
-                  <span className="crown">
-                    {user.rank === 1 ? '👑' : user.rank === 2 ? '🥈' : '🥉'}
-                  </span>
-                )}
+                <span className="crown">
+                  {user.rank === 1 ? '👑' : user.rank === 2 ? '🥈' : '🥉'}
+                </span>
               </div>
               
               <div className="user-info">
