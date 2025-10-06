@@ -38,8 +38,9 @@ function HomeContent() {
   useEffect(() => {
     const filtered = tricks.filter(trick => 
       (!selectedCountry || trick.countryCode === selectedCountry) &&
-      (!searchQuery || trick.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-       trick.description.toLowerCase().includes(searchQuery.toLowerCase()))
+      (!searchQuery || 
+        (trick.title && trick.title.toLowerCase().includes(searchQuery.toLowerCase())) || 
+        (trick.description && trick.description.toLowerCase().includes(searchQuery.toLowerCase())))
     );
     setFilteredTricks(filtered);
   }, [selectedCountry, searchQuery, tricks]);
