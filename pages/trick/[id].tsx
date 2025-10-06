@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react';
@@ -14,29 +14,31 @@ function TrickDetailContent() {
   const [trick, setTrick] = useState<Trick | null>(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
 
-  const loadTrick = useCallback(async () => {
+  useEffect(() => {
+    if (id) {
+      loadTrick();
+      incrementViews();
+    }
+  }, [id]);
+
+  const loadTrick = async () => {
+    if (!id) return;
     try {
       const data = await TrickShareAPI.getTrick(id as string);
       setTrick(data);
     } catch (error) {
       console.error('Error loading trick:', error);
     }
-  }, [id]);
+  };
 
-  const incrementViews = useCallback(async () => {
+  const incrementViews = async () => {
+    if (!id) return;
     try {
       await fetch(`/api/tricks/${id}/view`, { method: 'POST' });
     } catch (error) {
       console.error('Error incrementing views:', error);
     }
-  }, [id]);
-
-  useEffect(() => {
-    if (id) {
-      loadTrick();
-      incrementViews();
-    }
-  }, [id, loadTrick, incrementViews]);
+  };
 
   const handleKudos = async () => {
     if (!user) {
