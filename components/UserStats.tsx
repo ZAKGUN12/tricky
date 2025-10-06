@@ -79,18 +79,16 @@ export default function UserStats({ userEmail }: UserStatsProps) {
 
       <style jsx>{`
         .user-stats-frame {
-          background: rgba(255, 255, 255, 0.95);
+          background: #192734;
+          border: 1px solid #38444d;
           border-radius: 16px;
           padding: 0;
           margin-bottom: 30px;
-          backdrop-filter: blur(10px);
-          box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-          border: 1px solid rgba(255, 255, 255, 0.2);
           overflow: hidden;
         }
         
         .section-header {
-          background: linear-gradient(135deg, #667eea, #764ba2);
+          background: linear-gradient(135deg, #1d9bf0, #1a8cd8);
           padding: 16px 20px;
           color: white;
           position: relative;
@@ -114,7 +112,7 @@ export default function UserStats({ userEmail }: UserStatsProps) {
         .loading {
           padding: 20px;
           text-align: center;
-          color: #666;
+          color: #8b98a5;
         }
         
         .stats-list {
@@ -125,8 +123,8 @@ export default function UserStats({ userEmail }: UserStatsProps) {
         }
         
         .stat-item {
-          background: rgba(255, 255, 255, 0.8);
-          border: 1px solid rgba(0,0,0,0.08);
+          background: #15202b;
+          border: 1px solid #38444d;
           border-radius: 10px;
           padding: 12px;
           display: flex;
@@ -136,9 +134,7 @@ export default function UserStats({ userEmail }: UserStatsProps) {
         }
         
         .stat-item:hover {
-          transform: translateY(-1px);
-          box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
-          border-color: rgba(102, 126, 234, 0.2);
+          border-color: #1d9bf0;
         }
         
         .stat-icon {
@@ -148,7 +144,7 @@ export default function UserStats({ userEmail }: UserStatsProps) {
           display: flex;
           align-items: center;
           justify-content: center;
-          background: rgba(102, 126, 234, 0.1);
+          background: rgba(29, 155, 240, 0.1);
           border-radius: 50%;
         }
         
@@ -158,7 +154,7 @@ export default function UserStats({ userEmail }: UserStatsProps) {
         
         .stat-label {
           font-size: 0.75rem;
-          color: #666;
+          color: #8b98a5;
           font-weight: 500;
           margin-bottom: 2px;
         }
@@ -166,7 +162,7 @@ export default function UserStats({ userEmail }: UserStatsProps) {
         .stat-value {
           font-size: 1.1rem;
           font-weight: 700;
-          color: #667eea;
+          color: #ffffff;
         }
         
         @media (max-width: 768px) {

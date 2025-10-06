@@ -90,19 +90,17 @@ export default function TopTricks() {
 
       <style jsx>{`
         .top-tricks {
-          background: rgba(255, 255, 255, 0.95);
+          background: #192734;
+          border: 1px solid #38444d;
           border-radius: 16px;
           padding: 0;
           margin-bottom: 30px;
-          backdrop-filter: blur(10px);
-          box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-          border: 1px solid rgba(255, 255, 255, 0.2);
           overflow: hidden;
           min-height: 200px;
         }
         
         .section-header {
-          background: linear-gradient(135deg, #667eea, #764ba2);
+          background: linear-gradient(135deg, #1d9bf0, #1a8cd8);
           padding: 16px 20px;
           color: white;
           position: relative;
@@ -126,7 +124,7 @@ export default function TopTricks() {
         .loading, .empty-state {
           padding: 40px 20px;
           text-align: center;
-          color: #666;
+          color: #8b98a5;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -136,8 +134,8 @@ export default function TopTricks() {
         .spinner {
           width: 20px;
           height: 20px;
-          border: 2px solid #f3f3f3;
-          border-top: 2px solid #667eea;
+          border: 2px solid #38444d;
+          border-top: 2px solid #1d9bf0;
           border-radius: 50%;
           animation: spin 1s linear infinite;
         }
@@ -162,8 +160,8 @@ export default function TopTricks() {
         }
         
         .item-frame {
-          background: rgba(255, 255, 255, 0.8);
-          border: 1px solid rgba(0,0,0,0.08);
+          background: #15202b;
+          border: 1px solid #38444d;
           border-radius: 10px;
           padding: 12px;
           display: flex;
@@ -181,15 +179,13 @@ export default function TopTricks() {
           left: 0;
           right: 0;
           height: 2px;
-          background: linear-gradient(90deg, #667eea, #764ba2);
+          background: linear-gradient(90deg, #1d9bf0, #1a8cd8);
           opacity: 0;
           transition: opacity 0.2s ease;
         }
         
         .top-item:hover .item-frame {
-          transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(102, 126, 234, 0.15);
-          border-color: rgba(102, 126, 234, 0.2);
+          border-color: #1d9bf0;
         }
         
         .top-item:hover .item-frame::before {
@@ -197,8 +193,8 @@ export default function TopTricks() {
         }
         
         .top-three .item-frame {
-          background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 255, 255, 0.9));
-          border-color: rgba(255, 215, 0, 0.3);
+          background: #192734;
+          border-color: #1d9bf0;
         }
         
         .rank-badge {
@@ -210,7 +206,7 @@ export default function TopTricks() {
         
         .rank-number {
           font-weight: bold;
-          color: #667eea;
+          color: #1d9bf0;
           font-size: 0.9rem;
         }
         
@@ -237,14 +233,14 @@ export default function TopTricks() {
         
         .country-name {
           font-size: 0.75rem;
-          color: #666;
+          color: #8b98a5;
           font-weight: 500;
         }
         
         .trick-title {
           font-weight: 600;
           font-size: 0.85rem;
-          color: #2c3e50;
+          color: #ffffff;
           line-height: 1.2;
           margin-bottom: 6px;
           display: -webkit-box;
@@ -260,8 +256,8 @@ export default function TopTricks() {
         
         .stat {
           font-size: 0.7rem;
-          color: #666;
-          background: rgba(0,0,0,0.05);
+          color: #8b98a5;
+          background: rgba(29, 155, 240, 0.1);
           padding: 2px 6px;
           border-radius: 8px;
         }
