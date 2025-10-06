@@ -9,6 +9,7 @@ import TopTricks from '../components/TopTricks';
 import UserRace from '../components/UserRace';
 import UserStats from '../components/UserStats';
 import Leaderboard from '../components/Leaderboard';
+import ReadabilityEnhancer from '../components/ReadabilityEnhancer';
 
 function HomeContent() {
   const { user, signOut } = useAuthenticator((context) => [context.user, context.signOut]);
@@ -69,210 +70,193 @@ function HomeContent() {
   };
 
   return (
-    <div className="container">
-      {user && (
-        <div className="auth-header">
-          <div className="user-info">
-            <span>Welcome, {user.signInDetails?.loginId || 'User'}!</span>
-            <UserStats userEmail={user.signInDetails?.loginId || user.username || ''} />
-          </div>
-          <button onClick={signOut} className="sign-out-btn">
-            Sign Out
-          </button>
-        </div>
-      )}
-
-      <header className="compact-header">
-        <div className="header-content">
-          <h1>TrickShare</h1>
-          <div className="tricks-counter">
-            <span className="counter-number">{tricks.length}</span>
-            <span className="counter-label">tricks</span>
-          </div>
-        </div>
-      </header>
-
-      <div className="main-content">
-        <div className="sidebar">
-          <TopTricks />
-          <Leaderboard />
-        </div>
-        
-        <div className="feed-container">
-          <div className="controls">
-            <input
-              type="text"
-              placeholder="🔍 Search tricks..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="search-input"
-            />
-          </div>
-
-          <CountryChain 
-            selectedCountry={selectedCountry}
-            onCountrySelect={setSelectedCountry}
-            tricks={tricks}
-          />
-
-          {loading ? (
-            <div className="loading">Loading tricks...</div>
-          ) : (
-            <div className="tricks-feed">
-              {filteredTricks.map(trick => {
-                const country = countries.find(c => c.code === trick.countryCode);
-                return (
-                  <div key={trick.id} className="trick-card">
-                    <div className="card-header">
-                      <div className="author-info">
-                        <span className="country-flag">{country?.flag}</span>
-                        <div className="author-details">
-                          <span className="author-name">{trick.authorName || 'Anonymous'}</span>
-                          <span className="country-name">from {country?.name}</span>
-                        </div>
-                      </div>
-                      <div className="difficulty-badge">
-                        {trick.difficulty === 'easy' ? '🟢' : 
-                         trick.difficulty === 'medium' ? '🟡' : '🔴'}
-                      </div>
-                    </div>
-                    
-                    <h3 className="trick-title">{trick.title}</h3>
-                    <p className="trick-description">{trick.description}</p>
-                    
-                    <div className="trick-tags">
-                      {(trick.tags || []).slice(0, 3).map(tag => (
-                        <span key={tag} className="tag">#{tag}</span>
-                      ))}
-                    </div>
-                    
-                    <div className="card-actions">
-                      <button 
-                        onClick={() => handleKudos(trick.id)}
-                        className="action-btn kudos"
-                      >
-                        👍 {trick.kudos}
-                      </button>
-                      <span className="action-btn">💬 {trick.comments}</span>
-                      <span className="action-btn">👁️ {trick.views}</span>
-                      <Link href={`/trick/${trick.id}`} className="view-link">
-                        View →
-                      </Link>
-                    </div>
-                  </div>
-                );
-              })}
+    <ReadabilityEnhancer>
+      <div className="container">
+        {user && (
+          <div className="auth-header">
+            <div className="user-info">
+              <span>Welcome, {user.signInDetails?.loginId || 'User'}!</span>
+              <UserStats userEmail={user.signInDetails?.loginId || user.username || ''} />
             </div>
+            <button onClick={signOut} className="sign-out-btn">
+              Sign Out
+            </button>
+          </div>
+        )}
+
+        <header className="compact-header">
+          <div className="header-content">
+            <h1>TrickShare</h1>
+            <div className="tricks-counter">
+              <span className="counter-number">{tricks.length}</span>
+              <span className="counter-label">tricks</span>
+            </div>
+          </div>
+        </header>
+
+        <div className="main-content">
+          <div className="sidebar">
+            <TopTricks />
+            <Leaderboard />
+          </div>
+          
+          <div className="feed-container">
+            <div className="controls">
+              <input
+                type="text"
+                placeholder="🔍 Search tricks..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="search-input"
+                aria-label="Search tricks"
+              />
+            </div>
+
+            <CountryChain 
+              selectedCountry={selectedCountry}
+              onCountrySelect={setSelectedCountry}
+              tricks={tricks}
+            />
+
+            {loading ? (
+              <div className="loading" role="status" aria-live="polite">
+                <div className="loading-spinner"></div>
+                <span>Loading amazing tricks...</span>
+              </div>
+            ) : (
+              <div className="tricks-feed" role="main">
+                {filteredTricks.map(trick => {
+                  const country = countries.find(c => c.code === trick.countryCode);
+                  return (
+                    <article key={trick.id} className="trick-card">
+                      <header className="card-header">
+                        <div className="author-info">
+                          <span className="country-flag" role="img" aria-label={`Flag of ${country?.name}`}>
+                            {country?.flag}
+                          </span>
+                          <div className="author-details">
+                            <span className="author-name">{trick.authorName || 'Anonymous'}</span>
+                            <span className="country-name">from {country?.name}</span>
+                          </div>
+                        </div>
+                        <div className="difficulty-badge" title={`Difficulty: ${trick.difficulty}`}>
+                          {trick.difficulty === 'easy' ? '🟢' : 
+                           trick.difficulty === 'medium' ? '🟡' : '🔴'}
+                        </div>
+                      </header>
+                      
+                      <h2 className="trick-title">{trick.title}</h2>
+                      <p className="trick-description">{trick.description}</p>
+                      
+                      <div className="trick-tags">
+                        {(trick.tags || []).slice(0, 3).map(tag => (
+                          <span key={tag} className="tag">#{tag}</span>
+                        ))}
+                      </div>
+                      
+                      <footer className="card-actions">
+                        <button 
+                          onClick={() => handleKudos(trick.id)}
+                          className="action-btn kudos"
+                          aria-label={`Give kudos to ${trick.title}`}
+                        >
+                          👍 {trick.kudos}
+                        </button>
+                        <span className="action-btn" aria-label={`${trick.comments} comments`}>
+                          💬 {trick.comments}
+                        </span>
+                        <span className="action-btn" aria-label={`${trick.views} views`}>
+                          👁️ {trick.views}
+                        </span>
+                        <Link 
+                          href={`/trick/${trick.id}`} 
+                          className="view-link"
+                          aria-label={`View full details of ${trick.title}`}
+                        >
+                          View →
+                        </Link>
+                      </footer>
+                    </article>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {filteredTricks.length === 0 && !loading && (
+          <div className="empty-state" role="status">
+            <h3>No tricks found</h3>
+            <p>Try adjusting your search or filters to discover more tricks!</p>
+          </div>
+        )}
+
+        <div className="submit-section">
+          {user ? (
+            <Link href="/submit" className="submit-btn">
+              + Share Your Trick
+            </Link>
+          ) : (
+            <button onClick={() => setShowAuthModal(true)} className="submit-btn">
+              + Share Your Trick
+            </button>
           )}
         </div>
-      </div>
 
-      {filteredTricks.length === 0 && (
-        <div className="empty-state">
-          <p>No tricks found. Try adjusting your filters.</p>
-        </div>
-      )}
-
-      <div className="submit-section">
-        {user ? (
-          <Link href="/submit" className="submit-btn">
-            + Share Your Trick
-          </Link>
-        ) : (
-          <button onClick={() => setShowAuthModal(true)} className="submit-btn">
-            + Share Your Trick
-          </button>
-        )}
-      </div>
-
-      {showAuthModal && (
-        <div className="modal-overlay" onClick={() => setShowAuthModal(false)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h2>Login Required</h2>
-            <p>Please sign in to share tricks and give kudos.</p>
-            <div className="modal-actions">
-              <button onClick={() => setShowAuthModal(false)} className="cancel-btn">
-                Cancel
-              </button>
-              <Link href="/login" className="login-btn">
-                Sign In
-              </Link>
+        {showAuthModal && (
+          <div className="modal-overlay" onClick={() => setShowAuthModal(false)}>
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+              <h2>Login Required</h2>
+              <p>Please sign in to share tricks and give kudos.</p>
+              <div className="modal-actions">
+                <button onClick={() => setShowAuthModal(false)} className="cancel-btn">
+                  Cancel
+                </button>
+                <Link href="/login" className="login-btn">
+                  Sign In
+                </Link>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-      <style jsx>{`
-        .auth-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: var(--space-md) var(--space-lg);
-          background: var(--glass-bg);
-          border-bottom: 1px solid var(--glass-border);
-          backdrop-filter: blur(20px);
-          margin-bottom: var(--space-lg);
-        }
+        <style jsx>{`
+          .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-4);
+            padding: var(--space-8);
+            color: var(--gray-600);
+          }
 
-        .sign-out-btn {
-          background: #e53e3e;
-          color: white;
-          border: none;
-          padding: var(--space-sm) var(--space-lg);
-          border-radius: var(--radius-md);
-          cursor: pointer;
-          font-weight: 600;
-        }
+          .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--gray-200);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+          }
 
-        .modal-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(0, 0, 0, 0.5);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          z-index: 1000;
-        }
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
 
-        .modal-content {
-          background: white;
-          padding: var(--space-xl);
-          border-radius: var(--radius-lg);
-          text-align: center;
-          max-width: 400px;
-        }
+          .empty-state {
+            text-align: center;
+            padding: var(--space-8);
+            color: var(--gray-600);
+          }
 
-        .modal-actions {
-          display: flex;
-          gap: var(--space-md);
-          margin-top: var(--space-lg);
-        }
-
-        .cancel-btn, .login-btn {
-          flex: 1;
-          padding: var(--space-md);
-          border-radius: var(--radius-md);
-          text-decoration: none;
-          text-align: center;
-          font-weight: 600;
-        }
-
-        .cancel-btn {
-          background: #f7fafc;
-          border: 1px solid #e2e8f0;
-          color: #4a5568;
-        }
-
-        .login-btn {
-          background: var(--primary-gradient);
-          color: white;
-          border: none;
-        }
-      `}</style>
-    </div>
+          .empty-state h3 {
+            margin-bottom: var(--space-2);
+            color: var(--gray-800);
+          }
+        `}</style>
+      </div>
+    </ReadabilityEnhancer>
   );
 }
 
