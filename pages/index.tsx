@@ -91,6 +91,7 @@ function HomeContent() {
       <CountryChain 
         selectedCountry={selectedCountry}
         onCountrySelect={setSelectedCountry}
+        tricks={tricks}
       />
 
       <div className="controls">
