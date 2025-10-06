@@ -16,7 +16,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     await docClient.send(new UpdateCommand({
       TableName: 'TrickShare-Tricks',
       Key: { id: id as string },
-      UpdateExpression: 'ADD views :inc',
+      UpdateExpression: 'ADD #views :inc',
+      ExpressionAttributeNames: { '#views': 'views' },
       ExpressionAttributeValues: { ':inc': 1 }
     }));
 
