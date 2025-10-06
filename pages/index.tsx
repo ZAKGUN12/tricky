@@ -93,6 +93,11 @@ function HomeContent() {
       </header>
 
       <div className="main-content">
+        <div className="sidebar">
+          <TopTricks />
+          <Leaderboard />
+        </div>
+        
         <div className="feed-container">
           <div className="controls">
             <input
@@ -121,8 +126,10 @@ function HomeContent() {
                     <div className="card-header">
                       <div className="author-info">
                         <span className="country-flag">{country?.flag}</span>
-                        <span className="author-name">{trick.authorName || 'Anonymous'}</span>
-                        <span className="country-name">from {country?.name}</span>
+                        <div className="author-details">
+                          <span className="author-name">{trick.authorName || 'Anonymous'}</span>
+                          <span className="country-name">from {country?.name}</span>
+                        </div>
                       </div>
                       <div className="difficulty-badge">
                         {trick.difficulty === 'easy' ? '🟢' : 
@@ -157,11 +164,6 @@ function HomeContent() {
               })}
             </div>
           )}
-        </div>
-        
-        <div className="sidebar">
-          <TopTricks />
-          <Leaderboard />
         </div>
       </div>
 

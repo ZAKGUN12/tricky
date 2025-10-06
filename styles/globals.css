@@ -114,17 +114,43 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 300px;
+  grid-template-columns: 300px 1fr;
   gap: 20px;
   padding: 20px;
 }
 
 .feed-container {
   min-height: 100vh;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.feed-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.feed-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.feed-container::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.feed-container::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
 }
 
 .controls {
   margin-bottom: 20px;
+  position: sticky;
+  top: 0;
+  background: white;
+  padding: 10px 0;
+  z-index: 10;
 }
 
 .search-input {
@@ -158,23 +184,30 @@ body {
 .trick-card:hover {
   border-color: #1da1f2;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
 }
 
 .card-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 12px;
 }
 
 .author-info {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 }
 
 .country-flag {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
+}
+
+.author-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .author-name {
@@ -185,11 +218,11 @@ body {
 
 .country-name {
   color: #657786;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .difficulty-badge {
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 
 .trick-title {
@@ -255,12 +288,34 @@ body {
   text-decoration: none;
   font-weight: 600;
   font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 16px;
+  transition: all 0.2s ease;
+}
+
+.view-link:hover {
+  background: rgba(29, 161, 242, 0.1);
 }
 
 .sidebar {
   position: sticky;
   top: 80px;
   height: fit-content;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: #e1e8ed;
+  border-radius: 2px;
 }
 
 @media (max-width: 768px) {
@@ -271,6 +326,12 @@ body {
   
   .sidebar {
     position: static;
+    max-height: none;
+  }
+  
+  .feed-container {
+    max-height: none;
+    overflow-y: visible;
   }
   
   .compact-header {
