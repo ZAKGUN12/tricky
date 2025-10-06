@@ -10,6 +10,7 @@ import UserRace from '../components/UserRace';
 import UserStats from '../components/UserStats';
 import Leaderboard from '../components/Leaderboard';
 import ReadabilityEnhancer from '../components/ReadabilityEnhancer';
+import Banner from '../components/Banner';
 
 function HomeContent() {
   const { user, signOut } = useAuthenticator((context) => [context.user, context.signOut]);
@@ -119,6 +120,7 @@ function HomeContent() {
           </div>
           
           <div className="feed-container">
+            <Banner />
             <div className="controls">
               <input
                 type="text"
