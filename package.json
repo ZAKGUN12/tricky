@@ -11,6 +11,7 @@
     "validate": "npm run type-check && npm run lint && npm run build",
     "deploy": "npx cdk deploy --require-approval never",
     "deploy-pipeline": "npx cdk -a 'node infrastructure/pipeline-app.js' deploy --require-approval never",
+    "populate-db": "node scripts/populate-db.js",
     "prepare": "husky install"
   },
   "dependencies": {
