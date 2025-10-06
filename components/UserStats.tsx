@@ -120,23 +120,6 @@ export default function UserStats({ userEmail }: UserStatsProps) {
           display: flex;
           flex-direction: column;
           gap: 6px;
-          max-height: 300px;
-          overflow-y: auto;
-          scroll-behavior: smooth;
-          -webkit-overflow-scrolling: touch;
-        }
-        
-        .stats-list::-webkit-scrollbar {
-          width: 4px;
-        }
-        
-        .stats-list::-webkit-scrollbar-track {
-          background: #192734;
-        }
-        
-        .stats-list::-webkit-scrollbar-thumb {
-          background: #38444d;
-          border-radius: 2px;
         }
         
         .stat-item {
@@ -199,11 +182,6 @@ export default function UserStats({ userEmail }: UserStatsProps) {
           .stats-list {
             padding: 4px;
             gap: 3px;
-            max-height: 140px;
-          }
-          
-          .stats-list::-webkit-scrollbar {
-            width: 3px;
           }
           
           .stat-item {

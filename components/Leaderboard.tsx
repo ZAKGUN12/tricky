@@ -119,23 +119,6 @@ export default function Leaderboard() {
           display: flex;
           flex-direction: column;
           gap: 6px;
-          max-height: 300px;
-          overflow-y: auto;
-          scroll-behavior: smooth;
-          -webkit-overflow-scrolling: touch;
-        }
-        
-        .leaderboard-list::-webkit-scrollbar {
-          width: 4px;
-        }
-        
-        .leaderboard-list::-webkit-scrollbar-track {
-          background: #192734;
-        }
-        
-        .leaderboard-list::-webkit-scrollbar-thumb {
-          background: #38444d;
-          border-radius: 2px;
         }
         
         .leaderboard-item {
@@ -247,11 +230,6 @@ export default function Leaderboard() {
           .leaderboard-list {
             padding: 4px;
             gap: 3px;
-            max-height: 140px;
-          }
-          
-          .leaderboard-list::-webkit-scrollbar {
-            width: 3px;
           }
           
           .leaderboard-item {
