@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 
 interface Comment {
@@ -20,11 +20,7 @@ export default function CommentsSection({ trickId, onAuthRequired }: CommentsSec
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
-  useEffect(() => {
-    fetchComments();
-  }, [trickId]);
-
-  const fetchComments = async () => {
+  const fetchComments = useCallback(async () => {
     try {
       const response = await fetch(`/api/tricks/${trickId}/comments`);
       if (response.ok) {
@@ -36,7 +32,11 @@ export default function CommentsSection({ trickId, onAuthRequired }: CommentsSec
     } finally {
       setLoading(false);
     }
-  };
+  }, [trickId]);
+
+  useEffect(() => {
+    fetchComments();
+  }, [fetchComments]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
