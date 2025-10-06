@@ -25,6 +25,8 @@ export default function TopTricks() {
       if (response.ok) {
         const data = await response.json();
         setTopTricks(data);
+      } else {
+        console.error('Failed to fetch top tricks');
       }
     } catch (error) {
       console.error('Error fetching top tricks:', error);
@@ -33,18 +35,6 @@ export default function TopTricks() {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="top-tricks">
-        <div className="section-header">
-          <h3>🔥 Top 10 Tricks</h3>
-          <div className="header-line"></div>
-        </div>
-        <div className="loading">Loading...</div>
-      </div>
-    );
-  }
-
   return (
     <div className="top-tricks">
       <div className="section-header">
@@ -52,41 +42,52 @@ export default function TopTricks() {
         <div className="header-line"></div>
       </div>
       
-      <div className="top-list">
-        {topTricks.map((trick, index) => {
-          const country = countries.find(c => c.code === trick.countryCode);
-          const isTop3 = index < 3;
-          return (
-            <Link key={trick.id} href={`/trick/${trick.id}`} className={`top-item ${isTop3 ? 'top-three' : ''}`}>
-              <div className="item-frame">
-                <div className="rank-badge">
-                  <span className="rank-number">#{index + 1}</span>
-                  {isTop3 && <span className="crown">{index === 0 ? '👑' : index === 1 ? '🥈' : '🥉'}</span>}
-                </div>
-                
-                <div className="trick-info">
-                  <div className="trick-header">
-                    <span className="flag">{country?.flag}</span>
-                    <span className="country-name">{country?.name}</span>
+      {loading ? (
+        <div className="loading">
+          <div className="spinner"></div>
+          <span>Loading top tricks...</span>
+        </div>
+      ) : topTricks.length === 0 ? (
+        <div className="empty-state">
+          <span>No tricks found</span>
+        </div>
+      ) : (
+        <div className="top-list">
+          {topTricks.map((trick, index) => {
+            const country = countries.find(c => c.code === trick.countryCode);
+            const isTop3 = index < 3;
+            return (
+              <Link key={trick.id} href={`/trick/${trick.id}`} className={`top-item ${isTop3 ? 'top-three' : ''}`}>
+                <div className="item-frame">
+                  <div className="rank-badge">
+                    <span className="rank-number">#{index + 1}</span>
+                    {isTop3 && <span className="crown">{index === 0 ? '👑' : index === 1 ? '🥈' : '🥉'}</span>}
                   </div>
                   
-                  <div className="trick-title">{trick.title}</div>
+                  <div className="trick-info">
+                    <div className="trick-header">
+                      <span className="flag">{country?.flag || '🌍'}</span>
+                      <span className="country-name">{country?.name || 'Unknown'}</span>
+                    </div>
+                    
+                    <div className="trick-title">{trick.title}</div>
+                    
+                    <div className="trick-stats">
+                      <span className="stat">👍 {trick.kudos || 0}</span>
+                      <span className="stat">👁️ {trick.views || 0}</span>
+                      <span className="stat">💬 {trick.comments || 0}</span>
+                    </div>
+                  </div>
                   
-                  <div className="trick-stats">
-                    <span className="stat">👍 {trick.kudos || 0}</span>
-                    <span className="stat">👁️ {trick.views || 0}</span>
-                    <span className="stat">💬 {trick.comments || 0}</span>
+                  <div className="trend-indicator">
+                    {index < 3 ? '🔥' : index < 6 ? '📈' : '⭐'}
                   </div>
                 </div>
-                
-                <div className="trend-indicator">
-                  {index < 3 ? '🔥' : index < 6 ? '📈' : '⭐'}
-                </div>
-              </div>
-            </Link>
-          );
-        })}
-      </div>
+              </Link>
+            );
+          })}
+        </div>
+      )}
 
       <style jsx>{`
         .top-tricks {
@@ -98,6 +99,7 @@ export default function TopTricks() {
           box-shadow: 0 8px 32px rgba(0,0,0,0.12);
           border: 1px solid rgba(255, 255, 255, 0.2);
           overflow: hidden;
+          min-height: 200px;
         }
         
         .section-header {
@@ -122,10 +124,28 @@ export default function TopTricks() {
           background: rgba(255, 255, 255, 0.3);
         }
         
-        .loading {
-          padding: 20px;
+        .loading, .empty-state {
+          padding: 40px 20px;
           text-align: center;
           color: #666;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 10px;
+        }
+        
+        .spinner {
+          width: 20px;
+          height: 20px;
+          border: 2px solid #f3f3f3;
+          border-top: 2px solid #667eea;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
         }
         
         .top-list {
