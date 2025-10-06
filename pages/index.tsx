@@ -165,7 +165,6 @@ function HomeContent() {
                           </span>
                           <div className="author-details">
                             <span className="author-name">{trick.authorName || 'Anonymous'}</span>
-                            <span className="country-name">from {country?.name}</span>
                           </div>
                         </div>
                         <div className="difficulty-badge" title={`Difficulty: ${trick.difficulty}`}>
