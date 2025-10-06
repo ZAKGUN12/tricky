@@ -82,56 +82,34 @@ function HomeContent() {
         </div>
       )}
 
-      <header className="hero">
-        <div className="hero-decoration"></div>
-        <div className="hero-decoration"></div>
-        <div className="hero-decoration"></div>
-        <h1>TrickShare</h1>
-        <p>Discover life tricks from around the world</p>
-        <div className="tricks-counter">
-          <span className="counter-number">{tricks.length}</span>
-          <span className="counter-label">tricks shared</span>
+      <header className="compact-header">
+        <div className="header-content">
+          <h1>TrickShare</h1>
+          <div className="tricks-counter">
+            <span className="counter-number">{tricks.length}</span>
+            <span className="counter-label">tricks</span>
+          </div>
         </div>
       </header>
 
-      <UserRace />
-
-      <CountryChain 
-        selectedCountry={selectedCountry}
-        onCountrySelect={setSelectedCountry}
-        tricks={tricks}
-      />
-
-      <div className="controls">
-        <input
-          type="text"
-          placeholder="🔍 Search tricks..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="search-input"
-        />
-        
-        <select 
-          value={selectedCountry} 
-          onChange={(e) => setSelectedCountry(e.target.value)}
-          className="country-select"
-        >
-          <option value="">🌍 All Countries</option>
-          {countries.map(country => (
-            <option key={country.code} value={country.code}>
-              {country.flag} {country.name}
-            </option>
-          ))}
-        </select>
-      </div>
-
       <div className="main-content">
-        <div className="left-sidebar">
-          <TopTricks />
-          <Leaderboard />
-        </div>
-        
-        <div className="feed">
+        <div className="feed-container">
+          <div className="controls">
+            <input
+              type="text"
+              placeholder="🔍 Search tricks..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="search-input"
+            />
+          </div>
+
+          <CountryChain 
+            selectedCountry={selectedCountry}
+            onCountrySelect={setSelectedCountry}
+            tricks={tricks}
+          />
+
           {loading ? (
             <div className="loading">Loading tricks...</div>
           ) : (
@@ -139,31 +117,29 @@ function HomeContent() {
               {filteredTricks.map(trick => {
                 const country = countries.find(c => c.code === trick.countryCode);
                 return (
-                  <div key={trick.id} className={`trick-post difficulty-${trick.difficulty}`}>
-                    <div className="post-header">
+                  <div key={trick.id} className="trick-card">
+                    <div className="card-header">
                       <div className="author-info">
                         <span className="country-flag">{country?.flag}</span>
                         <span className="author-name">{trick.authorName || 'Anonymous'}</span>
+                        <span className="country-name">from {country?.name}</span>
                       </div>
-                      <div className="post-meta">
-                        <span className="difficulty-badge">
-                          {trick.difficulty === 'easy' ? '🟢' : 
-                           trick.difficulty === 'medium' ? '🟡' : '🔴'}
-                        </span>
-                        <span className="time">{trick.timeEstimate}</span>
+                      <div className="difficulty-badge">
+                        {trick.difficulty === 'easy' ? '🟢' : 
+                         trick.difficulty === 'medium' ? '🟡' : '🔴'}
                       </div>
                     </div>
                     
-                    <h3 className="post-title">{trick.title}</h3>
-                    <p className="post-description">{trick.description}</p>
+                    <h3 className="trick-title">{trick.title}</h3>
+                    <p className="trick-description">{trick.description}</p>
                     
-                    <div className="post-tags">
+                    <div className="trick-tags">
                       {(trick.tags || []).slice(0, 3).map(tag => (
                         <span key={tag} className="tag">#{tag}</span>
                       ))}
                     </div>
                     
-                    <div className="post-actions">
+                    <div className="card-actions">
                       <button 
                         onClick={() => handleKudos(trick.id)}
                         className="action-btn kudos"
@@ -181,6 +157,11 @@ function HomeContent() {
               })}
             </div>
           )}
+        </div>
+        
+        <div className="sidebar">
+          <TopTricks />
+          <Leaderboard />
         </div>
       </div>
 
