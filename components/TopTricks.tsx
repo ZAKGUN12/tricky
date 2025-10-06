@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { mockTricks, countries } from '../lib/mockData';
 
 export default function TopTricks() {
-  const topTricks = mockTricks
+  const topTricks = (mockTricks || [])
     .sort((a, b) => b.kudos - a.kudos)
     .slice(0, 10);
 

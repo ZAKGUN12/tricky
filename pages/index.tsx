@@ -150,7 +150,7 @@ function HomeContent() {
                     <p className="post-description">{trick.description}</p>
                     
                     <div className="post-tags">
-                      {trick.tags.slice(0, 3).map(tag => (
+                      {(trick.tags || []).slice(0, 3).map(tag => (
                         <span key={tag} className="tag">#{tag}</span>
                       ))}
                     </div>

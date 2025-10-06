@@ -5,7 +5,7 @@ export default function UserRace() {
     // Create users based on actual trick authors
     const userMap = new Map();
     
-    mockTricks.forEach(trick => {
+    (mockTricks || []).forEach(trick => {
       const authorName = trick.authorName || 'Anonymous';
       const countryCode = trick.countryCode;
       
