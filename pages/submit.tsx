@@ -42,6 +42,7 @@ function SubmitContent() {
         description: formData.description,
         steps: formData.steps.filter(step => step.trim()),
         country: formData.country,
+        countryCode: formData.country, // Add this line to fix the issue
         difficulty: formData.difficulty,
         tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
         authorName: user?.signInDetails?.loginId || 'Anonymous',
