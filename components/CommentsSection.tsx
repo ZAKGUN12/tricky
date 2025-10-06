@@ -22,6 +22,7 @@ export default function CommentsSection({ trickId, onAuthRequired }: CommentsSec
 
   useEffect(() => {
     fetchComments();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trickId]);
 
   const fetchComments = async () => {

@@ -19,6 +19,7 @@ function TrickDetailContent() {
       loadTrick();
       incrementViews();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const loadTrick = async () => {
