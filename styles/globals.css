@@ -75,8 +75,8 @@ body {
 
 .container {
   max-width: 100%;
-  margin: 0 auto;
-  padding: 8px;
+  margin: 0;
+  padding: 4px;
 }
 
 /* Compact Header */
@@ -139,14 +139,14 @@ body {
   font-weight: 600;
 }
 
-/* Main Layout - Full width for development */
+/* Main Layout - Ekşi Style */
 .main-content {
   max-width: 100%;
-  margin: 0 auto;
+  margin: 0;
   display: grid;
-  grid-template-columns: 260px 1fr;
-  gap: 12px;
-  padding: 12px;
+  grid-template-columns: 240px 1fr;
+  gap: 8px;
+  padding: 4px;
 }
 
 .feed-container {
@@ -175,165 +175,119 @@ body {
 }
 
 .controls {
-  margin-bottom: 6px;
-  position: sticky;
-  top: 0;
-  background: white;
-  padding: 4px 0;
-  z-index: 10;
+  margin-bottom: 4px;
+  padding: 2px 0;
 }
 
 .search-input {
   width: 100%;
-  padding: 4px 8px;
-  border: 1px solid #cfd9de;
-  border-radius: 12px;
-  font-size: 11px;
-  background: #f7f9fa;
-  transition: all 0.15s ease;
+  padding: 2px 4px;
+  border: 1px solid #ddd;
+  font-size: 10px;
+  background: white;
 }
 
 .search-input:focus {
   outline: none;
-  border-color: #1d9bf0;
-  background: white;
+  border-color: #999;
 }
 
-/* X-style Mini Posts */
+/* Ekşi Sözlük Style Ultra-Minimal */
 .trick-card {
   background: white;
-  border: 1px solid #eff3f4;
-  border-radius: 4px;
-  padding: 4px 6px;
-  margin-bottom: 2px;
-  transition: all 0.15s ease;
-  cursor: pointer;
-  font-size: 11px;
+  border-bottom: 1px solid #e8e8e8;
+  padding: 2px 4px;
+  margin: 0;
+  font-size: 10px;
+  line-height: 1.2;
 }
 
 .trick-card:hover {
-  background: #f7f9fa;
+  background: #fafafa;
 }
 
 .card-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 2px;
+  gap: 2px;
+  margin-bottom: 1px;
 }
 
 .author-info {
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 2px;
 }
 
 .country-flag {
-  font-size: 0.8rem;
-}
-
-.author-details {
-  display: flex;
-  align-items: center;
-  gap: 2px;
+  font-size: 8px;
 }
 
 .author-name {
-  font-weight: 600;
-  color: #0f1419;
-  font-size: 10px;
+  font-weight: 500;
+  color: #666;
+  font-size: 8px;
 }
 
 .country-name {
-  color: #536471;
-  font-size: 9px;
-}
-
-.country-name::before {
-  content: "·";
-  margin: 0 2px;
+  color: #999;
+  font-size: 7px;
 }
 
 .difficulty-badge {
-  font-size: 0.6rem;
+  font-size: 6px;
+  margin-left: auto;
 }
 
 .trick-title {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
-  color: #0f1419;
-  margin: 0 0 1px 0;
+  color: #333;
+  margin: 0;
   line-height: 1.1;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
 .trick-description {
-  color: #536471;
+  color: #666;
   font-size: 9px;
+  margin: 1px 0;
   line-height: 1.2;
-  margin: 0 0 2px 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
 .trick-tags {
-  display: flex;
-  gap: 2px;
-  margin-bottom: 2px;
-}
-
-.tag {
-  background: #eff3f4;
-  color: #1d9bf0;
-  padding: 1px 3px;
-  border-radius: 4px;
-  font-size: 8px;
-  font-weight: 500;
+  display: none;
 }
 
 .card-actions {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 2px;
+  gap: 4px;
+  font-size: 7px;
+  color: #999;
+  margin-top: 1px;
 }
 
 .action-btn {
-  display: flex;
-  align-items: center;
-  gap: 1px;
-  padding: 1px 3px;
-  border: none;
+  color: #999;
+  font-size: 7px;
   background: none;
-  color: #536471;
-  font-size: 9px;
+  border: none;
   cursor: pointer;
-  border-radius: 4px;
-  transition: all 0.15s ease;
+  padding: 0;
 }
 
 .action-btn:hover {
-  background: rgba(29, 155, 240, 0.1);
-  color: #1d9bf0;
+  color: #666;
 }
 
 .view-link {
-  color: #1d9bf0;
+  color: #666;
   text-decoration: none;
+  font-size: 7px;
   font-weight: 500;
-  font-size: 9px;
-  padding: 1px 3px;
-  border-radius: 4px;
-  transition: all 0.15s ease;
 }
 
 .view-link:hover {
-  background: rgba(29, 155, 240, 0.1);
+  color: #333;
 }
 
 .sidebar {
