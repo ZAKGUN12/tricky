@@ -36,12 +36,19 @@ function HomeContent() {
   };
 
   useEffect(() => {
-    const filtered = tricks.filter(trick => 
-      (!selectedCountry || trick.countryCode === selectedCountry) &&
-      (!searchQuery || 
+    const filtered = (tricks || []).filter(trick => {
+      if (!trick) return false;
+      
+      const matchesCountry = !selectedCountry || trick.countryCode === selectedCountry;
+      const matchesSearch = !searchQuery || 
         (trick.title && trick.title.toLowerCase().includes(searchQuery.toLowerCase())) || 
-        (trick.description && trick.description.toLowerCase().includes(searchQuery.toLowerCase())))
-    );
+        (trick.description && trick.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (trick.tags && Array.isArray(trick.tags) && trick.tags.some(tag => 
+          tag && tag.toLowerCase().includes(searchQuery.toLowerCase())
+        ));
+      
+      return matchesCountry && matchesSearch;
+    });
     setFilteredTricks(filtered);
   }, [selectedCountry, searchQuery, tricks]);
 
