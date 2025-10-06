@@ -76,7 +76,7 @@ body {
 .container {
   max-width: 100%;
   margin: 0;
-  padding: 4px;
+  padding: 2px;
 }
 
 /* Compact Header */
@@ -139,14 +139,14 @@ body {
   font-weight: 600;
 }
 
-/* Main Layout - Ekşi Style */
+/* Main Layout - Ultra Compact */
 .main-content {
   max-width: 100%;
   margin: 0;
   display: grid;
-  grid-template-columns: 240px 1fr;
-  gap: 8px;
-  padding: 4px;
+  grid-template-columns: 220px 1fr;
+  gap: 4px;
+  padding: 2px;
 }
 
 .feed-container {
@@ -175,15 +175,15 @@ body {
 }
 
 .controls {
-  margin-bottom: 4px;
-  padding: 2px 0;
+  margin-bottom: 2px;
+  padding: 1px 0;
 }
 
 .search-input {
   width: 100%;
-  padding: 2px 4px;
+  padding: 1px 2px;
   border: 1px solid #ddd;
-  font-size: 10px;
+  font-size: 8px;
   background: white;
 }
 
@@ -192,83 +192,77 @@ body {
   border-color: #999;
 }
 
-/* Ekşi Sözlük Style Ultra-Minimal */
+/* Ultra-Compact Trick Entries */
 .trick-card {
   background: white;
-  border-bottom: 1px solid #e8e8e8;
-  padding: 2px 4px;
+  border-bottom: 1px solid #f0f0f0;
+  padding: 1px 2px;
   margin: 0;
-  font-size: 10px;
-  line-height: 1.2;
+  font-size: 8px;
+  line-height: 1.1;
 }
 
 .trick-card:hover {
-  background: #fafafa;
+  background: #f9f9f9;
 }
 
 .card-header {
   display: flex;
   align-items: center;
-  gap: 2px;
-  margin-bottom: 1px;
+  gap: 1px;
 }
 
 .author-info {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 1px;
 }
 
 .country-flag {
-  font-size: 8px;
+  font-size: 6px;
 }
 
 .author-name {
   font-weight: 500;
-  color: #666;
-  font-size: 8px;
+  color: #777;
+  font-size: 6px;
 }
 
 .country-name {
-  color: #999;
-  font-size: 7px;
+  color: #aaa;
+  font-size: 5px;
 }
 
 .difficulty-badge {
-  font-size: 6px;
+  font-size: 5px;
   margin-left: auto;
 }
 
 .trick-title {
-  font-size: 10px;
+  font-size: 8px;
   font-weight: 600;
-  color: #333;
+  color: #444;
+  margin: 0;
+  line-height: 1;
+}
+
+.trick-description {
+  color: #777;
+  font-size: 7px;
   margin: 0;
   line-height: 1.1;
 }
 
-.trick-description {
-  color: #666;
-  font-size: 9px;
-  margin: 1px 0;
-  line-height: 1.2;
-}
-
-.trick-tags {
-  display: none;
-}
-
 .card-actions {
   display: flex;
-  gap: 4px;
-  font-size: 7px;
-  color: #999;
-  margin-top: 1px;
+  gap: 2px;
+  font-size: 5px;
+  color: #aaa;
 }
 
 .action-btn {
-  color: #999;
-  font-size: 7px;
+  color: #aaa;
+  font-size: 5px;
   background: none;
   border: none;
   cursor: pointer;
@@ -276,18 +270,18 @@ body {
 }
 
 .action-btn:hover {
-  color: #666;
+  color: #777;
 }
 
 .view-link {
-  color: #666;
+  color: #777;
   text-decoration: none;
-  font-size: 7px;
+  font-size: 5px;
   font-weight: 500;
 }
 
 .view-link:hover {
-  color: #333;
+  color: #444;
 }
 
 .sidebar {
