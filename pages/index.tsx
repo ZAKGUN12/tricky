@@ -37,19 +37,35 @@ function HomeContent() {
   };
 
   useEffect(() => {
-    const filtered = (tricks || []).filter(trick => {
+    if (!tricks || tricks.length === 0) {
+      setFilteredTricks([]);
+      return;
+    }
+
+    const filtered = tricks.filter(trick => {
       if (!trick) return false;
       
+      // Country filter
       const matchesCountry = !selectedCountry || trick.countryCode === selectedCountry;
-      const matchesSearch = !searchQuery || 
-        (trick.title && trick.title.toLowerCase().includes(searchQuery.toLowerCase())) || 
-        (trick.description && trick.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      
+      // Search filter - check if search query is empty
+      if (!searchQuery || searchQuery.trim() === '') {
+        return matchesCountry;
+      }
+      
+      const searchLower = searchQuery.toLowerCase().trim();
+      
+      const matchesSearch = 
+        (trick.title && trick.title.toLowerCase().includes(searchLower)) || 
+        (trick.description && trick.description.toLowerCase().includes(searchLower)) ||
         (trick.tags && Array.isArray(trick.tags) && trick.tags.some(tag => 
-          tag && tag.toLowerCase().includes(searchQuery.toLowerCase())
-        ));
+          tag && typeof tag === 'string' && tag.toLowerCase().includes(searchLower)
+        )) ||
+        (trick.authorName && trick.authorName.toLowerCase().includes(searchLower));
       
       return matchesCountry && matchesSearch;
     });
+    
     setFilteredTricks(filtered);
   }, [selectedCountry, searchQuery, tricks]);
 
@@ -106,12 +122,21 @@ function HomeContent() {
             <div className="controls">
               <input
                 type="text"
-                placeholder="🔍 Search tricks..."
+                placeholder="🔍 Search tricks by title, description, tags, or author..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="search-input"
                 aria-label="Search tricks"
               />
+              {searchQuery && (
+                <button 
+                  onClick={() => setSearchQuery('')}
+                  className="clear-search"
+                  aria-label="Clear search"
+                >
+                  ✕
+                </button>
+              )}
             </div>
 
             <CountryChain 
