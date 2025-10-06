@@ -80,6 +80,10 @@ function HomeContent() {
         <div className="hero-decoration"></div>
         <h1>TrickShare</h1>
         <p>Discover life tricks from around the world</p>
+        <div className="tricks-counter">
+          <span className="counter-number">{tricks.length}</span>
+          <span className="counter-label">tricks shared</span>
+        </div>
       </header>
 
       <UserRace />

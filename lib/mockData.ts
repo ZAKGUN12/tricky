@@ -18,7 +18,10 @@ export const countries = [
   { code: 'NO', name: 'Norway', flag: '🇳🇴' },
   { code: 'DK', name: 'Denmark', flag: '🇩🇰' },
   { code: 'FI', name: 'Finland', flag: '🇫🇮' },
-  { code: 'CH', name: 'Switzerland', flag: '🇨🇭' }
+  { code: 'CH', name: 'Switzerland', flag: '🇨🇭' },
+  { code: 'TR', name: 'Türkiye', flag: '🇹🇷' },
+  { code: 'RU', name: 'Russia', flag: '🇷🇺' },
+  { code: 'EG', name: 'Egypt', flag: '🇪🇬' }
 ];
 
 export const mockTricks = [
