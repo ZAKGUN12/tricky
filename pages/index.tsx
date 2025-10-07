@@ -103,13 +103,9 @@ function HomeContent() {
 
         <header className="compact-header">
           <div className="header-content">
-            {user ? (
-              <Link href="/submit" className="header-share-btn">
-                ✨ Share Your Trick
-              </Link>
-            ) : (
-              <h1>TrickShare</h1>
-            )}
+            <Link href="/submit" className="header-share-btn">
+              ✨ Share Your Trick
+            </Link>
             <div className="tricks-counter">
               <span className="counter-number">{tricks.length}</span>
               <span className="counter-label">tricks</span>
