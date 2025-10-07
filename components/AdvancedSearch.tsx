@@ -155,11 +155,16 @@ export default function AdvancedSearch({ onSearch, onFilter }: {
         .search-container {
           display: flex;
           align-items: center;
-          background: white;
-          border: 2px solid #e2e8f0;
+          background: #f8fafc;
+          border: 2px solid #cbd5e1;
           border-radius: 12px;
           overflow: hidden;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .search-container:focus-within {
+          border-color: #3b82f6;
+          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
         
         .search-input {
@@ -169,6 +174,11 @@ export default function AdvancedSearch({ onSearch, onFilter }: {
           outline: none;
           font-size: 16px;
           background: transparent;
+          color: #1e293b;
+        }
+        
+        .search-input::placeholder {
+          color: #64748b;
         }
         
         .search-actions {
@@ -178,15 +188,16 @@ export default function AdvancedSearch({ onSearch, onFilter }: {
         .voice-btn {
           padding: 12px;
           border: none;
-          background: #f8fafc;
+          background: #e2e8f0;
           border-radius: 8px;
           cursor: pointer;
           font-size: 18px;
           transition: all 0.2s;
+          color: #475569;
         }
         
         .voice-btn:hover {
-          background: #e2e8f0;
+          background: #cbd5e1;
           transform: scale(1.05);
         }
         
