@@ -123,9 +123,45 @@ function HomeContent() {
             >
               ✨ Share Your Trick
             </Link>
-            <div className="tricks-counter">
-              <span className="counter-number">{tricks.length}</span>
-              <span className="counter-label">tricks</span>
+            <div 
+              className="tricks-counter"
+              style={{
+                background: 'linear-gradient(135deg, #333, #555)',
+                color: '#00d4aa',
+                padding: '8px 16px',
+                borderRadius: '20px',
+                border: '2px solid #00d4aa',
+                boxShadow: '0 0 15px rgba(0, 212, 170, 0.3)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                minWidth: '80px',
+                animation: 'glow 2s ease-in-out infinite alternate'
+              }}
+            >
+              <span 
+                className="counter-number"
+                style={{
+                  fontSize: '20px',
+                  fontWeight: '800',
+                  color: '#00d4aa',
+                  textShadow: '0 0 10px rgba(0, 212, 170, 0.5)'
+                }}
+              >
+                {tricks.length}
+              </span>
+              <span 
+                className="counter-label"
+                style={{
+                  fontSize: '12px',
+                  fontWeight: '600',
+                  color: '#fff',
+                  textTransform: 'uppercase',
+                  letterSpacing: '1px'
+                }}
+              >
+                tricks
+              </span>
             </div>
           </div>
         </header>
@@ -287,6 +323,17 @@ function HomeContent() {
           @keyframes bounce {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-5px); }
+          }
+
+          @keyframes glow {
+            0% { 
+              box-shadow: 0 0 15px rgba(0, 212, 170, 0.3);
+              border-color: #00d4aa;
+            }
+            100% { 
+              box-shadow: 0 0 25px rgba(0, 212, 170, 0.6);
+              border-color: #00b894;
+            }
           }
 
           .loading {
