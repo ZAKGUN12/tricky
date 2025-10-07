@@ -11,6 +11,7 @@ import UserStats from '../components/UserStats';
 import Leaderboard from '../components/Leaderboard';
 import ReadabilityEnhancer from '../components/ReadabilityEnhancer';
 import Banner from '../components/Banner';
+import AdvancedSearch from '../components/AdvancedSearch';
 
 function HomeContent() {
   const { user, signOut } = useAuthenticator((context) => [context.user, context.signOut]);
@@ -122,23 +123,15 @@ function HomeContent() {
           <div className="feed-container">
             <Banner />
             <div className="controls">
-              <input
-                type="text"
-                placeholder="🔍 Search tricks by title, description, tags, or author..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="search-input"
-                aria-label="Search tricks"
+              <AdvancedSearch 
+                onSearch={setSearchQuery}
+                onFilter={(filters) => {
+                  // Handle advanced filters
+                  if (filters.visual) {
+                    console.log('Visual search results:', filters.visual);
+                  }
+                }}
               />
-              {searchQuery && (
-                <button 
-                  onClick={() => setSearchQuery('')}
-                  className="clear-search"
-                  aria-label="Clear search"
-                >
-                  ✕
-                </button>
-              )}
             </div>
 
             <CountryChain 
