@@ -103,7 +103,25 @@ function HomeContent() {
 
         <header className="compact-header">
           <div className="header-content">
-            <Link href="/submit" className="header-share-btn">
+            <Link 
+              href="/submit" 
+              className="header-share-btn"
+              style={{
+                background: '#00d4aa',
+                color: 'white',
+                padding: '12px 24px',
+                borderRadius: '50px',
+                textDecoration: 'none',
+                fontWeight: '700',
+                fontSize: '1.1rem',
+                border: 'none',
+                boxShadow: '0 4px 15px rgba(0, 212, 170, 0.3)',
+                animation: 'bounce 1.5s ease infinite',
+                display: 'inline-block',
+                margin: '0',
+                lineHeight: 'normal'
+              }}
+            >
               ✨ Share Your Trick
             </Link>
             <div className="tricks-counter">
