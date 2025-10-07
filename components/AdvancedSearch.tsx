@@ -3,8 +3,9 @@ import { TrickShareAPI } from '../lib/api';
 
 interface SearchSuggestion {
   text: string;
-  type: 'trick' | 'tag' | 'country';
+  type: 'trick' | 'tag' | 'country' | 'smart';
   count?: number;
+  relevance?: number;
 }
 
 export default function AdvancedSearch({ onSearch, onFilter }: {
@@ -15,14 +16,17 @@ export default function AdvancedSearch({ onSearch, onFilter }: {
   const [suggestions, setSuggestions] = useState<SearchSuggestion[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isListening, setIsListening] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [smartSuggestions, setSmartSuggestions] = useState<string[]>([]);
 
-  // Auto-complete with debouncing
+  // Enhanced auto-complete with AI suggestions
   useEffect(() => {
     const timer = setTimeout(async () => {
       if (query.length > 1) {
-        const suggestions = await fetchSuggestions(query);
-        setSuggestions(suggestions);
+        const [suggestions, smart] = await Promise.all([
+          fetchSuggestions(query),
+          fetchSmartSuggestions(query)
+        ]);
+        setSuggestions([...suggestions, ...smart]);
         setShowSuggestions(true);
       } else {
         setShowSuggestions(false);
@@ -41,7 +45,21 @@ export default function AdvancedSearch({ onSearch, onFilter }: {
     }
   };
 
-  // Voice Search
+  const fetchSmartSuggestions = async (searchQuery: string): Promise<SearchSuggestion[]> => {
+    try {
+      const response = await fetch(`/api/search/smart?q=${encodeURIComponent(searchQuery)}`);
+      const data = await response.json();
+      return data.map((suggestion: string) => ({
+        text: suggestion,
+        type: 'smart' as const,
+        relevance: 0.9
+      }));
+    } catch (error) {
+      return [];
+    }
+  };
+
+  // Enhanced voice search with language detection
   const startVoiceSearch = () => {
     if (!('webkitSpeechRecognition' in window)) {
       alert('Voice search not supported in this browser');
@@ -51,36 +69,33 @@ export default function AdvancedSearch({ onSearch, onFilter }: {
     const recognition = new (window as any).webkitSpeechRecognition();
     recognition.continuous = false;
     recognition.interimResults = false;
-    recognition.lang = 'en-US';
+    recognition.lang = navigator.language || 'en-US';
 
     recognition.onstart = () => setIsListening(true);
     recognition.onend = () => setIsListening(false);
-    recognition.onresult = (event: any) => {
+    recognition.onresult = async (event: any) => {
       const transcript = event.results[0][0].transcript;
       setQuery(transcript);
-      onSearch(transcript);
+      
+      // AI-enhanced voice query processing
+      const enhancedQuery = await enhanceVoiceQuery(transcript);
+      onSearch(enhancedQuery);
     };
 
     recognition.start();
   };
 
-  // Visual Search
-  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    const formData = new FormData();
-    formData.append('image', file);
-
+  const enhanceVoiceQuery = async (transcript: string): Promise<string> => {
     try {
-      const response = await fetch('/api/search/visual', {
+      const response = await fetch('/api/search/enhance-voice', {
         method: 'POST',
-        body: formData,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ transcript })
       });
-      const results = await response.json();
-      onFilter({ visual: results });
+      const data = await response.json();
+      return data.enhancedQuery || transcript;
     } catch (error) {
-      console.error('Visual search failed:', error);
+      return transcript;
     }
   };
 
@@ -92,7 +107,7 @@ export default function AdvancedSearch({ onSearch, onFilter }: {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyPress={(e) => e.key === 'Enter' && onSearch(query)}
-          placeholder="Search tricks, tags, or countries..."
+          placeholder="Search tricks, ask questions, or describe what you need..."
           className="search-input"
         />
         
@@ -102,24 +117,8 @@ export default function AdvancedSearch({ onSearch, onFilter }: {
             className={`voice-btn ${isListening ? 'listening' : ''}`}
             title="Voice search"
           >
-            🎤
+            {isListening ? '🔴' : '🎤'}
           </button>
-          
-          <button 
-            onClick={() => fileInputRef.current?.click()}
-            className="visual-btn"
-            title="Visual search"
-          >
-            📷
-          </button>
-          
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            onChange={handleImageUpload}
-            style={{ display: 'none' }}
-          />
         </div>
       </div>
 
@@ -136,8 +135,12 @@ export default function AdvancedSearch({ onSearch, onFilter }: {
               }}
             >
               <span className="suggestion-text">{suggestion.text}</span>
-              <span className="suggestion-type">{suggestion.type}</span>
-              {suggestion.count && <span className="suggestion-count">{suggestion.count}</span>}
+              <div className="suggestion-meta">
+                <span className="suggestion-type">
+                  {suggestion.type === 'smart' ? '🧠 AI' : suggestion.type}
+                </span>
+                {suggestion.count && <span className="suggestion-count">{suggestion.count}</span>}
+              </div>
             </div>
           ))}
         </div>
@@ -156,29 +159,35 @@ export default function AdvancedSearch({ onSearch, onFilter }: {
           border: 2px solid #e2e8f0;
           border-radius: 12px;
           overflow: hidden;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
         .search-input {
           flex: 1;
-          padding: 12px 16px;
+          padding: 16px 20px;
           border: none;
           outline: none;
           font-size: 16px;
+          background: transparent;
         }
         
         .search-actions {
-          display: flex;
-          gap: 8px;
-          padding: 8px;
+          padding: 8px 12px;
         }
         
-        .voice-btn, .visual-btn {
-          padding: 8px;
+        .voice-btn {
+          padding: 12px;
           border: none;
           background: #f8fafc;
           border-radius: 8px;
           cursor: pointer;
-          font-size: 16px;
+          font-size: 18px;
+          transition: all 0.2s;
+        }
+        
+        .voice-btn:hover {
+          background: #e2e8f0;
+          transform: scale(1.05);
         }
         
         .voice-btn.listening {
@@ -194,9 +203,9 @@ export default function AdvancedSearch({ onSearch, onFilter }: {
           background: white;
           border: 1px solid #e2e8f0;
           border-radius: 8px;
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
           z-index: 10;
-          max-height: 300px;
+          max-height: 400px;
           overflow-y: auto;
         }
         
@@ -204,29 +213,44 @@ export default function AdvancedSearch({ onSearch, onFilter }: {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 12px 16px;
+          padding: 16px 20px;
           cursor: pointer;
           border-bottom: 1px solid #f1f5f9;
+          transition: background 0.2s;
         }
         
         .suggestion-item:hover {
           background: #f8fafc;
         }
         
+        .suggestion-item.smart {
+          background: linear-gradient(90deg, #f0f9ff 0%, #ffffff 100%);
+        }
+        
+        .suggestion-meta {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+        
         .suggestion-type {
           font-size: 12px;
           color: #64748b;
           text-transform: uppercase;
+          font-weight: 600;
         }
         
         .suggestion-count {
           font-size: 12px;
           color: #94a3b8;
+          background: #f1f5f9;
+          padding: 2px 6px;
+          border-radius: 4px;
         }
         
         @keyframes pulse {
           0%, 100% { opacity: 1; }
-          50% { opacity: 0.5; }
+          50% { opacity: 0.7; }
         }
       `}</style>
     </div>

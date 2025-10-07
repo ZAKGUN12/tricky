@@ -124,12 +124,24 @@ function HomeContent() {
             <Banner />
             <div className="controls">
               <AdvancedSearch 
-                onSearch={setSearchQuery}
-                onFilter={(filters) => {
-                  // Handle advanced filters
-                  if (filters.visual) {
-                    console.log('Visual search results:', filters.visual);
+                onSearch={async (query) => {
+                  setSearchQuery(query);
+                  // Use semantic search for better results
+                  if (query.length > 2) {
+                    try {
+                      const semanticResults = await fetch(`/api/search/semantic?q=${encodeURIComponent(query)}&limit=20`);
+                      const results = await semanticResults.json();
+                      setFilteredTricks(results);
+                    } catch (error) {
+                      console.error('Semantic search failed:', error);
+                      // Fallback to regular search
+                      setSearchQuery(query);
+                    }
                   }
+                }}
+                onFilter={(filters) => {
+                  // Handle any additional filters
+                  console.log('Additional filters:', filters);
                 }}
               />
             </div>
