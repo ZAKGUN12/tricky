@@ -245,43 +245,28 @@ function HomeContent() {
 
         <style jsx>{`
           .header-share-btn {
-            position: relative;
-            background: linear-gradient(45deg, #00f5ff, #0099ff, #6600ff, #ff0099);
-            background-size: 400% 400%;
-            color: white;
-            padding: 16px 32px;
-            border-radius: 25px;
+            background: #ffffff;
+            color: #000000;
+            padding: 12px 24px;
+            border-radius: 8px;
             text-decoration: none;
-            font-weight: 900;
-            font-size: 1.2rem;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-            border: 3px solid rgba(255,255,255,0.3);
-            box-shadow: 
-              0 0 20px rgba(0, 245, 255, 0.5),
-              0 8px 32px rgba(0,0,0,0.3),
-              inset 0 1px 0 rgba(255,255,255,0.2);
-            transition: all 0.3s ease;
-            animation: gradientMove 4s ease infinite;
-            backdrop-filter: blur(10px);
+            font-weight: 800;
+            font-size: 1rem;
+            border: 2px solid #000000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: all 0.2s ease;
+            display: inline-block;
           }
 
           .header-share-btn:hover {
-            transform: translateY(-4px) scale(1.05);
-            box-shadow: 
-              0 0 40px rgba(0, 245, 255, 0.8),
-              0 15px 40px rgba(0,0,0,0.4),
-              inset 0 1px 0 rgba(255,255,255,0.3);
-            border-color: rgba(255,255,255,0.6);
+            background: #000000;
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
           }
 
           .header-share-btn:active {
-            transform: translateY(-2px) scale(1.02);
-          }
-
-          @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            transform: translateY(0);
           }
 
           .loading {
