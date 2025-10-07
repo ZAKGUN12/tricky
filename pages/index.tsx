@@ -244,24 +244,28 @@ function HomeContent() {
         )}
 
         <style jsx>{`
-          .header-share-btn {
-            background: #00d4aa;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1.1rem;
-            border: none;
-            box-shadow: 0 4px 15px rgba(0, 212, 170, 0.3);
-            animation: bounce 1.5s ease infinite;
-            display: inline-block;
+          .header-content .header-share-btn {
+            background: #00d4aa !important;
+            color: white !important;
+            padding: 12px 24px !important;
+            border-radius: 50px !important;
+            text-decoration: none !important;
+            font-weight: 700 !important;
+            font-size: 1.1rem !important;
+            border: none !important;
+            box-shadow: 0 4px 15px rgba(0, 212, 170, 0.3) !important;
+            animation: bounce 1.5s ease infinite !important;
+            display: inline-block !important;
+            margin: 0 !important;
+            line-height: normal !important;
           }
 
-          .header-share-btn:hover {
-            animation-play-state: paused;
-            transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(0, 212, 170, 0.4);
+          .header-content .header-share-btn:hover {
+            animation-play-state: paused !important;
+            transform: scale(1.05) !important;
+            box-shadow: 0 6px 20px rgba(0, 212, 170, 0.4) !important;
+            background: #00d4aa !important;
+            color: white !important;
           }
 
           @keyframes bounce {
