@@ -11,6 +11,9 @@ import UserStats from '../components/UserStats';
 import Leaderboard from '../components/Leaderboard';
 import ReadabilityEnhancer from '../components/ReadabilityEnhancer';
 import AdvancedSearch from '../components/AdvancedSearch';
+import MobileNav from '../components/MobileNav';
+import LoadingSkeleton from '../components/LoadingSkeleton';
+import { useToast } from '../components/Toast';
 
 function HomeContent() {
   const { user, signOut } = useAuthenticator((context) => [context.user, context.signOut]);
@@ -20,6 +23,7 @@ function HomeContent() {
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const { showToast, ToastContainer } = useToast();
 
   useEffect(() => {
     loadTricks();
@@ -81,13 +85,16 @@ function HomeContent() {
       setTricks(prev => prev.map(trick => 
         trick.id === trickId ? { ...trick, kudos: trick.kudos + 1 } : trick
       ));
+      showToast('Kudos given! 👍', 'success');
     } catch (error) {
       console.error('Error giving kudos:', error);
+      showToast('Failed to give kudos', 'error');
     }
   };
 
   return (
     <ReadabilityEnhancer>
+      <ToastContainer />
       <div className="container">
         {user && (
           <div className="auth-header">
@@ -207,10 +214,7 @@ function HomeContent() {
             />
 
             {loading ? (
-              <div className="loading" role="status" aria-live="polite">
-                <div className="loading-spinner"></div>
-                <span>Loading amazing tricks...</span>
-              </div>
+              <LoadingSkeleton count={5} />
             ) : (
               <div className="tricks-feed" role="main">
                 {filteredTricks.map(trick => {
@@ -294,6 +298,8 @@ function HomeContent() {
             </div>
           </div>
         )}
+
+        <MobileNav />
 
         <style jsx>{`
           .header-content .header-share-btn {
