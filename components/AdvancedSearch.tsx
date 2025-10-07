@@ -17,6 +17,19 @@ export default function AdvancedSearch({ onSearch, onFilter }: {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [smartSuggestions, setSmartSuggestions] = useState<string[]>([]);
+  const searchRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setShowSuggestions(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   // Enhanced auto-complete with AI suggestions
   useEffect(() => {
@@ -100,13 +113,19 @@ export default function AdvancedSearch({ onSearch, onFilter }: {
   };
 
   return (
-    <div className="advanced-search">
+    <div className="advanced-search" ref={searchRef}>
       <div className="search-container">
         <input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          onKeyPress={(e) => e.key === 'Enter' && onSearch(query)}
+          onKeyPress={(e) => {
+            if (e.key === 'Enter') {
+              onSearch(query);
+              setShowSuggestions(false);
+            }
+          }}
+          onFocus={() => query.length > 1 && setShowSuggestions(true)}
           placeholder="Search tricks, ask questions, or describe what you need..."
           className="search-input"
         />
