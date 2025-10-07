@@ -245,21 +245,57 @@ function HomeContent() {
 
         <style jsx>{`
           .header-share-btn {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            position: relative;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 50%, #ff9ff3 100%);
+            background-size: 200% 200%;
             color: white;
-            padding: 12px 20px;
-            border-radius: 10px;
+            padding: 14px 28px;
+            border-radius: 50px;
             text-decoration: none;
-            font-weight: 700;
+            font-weight: 800;
             font-size: 1.1rem;
-            transition: all 0.2s;
-            box-shadow: 0 3px 8px rgba(16, 185, 129, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: gradientShift 3s ease infinite, pulse 2s ease-in-out infinite alternate;
+          }
+
+          .header-share-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+          }
+
+          .header-share-btn:hover::before {
+            left: 100%;
           }
 
           .header-share-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 5px 12px rgba(16, 185, 129, 0.4);
-            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.6);
+            background-position: 100% 0;
+          }
+
+          .header-share-btn:active {
+            transform: translateY(-1px) scale(1.02);
+          }
+
+          @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+          }
+
+          @keyframes pulse {
+            0% { box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4); }
+            100% { box-shadow: 0 8px 25px rgba(255, 107, 107, 0.8), 0 0 0 10px rgba(255, 107, 107, 0.1); }
           }
 
           .loading {
