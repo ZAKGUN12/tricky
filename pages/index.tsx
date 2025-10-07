@@ -95,14 +95,9 @@ function HomeContent() {
             <div className="user-info">
               <span>Welcome, {user.signInDetails?.loginId || 'User'}!</span>
             </div>
-            <div className="header-actions">
-              <Link href="/submit" className="submit-btn-header">
-                + Share Your Trick
-              </Link>
-              <button onClick={signOut} className="sign-out-btn">
-                Sign Out
-              </button>
-            </div>
+            <button onClick={signOut} className="sign-out-btn">
+              Sign Out
+            </button>
           </div>
         )}
 
@@ -247,29 +242,6 @@ function HomeContent() {
         )}
 
         <style jsx>{`
-          .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-          }
-
-          .submit-btn-header {
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.2s;
-            box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
-          }
-
-          .submit-btn-header:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
-          }
-
           .loading {
             display: flex;
             flex-direction: column;
