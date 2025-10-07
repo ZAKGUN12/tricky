@@ -103,7 +103,13 @@ function HomeContent() {
 
         <header className="compact-header">
           <div className="header-content">
-            <h1>TrickShare</h1>
+            {user ? (
+              <Link href="/submit" className="header-share-btn">
+                ✨ Share Your Trick
+              </Link>
+            ) : (
+              <h1>TrickShare</h1>
+            )}
             <div className="tricks-counter">
               <span className="counter-number">{tricks.length}</span>
               <span className="counter-label">tricks</span>
@@ -242,6 +248,24 @@ function HomeContent() {
         )}
 
         <style jsx>{`
+          .header-share-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+            box-shadow: 0 3px 8px rgba(16, 185, 129, 0.3);
+          }
+
+          .header-share-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 12px rgba(16, 185, 129, 0.4);
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+          }
+
           .loading {
             display: flex;
             flex-direction: column;
