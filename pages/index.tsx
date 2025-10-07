@@ -245,28 +245,37 @@ function HomeContent() {
 
         <style jsx>{`
           .header-share-btn {
-            background: #ffffff;
-            color: #000000;
-            padding: 12px 24px;
-            border-radius: 8px;
+            background: linear-gradient(45deg, #ff4081, #3f51b5, #00bcd4, #4caf50);
+            background-size: 300% 300%;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 50px;
             text-decoration: none;
-            font-weight: 800;
-            font-size: 1rem;
-            border: 2px solid #000000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            transition: all 0.2s ease;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border: 2px solid white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            animation: rotate 3s linear infinite, gradientShift 4s ease infinite;
+            transform-origin: center;
             display: inline-block;
           }
 
           .header-share-btn:hover {
-            background: #000000;
-            color: #ffffff;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            animation-play-state: paused;
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.4);
           }
 
-          .header-share-btn:active {
-            transform: translateY(0);
+          @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+
+          @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
           }
 
           .loading {
