@@ -121,7 +121,7 @@ function HomeContent() {
           </div>
           
           <div className="feed-container">
-            <Banner />
+            <Banner user={user} />
             <div className="controls">
               <AdvancedSearch 
                 onSearch={async (query) => {
