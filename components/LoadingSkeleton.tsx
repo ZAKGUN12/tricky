@@ -24,91 +24,100 @@ export default function LoadingSkeleton({ count = 3 }: { count?: number }) {
 
       <style jsx>{`
         .skeleton-container {
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
+          display: flex !important;
+          flex-direction: column !important;
+          gap: 16px !important;
+          margin: 0 !important;
+          padding: 0 !important;
         }
 
         .skeleton-card {
-          background: #111;
-          border: 1px solid #333;
-          border-radius: 12px;
-          padding: 20px;
-          animation: pulse 1.5s ease-in-out infinite;
+          background: #111 !important;
+          border: 1px solid #333 !important;
+          border-radius: 12px !important;
+          padding: 20px !important;
+          animation: pulse 1.5s ease-in-out infinite !important;
+          margin: 0 !important;
         }
 
         .skeleton-header {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          margin-bottom: 16px;
+          display: flex !important;
+          align-items: center !important;
+          gap: 12px !important;
+          margin-bottom: 16px !important;
         }
 
         .skeleton-avatar {
-          width: 32px;
-          height: 32px;
-          border-radius: 50%;
-          background: #333;
+          width: 32px !important;
+          height: 32px !important;
+          border-radius: 50% !important;
+          background: #333 !important;
+          margin: 0 !important;
         }
 
         .skeleton-text {
-          background: #333;
-          border-radius: 4px;
-          height: 16px;
+          background: #333 !important;
+          border-radius: 4px !important;
+          height: 16px !important;
+          margin: 0 !important;
         }
 
         .skeleton-author {
-          width: 120px;
-          flex: 1;
+          width: 120px !important;
+          flex: 1 !important;
         }
 
         .skeleton-badge {
-          width: 60px;
-          height: 24px;
-          border-radius: 12px;
-          background: #333;
+          width: 60px !important;
+          height: 24px !important;
+          border-radius: 12px !important;
+          background: #333 !important;
+          margin: 0 !important;
         }
 
         .skeleton-title {
-          height: 20px;
-          width: 80%;
-          margin-bottom: 12px;
+          height: 20px !important;
+          width: 80% !important;
+          margin-bottom: 12px !important;
         }
 
         .skeleton-description {
-          width: 100%;
-          margin-bottom: 8px;
+          width: 100% !important;
+          margin-bottom: 8px !important;
         }
 
         .skeleton-description.short {
-          width: 60%;
-          margin-bottom: 16px;
+          width: 60% !important;
+          margin-bottom: 16px !important;
         }
 
         .skeleton-footer {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
+          display: flex !important;
+          justify-content: space-between !important;
+          align-items: center !important;
+          margin: 0 !important;
         }
 
         .skeleton-tag {
-          width: 60px;
-          height: 20px;
-          border-radius: 10px;
-          background: #333;
-          margin-right: 8px;
+          width: 60px !important;
+          height: 20px !important;
+          border-radius: 10px !important;
+          background: #333 !important;
+          margin-right: 8px !important;
         }
 
         .skeleton-actions {
-          display: flex;
-          gap: 16px;
+          display: flex !important;
+          gap: 16px !important;
+          margin: 0 !important;
         }
 
         .skeleton-action {
-          width: 40px;
-          height: 16px;
-          border-radius: 4px;
-          background: #333;
+          width: 40px !important;
+          height: 16px !important;
+          border-radius: 4px !important;
+          background: #333 !important;
+          margin: 0 !important;
         }
 
         @keyframes pulse {

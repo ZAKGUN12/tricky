@@ -39,69 +39,73 @@ export default function Toast({ message, type, onClose, duration = 3000 }: Toast
 
       <style jsx>{`
         .toast {
-          position: fixed;
-          top: 20px;
-          right: 20px;
-          background: #111;
-          border: 2px solid ${colors[type]};
-          border-radius: 12px;
-          padding: 16px 20px;
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-          z-index: 1000;
-          max-width: 400px;
-          transition: all 0.3s ease;
+          position: fixed !important;
+          top: 20px !important;
+          right: 20px !important;
+          background: #111 !important;
+          border: 2px solid ${colors[type]} !important;
+          border-radius: 12px !important;
+          padding: 16px 20px !important;
+          display: flex !important;
+          align-items: center !important;
+          gap: 12px !important;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+          z-index: 10000 !important;
+          max-width: 400px !important;
+          transition: all 0.3s ease !important;
+          margin: 0 !important;
         }
 
         .toast.show {
-          transform: translateX(0);
-          opacity: 1;
+          transform: translateX(0) !important;
+          opacity: 1 !important;
         }
 
         .toast.hide {
-          transform: translateX(100%);
-          opacity: 0;
+          transform: translateX(100%) !important;
+          opacity: 0 !important;
         }
 
         .toast-icon {
-          font-size: 18px;
-          flex-shrink: 0;
+          font-size: 18px !important;
+          flex-shrink: 0 !important;
+          margin: 0 !important;
         }
 
         .toast-message {
-          color: #fff;
-          font-weight: 500;
-          flex: 1;
+          color: #fff !important;
+          font-weight: 500 !important;
+          flex: 1 !important;
+          margin: 0 !important;
         }
 
         .toast-close {
-          background: none;
-          border: none;
-          color: #666;
-          font-size: 20px;
-          cursor: pointer;
-          padding: 0;
-          width: 24px;
-          height: 24px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border-radius: 50%;
-          transition: all 0.2s;
+          background: none !important;
+          border: none !important;
+          color: #666 !important;
+          font-size: 20px !important;
+          cursor: pointer !important;
+          padding: 0 !important;
+          width: 24px !important;
+          height: 24px !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          border-radius: 50% !important;
+          transition: all 0.2s !important;
+          margin: 0 !important;
         }
 
         .toast-close:hover {
-          background: rgba(255, 255, 255, 0.1);
-          color: #fff;
+          background: rgba(255, 255, 255, 0.1) !important;
+          color: #fff !important;
         }
 
         @media (max-width: 768px) {
           .toast {
-            left: 20px;
-            right: 20px;
-            max-width: none;
+            left: 20px !important;
+            right: 20px !important;
+            max-width: none !important;
           }
         }
       `}</style>
