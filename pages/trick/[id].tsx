@@ -1,94 +1,127 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react';
-import { Trick } from '../../lib/types';
+import { Authenticator } from '@aws-amplify/ui-react';
+import { useAuth } from '../../components/AuthProvider';
+import Comments from '../../components/Comments';
+import { apiClient } from '../../lib/api-client';
 import { countries } from '../../lib/mockData';
-import { TrickShareAPI } from '../../lib/api';
-import CommentsSection from '../../components/CommentsSection';
+
+interface Trick {
+  id: string;
+  title: string;
+  description: string;
+  steps: string[];
+  country: string;
+  countryCode: string;
+  difficulty: string;
+  tags: string[];
+  authorName: string;
+  authorEmail: string;
+  kudos: number;
+  views: number;
+  comments: number;
+  createdAt: string;
+}
+
+export default function TrickDetail() {
+  return (
+    <Authenticator>
+      <TrickDetailContent />
+    </Authenticator>
+  );
+}
 
 function TrickDetailContent() {
-  const { user } = useAuthenticator((context) => [context.user]);
   const router = useRouter();
   const { id } = router.query;
+  const { user } = useAuth();
   const [trick, setTrick] = useState<Trick | null>(null);
-  const [showAuthModal, setShowAuthModal] = useState(false);
-  const [hasGivenKudos, setHasGivenKudos] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [hasKudos, setHasKudos] = useState(false);
+  const [kudosLoading, setKudosLoading] = useState(false);
 
   useEffect(() => {
     if (id) {
       loadTrick();
-      incrementViews();
+      incrementView();
+      if (user) {
+        checkUserKudos();
+      }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
-
-  useEffect(() => {
-    if (user?.signInDetails?.loginId && id) {
-      checkUserKudos();
-    }
-  }, [user, id]);
+  }, [id, user]);
 
   const loadTrick = async () => {
-    if (!id) return;
-    try {
-      const data = await TrickShareAPI.getTrick(id as string);
-      setTrick(data);
-    } catch (error) {
-      console.error('Error loading trick:', error);
+    const response = await apiClient.getTrick(id as string);
+    if (response.data) {
+      setTrick(response.data as Trick);
+    }
+    setLoading(false);
+  };
+
+  const incrementView = async () => {
+    if (user?.signInDetails?.loginId) {
+      await apiClient.incrementView(id as string, user.signInDetails.loginId);
     }
   };
 
   const checkUserKudos = async () => {
-    if (!user?.signInDetails?.loginId || !id) return;
+    if (!user?.signInDetails?.loginId) return;
     
-    try {
-      const data = await TrickShareAPI.getUserKudos(user.signInDetails.loginId);
-      setHasGivenKudos(data.kudoedTricks?.includes(id as string) || false);
-    } catch (error) {
-      console.error('Error checking user kudos:', error);
-    }
-  };
-
-  const incrementViews = async () => {
-    if (!id) return;
-    try {
-      await fetch(`/api/tricks/${id}/view`, { method: 'POST' });
-    } catch (error) {
-      console.error('Error incrementing views:', error);
+    const response = await apiClient.getUserKudos(user.signInDetails.loginId);
+    if (response.data) {
+      setHasKudos((response.data as any[]).some((k: any) => k.trickId === id));
     }
   };
 
   const handleKudos = async () => {
-    if (!user?.signInDetails?.loginId) {
-      setShowAuthModal(true);
-      return;
-    }
-
-    if (hasGivenKudos) {
-      return;
-    }
+    if (!user || !trick) return;
     
-    if (!trick) return;
+    setKudosLoading(true);
+    const userEmail = user.signInDetails?.loginId || '';
     
     try {
-      await TrickShareAPI.giveKudos(trick.id, user.signInDetails.loginId);
-      setTrick(prev => prev ? { ...prev, kudos: prev.kudos + 1 } : null);
-      setHasGivenKudos(true);
-    } catch (error: any) {
-      console.error('Error giving kudos:', error);
-      if (error.message?.includes('Already gave kudos')) {
-        setHasGivenKudos(true);
+      if (hasKudos) {
+        const response = await apiClient.removeKudos(trick.id, userEmail);
+        if (!response.error) {
+          setHasKudos(false);
+          setTrick(prev => prev ? { ...prev, kudos: prev.kudos - 1 } : null);
+        }
+      } else {
+        const response = await apiClient.giveKudos(trick.id, userEmail);
+        if (!response.error) {
+          setHasKudos(true);
+          setTrick(prev => prev ? { ...prev, kudos: prev.kudos + 1 } : null);
+        }
       }
+    } catch (error) {
+      console.error('Kudos error:', error);
+    } finally {
+      setKudosLoading(false);
     }
   };
+
+  const handleCommentCountChange = (count: number) => {
+    setTrick(prev => prev ? { ...prev, comments: count } : null);
+  };
+
+  if (loading) {
+    return (
+      <div className="container">
+        <div className="loading">
+          <div className="spinner"></div>
+          <p>Loading trick...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!trick) {
     return (
       <div className="container">
-        <div className="loading-state">
-          <div className="spinner"></div>
-          <h3>Loading trick...</h3>
+        <div className="error">
+          <h2>Trick not found</h2>
+          <Link href="/" className="back-link">← Back to Home</Link>
         </div>
       </div>
     );
@@ -99,443 +132,276 @@ function TrickDetailContent() {
   return (
     <div className="container">
       <header className="page-header">
-        <Link href="/" className="back-btn">
+        <Link href="/" className="back-link">
           ← Back to Tricks
         </Link>
       </header>
 
-      <div className="trick-detail-card">
+      <article className="trick-detail">
         <div className="trick-header">
-          <div className="author-section">
-            <div className="author-info">
-              <span className="country-flag">{country?.flag}</span>
-              <div className="author-details">
-                <span className="author-name">{trick.authorName || 'Anonymous'}</span>
-                <span className="country-name">{country?.name}</span>
-              </div>
+          <div className="author-info">
+            <span className="country-flag">{country?.flag}</span>
+            <div className="author-details">
+              <h3 className="author-name">{trick.authorName}</h3>
+              <p className="country-name">{country?.name}</p>
             </div>
-            <div className="difficulty-badge difficulty-{trick.difficulty}">
-              {trick.difficulty === 'easy' ? '🟢' : 
-               trick.difficulty === 'medium' ? '🟡' : '🔴'}
-              {trick.difficulty}
-            </div>
+          </div>
+          <div className="difficulty-badge">
+            <span className={`badge ${trick.difficulty}`}>
+              {trick.difficulty === 'easy' ? '🟢 Easy' : 
+               trick.difficulty === 'medium' ? '🟡 Medium' : '🔴 Hard'}
+            </span>
           </div>
         </div>
 
         <h1 className="trick-title">{trick.title}</h1>
         <p className="trick-description">{trick.description}</p>
 
-        <div className="trick-stats">
-          <div className="stat">
-            <span className="stat-icon">👍</span>
-            <span className="stat-value">{trick.kudos}</span>
-            <span className="stat-label">Kudos</span>
-          </div>
-          <div className="stat">
-            <span className="stat-icon">👁️</span>
-            <span className="stat-value">{trick.views}</span>
-            <span className="stat-label">Views</span>
-          </div>
-          <div className="stat">
-            <span className="stat-icon">💬</span>
-            <span className="stat-value">{trick.comments}</span>
-            <span className="stat-label">Comments</span>
-          </div>
-        </div>
-
-        <div className="trick-steps">
-          <h3>How to do it:</h3>
-          <div className="steps-list">
-            {trick.steps.map((step, index) => (
-              <div key={index} className="step-item">
-                <div className="step-number">{index + 1}</div>
-                <div className="step-content">{step}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="trick-tags">
-          {trick.tags.map(tag => (
-            <span key={tag} className="tag">#{tag}</span>
-          ))}
-        </div>
-
-        <div className="action-section">
-          <button 
-            onClick={handleKudos} 
-            className={`kudos-btn ${hasGivenKudos ? 'disabled' : ''}`}
-            disabled={hasGivenKudos}
-          >
-            👍 {hasGivenKudos ? 'Kudos Given' : 'Give Kudos'} ({trick.kudos})
-          </button>
-        </div>
-
-        <CommentsSection 
-          trickId={trick.id} 
-          onAuthRequired={() => setShowAuthModal(true)}
-        />
-
-        {showAuthModal && (
-          <div className="modal-overlay" onClick={() => setShowAuthModal(false)}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              <h2>Login Required</h2>
-              <p>Please sign in to give kudos and comment.</p>
-              <div className="modal-actions">
-                <button onClick={() => setShowAuthModal(false)} className="cancel-btn">
-                  Cancel
-                </button>
-                <Link href="/login" className="login-btn">
-                  Sign In
-                </Link>
-              </div>
-            </div>
+        {trick.steps && trick.steps.length > 0 && (
+          <div className="steps-section">
+            <h3>Steps:</h3>
+            <ol className="steps-list">
+              {trick.steps.map((step, index) => (
+                <li key={index} className="step">{step}</li>
+              ))}
+            </ol>
           </div>
         )}
-      </div>
+
+        {trick.tags && trick.tags.length > 0 && (
+          <div className="tags-section">
+            {trick.tags.map(tag => (
+              <span key={tag} className="tag">#{tag}</span>
+            ))}
+          </div>
+        )}
+
+        <div className="actions-section">
+          <button
+            onClick={handleKudos}
+            disabled={kudosLoading || !user}
+            className={`action-btn kudos ${hasKudos ? 'active' : ''}`}
+          >
+            {kudosLoading ? '⏳' : hasKudos ? '❤️' : '👍'} {trick.kudos}
+          </button>
+          <span className="stat">💬 {trick.comments} comments</span>
+          <span className="stat">👁️ {trick.views} views</span>
+          <span className="stat">📅 {new Date(trick.createdAt).toLocaleDateString()}</span>
+        </div>
+      </article>
+
+      <Comments trickId={trick.id} onCommentCountChange={handleCommentCountChange} />
 
       <style jsx>{`
         .container {
           max-width: 800px;
           margin: 0 auto;
-          padding: 20px;
-          background: #000;
-          color: #fff;
+          padding: 2rem;
+          background: white;
           min-height: 100vh;
         }
 
         .page-header {
-          margin-bottom: 30px;
+          margin-bottom: 2rem;
         }
 
-        .back-btn {
-          color: #00d4aa;
+        .back-link {
+          color: #3b82f6;
           text-decoration: none;
-          font-weight: 600;
-          font-size: 16px;
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          padding: 8px 0;
-          transition: color 0.2s;
+          font-weight: 500;
         }
 
-        .back-btn:hover {
-          color: #00b894;
+        .back-link:hover {
+          text-decoration: underline;
         }
 
-        .trick-detail-card {
-          background: #111;
-          border: 1px solid #333;
-          border-radius: 16px;
-          padding: 30px;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        .trick-detail {
+          background: white;
+          border: 1px solid #e2e8f0;
+          border-radius: 12px;
+          padding: 2rem;
+          margin-bottom: 2rem;
         }
 
         .trick-header {
-          margin-bottom: 24px;
-        }
-
-        .author-section {
           display: flex;
           justify-content: space-between;
           align-items: center;
+          margin-bottom: 1.5rem;
         }
 
         .author-info {
           display: flex;
           align-items: center;
-          gap: 12px;
+          gap: 1rem;
         }
 
         .country-flag {
-          font-size: 24px;
-        }
-
-        .author-details {
-          display: flex;
-          flex-direction: column;
+          font-size: 2rem;
         }
 
         .author-name {
+          margin: 0;
+          font-size: 1.1rem;
           font-weight: 600;
-          color: #fff;
-          font-size: 16px;
+          color: #1e293b;
         }
 
         .country-name {
-          font-size: 14px;
-          color: #888;
+          margin: 0;
+          font-size: 0.9rem;
+          color: #64748b;
         }
 
-        .difficulty-badge {
-          padding: 6px 12px;
+        .badge {
+          padding: 0.5rem 1rem;
           border-radius: 20px;
-          font-size: 14px;
+          font-size: 0.85rem;
           font-weight: 600;
-          background: #333;
-          color: #fff;
+        }
+
+        .badge.easy {
+          background: #dcfce7;
+          color: #166534;
+        }
+
+        .badge.medium {
+          background: #fef3c7;
+          color: #92400e;
+        }
+
+        .badge.hard {
+          background: #fee2e2;
+          color: #991b1b;
         }
 
         .trick-title {
-          font-size: 28px;
-          font-weight: 800;
-          margin-bottom: 16px;
-          color: #fff;
-          line-height: 1.3;
+          font-size: 2rem;
+          font-weight: 700;
+          color: #1e293b;
+          margin-bottom: 1rem;
+          line-height: 1.2;
         }
 
         .trick-description {
-          font-size: 18px;
-          color: #ccc;
+          font-size: 1.1rem;
+          color: #374151;
           line-height: 1.6;
-          margin-bottom: 24px;
+          margin-bottom: 2rem;
         }
 
-        .trick-stats {
-          display: flex;
-          gap: 24px;
-          margin-bottom: 32px;
-          padding: 20px;
-          background: #0a0a0a;
-          border-radius: 12px;
-          border: 1px solid #222;
+        .steps-section {
+          margin-bottom: 2rem;
         }
 
-        .stat {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 4px;
-        }
-
-        .stat-icon {
-          font-size: 20px;
-        }
-
-        .stat-value {
-          font-size: 20px;
-          font-weight: 700;
-          color: #00d4aa;
-        }
-
-        .stat-label {
-          font-size: 12px;
-          color: #888;
-          text-transform: uppercase;
-        }
-
-        .trick-steps {
-          margin-bottom: 32px;
-        }
-
-        .trick-steps h3 {
-          font-size: 20px;
-          font-weight: 700;
-          margin-bottom: 16px;
-          color: #fff;
+        .steps-section h3 {
+          margin-bottom: 1rem;
+          color: #1e293b;
         }
 
         .steps-list {
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
+          padding-left: 1.5rem;
         }
 
-        .step-item {
-          display: flex;
-          gap: 16px;
-          align-items: flex-start;
-        }
-
-        .step-number {
-          background: #00d4aa;
-          color: #000;
-          width: 32px;
-          height: 32px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-weight: 700;
-          font-size: 14px;
-          flex-shrink: 0;
-        }
-
-        .step-content {
-          flex: 1;
-          font-size: 16px;
+        .step {
+          margin-bottom: 0.5rem;
           line-height: 1.5;
-          color: #ccc;
-          padding-top: 4px;
         }
 
-        .trick-tags {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 8px;
-          margin-bottom: 32px;
+        .tags-section {
+          margin-bottom: 2rem;
         }
 
         .tag {
-          background: #333;
-          color: #00d4aa;
-          padding: 6px 12px;
-          border-radius: 16px;
-          font-size: 14px;
+          display: inline-block;
+          background: #dbeafe;
+          color: #1e40af;
+          padding: 0.25rem 0.75rem;
+          border-radius: 20px;
+          font-size: 0.85rem;
           font-weight: 500;
+          margin-right: 0.5rem;
+          margin-bottom: 0.5rem;
         }
 
-        .action-section {
-          margin-bottom: 32px;
-          text-align: center;
-        }
-
-        .kudos-btn {
-          background: linear-gradient(135deg, #00d4aa, #00b894);
-          color: white;
-          border: none;
-          padding: 14px 28px;
-          border-radius: 25px;
-          font-size: 16px;
-          font-weight: 700;
-          cursor: pointer;
-          transition: all 0.2s;
-          box-shadow: 0 4px 15px rgba(0, 212, 170, 0.3);
-        }
-
-        .kudos-btn:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(0, 212, 170, 0.4);
-        }
-
-        .kudos-btn.disabled {
-          background: #666;
-          opacity: 0.6;
-          cursor: not-allowed;
-          transform: none;
-          box-shadow: none;
-        }
-
-        .kudos-btn.disabled:hover {
-          transform: none;
-          box-shadow: none;
-        }
-
-        .loading-state {
+        .actions-section {
           display: flex;
-          flex-direction: column;
           align-items: center;
-          justify-content: center;
-          min-height: 400px;
-          gap: 16px;
+          gap: 1.5rem;
+          padding-top: 1.5rem;
+          border-top: 1px solid #e2e8f0;
+        }
+
+        .action-btn {
+          background: #f1f5f9;
+          border: 1px solid #e2e8f0;
+          padding: 0.5rem 1rem;
+          border-radius: 8px;
+          cursor: pointer;
+          font-weight: 500;
+          transition: all 0.2s;
+        }
+
+        .action-btn:hover:not(:disabled) {
+          background: #e2e8f0;
+        }
+
+        .action-btn.active {
+          background: #3b82f6;
+          color: white;
+          border-color: #3b82f6;
+        }
+
+        .action-btn:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+
+        .stat {
+          color: #64748b;
+          font-size: 0.9rem;
+        }
+
+        .loading, .error {
+          text-align: center;
+          padding: 4rem 2rem;
         }
 
         .spinner {
           width: 40px;
           height: 40px;
-          border: 3px solid #333;
-          border-top: 3px solid #00d4aa;
+          border: 3px solid #e2e8f0;
+          border-top: 3px solid #3b82f6;
           border-radius: 50%;
           animation: spin 1s linear infinite;
+          margin: 0 auto 1rem;
         }
 
         @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-
-        .modal-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(0, 0, 0, 0.8);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          z-index: 1000;
-        }
-
-        .modal-content {
-          background: #111;
-          padding: 30px;
-          border-radius: 16px;
-          border: 1px solid #333;
-          max-width: 400px;
-          width: 90%;
-        }
-
-        .modal-content h2 {
-          margin-bottom: 16px;
-          color: #fff;
-        }
-
-        .modal-content p {
-          margin-bottom: 24px;
-          color: #ccc;
-        }
-
-        .modal-actions {
-          display: flex;
-          gap: 12px;
-          justify-content: flex-end;
-        }
-
-        .cancel-btn, .login-btn {
-          padding: 10px 20px;
-          border-radius: 8px;
-          font-weight: 600;
-          text-decoration: none;
-          cursor: pointer;
-          transition: all 0.2s;
-        }
-
-        .cancel-btn {
-          background: #333;
-          color: #fff;
-          border: none;
-        }
-
-        .login-btn {
-          background: #00d4aa;
-          color: #000;
-          border: none;
+          to { transform: rotate(360deg); }
         }
 
         @media (max-width: 768px) {
           .container {
-            padding: 16px;
+            padding: 1rem;
           }
 
-          .trick-detail-card {
-            padding: 20px;
+          .trick-detail {
+            padding: 1.5rem;
           }
 
-          .trick-title {
-            font-size: 24px;
-          }
-
-          .trick-stats {
-            gap: 16px;
-          }
-
-          .author-section {
+          .trick-header {
             flex-direction: column;
             align-items: flex-start;
-            gap: 16px;
+            gap: 1rem;
+          }
+
+          .actions-section {
+            flex-wrap: wrap;
+            gap: 1rem;
           }
         }
       `}</style>
     </div>
-  );
-}
-
-export default function TrickDetail() {
-  return (
-    <Authenticator.Provider>
-      <TrickDetailContent />
-    </Authenticator.Provider>
   );
 }
