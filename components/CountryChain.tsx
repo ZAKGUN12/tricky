@@ -81,7 +81,7 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
           display: flex;
           justify-content: space-between;
           align-items: center;
-          margin-bottom: 20px;
+          margin-bottom: 24px;
           color: white;
         }
         
@@ -94,7 +94,7 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
         .total-countries {
           background: rgba(255, 255, 255, 0.2);
           color: white;
-          padding: 6px 12px;
+          padding: 8px 16px;
           border-radius: 20px;
           font-size: 0.9rem;
           font-weight: 600;
@@ -102,15 +102,16 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
         
         .bike-chain {
           position: relative;
-          margin: 20px 0;
+          margin: 24px 0;
         }
         
         .chain-track {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 12px;
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 16px;
           position: relative;
           z-index: 2;
+          justify-items: center;
         }
         
         .chain-link {
@@ -119,17 +120,21 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
           background: rgba(255, 255, 255, 0.1);
           border: 2px solid rgba(255, 255, 255, 0.2);
           border-radius: 15px;
-          padding: 12px;
+          padding: 16px 20px;
           cursor: pointer;
           transition: all 0.3s ease;
           animation: chainFloat 3s ease-in-out infinite;
           backdrop-filter: blur(10px);
+          width: 100%;
+          max-width: 280px;
+          min-height: 80px;
+          justify-content: flex-start;
         }
         
         .chain-link:hover {
           background: rgba(255, 255, 255, 0.2);
           border-color: rgba(255, 255, 255, 0.4);
-          transform: translateY(-3px) scale(1.05);
+          transform: translateY(-3px) scale(1.02);
         }
         
         .chain-link.active {
@@ -139,40 +144,50 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
         }
         
         .link-connector {
-          width: 8px;
-          height: 8px;
+          width: 12px;
+          height: 12px;
           background: #fbbf24;
           border-radius: 50%;
-          margin-right: 12px;
+          margin-right: 16px;
           animation: pulse 2s infinite;
+          flex-shrink: 0;
         }
         
         .country-node {
           display: flex;
           align-items: center;
-          gap: 10px;
+          gap: 12px;
+          flex: 1;
+          min-width: 0;
         }
         
         .country-flag {
-          font-size: 1.5rem;
+          font-size: 1.8rem;
           animation: rotate 4s linear infinite;
+          flex-shrink: 0;
         }
         
         .country-info {
           display: flex;
           flex-direction: column;
+          flex: 1;
+          min-width: 0;
         }
         
         .country-name {
           color: white;
           font-weight: 600;
-          font-size: 0.9rem;
+          font-size: 1rem;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
         
         .trick-count {
           color: #fbbf24;
-          font-size: 0.8rem;
+          font-size: 0.85rem;
           font-weight: 500;
+          margin-top: 2px;
         }
         
         .chain-animation {
@@ -241,28 +256,44 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
         
         @media (max-width: 768px) {
           .country-chain-container {
-            padding: 16px;
+            padding: 20px;
             margin: 16px 0;
           }
           
+          .chain-header {
+            flex-direction: column;
+            gap: 12px;
+            text-align: center;
+            margin-bottom: 20px;
+          }
+          
           .chain-track {
-            gap: 8px;
+            grid-template-columns: 1fr;
+            gap: 12px;
           }
           
           .chain-link {
-            padding: 8px;
+            padding: 12px 16px;
+            min-height: 70px;
+            max-width: none;
           }
           
           .country-flag {
-            font-size: 1.2rem;
+            font-size: 1.5rem;
           }
           
           .country-name {
-            font-size: 0.8rem;
+            font-size: 0.9rem;
           }
           
           .trick-count {
-            font-size: 0.7rem;
+            font-size: 0.8rem;
+          }
+          
+          .link-connector {
+            width: 10px;
+            height: 10px;
+            margin-right: 12px;
           }
         }
       `}</style>
