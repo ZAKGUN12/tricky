@@ -13,6 +13,7 @@
     "deploy-pipeline": "npx cdk -a 'node infrastructure/pipeline-app.js' deploy --require-approval never",
     "populate-db": "node scripts/populate-db.js",
     "add-more-tricks": "node scripts/add-more-tricks.js",
+    "setup-kudos": "node scripts/setup-kudos-table.js",
     "prepare": "husky install"
   },
   "dependencies": {

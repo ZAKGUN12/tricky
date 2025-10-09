@@ -95,6 +95,15 @@ body {
   color: #fff;
 }
 
+.action-btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.action-btn.disabled:hover {
+  color: #888;
+}
+
 .view-link {
   color: #1da1f2;
   text-decoration: none;

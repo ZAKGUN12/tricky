@@ -13,6 +13,7 @@ function TrickDetailContent() {
   const { id } = router.query;
   const [trick, setTrick] = useState<Trick | null>(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [hasGivenKudos, setHasGivenKudos] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -22,6 +23,12 @@ function TrickDetailContent() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
+  useEffect(() => {
+    if (user?.signInDetails?.loginId && id) {
+      checkUserKudos();
+    }
+  }, [user, id]);
+
   const loadTrick = async () => {
     if (!id) return;
     try {
@@ -29,6 +36,17 @@ function TrickDetailContent() {
       setTrick(data);
     } catch (error) {
       console.error('Error loading trick:', error);
+    }
+  };
+
+  const checkUserKudos = async () => {
+    if (!user?.signInDetails?.loginId || !id) return;
+    
+    try {
+      const data = await TrickShareAPI.getUserKudos(user.signInDetails.loginId);
+      setHasGivenKudos(data.kudoedTricks?.includes(id as string) || false);
+    } catch (error) {
+      console.error('Error checking user kudos:', error);
     }
   };
 
@@ -42,18 +60,26 @@ function TrickDetailContent() {
   };
 
   const handleKudos = async () => {
-    if (!user) {
+    if (!user?.signInDetails?.loginId) {
       setShowAuthModal(true);
+      return;
+    }
+
+    if (hasGivenKudos) {
       return;
     }
     
     if (!trick) return;
     
     try {
-      await TrickShareAPI.giveKudos(trick.id);
+      await TrickShareAPI.giveKudos(trick.id, user.signInDetails.loginId);
       setTrick(prev => prev ? { ...prev, kudos: prev.kudos + 1 } : null);
-    } catch (error) {
+      setHasGivenKudos(true);
+    } catch (error: any) {
       console.error('Error giving kudos:', error);
+      if (error.message?.includes('Already gave kudos')) {
+        setHasGivenKudos(true);
+      }
     }
   };
 
@@ -136,8 +162,12 @@ function TrickDetailContent() {
         </div>
 
         <div className="action-section">
-          <button onClick={handleKudos} className="kudos-btn">
-            👍 Give Kudos ({trick.kudos})
+          <button 
+            onClick={handleKudos} 
+            className={`kudos-btn ${hasGivenKudos ? 'disabled' : ''}`}
+            disabled={hasGivenKudos}
+          >
+            👍 {hasGivenKudos ? 'Kudos Given' : 'Give Kudos'} ({trick.kudos})
           </button>
         </div>
 
@@ -377,6 +407,19 @@ function TrickDetailContent() {
         .kudos-btn:hover {
           transform: translateY(-2px);
           box-shadow: 0 6px 20px rgba(0, 212, 170, 0.4);
+        }
+
+        .kudos-btn.disabled {
+          background: #666;
+          opacity: 0.6;
+          cursor: not-allowed;
+          transform: none;
+          box-shadow: none;
+        }
+
+        .kudos-btn.disabled:hover {
+          transform: none;
+          box-shadow: none;
         }
 
         .loading-state {

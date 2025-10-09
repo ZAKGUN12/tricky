@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, UpdateCommand, GetCommand } from '@aws-sdk/lib-dynamodb';
+import { DynamoDBDocumentClient, UpdateCommand, GetCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
 
 const client = new DynamoDBClient({ region: process.env.AWS_REGION || 'eu-west-1' });
 const docClient = DynamoDBDocumentClient.from(client);
@@ -11,8 +11,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   const { id } = req.query;
+  const { userEmail } = req.body;
+
+  if (!userEmail) {
+    return res.status(400).json({ error: 'User email required' });
+  }
 
   try {
+    // Check if user already gave kudos
+    const existingKudo = await docClient.send(new GetCommand({
+      TableName: 'TrickShare-Kudos',
+      Key: { userEmail, trickId: id as string }
+    }));
+
+    if (existingKudo.Item) {
+      return res.status(409).json({ error: 'Already gave kudos to this trick' });
+    }
+
     // Get trick to find author
     const trickResult = await docClient.send(new GetCommand({
       TableName: 'TrickShare-Tricks',
@@ -22,6 +37,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (!trickResult.Item) {
       return res.status(404).json({ error: 'Trick not found' });
     }
+
+    // Record the kudo
+    await docClient.send(new PutCommand({
+      TableName: 'TrickShare-Kudos',
+      Item: {
+        userEmail,
+        trickId: id as string,
+        createdAt: new Date().toISOString()
+      }
+    }));
 
     // Update trick kudos
     const result = await docClient.send(new UpdateCommand({

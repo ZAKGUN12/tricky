@@ -37,10 +37,17 @@ export class TrickShareAPI {
   }
 
   // Interactions
-  static async giveKudos(trickId: string) {
+  static async giveKudos(trickId: string, userEmail: string) {
     const response = await fetch(`${API_BASE}/tricks/${trickId}/kudos`, {
-      method: 'POST'
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userEmail })
     });
+    return response.json();
+  }
+
+  static async getUserKudos(userEmail: string) {
+    const response = await fetch(`${API_BASE}/user/kudos?userEmail=${encodeURIComponent(userEmail)}`);
     return response.json();
   }
 

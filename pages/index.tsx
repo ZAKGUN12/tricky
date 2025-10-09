@@ -25,11 +25,18 @@ function HomeContent() {
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [userKudos, setUserKudos] = useState<string[]>([]);
   const { showToast, ToastContainer } = useToast();
 
   useEffect(() => {
     loadTricks();
   }, []);
+
+  useEffect(() => {
+    if (user?.signInDetails?.loginId) {
+      loadUserKudos();
+    }
+  }, [user]);
 
   const loadTricks = async () => {
     try {
@@ -40,6 +47,17 @@ function HomeContent() {
       console.error('Error loading tricks:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadUserKudos = async () => {
+    if (!user?.signInDetails?.loginId) return;
+    
+    try {
+      const data = await TrickShareAPI.getUserKudos(user.signInDetails.loginId);
+      setUserKudos(data.kudoedTricks || []);
+    } catch (error) {
+      console.error('Error loading user kudos:', error);
     }
   };
 
@@ -77,20 +95,30 @@ function HomeContent() {
   }, [selectedCountry, searchQuery, tricks]);
 
   const handleKudos = async (trickId: string) => {
-    if (!user) {
+    if (!user?.signInDetails?.loginId) {
       setShowAuthModal(true);
+      return;
+    }
+
+    if (userKudos.includes(trickId)) {
+      showToast('You already gave kudos to this trick', 'error');
       return;
     }
     
     try {
-      await TrickShareAPI.giveKudos(trickId);
+      await TrickShareAPI.giveKudos(trickId, user.signInDetails.loginId);
       setTricks(prev => prev.map(trick => 
         trick.id === trickId ? { ...trick, kudos: trick.kudos + 1 } : trick
       ));
+      setUserKudos(prev => [...prev, trickId]);
       showToast('Kudos given! 👍', 'success');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error giving kudos:', error);
-      showToast('Failed to give kudos', 'error');
+      if (error.message?.includes('Already gave kudos')) {
+        showToast('You already gave kudos to this trick', 'error');
+      } else {
+        showToast('Failed to give kudos', 'error');
+      }
     }
   };
 
@@ -250,7 +278,8 @@ function HomeContent() {
                       <footer className="card-actions">
                         <button 
                           onClick={() => handleKudos(trick.id)}
-                          className="action-btn kudos"
+                          className={`action-btn kudos ${userKudos.includes(trick.id) ? 'disabled' : ''}`}
+                          disabled={userKudos.includes(trick.id)}
                           aria-label={`Give kudos to ${trick.title}`}
                         >
                           👍 {trick.kudos}
