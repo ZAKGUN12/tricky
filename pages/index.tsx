@@ -14,6 +14,7 @@ import AdvancedSearch from '../components/AdvancedSearch';
 import MobileNav from '../components/MobileNav';
 import LoadingSkeleton from '../components/LoadingSkeleton';
 import Categories, { categories } from '../components/Categories';
+import Timer from '../components/Timer';
 import { useToast } from '../components/Toast';
 
 function HomeContent() {
@@ -124,6 +125,7 @@ function HomeContent() {
 
   return (
     <ReadabilityEnhancer>
+      <Timer />
       <ToastContainer />
       <div className="container">
         {user && (
