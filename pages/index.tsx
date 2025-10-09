@@ -13,6 +13,7 @@ import ReadabilityEnhancer from '../components/ReadabilityEnhancer';
 import AdvancedSearch from '../components/AdvancedSearch';
 import MobileNav from '../components/MobileNav';
 import LoadingSkeleton from '../components/LoadingSkeleton';
+import Categories, { categories } from '../components/Categories';
 import { useToast } from '../components/Toast';
 
 function HomeContent() {
@@ -20,6 +21,7 @@ function HomeContent() {
   const [tricks, setTricks] = useState<Trick[]>([]);
   const [filteredTricks, setFilteredTricks] = useState<Trick[]>([]);
   const [selectedCountry, setSelectedCountry] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [showAuthModal, setShowAuthModal] = useState(false);
