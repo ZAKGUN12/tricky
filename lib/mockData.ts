@@ -24,6 +24,98 @@ export const countries = [
   { code: 'EG', name: 'Egypt', flag: '🇪🇬' }
 ];
 
+// Multilingual content examples showcasing international support
+export const multilingualTricks = [
+  {
+    id: 'tr-1',
+    title: 'Çay Demleme Sanatı',
+    description: 'Türk çayının mükemmel demlenmesi için geleneksel yöntem',
+    steps: ['Çaydanlığı ısıtın', 'Çay yapraklarını ekleyin', '15 dakika demleyin'],
+    countryCode: 'TR',
+    languageCode: 'tr',
+    tags: ['çay', 'türk', 'içecek'],
+    authorName: 'Mehmet Özkan',
+    difficulty: 'easy' as const
+  },
+  {
+    id: 'jp-1',
+    title: '完璧な寿司飯の作り方',
+    description: '日本の伝統的な寿司飯の準備方法',
+    steps: ['米を洗う', '適切な水加減', '酢飯を作る'],
+    countryCode: 'JP',
+    languageCode: 'ja',
+    tags: ['寿司', '米', '日本料理'],
+    authorName: '田中博',
+    difficulty: 'medium' as const
+  },
+  {
+    id: 'fr-1',
+    title: 'Technique de Pâtisserie Française',
+    description: 'Méthode traditionnelle pour réussir la pâte feuilletée',
+    steps: ['Préparer la détrempe', 'Incorporer le beurre', 'Plier et tourner'],
+    countryCode: 'FR',
+    languageCode: 'fr',
+    tags: ['pâtisserie', 'français', 'technique'],
+    authorName: 'Marie Dubois',
+    difficulty: 'hard' as const
+  },
+  {
+    id: 'hi-1',
+    title: 'परफेक्ट चाय बनाने की विधि',
+    description: 'भारतीय मसाला चाय बनाने की पारंपरिक विधि',
+    steps: ['पानी उबालें', 'मसाले डालें', 'चाय पत्ती और दूध मिलाएं'],
+    countryCode: 'IN',
+    languageCode: 'hi',
+    tags: ['चाय', 'भारतीय', 'मसाला'],
+    authorName: 'राज शर्मा',
+    difficulty: 'easy' as const
+  },
+  {
+    id: 'pt-1',
+    title: 'Segredo do Café Brasileiro',
+    description: 'Método tradicional para preparar o café perfeito',
+    steps: ['Escolha grãos frescos', 'Moa na hora', 'Use água filtrada'],
+    countryCode: 'BR',
+    languageCode: 'pt',
+    tags: ['café', 'brasileiro', 'bebida'],
+    authorName: 'Carlos Silva',
+    difficulty: 'medium' as const
+  },
+  {
+    id: 'ar-1',
+    title: 'طريقة تحضير الكنافة',
+    description: 'الطريقة التقليدية لتحضير الكنافة المصرية',
+    steps: ['تحضير العجينة', 'إضافة الحشوة', 'الخبز والتقديم'],
+    countryCode: 'EG',
+    languageCode: 'ar',
+    tags: ['حلويات', 'مصري', 'كنافة'],
+    authorName: 'أحمد محمد',
+    difficulty: 'hard' as const
+  },
+  {
+    id: 'ru-1',
+    title: 'Секрет русского борща',
+    description: 'Традиционный рецепт приготовления борща',
+    steps: ['Подготовить овощи', 'Сварить бульон', 'Добавить свеклу'],
+    countryCode: 'RU',
+    languageCode: 'ru',
+    tags: ['борщ', 'русская кухня', 'суп'],
+    authorName: 'Анна Петрова',
+    difficulty: 'medium' as const
+  },
+  {
+    id: 'zh-1',
+    title: '完美饺子制作法',
+    description: '中国传统饺子的制作技巧',
+    steps: ['和面', '调馅', '包饺子'],
+    countryCode: 'CN',
+    languageCode: 'zh',
+    tags: ['饺子', '中式', '传统'],
+    authorName: '李明',
+    difficulty: 'medium' as const
+  }
+];
+
 export const mockTricks = [
   {
     id: '1',

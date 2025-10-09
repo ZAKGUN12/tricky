@@ -21,242 +21,248 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
     .sort((a, b) => b.trickCount - a.trickCount);
 
   return (
-    <div className="country-selector">
-      <div className="selector-header">
-        <h4>🌍 Explore by Country</h4>
+    <div className="country-chain-container">
+      <div className="chain-header">
+        <h4>🌍 Global Trick Chain</h4>
         <div className="total-countries">{countriesWithTricks.length} countries</div>
       </div>
       
-      <div className="countries-grid">
-        <button
-          className={`country-pill all-countries ${!selectedCountry ? 'active' : ''}`}
-          onClick={() => onCountrySelect('')}
-        >
-          <span className="pill-icon">🌐</span>
-          <span className="pill-text">All Countries</span>
-          <span className="pill-count">{tricks.length}</span>
-        </button>
+      {/* Animated Bike Chain */}
+      <div className="bike-chain">
+        <div className="chain-track">
+          {countriesWithTricks.map((country, index) => (
+            <div
+              key={country.code}
+              className={`chain-link ${selectedCountry === country.code ? 'active' : ''}`}
+              onClick={() => onCountrySelect(country.code)}
+              style={{ animationDelay: `${index * 0.1}s` }}
+            >
+              <div className="link-connector"></div>
+              <div className="country-node">
+                <span className="country-flag">{country.flag}</span>
+                <div className="country-info">
+                  <span className="country-name">{country.name}</span>
+                  <span className="trick-count">{country.trickCount} tricks</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
         
-        {countriesWithTricks.map((country) => (
-          <button
-            key={country.code}
-            className={`country-pill ${selectedCountry === country.code ? 'active' : ''}`}
-            onClick={() => onCountrySelect(selectedCountry === country.code ? '' : country.code)}
-            title={`${country.name} - ${country.trickCount} tricks`}
-          >
-            <span className="pill-flag">{country.flag}</span>
-            <span className="pill-text">{country.name}</span>
-            <span className="pill-count">{country.trickCount}</span>
-          </button>
-        ))}
+        {/* Chain Animation */}
+        <div className="chain-animation">
+          {Array.from({ length: 20 }).map((_, i) => (
+            <div key={i} className="chain-segment" style={{ animationDelay: `${i * 0.05}s` }}>
+              🔗
+            </div>
+          ))}
+        </div>
       </div>
+
+      {/* All Countries Button */}
+      <button
+        className={`all-countries-btn ${!selectedCountry ? 'active' : ''}`}
+        onClick={() => onCountrySelect('')}
+      >
+        🌐 All Countries ({tricks.length} total tricks)
+      </button>
       
       <style jsx>{`
-        .country-selector {
-          background: #15202b;
-          border: 1px solid #38444d;
-          border-radius: 16px;
-          padding: 16px;
-          margin: 16px 0;
-        }
-        
-        .selector-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 16px;
-          padding-bottom: 12px;
-          border-bottom: 1px solid #38444d;
-        }
-        
-        .selector-header h4 {
-          margin: 0;
-          font-size: 1.1rem;
-          font-weight: 700;
-          color: #ffffff;
-        }
-        
-        .total-countries {
-          font-size: 0.85rem;
-          color: #8b98a5;
-          background: rgba(29, 155, 240, 0.1);
-          padding: 4px 12px;
+        .country-chain-container {
+          background: linear-gradient(135deg, #1e3a8a, #3b82f6);
           border-radius: 20px;
-          font-weight: 600;
-        }
-        
-        .countries-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-          gap: 8px;
-          max-height: 200px;
-          overflow-y: auto;
-          padding-right: 4px;
-        }
-        
-        .countries-grid::-webkit-scrollbar {
-          width: 4px;
-        }
-        
-        .countries-grid::-webkit-scrollbar-track {
-          background: #15202b;
-        }
-        
-        .countries-grid::-webkit-scrollbar-thumb {
-          background: #38444d;
-          border-radius: 2px;
-        }
-        
-        .country-pill {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          padding: 8px 12px;
-          background: #15202b;
-          border: 1px solid #38444d;
-          border-radius: 12px;
-          cursor: pointer;
-          transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-          font-size: 0.85rem;
-          font-weight: 500;
-          color: #ffffff;
+          padding: 24px;
+          margin: 20px 0;
           position: relative;
           overflow: hidden;
         }
         
-        .country-pill::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(29, 155, 240, 0.1), transparent);
-          transition: left 0.5s ease;
-        }
-        
-        .country-pill:hover {
-          transform: translateY(-2px);
-          border-color: #1d9bf0;
-          background: #1e2732;
-        }
-        
-        .country-pill:hover::before {
-          left: 100%;
-        }
-        
-        .country-pill.active {
-          background: #1d9bf0;
-          border-color: #1d9bf0;
+        .chain-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 20px;
           color: white;
-          transform: translateY(-1px);
         }
         
-        .country-pill.active .pill-count {
+        .chain-header h4 {
+          margin: 0;
+          font-size: 1.3rem;
+          font-weight: 700;
+        }
+        
+        .total-countries {
           background: rgba(255, 255, 255, 0.2);
           color: white;
-        }
-        
-        .all-countries {
-          grid-column: 1 / -1;
-          background: #1e2732;
-          border-color: #38444d;
+          padding: 6px 12px;
+          border-radius: 20px;
+          font-size: 0.9rem;
           font-weight: 600;
         }
         
-        .all-countries.active {
-          background: #1d9bf0;
+        .bike-chain {
+          position: relative;
+          margin: 20px 0;
         }
         
-        .pill-icon, .pill-flag {
-          font-size: 1.1rem;
-          flex-shrink: 0;
+        .chain-track {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 12px;
+          position: relative;
+          z-index: 2;
         }
         
-        .pill-text {
-          flex: 1;
-          text-align: left;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
+        .chain-link {
+          display: flex;
+          align-items: center;
+          background: rgba(255, 255, 255, 0.1);
+          border: 2px solid rgba(255, 255, 255, 0.2);
+          border-radius: 15px;
+          padding: 12px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          animation: chainFloat 3s ease-in-out infinite;
+          backdrop-filter: blur(10px);
         }
         
-        .pill-count {
-          background: rgba(29, 155, 240, 0.2);
-          color: #1d9bf0;
-          padding: 2px 8px;
-          border-radius: 10px;
-          font-size: 0.75rem;
-          font-weight: 700;
-          min-width: 24px;
-          text-align: center;
-          flex-shrink: 0;
+        .chain-link:hover {
+          background: rgba(255, 255, 255, 0.2);
+          border-color: rgba(255, 255, 255, 0.4);
+          transform: translateY(-3px) scale(1.05);
+        }
+        
+        .chain-link.active {
+          background: rgba(255, 255, 255, 0.3);
+          border-color: #fbbf24;
+          box-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
+        }
+        
+        .link-connector {
+          width: 8px;
+          height: 8px;
+          background: #fbbf24;
+          border-radius: 50%;
+          margin-right: 12px;
+          animation: pulse 2s infinite;
+        }
+        
+        .country-node {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+        
+        .country-flag {
+          font-size: 1.5rem;
+          animation: rotate 4s linear infinite;
+        }
+        
+        .country-info {
+          display: flex;
+          flex-direction: column;
+        }
+        
+        .country-name {
+          color: white;
+          font-weight: 600;
+          font-size: 0.9rem;
+        }
+        
+        .trick-count {
+          color: #fbbf24;
+          font-size: 0.8rem;
+          font-weight: 500;
+        }
+        
+        .chain-animation {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 20px;
+          opacity: 0.1;
+          z-index: 1;
+          pointer-events: none;
+        }
+        
+        .chain-segment {
+          font-size: 1.2rem;
+          animation: chainMove 8s linear infinite;
+        }
+        
+        .all-countries-btn {
+          width: 100%;
+          background: rgba(255, 255, 255, 0.1);
+          border: 2px solid rgba(255, 255, 255, 0.2);
+          color: white;
+          padding: 16px;
+          border-radius: 15px;
+          font-size: 1rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          margin-top: 16px;
+        }
+        
+        .all-countries-btn:hover {
+          background: rgba(255, 255, 255, 0.2);
+          border-color: rgba(255, 255, 255, 0.4);
+        }
+        
+        .all-countries-btn.active {
+          background: #fbbf24;
+          border-color: #f59e0b;
+          color: #1e3a8a;
+        }
+        
+        @keyframes chainFloat {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-5px); }
+        }
+        
+        @keyframes pulse {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.7; transform: scale(1.2); }
+        }
+        
+        @keyframes rotate {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        
+        @keyframes chainMove {
+          0% { transform: translateX(-100px) rotate(0deg); }
+          100% { transform: translateX(calc(100vw + 100px)) rotate(360deg); }
         }
         
         @media (max-width: 768px) {
-          .country-selector {
-            padding: 8px;
-            margin: 8px 0;
-            min-height: 180px;
+          .country-chain-container {
+            padding: 16px;
+            margin: 16px 0;
           }
           
-          .selector-header {
-            flex-direction: row;
+          .chain-track {
             gap: 8px;
-            align-items: center;
-            margin-bottom: 8px;
-            padding-bottom: 6px;
           }
           
-          .selector-header h4 {
-            font-size: 0.9rem;
+          .chain-link {
+            padding: 8px;
           }
           
-          .total-countries {
-            font-size: 0.7rem;
-            padding: 2px 6px;
+          .country-flag {
+            font-size: 1.2rem;
           }
           
-          .countries-grid {
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 4px;
-            max-height: 120px;
-          }
-          
-          .country-pill {
-            padding: 4px 6px;
-            font-size: 0.7rem;
-            gap: 4px;
-          }
-          
-          .pill-icon, .pill-flag {
+          .country-name {
             font-size: 0.8rem;
           }
           
-          .pill-count {
-            font-size: 0.6rem;
-            padding: 1px 4px;
-            min-width: 16px;
-          }
-          
-          .all-countries {
-            grid-column: 1 / -1;
-          }
-        }
-        
-        @media (max-width: 480px) {
-          .countries-grid {
-            grid-template-columns: 1fr 1fr;
-            gap: 3px;
-          }
-          
-          .country-pill {
-            padding: 3px 4px;
-            font-size: 0.65rem;
-          }
-          
-          .pill-count {
-            font-size: 0.55rem;
+          .trick-count {
+            font-size: 0.7rem;
           }
         }
       `}</style>
