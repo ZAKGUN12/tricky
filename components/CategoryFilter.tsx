@@ -108,45 +108,44 @@ export default function CategoryFilter({ selectedCategory, onCategorySelect }: C
       <style jsx>{`
         .category-filter {
           background: white;
-          border-radius: 12px;
+          border-radius: 0.75rem;
           border: 1px solid #e5e7eb;
           overflow: hidden;
-          margin-bottom: 16px;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-          position: relative;
-          z-index: 10;
+          margin-bottom: 1rem;
+          box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
         }
         
         .category-header {
-          background: #f8fafc;
-          padding: 14px 18px;
+          background: #f9fafb;
+          padding: 0.875rem 1rem;
           border-bottom: 1px solid #e5e7eb;
         }
         
         .category-header h3 {
           margin: 0;
-          font-size: 13px;
+          font-size: 0.75rem;
           font-weight: 700;
           color: #374151;
           text-transform: uppercase;
-          letter-spacing: 0.8px;
+          letter-spacing: 0.05em;
         }
         
         .category-list {
-          padding: 4px 0;
+          padding: 0.25rem 0;
         }
         
         .category-item {
           display: flex;
           align-items: center;
           width: 100%;
-          padding: 12px 18px;
+          padding: 0.75rem 1rem;
           border: none;
           background: none;
           cursor: pointer;
-          transition: all 0.2s ease;
+          transition: all 0.15s ease-in-out;
           text-align: left;
           border-left: 3px solid transparent;
+          font-size: 0.875rem;
         }
         
         .category-item:hover {
@@ -156,18 +155,18 @@ export default function CategoryFilter({ selectedCategory, onCategorySelect }: C
         .category-item.active {
           background: #dbeafe;
           border-left-color: #3b82f6;
+          color: #1d4ed8;
         }
         
         .category-icon {
-          font-size: 18px;
-          margin-right: 14px;
-          width: 22px;
+          font-size: 1.125rem;
+          margin-right: 0.75rem;
+          width: 1.25rem;
           text-align: center;
           flex-shrink: 0;
         }
         
         .category-name {
-          font-size: 14px;
           font-weight: 500;
           color: #374151;
           flex: 1;
@@ -180,39 +179,25 @@ export default function CategoryFilter({ selectedCategory, onCategorySelect }: C
         
         @media (max-width: 768px) {
           .category-filter {
-            margin-bottom: 12px;
-            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            border-radius: 0.5rem;
           }
           
           .category-header {
-            padding: 12px 16px;
+            padding: 0.75rem;
           }
           
           .category-item {
-            padding: 14px 16px;
+            padding: 0.875rem 0.75rem;
           }
           
           .category-icon {
-            font-size: 20px;
-            margin-right: 12px;
+            font-size: 1.25rem;
+            margin-right: 0.625rem;
           }
           
           .category-name {
-            font-size: 15px;
-          }
-        }
-        
-        @media (max-width: 480px) {
-          .category-item {
-            padding: 16px;
-          }
-          
-          .category-icon {
-            font-size: 22px;
-          }
-          
-          .category-name {
-            font-size: 16px;
+            font-size: 0.9375rem;
           }
         }
       `}</style>

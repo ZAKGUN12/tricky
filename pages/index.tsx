@@ -344,40 +344,76 @@ function HomeContent() {
 
         <style jsx>{`
           .main-content {
-            display: flex;
-            min-height: 100vh;
-            width: 100%;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            height: 100vh;
+            overflow: hidden;
           }
           
           .sidebar {
-            width: 280px;
-            background: #fafbfc;
-            border-right: 1px solid #e1e5e9;
-            padding: 20px 16px;
+            background: #f8fafc;
+            border-right: 1px solid #e2e8f0;
             overflow-y: auto;
-            flex-shrink: 0;
+            padding: 1rem;
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e0 transparent;
+          }
+          
+          .sidebar::-webkit-scrollbar {
+            width: 6px;
+          }
+          
+          .sidebar::-webkit-scrollbar-track {
+            background: transparent;
+          }
+          
+          .sidebar::-webkit-scrollbar-thumb {
+            background: #cbd5e0;
+            border-radius: 3px;
           }
           
           .feed-container {
-            flex: 1;
-            padding: 20px;
             overflow-y: auto;
-            width: 0;
+            padding: 1.5rem;
+            background: #ffffff;
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e0 transparent;
+          }
+          
+          .feed-container::-webkit-scrollbar {
+            width: 8px;
+          }
+          
+          .feed-container::-webkit-scrollbar-track {
+            background: #f1f5f9;
+          }
+          
+          .feed-container::-webkit-scrollbar-thumb {
+            background: #cbd5e0;
+            border-radius: 4px;
+          }
+          
+          .feed-container::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+          }
+          
+          @media (max-width: 1024px) {
+            .main-content {
+              grid-template-columns: 280px 1fr;
+            }
           }
           
           @media (max-width: 768px) {
             .main-content {
-              flex-direction: column;
+              grid-template-columns: 1fr;
+              grid-template-rows: auto 1fr;
+              height: 100vh;
             }
             
             .sidebar {
-              width: 100%;
+              max-height: 40vh;
               border-right: none;
-              border-bottom: 1px solid #e1e5e9;
-            }
-            
-            .feed-container {
-              width: 100%;
+              border-bottom: 1px solid #e2e8f0;
             }
           }
           
