@@ -37,10 +37,12 @@ function HomeContent() {
   const loadTricks = async () => {
     try {
       const data = await TrickShareAPI.getTricks();
-      setTricks(data);
-      setFilteredTricks(data);
+      setTricks(data || []);
+      setFilteredTricks(data || []);
     } catch (error) {
       console.error('Error loading tricks:', error);
+      setTricks([]);
+      setFilteredTricks([]);
     } finally {
       setLoading(false);
     }
@@ -216,9 +218,6 @@ function HomeContent() {
               onCategorySelect={setSelectedCategory}
             />
             <TopTricks />
-            {user && (
-              <UserStats userEmail={user.signInDetails?.loginId || user.username || ''} />
-            )}
             <Leaderboard />
           </div>
           
@@ -344,6 +343,13 @@ function HomeContent() {
 
         <style jsx>{`
           /* Remove all custom CSS - use globals.css */
+          .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            color: #666;
+          }
           
           .header-content .header-share-btn {
             background: #00d4aa !important;
