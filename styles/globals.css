@@ -1,205 +1,171 @@
-:root {
-  color-scheme: light dark;
-  --sidebar-bg: color-mix(in srgb, white 95%, black 5%);
-  --border-color: light-dark(#e2e8f0, #374151);
-  --text-primary: light-dark(#1a202c, #f7fafc);
-}
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html {
+html, body {
   font-family: system-ui, -apple-system, sans-serif;
+  background: #ffffff;
+  color: #1a202c;
   line-height: 1.5;
-  text-size-adjust: 100%;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-body {
-  background: canvas;
-  color: canvastext;
-  block-size: 100dvh;
-  inline-size: 100vw;
-  overflow: hidden;
 }
 
 #__next {
-  block-size: 100%;
-  inline-size: 100%;
-  display: contents;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Layout Components */
+.main-content {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.sidebar {
+  width: 280px;
+  background: #fafbfc;
+  border-right: 1px solid #e1e5e9;
+  flex-shrink: 0;
+}
+
+.feed-container {
+  flex: 1;
+  background: #ffffff;
+  overflow-y: auto;
+  width: 0;
 }
 
 .container {
   max-width: 600px;
   margin: 0 auto;
-  padding: 10px;
+  padding: 20px;
 }
 
-/* Simple Header */
-.compact-header {
-  background: #000;
-  padding: 10px;
-  border-bottom: 1px solid #333;
+.header {
   text-align: center;
+  margin-bottom: 40px;
 }
 
-.compact-header h1 {
-  font-size: 20px;
-  color: #fff;
-}
-
-/* Simple Search */
-.controls {
-  padding: 10px 0;
-}
-
-.search-input {
-  width: 100%;
-  padding: 10px;
-  background: #111;
-  border: 1px solid #333;
-  color: #fff;
-  border-radius: 5px;
-  font-size: 14px;
-}
-
-/* Simple Trick Cards */
-.trick-card {
-  background: #111;
-  border: 1px solid #333;
-  border-radius: 5px;
-  padding: 15px;
+.header h1 {
+  font-size: 2.5rem;
   margin-bottom: 10px;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-.trick-card:hover {
-  border-color: #555;
+.header p {
+  color: #666;
+  font-size: 1.1rem;
 }
 
-.author-name {
-  color: #888;
-  font-size: 12px;
-  margin-bottom: 5px;
+.form-group {
+  margin-bottom: 20px;
 }
 
-.trick-title {
-  font-size: 16px;
-  font-weight: bold;
+.form-group label {
+  display: block;
   margin-bottom: 8px;
-  color: #fff;
+  font-weight: 600;
+  color: #333;
 }
 
-.trick-description {
-  color: #ccc;
-  font-size: 14px;
-  margin-bottom: 10px;
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
 }
 
-.card-actions {
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.steps-container {
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  padding: 15px;
+}
+
+.step-input {
   display: flex;
-  gap: 15px;
+  gap: 10px;
+  margin-bottom: 10px;
   align-items: center;
 }
 
-.action-btn {
-  background: none;
+.step-input input {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.remove-step {
+  background: #ff4757;
+  color: white;
   border: none;
-  color: #888;
-  font-size: 12px;
+  padding: 8px 12px;
+  border-radius: 4px;
   cursor: pointer;
+  font-size: 14px;
 }
 
-.action-btn:hover {
-  color: #fff;
+.remove-step:hover {
+  background: #ff3838;
 }
 
-.action-btn.disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+.add-step {
+  background: #5dade2;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
 }
 
-.action-btn.disabled:hover {
-  color: #888;
-}
-
-.view-link {
-  color: #1da1f2;
-  text-decoration: none;
-  font-size: 12px;
-}
-
-/* Simple Submit Button */
-.submit-section {
-  text-align: center;
-  padding: 20px 0;
+.add-step:hover {
+  background: #3498db;
 }
 
 .submit-btn {
-  background: #1da1f2;
-  color: #fff;
-  padding: 10px 20px;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  color: white;
   border: none;
-  border-radius: 5px;
-  text-decoration: none;
-  font-size: 14px;
+  padding: 15px 30px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
   cursor: pointer;
+  width: 100%;
+  transition: transform 0.2s ease;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .submit-btn:hover {
   background: #1991db;
-}
-
-/* Layout Components */
-.main-content {
-  display: grid;
-  grid-template-columns: minmax(280px, 320px) 1fr;
-  grid-template-areas: "sidebar content";
-  block-size: calc(100dvh - 60px);
-  inline-size: 100vw;
-  container-type: inline-size;
-}
-
-.sidebar {
-  grid-area: sidebar;
-  background: var(--sidebar-bg);
-  border-inline-end: 1px solid var(--border-color);
-  container-type: inline-size;
-}
-
-.feed-container {
-  grid-area: content;
-  background: canvas;
-  container-type: inline-size;
-  overflow-y: auto;
-}
-
-/* Mobile */
-@media (max-width: 768px) {
-  .container {
-    padding: 5px;
-  }
-  
-  .compact-header {
-    padding: 8px;
-  }
-  
-  .compact-header h1 {
-    font-size: 18px;
-  }
-  
-  .trick-card {
-    padding: 12px;
-  }
-  
-  .trick-title {
-    font-size: 15px;
-  }
-  
-  .trick-description {
-    font-size: 13px;
-  }
 }

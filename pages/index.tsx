@@ -344,75 +344,40 @@ function HomeContent() {
 
         <style jsx>{`
           .main-content {
-            display: grid;
-            grid-template-columns: minmax(280px, 320px) 1fr;
-            grid-template-areas: "sidebar content";
-            block-size: 100dvh;
-            inline-size: 100vw;
-            container-type: inline-size;
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
           }
           
           .sidebar {
-            grid-area: sidebar;
-            background: color-mix(in srgb, white 95%, black 5%);
-            border-inline-end: 1px solid light-dark(#e2e8f0, #374151);
-            padding-block: 1.5rem;
-            padding-inline: 1rem;
+            width: 280px;
+            background: #fafbfc;
+            border-right: 1px solid #e1e5e9;
+            padding: 20px 16px;
             overflow-y: auto;
-            container-type: inline-size;
+            flex-shrink: 0;
           }
           
           .feed-container {
-            grid-area: content;
-            padding-block: 1.5rem;
-            padding-inline: clamp(1rem, 4vw, 3rem);
+            flex: 1;
+            padding: 20px;
             overflow-y: auto;
-            overflow-x: hidden;
-            background: canvas;
-            container-type: inline-size;
-            max-inline-size: 100%;
+            width: 0;
           }
           
-          .controls {
-            margin-block-end: 1.5rem;
-            max-inline-size: 100%;
-          }
-          
-          .tricks-feed {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            max-inline-size: 100%;
-          }
-          
-          .trick-card {
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            border: 1px solid #e2e8f0;
-            max-inline-size: 100%;
-            overflow: hidden;
-          }
-          
-          @container (max-width: 768px) {
+          @media (max-width: 768px) {
             .main-content {
-              grid-template-columns: 1fr;
-              grid-template-rows: auto 1fr;
-              grid-template-areas: 
-                "sidebar"
-                "content";
+              flex-direction: column;
             }
             
             .sidebar {
-              border-inline-end: none;
-              border-block-end: 1px solid light-dark(#e2e8f0, #374151);
+              width: 100%;
+              border-right: none;
+              border-bottom: 1px solid #e1e5e9;
             }
-          }
-          
-          @supports (height: 100dvh) {
-            .main-content {
-              block-size: calc(100dvh - 60px);
+            
+            .feed-container {
+              width: 100%;
             }
           }
           
