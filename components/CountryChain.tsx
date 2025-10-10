@@ -37,7 +37,6 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
               onClick={() => onCountrySelect(country.code)}
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <div className="link-connector"></div>
               <div className="country-node">
                 <span className="country-flag">{country.flag}</span>
                 <div className="country-info">
@@ -116,18 +115,20 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
         
         .chain-link {
           display: flex;
+          flex-direction: column;
+          justify-content: center;
           align-items: center;
           background: rgba(255, 255, 255, 0.1);
           border: 2px solid rgba(255, 255, 255, 0.2);
-          border-radius: 12px;
-          padding: 8px 12px;
+          border-radius: 8px;
+          padding: 6px;
           cursor: pointer;
           transition: all 0.3s ease;
           animation: chainFloat 3s ease-in-out infinite;
           backdrop-filter: blur(10px);
-          min-width: 140px;
-          max-width: 180px;
-          height: 50px;
+          width: 70px;
+          height: 70px;
+          text-align: center;
         }
         
         .chain-link:hover {
@@ -142,50 +143,43 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
           box-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
         }
         
-        .link-connector {
-          width: 8px;
-          height: 8px;
-          background: #fbbf24;
-          border-radius: 50%;
-          margin-right: 8px;
-          animation: pulse 2s infinite;
-          flex-shrink: 0;
-        }
         
         .country-node {
           display: flex;
+          flex-direction: column;
           align-items: center;
-          gap: 8px;
-          flex: 1;
-          min-width: 0;
+          gap: 4px;
+          width: 100%;
+          height: 100%;
+          justify-content: center;
         }
         
         .country-flag {
-          font-size: 1.2rem;
+          font-size: 1.4rem;
           animation: rotate 4s linear infinite;
-          flex-shrink: 0;
         }
         
         .country-info {
           display: flex;
           flex-direction: column;
-          flex: 1;
-          min-width: 0;
+          align-items: center;
+          width: 100%;
         }
         
         .country-name {
           color: white;
           font-weight: 600;
-          font-size: 0.75rem;
+          font-size: 0.6rem;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-          line-height: 1.1;
+          line-height: 1;
+          max-width: 100%;
         }
         
         .trick-count {
           color: #fbbf24;
-          font-size: 0.65rem;
+          font-size: 0.5rem;
           font-weight: 500;
           margin-top: 1px;
         }
@@ -273,28 +267,21 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
           }
           
           .chain-link {
-            padding: 6px 10px;
-            min-width: 120px;
-            max-width: 140px;
-            height: 45px;
+            width: 60px;
+            height: 60px;
+            padding: 4px;
           }
           
           .country-flag {
-            font-size: 1rem;
+            font-size: 1.2rem;
           }
           
           .country-name {
-            font-size: 0.7rem;
+            font-size: 0.55rem;
           }
           
           .trick-count {
-            font-size: 0.6rem;
-          }
-          
-          .link-connector {
-            width: 6px;
-            height: 6px;
-            margin-right: 6px;
+            font-size: 0.45rem;
           }
         }
       `}</style>
