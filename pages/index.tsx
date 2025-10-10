@@ -344,49 +344,51 @@ function HomeContent() {
 
         <style jsx>{`
           .main-content {
-            display: flex;
-            width: 100vw;
-            height: calc(100vh - 60px);
-            background: #ffffff;
+            display: grid;
+            grid-template-columns: minmax(280px, 320px) 1fr;
+            grid-template-areas: "sidebar content";
+            block-size: 100dvh;
+            inline-size: 100vw;
+            container-type: inline-size;
           }
           
           .sidebar {
-            width: 280px;
-            background: #fafbfc;
-            border-right: 1px solid #e1e5e9;
-            padding: 20px 16px;
+            grid-area: sidebar;
+            background: color-mix(in srgb, white 95%, black 5%);
+            border-inline-end: 1px solid light-dark(#e2e8f0, #374151);
+            padding-block: 1.5rem;
+            padding-inline: 1rem;
             overflow-y: auto;
-            flex-shrink: 0;
+            container-type: inline-size;
           }
           
           .feed-container {
-            flex: 1;
-            padding: 20px 40px 20px 32px;
+            grid-area: content;
+            padding-block: 1.5rem;
+            padding-inline: clamp(1rem, 4vw, 3rem);
             overflow-y: auto;
-            background: #ffffff;
+            background: canvas;
+            container-type: inline-size;
           }
           
-          @media (min-width: 1400px) {
-            .feed-container {
-              padding: 20px 60px 20px 40px;
-            }
-          }
-          
-          @media (max-width: 768px) {
+          @container (max-width: 768px) {
             .main-content {
-              flex-direction: column;
-              height: auto;
+              grid-template-columns: 1fr;
+              grid-template-rows: auto 1fr;
+              grid-template-areas: 
+                "sidebar"
+                "content";
             }
             
             .sidebar {
-              width: 100%;
-              padding: 16px;
-              border-right: none;
-              border-bottom: 1px solid #e1e5e9;
+              border-inline-end: none;
+              border-block-end: 1px solid light-dark(#e2e8f0, #374151);
             }
-            
-            .feed-container {
-              padding: 16px;
+          }
+          
+          @supports (height: 100dvh) {
+            .main-content {
+              block-size: calc(100dvh - 60px);
             }
           }
           
