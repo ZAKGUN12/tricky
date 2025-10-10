@@ -345,18 +345,18 @@ function HomeContent() {
         <style jsx>{`
           .main-content {
             display: flex;
-            gap: 24px;
+            gap: 20px;
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            align-items: flex-start;
           }
           
           .sidebar {
-            width: 300px;
+            width: 280px;
             flex-shrink: 0;
-            border: 2px solid #00ff00;
-            padding: 10px;
-            background: #f0f0f0;
+            position: sticky;
+            top: 20px;
           }
           
           .feed-container {
@@ -364,14 +364,27 @@ function HomeContent() {
             min-width: 0;
           }
           
-          @media (max-width: 768px) {
+          @media (max-width: 1024px) {
             .main-content {
-              flex-direction: column;
+              gap: 16px;
               padding: 16px;
             }
             
             .sidebar {
+              width: 260px;
+            }
+          }
+          
+          @media (max-width: 768px) {
+            .main-content {
+              flex-direction: column;
+              gap: 12px;
+              padding: 12px;
+            }
+            
+            .sidebar {
               width: 100%;
+              position: static;
               order: 2;
             }
             

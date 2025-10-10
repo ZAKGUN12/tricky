@@ -87,14 +87,6 @@ export default function CategoryFilter({ selectedCategory, onCategorySelect }: C
       </div>
       
       <div className="category-list">
-        <button
-          className={`category-item ${!selectedCategory ? 'active' : ''}`}
-          onClick={() => onCategorySelect(null)}
-        >
-          <span className="category-icon">🌍</span>
-          <span className="category-name">All Tricks</span>
-        </button>
-        
         {categories.length === 0 && !loading && (
           <div style={{ padding: '16px', color: '#666', fontSize: '14px' }}>
             No categories loaded. Check console for errors.
@@ -116,67 +108,69 @@ export default function CategoryFilter({ selectedCategory, onCategorySelect }: C
       <style jsx>{`
         .category-filter {
           background: white;
-          border-radius: 8px;
-          border: 3px solid #ff0000;
+          border-radius: 12px;
+          border: 1px solid #e5e7eb;
           overflow: hidden;
-          margin-bottom: 20px;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          margin-bottom: 16px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
           position: relative;
           z-index: 10;
-          min-height: 200px;
         }
         
         .category-header {
-          background: #f9fafb;
-          padding: 12px 16px;
+          background: #f8fafc;
+          padding: 14px 18px;
           border-bottom: 1px solid #e5e7eb;
         }
         
         .category-header h3 {
           margin: 0;
-          font-size: 14px;
-          font-weight: 600;
+          font-size: 13px;
+          font-weight: 700;
           color: #374151;
           text-transform: uppercase;
-          letter-spacing: 0.5px;
+          letter-spacing: 0.8px;
         }
         
         .category-list {
-          padding: 8px 0;
+          padding: 4px 0;
         }
         
         .category-item {
           display: flex;
           align-items: center;
           width: 100%;
-          padding: 8px 16px;
+          padding: 12px 18px;
           border: none;
           background: none;
           cursor: pointer;
           transition: all 0.2s ease;
           text-align: left;
+          border-left: 3px solid transparent;
         }
         
         .category-item:hover {
-          background: #f3f4f6;
+          background: #f1f5f9;
         }
         
         .category-item.active {
           background: #dbeafe;
-          border-right: 3px solid #3b82f6;
+          border-left-color: #3b82f6;
         }
         
         .category-icon {
-          font-size: 16px;
-          margin-right: 12px;
-          width: 20px;
+          font-size: 18px;
+          margin-right: 14px;
+          width: 22px;
           text-align: center;
+          flex-shrink: 0;
         }
         
         .category-name {
           font-size: 14px;
           font-weight: 500;
           color: #374151;
+          flex: 1;
         }
         
         .category-item.active .category-name {
@@ -184,24 +178,41 @@ export default function CategoryFilter({ selectedCategory, onCategorySelect }: C
           font-weight: 600;
         }
         
-        .loading {
-          padding: 20px;
-          text-align: center;
-          color: #6b7280;
-          font-size: 14px;
-        }
-        
         @media (max-width: 768px) {
           .category-filter {
-            margin-bottom: 16px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+          }
+          
+          .category-header {
+            padding: 12px 16px;
           }
           
           .category-item {
-            padding: 12px 16px;
+            padding: 14px 16px;
+          }
+          
+          .category-icon {
+            font-size: 20px;
+            margin-right: 12px;
           }
           
           .category-name {
             font-size: 15px;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .category-item {
+            padding: 16px;
+          }
+          
+          .category-icon {
+            font-size: 22px;
+          }
+          
+          .category-name {
+            font-size: 16px;
           }
         }
       `}</style>
