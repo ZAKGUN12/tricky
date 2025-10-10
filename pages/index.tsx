@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react';
 import { Trick } from '../lib/types';
@@ -33,12 +33,6 @@ function HomeContent() {
     loadTricks();
   }, []);
 
-  useEffect(() => {
-    if (user?.signInDetails?.loginId) {
-      loadUserKudos();
-    }
-  }, [user]);
-
   const loadTricks = async () => {
     try {
       const data = await TrickShareAPI.getTricks();
@@ -51,7 +45,7 @@ function HomeContent() {
     }
   };
 
-  const loadUserKudos = async () => {
+  const loadUserKudos = useCallback(async () => {
     if (!user?.signInDetails?.loginId) return;
     
     try {
@@ -60,7 +54,13 @@ function HomeContent() {
     } catch (error) {
       console.error('Error loading user kudos:', error);
     }
-  };
+  }, [user?.signInDetails?.loginId]);
+
+  useEffect(() => {
+    if (user?.signInDetails?.loginId) {
+      loadUserKudos();
+    }
+  }, [user, loadUserKudos]);
 
   useEffect(() => {
     if (!tricks || tricks.length === 0) {

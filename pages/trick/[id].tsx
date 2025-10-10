@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { Authenticator } from '@aws-amplify/ui-react';
@@ -41,6 +41,29 @@ function TrickDetailContent() {
   const [hasKudos, setHasKudos] = useState(false);
   const [kudosLoading, setKudosLoading] = useState(false);
 
+  const loadTrick = useCallback(async () => {
+    const response = await apiClient.getTrick(id as string);
+    if (response.data) {
+      setTrick(response.data as Trick);
+    }
+    setLoading(false);
+  }, [id]);
+
+  const incrementView = useCallback(async () => {
+    if (user?.signInDetails?.loginId) {
+      await apiClient.incrementView(id as string, user.signInDetails.loginId);
+    }
+  }, [id, user?.signInDetails?.loginId]);
+
+  const checkUserKudos = useCallback(async () => {
+    if (!user?.signInDetails?.loginId) return;
+    
+    const response = await apiClient.getUserKudos(user.signInDetails.loginId);
+    if (response.data) {
+      setHasKudos((response.data as any[]).some((k: any) => k.trickId === id));
+    }
+  }, [id, user?.signInDetails?.loginId]);
+
   useEffect(() => {
     if (id) {
       loadTrick();
@@ -49,30 +72,7 @@ function TrickDetailContent() {
         checkUserKudos();
       }
     }
-  }, [id, user]);
-
-  const loadTrick = async () => {
-    const response = await apiClient.getTrick(id as string);
-    if (response.data) {
-      setTrick(response.data as Trick);
-    }
-    setLoading(false);
-  };
-
-  const incrementView = async () => {
-    if (user?.signInDetails?.loginId) {
-      await apiClient.incrementView(id as string, user.signInDetails.loginId);
-    }
-  };
-
-  const checkUserKudos = async () => {
-    if (!user?.signInDetails?.loginId) return;
-    
-    const response = await apiClient.getUserKudos(user.signInDetails.loginId);
-    if (response.data) {
-      setHasKudos((response.data as any[]).some((k: any) => k.trickId === id));
-    }
-  };
+  }, [id, user, loadTrick, incrementView, checkUserKudos]);
 
   const handleKudos = async () => {
     if (!user || !trick) return;

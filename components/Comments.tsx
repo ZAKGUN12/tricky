@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from './AuthProvider';
 import { apiClient } from '../lib/api-client';
 
@@ -22,21 +22,21 @@ export default function Comments({ trickId, onCommentCountChange }: CommentsProp
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
-  useEffect(() => {
-    loadComments();
-  }, [trickId]);
-
-  useEffect(() => {
-    onCommentCountChange?.(comments.length);
-  }, [comments.length, onCommentCountChange]);
-
-  const loadComments = async () => {
+  const loadComments = useCallback(async () => {
     const response = await apiClient.getComments(trickId);
     if (response.data) {
       setComments(response.data as Comment[]);
     }
     setLoading(false);
-  };
+  }, [trickId]);
+
+  useEffect(() => {
+    loadComments();
+  }, [trickId, loadComments]);
+
+  useEffect(() => {
+    onCommentCountChange?.(comments.length);
+  }, [comments.length, onCommentCountChange]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
