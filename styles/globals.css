@@ -131,17 +131,23 @@ body {
   background: #1991db;
 }
 
-/* Hide Complex Components */
-.sidebar {
-  display: none;
+/* Layout Components */
+.main-content {
+  display: flex;
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-.main-content {
-  display: block;
+.sidebar {
+  width: 300px;
+  flex-shrink: 0;
 }
 
 .feed-container {
-  width: 100%;
+  flex: 1;
+  min-width: 0;
 }
 
 /* Mobile */
