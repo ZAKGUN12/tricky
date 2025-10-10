@@ -33,36 +33,128 @@ export default function Leaderboard() {
   if (loading) {
     return (
       <div className="card">
-        <div className="p-4 text-center text-gray-500">Loading leaderboard...</div>
+        <div className="loading">Loading leaderboard...</div>
+        <style jsx>{`
+          .loading {
+            padding: 2rem 1rem;
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.875rem;
+          }
+        `}</style>
       </div>
     );
   }
 
   return (
     <div className="card">
-      <div className="px-4 py-3 bg-gray-50 border-b">
-        <h3 className="text-xs font-bold text-gray-600 uppercase tracking-wide">
-          Leaderboard
-        </h3>
+      <div className="header">
+        <h3>Leaderboard</h3>
       </div>
       
-      <div className="py-1">
+      <div className="list">
         {users.slice(0, 5).map((user, index) => (
-          <div key={user.username} className="flex items-center px-4 py-3 hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-b-0">
-            <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white mr-3 ${
-              index === 0 ? 'bg-yellow-500' : index === 1 ? 'bg-gray-400' : index === 2 ? 'bg-orange-500' : 'bg-blue-500'
-            }`}>
+          <div key={user.username} className="item">
+            <div className={`rank ${index === 0 ? 'gold' : index === 1 ? 'silver' : index === 2 ? 'bronze' : 'default'}`}>
               {index + 1}
             </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-gray-900 truncate">{user.username}</p>
-              <p className="text-xs text-gray-500">
+            <div className="content">
+              <p className="username">{user.username}</p>
+              <p className="stats">
                 {user.score} points • {user.tricksSubmitted} tricks
               </p>
             </div>
           </div>
         ))}
       </div>
+      
+      <style jsx>{`
+        .header {
+          padding: 0.75rem 1rem;
+          background: #f9fafb;
+          border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .header h3 {
+          margin: 0;
+          font-size: 0.75rem;
+          font-weight: 700;
+          color: #6b7280;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+        
+        .list {
+          padding: 0.25rem 0;
+        }
+        
+        .item {
+          display: flex;
+          align-items: center;
+          padding: 0.75rem 1rem;
+          border-bottom: 1px solid #f3f4f6;
+          transition: background-color 0.2s ease;
+        }
+        
+        .item:last-child {
+          border-bottom: none;
+        }
+        
+        .item:hover {
+          background: #f9fafb;
+        }
+        
+        .rank {
+          width: 1.5rem;
+          height: 1.5rem;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0.75rem;
+          font-weight: 600;
+          margin-right: 0.75rem;
+          flex-shrink: 0;
+          color: white;
+        }
+        
+        .rank.gold {
+          background: #f59e0b;
+        }
+        
+        .rank.silver {
+          background: #6b7280;
+        }
+        
+        .rank.bronze {
+          background: #d97706;
+        }
+        
+        .rank.default {
+          background: #3b82f6;
+        }
+        
+        .content {
+          flex: 1;
+          min-width: 0;
+        }
+        
+        .username {
+          font-size: 0.875rem;
+          font-weight: 500;
+          margin: 0 0 0.25rem 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          color: #374151;
+        }
+        
+        .stats {
+          font-size: 0.75rem;
+          color: #6b7280;
+          margin: 0;
+        }
+      `}</style>
     </div>
   );
 }

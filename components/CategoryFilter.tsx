@@ -43,28 +43,80 @@ export default function CategoryFilter({ selectedCategory, onCategorySelect }: C
 
   return (
     <div className="card">
-      <div className="px-4 py-3 bg-gray-50 border-b">
-        <h3 className="text-xs font-bold text-gray-600 uppercase tracking-wide">
-          Categories ({categories.length})
-        </h3>
+      <div className="category-header">
+        <h3>Categories ({categories.length})</h3>
       </div>
       
-      <div className="py-1">
+      <div className="category-list">
         {categories.map((category) => (
           <button
             key={category.id}
-            className={`w-full flex items-center px-4 py-3 text-left hover:bg-gray-50 transition-colors border-l-3 ${
-              selectedCategory === category.id 
-                ? 'bg-blue-50 border-l-blue-500 text-blue-700' 
-                : 'border-l-transparent text-gray-700'
-            }`}
+            className={`category-item ${selectedCategory === category.id ? 'active' : ''}`}
             onClick={() => onCategorySelect(selectedCategory === category.id ? null : category.id)}
           >
-            <span className="text-lg mr-3">{category.icon}</span>
-            <span className="font-medium">{category.name}</span>
+            <span className="category-icon">{category.icon}</span>
+            <span className="category-name">{category.name}</span>
           </button>
         ))}
       </div>
+      
+      <style jsx>{`
+        .category-header {
+          padding: 0.75rem 1rem;
+          background: #f9fafb;
+          border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .category-header h3 {
+          margin: 0;
+          font-size: 0.75rem;
+          font-weight: 700;
+          color: #6b7280;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+        
+        .category-list {
+          padding: 0.25rem 0;
+        }
+        
+        .category-item {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          padding: 0.75rem 1rem;
+          text-align: left;
+          background: none;
+          border: none;
+          border-left: 3px solid transparent;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          color: #374151;
+        }
+        
+        .category-item:hover {
+          background: #f9fafb;
+        }
+        
+        .category-item.active {
+          background: #dbeafe;
+          border-left-color: #3b82f6;
+          color: #1d4ed8;
+        }
+        
+        .category-icon {
+          font-size: 1.125rem;
+          margin-right: 0.75rem;
+        }
+        
+        .category-name {
+          font-weight: 500;
+        }
+        
+        .category-item.active .category-name {
+          font-weight: 600;
+        }
+      `}</style>
     </div>
   );
 }
