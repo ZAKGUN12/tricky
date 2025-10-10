@@ -45,10 +45,11 @@ export default function CategoryFilter({ selectedCategory, onCategorySelect }: C
           .category-filter {
             background: white;
             border-radius: 8px;
-            border: 1px solid #e5e7eb;
+            border: 3px solid #ff0000;
             overflow: hidden;
             margin-bottom: 20px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            min-height: 200px;
           }
           .category-header {
             background: #f9fafb;
@@ -105,12 +106,13 @@ export default function CategoryFilter({ selectedCategory, onCategorySelect }: C
         .category-filter {
           background: white;
           border-radius: 8px;
-          border: 1px solid #e5e7eb;
+          border: 3px solid #ff0000;
           overflow: hidden;
           margin-bottom: 20px;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
           position: relative;
-          z-index: 1;
+          z-index: 10;
+          min-height: 200px;
         }
         
         .category-header {

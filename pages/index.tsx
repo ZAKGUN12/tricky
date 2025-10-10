@@ -354,6 +354,9 @@ function HomeContent() {
           .sidebar {
             width: 300px;
             flex-shrink: 0;
+            border: 2px solid #00ff00;
+            padding: 10px;
+            background: #f0f0f0;
           }
           
           .feed-container {
