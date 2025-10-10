@@ -343,6 +343,40 @@ function HomeContent() {
         <MobileNav />
 
         <style jsx>{`
+          .main-content {
+            display: flex;
+            gap: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+          }
+          
+          .sidebar {
+            width: 300px;
+            flex-shrink: 0;
+          }
+          
+          .feed-container {
+            flex: 1;
+            min-width: 0;
+          }
+          
+          @media (max-width: 768px) {
+            .main-content {
+              flex-direction: column;
+              padding: 16px;
+            }
+            
+            .sidebar {
+              width: 100%;
+              order: 2;
+            }
+            
+            .feed-container {
+              order: 1;
+            }
+          }
+          
           .header-content .header-share-btn {
             background: #00d4aa !important;
             color: white !important;

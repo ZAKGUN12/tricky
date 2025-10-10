@@ -21,13 +21,57 @@ export default function CategoryFilter({ selectedCategory, onCategorySelect }: C
       setCategories(response.categories || []);
     } catch (error) {
       console.error('Error loading categories:', error);
+      // Fallback categories if API fails
+      setCategories([
+        { id: 'cooking', name: 'Cooking', description: 'Kitchen tips and recipes', icon: '🍳', createdAt: '' },
+        { id: 'cleaning', name: 'Cleaning', description: 'House cleaning tips', icon: '🧹', createdAt: '' },
+        { id: 'technology', name: 'Technology', description: 'Tech tips and tricks', icon: '📱', createdAt: '' },
+        { id: 'health', name: 'Health', description: 'Wellness and fitness', icon: '🍎', createdAt: '' },
+        { id: 'travel', name: 'Travel', description: 'Travel tips and hacks', icon: '✈️', createdAt: '' },
+      ]);
     } finally {
       setLoading(false);
     }
   };
 
   if (loading) {
-    return <div className="category-filter loading">Loading categories...</div>;
+    return (
+      <div className="category-filter">
+        <div className="category-header">
+          <h3>Categories</h3>
+        </div>
+        <div className="loading">Loading categories...</div>
+        <style jsx>{`
+          .category-filter {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+          }
+          .category-header {
+            background: #f9fafb;
+            padding: 12px 16px;
+            border-bottom: 1px solid #e5e7eb;
+          }
+          .category-header h3 {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+          }
+          .loading {
+            padding: 20px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+          }
+        `}</style>
+      </div>
+    );
   }
 
   return (
@@ -64,6 +108,9 @@ export default function CategoryFilter({ selectedCategory, onCategorySelect }: C
           border: 1px solid #e5e7eb;
           overflow: hidden;
           margin-bottom: 20px;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+          position: relative;
+          z-index: 1;
         }
         
         .category-header {
