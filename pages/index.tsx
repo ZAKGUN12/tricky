@@ -367,8 +367,32 @@ function HomeContent() {
             padding-block: 1.5rem;
             padding-inline: clamp(1rem, 4vw, 3rem);
             overflow-y: auto;
+            overflow-x: hidden;
             background: canvas;
             container-type: inline-size;
+            max-inline-size: 100%;
+          }
+          
+          .controls {
+            margin-block-end: 1.5rem;
+            max-inline-size: 100%;
+          }
+          
+          .tricks-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-inline-size: 100%;
+          }
+          
+          .trick-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            max-inline-size: 100%;
+            overflow: hidden;
           }
           
           @container (max-width: 768px) {

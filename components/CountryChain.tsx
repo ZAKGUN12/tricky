@@ -74,6 +74,7 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
           margin: 20px 0;
           position: relative;
           overflow: hidden;
+          max-inline-size: 100%;
         }
         
         .chain-header {
@@ -111,6 +112,10 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
           position: relative;
           z-index: 2;
           justify-content: center;
+          max-inline-size: 100%;
+          overflow-x: auto;
+          overflow-y: visible;
+          padding-block-end: 8px;
         }
         
         .chain-link {
