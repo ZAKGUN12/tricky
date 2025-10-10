@@ -44,7 +44,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 }
 
 async function handleGet(req: NextApiRequest, res: NextApiResponse) {
-  const { country, search, difficulty } = req.query;
+  const { country, search, difficulty, category } = req.query;
   const cacheKey = `tricks:${JSON.stringify(req.query)}`;
   
   // Check cache first
@@ -56,8 +56,8 @@ async function handleGet(req: NextApiRequest, res: NextApiResponse) {
   
   const command = new ScanCommand({
     TableName: 'TrickShare-Tricks',
-    FilterExpression: buildFilterExpression({ country, search, difficulty }),
-    ExpressionAttributeValues: buildExpressionValues({ country, search, difficulty })
+    FilterExpression: buildFilterExpression({ country, search, difficulty, category }),
+    ExpressionAttributeValues: buildExpressionValues({ country, search, difficulty, category })
   });
 
   const result = await docClient.send(command);
@@ -135,6 +135,7 @@ function buildFilterExpression(filters: any) {
   const expressions = [];
   if (filters.country) expressions.push('countryCode = :country');
   if (filters.difficulty) expressions.push('difficulty = :difficulty');
+  if (filters.category) expressions.push('category = :category');
   if (filters.search) expressions.push('contains(title, :search) OR contains(description, :search)');
   return expressions.length > 0 ? expressions.join(' AND ') : undefined;
 }
@@ -143,6 +144,7 @@ function buildExpressionValues(filters: any) {
   const values: any = {};
   if (filters.country) values[':country'] = filters.country;
   if (filters.difficulty) values[':difficulty'] = filters.difficulty;
+  if (filters.category) values[':category'] = filters.category;
   if (filters.search) values[':search'] = filters.search;
   return Object.keys(values).length > 0 ? values : undefined;
 }

@@ -1,3 +1,11 @@
+export interface Category {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  createdAt: string;
+}
+
 export interface Trick {
   id: string;
   title: string;
@@ -5,6 +13,7 @@ export interface Trick {
   steps: string[];
   countryCode: string;
   languageCode: string;
+  category?: string;
   tags: string[];
   authorId?: string;
   authorName?: string;

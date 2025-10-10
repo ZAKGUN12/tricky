@@ -2,12 +2,24 @@
 const API_BASE = '/api';
 
 export class TrickShareAPI {
+  // Categories
+  static async getCategories() {
+    const response = await fetch(`${API_BASE}/categories`);
+    return response.json();
+  }
+
+  static async getTricksByCategory(categoryId: string) {
+    const response = await fetch(`${API_BASE}/tricks/category/${categoryId}`);
+    return response.json();
+  }
+
   // Tricks
-  static async getTricks(filters?: { country?: string; search?: string; difficulty?: string }) {
+  static async getTricks(filters?: { country?: string; search?: string; difficulty?: string; category?: string }) {
     const params = new URLSearchParams();
     if (filters?.country) params.append('country', filters.country);
     if (filters?.search) params.append('search', filters.search);
     if (filters?.difficulty) params.append('difficulty', filters.difficulty);
+    if (filters?.category) params.append('category', filters.category);
     
     const response = await fetch(`${API_BASE}/tricks?${params}`);
     return response.json();
