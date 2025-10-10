@@ -97,7 +97,7 @@ export default function CategoryFilter({ selectedCategory, onCategorySelect }: C
           <button
             key={category.id}
             className={`category-item ${selectedCategory === category.id ? 'active' : ''}`}
-            onClick={() => onCategorySelect(category.id)}
+            onClick={() => onCategorySelect(selectedCategory === category.id ? null : category.id)}
           >
             <span className="category-icon">{category.icon}</span>
             <span className="category-name">{category.name}</span>

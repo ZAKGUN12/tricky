@@ -90,34 +90,107 @@ export default function TopTricks() {
 
       <style jsx>{`
         .top-tricks {
-          background: #192734;
-          border: 1px solid #38444d;
-          border-radius: 16px;
-          padding: 0;
-          margin-bottom: 30px;
+          background: white;
+          border: 1px solid #e5e7eb;
+          border-radius: 0.75rem;
           overflow: hidden;
-          min-height: 200px;
+          margin-bottom: 1rem;
+          box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+          width: 100%;
         }
         
         .section-header {
-          background: linear-gradient(135deg, #1d9bf0, #1a8cd8);
-          padding: 16px 20px;
-          color: white;
-          position: relative;
+          background: #f9fafb;
+          padding: 0.875rem 1rem;
+          border-bottom: 1px solid #e5e7eb;
         }
         
         .section-header h3 {
           margin: 0;
-          font-size: 1.1rem;
+          font-size: 0.75rem;
           font-weight: 700;
+          color: #374151;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
         }
         
-        .header-line {
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          height: 2px;
+        .top-list {
+          padding: 0.25rem 0;
+        }
+        
+        .trick-item {
+          display: flex;
+          align-items: center;
+          padding: 0.75rem 1rem;
+          text-decoration: none;
+          color: #374151;
+          transition: all 0.15s ease-in-out;
+          border-bottom: 1px solid #f3f4f6;
+        }
+        
+        .trick-item:last-child {
+          border-bottom: none;
+        }
+        
+        .trick-item:hover {
+          background: #f9fafb;
+        }
+        
+        .rank-badge {
+          background: #3b82f6;
+          color: white;
+          width: 1.5rem;
+          height: 1.5rem;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0.75rem;
+          font-weight: 600;
+          margin-right: 0.75rem;
+          flex-shrink: 0;
+        }
+        
+        .rank-badge.gold {
+          background: #f59e0b;
+        }
+        
+        .rank-badge.silver {
+          background: #6b7280;
+        }
+        
+        .rank-badge.bronze {
+          background: #d97706;
+        }
+        
+        .trick-content {
+          flex: 1;
+          min-width: 0;
+        }
+        
+        .trick-title {
+          font-size: 0.875rem;
+          font-weight: 500;
+          margin: 0 0 0.25rem 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        
+        .trick-meta {
+          font-size: 0.75rem;
+          color: #6b7280;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+        
+        .loading, .empty-state {
+          padding: 2rem 1rem;
+          text-align: center;
+          color: #6b7280;
+          font-size: 0.875rem;
+        }
           background: rgba(255, 255, 255, 0.3);
         }
         

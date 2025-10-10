@@ -357,6 +357,9 @@ function HomeContent() {
             padding: 1rem;
             scrollbar-width: thin;
             scrollbar-color: #cbd5e0 transparent;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
           }
           
           .sidebar::-webkit-scrollbar {
@@ -378,6 +381,7 @@ function HomeContent() {
             background: #ffffff;
             scrollbar-width: thin;
             scrollbar-color: #cbd5e0 transparent;
+            scroll-behavior: smooth;
           }
           
           .feed-container::-webkit-scrollbar {

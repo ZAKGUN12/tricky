@@ -78,12 +78,13 @@ export default function Leaderboard() {
 
       <style jsx>{`
         .leaderboard-frame {
-          background: #192734;
-          border: 1px solid #38444d;
-          border-radius: 16px;
-          padding: 0;
-          margin-bottom: 30px;
+          background: white;
+          border: 1px solid #e5e7eb;
+          border-radius: 0.75rem;
           overflow: hidden;
+          margin-bottom: 1rem;
+          box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+          width: 100%;
         }
         
         .section-header {
