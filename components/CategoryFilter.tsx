@@ -16,19 +16,24 @@ export default function CategoryFilter({ selectedCategory, onCategorySelect }: C
   }, []);
 
   const loadCategories = async () => {
+    console.log('🔍 Loading categories...');
     try {
       const response = await TrickShareAPI.getCategories();
+      console.log('📦 Categories response:', response);
       setCategories(response.categories || []);
+      console.log('✅ Categories loaded:', response.categories?.length || 0);
     } catch (error) {
-      console.error('Error loading categories:', error);
+      console.error('❌ Error loading categories:', error);
       // Fallback categories if API fails
-      setCategories([
+      const fallbackCategories = [
         { id: 'cooking', name: 'Cooking', description: 'Kitchen tips and recipes', icon: '🍳', createdAt: '' },
         { id: 'cleaning', name: 'Cleaning', description: 'House cleaning tips', icon: '🧹', createdAt: '' },
         { id: 'technology', name: 'Technology', description: 'Tech tips and tricks', icon: '📱', createdAt: '' },
         { id: 'health', name: 'Health', description: 'Wellness and fitness', icon: '🍎', createdAt: '' },
         { id: 'travel', name: 'Travel', description: 'Travel tips and hacks', icon: '✈️', createdAt: '' },
-      ]);
+      ];
+      console.log('🔄 Using fallback categories:', fallbackCategories.length);
+      setCategories(fallbackCategories);
     } finally {
       setLoading(false);
     }
@@ -78,7 +83,7 @@ export default function CategoryFilter({ selectedCategory, onCategorySelect }: C
   return (
     <div className="category-filter">
       <div className="category-header">
-        <h3>Categories</h3>
+        <h3>Categories ({categories.length})</h3>
       </div>
       
       <div className="category-list">
@@ -89,6 +94,12 @@ export default function CategoryFilter({ selectedCategory, onCategorySelect }: C
           <span className="category-icon">🌍</span>
           <span className="category-name">All Tricks</span>
         </button>
+        
+        {categories.length === 0 && !loading && (
+          <div style={{ padding: '16px', color: '#666', fontSize: '14px' }}>
+            No categories loaded. Check console for errors.
+          </div>
+        )}
         
         {categories.map((category) => (
           <button
