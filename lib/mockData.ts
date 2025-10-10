@@ -2,6 +2,7 @@ export const countries = [
   { code: 'US', name: 'United States', flag: '🇺🇸' },
   { code: 'JP', name: 'Japan', flag: '🇯🇵' },
   { code: 'DE', name: 'Germany', flag: '🇩🇪' },
+  { code: 'AT', name: 'Austria', flag: '🇦🇹' },
   { code: 'FR', name: 'France', flag: '🇫🇷' },
   { code: 'GB', name: 'United Kingdom', flag: '🇬🇧' },
   { code: 'IT', name: 'Italy', flag: '🇮🇹' },
