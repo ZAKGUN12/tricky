@@ -344,52 +344,68 @@ function HomeContent() {
 
         <style jsx>{`
           .main-content {
-            display: flex;
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            align-items: flex-start;
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            min-height: calc(100vh - 80px);
+            background: #f8fafc;
           }
           
           .sidebar {
-            width: 280px;
-            flex-shrink: 0;
+            background: white;
+            border-right: 1px solid #e2e8f0;
+            padding: 24px 20px;
+            overflow-y: auto;
             position: sticky;
-            top: 20px;
+            top: 0;
+            height: calc(100vh - 80px);
           }
           
           .feed-container {
-            flex: 1;
-            min-width: 0;
+            padding: 24px 32px;
+            max-width: none;
+            background: #f8fafc;
           }
           
-          @media (max-width: 1024px) {
+          @media (max-width: 1200px) {
             .main-content {
-              gap: 16px;
-              padding: 16px;
+              grid-template-columns: 280px 1fr;
             }
             
             .sidebar {
-              width: 260px;
+              padding: 20px 16px;
+            }
+            
+            .feed-container {
+              padding: 20px 24px;
             }
           }
           
           @media (max-width: 768px) {
             .main-content {
-              flex-direction: column;
-              gap: 12px;
-              padding: 12px;
+              grid-template-columns: 1fr;
+              grid-template-rows: auto 1fr;
             }
             
             .sidebar {
-              width: 100%;
               position: static;
-              order: 2;
+              height: auto;
+              border-right: none;
+              border-bottom: 1px solid #e2e8f0;
+              padding: 16px;
             }
             
             .feed-container {
-              order: 1;
+              padding: 16px;
+            }
+          }
+          
+          @media (max-width: 480px) {
+            .sidebar {
+              padding: 12px;
+            }
+            
+            .feed-container {
+              padding: 12px;
             }
           }
           
