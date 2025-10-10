@@ -344,68 +344,49 @@ function HomeContent() {
 
         <style jsx>{`
           .main-content {
-            display: grid;
-            grid-template-columns: 320px 1fr;
-            min-height: calc(100vh - 80px);
-            background: #f8fafc;
+            display: flex;
+            width: 100vw;
+            height: calc(100vh - 60px);
+            background: #ffffff;
           }
           
           .sidebar {
-            background: white;
-            border-right: 1px solid #e2e8f0;
-            padding: 24px 20px;
+            width: 280px;
+            background: #fafbfc;
+            border-right: 1px solid #e1e5e9;
+            padding: 20px 16px;
             overflow-y: auto;
-            position: sticky;
-            top: 0;
-            height: calc(100vh - 80px);
+            flex-shrink: 0;
           }
           
           .feed-container {
-            padding: 24px 32px;
-            max-width: none;
-            background: #f8fafc;
+            flex: 1;
+            padding: 20px 40px 20px 32px;
+            overflow-y: auto;
+            background: #ffffff;
           }
           
-          @media (max-width: 1200px) {
-            .main-content {
-              grid-template-columns: 280px 1fr;
-            }
-            
-            .sidebar {
-              padding: 20px 16px;
-            }
-            
+          @media (min-width: 1400px) {
             .feed-container {
-              padding: 20px 24px;
+              padding: 20px 60px 20px 40px;
             }
           }
           
           @media (max-width: 768px) {
             .main-content {
-              grid-template-columns: 1fr;
-              grid-template-rows: auto 1fr;
-            }
-            
-            .sidebar {
-              position: static;
+              flex-direction: column;
               height: auto;
-              border-right: none;
-              border-bottom: 1px solid #e2e8f0;
-              padding: 16px;
             }
             
-            .feed-container {
-              padding: 16px;
-            }
-          }
-          
-          @media (max-width: 480px) {
             .sidebar {
-              padding: 12px;
+              width: 100%;
+              padding: 16px;
+              border-right: none;
+              border-bottom: 1px solid #e1e5e9;
             }
             
             .feed-container {
-              padding: 12px;
+              padding: 16px;
             }
           }
           
