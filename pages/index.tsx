@@ -14,6 +14,7 @@ import AdvancedSearch from '../components/AdvancedSearch';
 import MobileNav from '../components/MobileNav';
 import LoadingSkeleton from '../components/LoadingSkeleton';
 import Categories, { categories } from '../components/Categories';
+import CategoryFilter from '../components/CategoryFilter';
 import Timer from '../components/Timer';
 import { useToast } from '../components/Toast';
 
@@ -22,7 +23,7 @@ function HomeContent() {
   const [tricks, setTricks] = useState<Trick[]>([]);
   const [filteredTricks, setFilteredTricks] = useState<Trick[]>([]);
   const [selectedCountry, setSelectedCountry] = useState<string>('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -74,9 +75,12 @@ function HomeContent() {
       // Country filter
       const matchesCountry = !selectedCountry || trick.countryCode === selectedCountry;
       
+      // Category filter
+      const matchesCategory = !selectedCategory || trick.category === selectedCategory;
+      
       // Search filter - check if search query is empty
       if (!searchQuery || searchQuery.trim() === '') {
-        return matchesCountry;
+        return matchesCountry && matchesCategory;
       }
       
       const searchLower = searchQuery.toLowerCase().trim();
@@ -89,11 +93,11 @@ function HomeContent() {
         )) ||
         (trick.authorName && trick.authorName.toLowerCase().includes(searchLower));
       
-      return matchesCountry && matchesSearch;
+      return matchesCountry && matchesCategory && matchesSearch;
     });
     
     setFilteredTricks(filtered);
-  }, [selectedCountry, searchQuery, tricks]);
+  }, [selectedCountry, selectedCategory, searchQuery, tricks]);
 
   const handleKudos = async (trickId: string) => {
     if (!user?.signInDetails?.loginId) {
@@ -207,6 +211,10 @@ function HomeContent() {
 
         <div className="main-content">
           <div className="sidebar">
+            <CategoryFilter 
+              selectedCategory={selectedCategory}
+              onCategorySelect={setSelectedCategory}
+            />
             <TopTricks />
             {user && (
               <UserStats userEmail={user.signInDetails?.loginId || user.username || ''} />
