@@ -110,7 +110,7 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
           gap: 12px;
           position: relative;
           z-index: 2;
-          justify-content: flex-start;
+          justify-content: center;
         }
         
         .chain-link {
