@@ -24,10 +24,15 @@ export default function TopTricks() {
       const response = await fetch('/api/tricks/top');
       if (response.ok) {
         const data = await response.json();
-        setTopTricks(data);
+        console.log('Top tricks data:', data); // Debug log
+        setTopTricks(Array.isArray(data) ? data : []);
+      } else {
+        console.error('Failed to fetch top tricks:', response.status);
+        setTopTricks([]);
       }
     } catch (error) {
       console.error('Failed to fetch top tricks:', error);
+      setTopTricks([]);
     } finally {
       setLoading(false);
     }
@@ -44,15 +49,17 @@ export default function TopTricks() {
     );
   }
 
+  const displayTricks = topTricks.slice(0, 5);
+
   return (
     <div className="top-tricks-wrapper">
       <div className="header">
         <h3>🏆 Top Tricks</h3>
-        <span className="count">Top {Math.min(topTricks.length, 5)}</span>
+        <span className="count">Top {displayTricks.length}</span>
       </div>
       
       <div className="tricks-list">
-        {topTricks.slice(0, 5).map((trick, index) => {
+        {displayTricks.length > 0 ? displayTricks.map((trick, index) => {
           const country = countries.find(c => c.code === trick.countryCode);
           return (
             <Link key={trick.id} href={`/trick/${trick.id}`} className="trick-link">
@@ -76,7 +83,9 @@ export default function TopTricks() {
               </div>
             </Link>
           );
-        })}
+        }) : (
+          <div className="no-data">No tricks available</div>
+        )}
       </div>
 
       <style jsx>{`
@@ -109,7 +118,7 @@ export default function TopTricks() {
           font-weight: 600;
         }
 
-        .loading {
+        .loading, .no-data {
           padding: 20px;
           text-align: center;
           color: rgba(139, 69, 19, 0.7);

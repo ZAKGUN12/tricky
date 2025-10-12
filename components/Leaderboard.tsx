@@ -21,10 +21,15 @@ export default function Leaderboard() {
       const response = await fetch('/api/leaderboard');
       if (response.ok) {
         const data = await response.json();
-        setUsers(data);
+        console.log('Leaderboard data:', data); // Debug log
+        setUsers(Array.isArray(data) ? data : []);
+      } else {
+        console.error('Failed to fetch leaderboard:', response.status);
+        setUsers([]);
       }
     } catch (error) {
       console.error('Failed to fetch leaderboard:', error);
+      setUsers([]);
     } finally {
       setLoading(false);
     }
@@ -41,15 +46,17 @@ export default function Leaderboard() {
     );
   }
 
+  const displayUsers = users.slice(0, 5);
+
   return (
     <div className="leaderboard-wrapper">
       <div className="header">
         <h3>🏅 Leaderboard</h3>
-        <span className="count">Top {Math.min(users.length, 5)}</span>
+        <span className="count">Top {displayUsers.length}</span>
       </div>
       
       <div className="users-list">
-        {users.slice(0, 5).map((user, index) => (
+        {displayUsers.length > 0 ? displayUsers.map((user, index) => (
           <div key={user.username} className="user-item">
             <div className="rank">
               <span className="rank-number">#{index + 1}</span>
@@ -68,7 +75,9 @@ export default function Leaderboard() {
               </div>
             </div>
           </div>
-        ))}
+        )) : (
+          <div className="no-data">No users available</div>
+        )}
       </div>
 
       <style jsx>{`
@@ -101,7 +110,7 @@ export default function Leaderboard() {
           font-weight: 600;
         }
 
-        .loading {
+        .loading, .no-data {
           padding: 20px;
           text-align: center;
           color: rgba(255, 255, 255, 0.8);
