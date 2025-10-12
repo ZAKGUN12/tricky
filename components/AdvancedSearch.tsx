@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import { TrickShareAPI } from '../lib/api';
 
 interface SearchSuggestion {
   text: string;
@@ -35,12 +34,17 @@ export default function AdvancedSearch({ onSearch, onFilter }: {
   useEffect(() => {
     const timer = setTimeout(async () => {
       if (query.length > 1) {
-        const [suggestions, smart] = await Promise.all([
-          fetchSuggestions(query),
-          fetchSmartSuggestions(query)
-        ]);
-        setSuggestions([...suggestions, ...smart]);
-        setShowSuggestions(true);
+        try {
+          const [suggestions, smart] = await Promise.all([
+            fetchSuggestions(query),
+            fetchSmartSuggestions(query)
+          ]);
+          setSuggestions([...suggestions, ...smart]);
+          setShowSuggestions(true);
+        } catch (error) {
+          console.error('Error fetching search suggestions:', error);
+          setShowSuggestions(false);
+        }
       } else {
         setShowSuggestions(false);
       }
@@ -52,8 +56,10 @@ export default function AdvancedSearch({ onSearch, onFilter }: {
   const fetchSuggestions = async (searchQuery: string): Promise<SearchSuggestion[]> => {
     try {
       const response = await fetch(`/api/search/suggestions?q=${encodeURIComponent(searchQuery)}`);
+      if (!response.ok) return [];
       return await response.json();
     } catch (error) {
+      console.error('Error fetching suggestions:', error);
       return [];
     }
   };
@@ -61,13 +67,15 @@ export default function AdvancedSearch({ onSearch, onFilter }: {
   const fetchSmartSuggestions = async (searchQuery: string): Promise<SearchSuggestion[]> => {
     try {
       const response = await fetch(`/api/search/smart?q=${encodeURIComponent(searchQuery)}`);
+      if (!response.ok) return [];
       const data = await response.json();
-      return data.map((suggestion: string) => ({
+      return Array.isArray(data) ? data.map((suggestion: string) => ({
         text: suggestion,
         type: 'smart' as const,
         relevance: 0.9
-      }));
+      })) : [];
     } catch (error) {
+      console.error('Error fetching smart suggestions:', error);
       return [];
     }
   };
