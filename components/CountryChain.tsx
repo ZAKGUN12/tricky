@@ -24,12 +24,11 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
     <div className="country-chain-wrapper">
       <div className="chain-header">
         <div className="header-content">
-          <h2 className="chain-title">🌍 Global Trick Network</h2>
-          <p className="chain-subtitle">Discover life hacks from {countriesWithTricks.length} countries worldwide</p>
+          <h3 className="chain-title">🌍 Global Network</h3>
+          <p className="chain-subtitle">{countriesWithTricks.length} countries</p>
         </div>
         <div className="total-badge">
           <span className="total-number">{tricks.length}</span>
-          <span className="total-label">Total Tricks</span>
         </div>
       </div>
 
@@ -40,17 +39,13 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
               key={country.code}
               className={`country-link ${selectedCountry === country.code ? 'active' : ''}`}
               onClick={() => onCountrySelect(country.code)}
-              style={{ '--delay': `${index * 0.1}s` } as React.CSSProperties}
+              style={{ '--delay': `${index * 0.05}s` } as React.CSSProperties}
             >
-              <div className="country-flag-wrapper">
-                <span className="country-flag">{country.flag}</span>
-                <div className="pulse-ring"></div>
-              </div>
+              <span className="country-flag">{country.flag}</span>
               <div className="country-details">
                 <span className="country-name">{country.name}</span>
-                <span className="trick-count">{country.trickCount} tricks</span>
+                <span className="trick-count">{country.trickCount}</span>
               </div>
-              <div className="connection-line"></div>
             </button>
           ))}
         </div>
@@ -63,22 +58,20 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
         >
           <div className="button-icon">🌐</div>
           <div className="button-content">
-            <span className="button-title">View All Countries</span>
-            <span className="button-subtitle">Browse {tricks.length} tricks globally</span>
+            <span className="button-title">All Countries</span>
           </div>
-          <div className="button-arrow">→</div>
         </button>
       </div>
 
       <style jsx>{`
         .country-chain-wrapper {
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          border-radius: 24px;
-          padding: 32px;
-          margin-bottom: 32px;
+          border-radius: 16px;
+          padding: 20px;
+          margin-bottom: 20px;
           position: relative;
           overflow: hidden;
-          box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+          box-shadow: 0 8px 16px rgba(102, 126, 234, 0.2);
         }
 
         .country-chain-wrapper::before {
@@ -89,17 +82,16 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
           right: 0;
           bottom: 0;
           background: 
-            radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 40% 40%, rgba(120, 119, 198, 0.2) 0%, transparent 50%);
+            radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.2) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
           pointer-events: none;
         }
 
         .chain-header {
           display: flex;
           justify-content: space-between;
-          align-items: flex-start;
-          margin-bottom: 32px;
+          align-items: center;
+          margin-bottom: 16px;
           position: relative;
           z-index: 2;
         }
@@ -109,46 +101,36 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
         }
 
         .chain-title {
-          font-size: 2rem;
-          font-weight: 800;
+          font-size: 1.25rem;
+          font-weight: 700;
           color: white;
-          margin: 0 0 8px 0;
-          text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-          letter-spacing: -0.02em;
+          margin: 0 0 4px 0;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .chain-subtitle {
-          font-size: 1.125rem;
-          color: rgba(255, 255, 255, 0.9);
+          font-size: 0.875rem;
+          color: rgba(255, 255, 255, 0.8);
           margin: 0;
           font-weight: 500;
         }
 
         .total-badge {
           background: rgba(255, 255, 255, 0.2);
-          backdrop-filter: blur(20px);
+          backdrop-filter: blur(10px);
           border: 1px solid rgba(255, 255, 255, 0.3);
-          border-radius: 16px;
-          padding: 16px 24px;
+          border-radius: 12px;
+          padding: 8px 12px;
           text-align: center;
-          min-width: 120px;
+          min-width: 50px;
         }
 
         .total-number {
           display: block;
-          font-size: 2rem;
-          font-weight: 800;
+          font-size: 1.25rem;
+          font-weight: 700;
           color: white;
-          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .total-label {
-          display: block;
-          font-size: 0.875rem;
-          color: rgba(255, 255, 255, 0.8);
-          font-weight: 600;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
 
         .chain-container {
@@ -158,31 +140,31 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
 
         .chain-track {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-          gap: 16px;
-          margin-bottom: 32px;
+          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+          gap: 8px;
+          margin-bottom: 16px;
         }
 
         .country-link {
           display: flex;
           align-items: center;
-          gap: 16px;
+          gap: 8px;
           background: rgba(255, 255, 255, 0.1);
-          backdrop-filter: blur(20px);
-          border: 2px solid rgba(255, 255, 255, 0.2);
-          border-radius: 16px;
-          padding: 20px;
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 12px;
+          padding: 12px;
           cursor: pointer;
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           position: relative;
           overflow: hidden;
-          animation: slideIn 0.6s ease-out var(--delay) both;
+          animation: slideIn 0.4s ease-out var(--delay) both;
         }
 
         @keyframes slideIn {
           from {
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(15px);
           }
           to {
             opacity: 1;
@@ -198,7 +180,7 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
           width: 100%;
           height: 100%;
           background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-          transition: left 0.8s ease;
+          transition: left 0.6s ease;
         }
 
         .country-link:hover::before {
@@ -208,60 +190,25 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
         .country-link:hover {
           background: rgba(255, 255, 255, 0.2);
           border-color: rgba(255, 255, 255, 0.4);
-          transform: translateY(-4px) scale(1.02);
-          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
         .country-link.active {
           background: rgba(255, 255, 255, 0.25);
           border-color: #fbbf24;
-          box-shadow: 0 0 0 2px #fbbf24, 0 12px 24px rgba(251, 191, 36, 0.3);
-          transform: translateY(-2px);
-        }
-
-        .country-flag-wrapper {
-          position: relative;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 64px;
-          height: 64px;
-          flex-shrink: 0;
+          box-shadow: 0 0 0 1px #fbbf24, 0 4px 8px rgba(251, 191, 36, 0.2);
         }
 
         .country-flag {
-          font-size: 2.5rem;
-          filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
-          transition: transform 0.3s ease;
-          z-index: 2;
-          position: relative;
+          font-size: 1.5rem;
+          filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+          transition: transform 0.2s ease;
+          flex-shrink: 0;
         }
 
         .country-link:hover .country-flag {
-          transform: scale(1.1) rotate(5deg);
-        }
-
-        .pulse-ring {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 80px;
-          height: 80px;
-          border: 2px solid rgba(255, 255, 255, 0.3);
-          border-radius: 50%;
-          animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-          0% {
-            transform: translate(-50%, -50%) scale(0.8);
-            opacity: 1;
-          }
-          100% {
-            transform: translate(-50%, -50%) scale(1.2);
-            opacity: 0;
-          }
+          transform: scale(1.05);
         }
 
         .country-details {
@@ -271,11 +218,11 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
 
         .country-name {
           display: block;
-          font-size: 1.125rem;
-          font-weight: 700;
+          font-size: 0.875rem;
+          font-weight: 600;
           color: white;
-          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-          margin-bottom: 4px;
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+          margin-bottom: 2px;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -283,17 +230,10 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
 
         .trick-count {
           display: block;
-          font-size: 0.875rem;
+          font-size: 0.75rem;
           color: #fbbf24;
-          font-weight: 600;
-          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-        }
-
-        .connection-line {
-          width: 2px;
-          height: 40px;
-          background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.3), transparent);
-          flex-shrink: 0;
+          font-weight: 500;
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
 
         .chain-footer {
@@ -305,14 +245,14 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
           width: 100%;
           display: flex;
           align-items: center;
-          gap: 20px;
+          gap: 12px;
           background: rgba(255, 255, 255, 0.1);
-          backdrop-filter: blur(20px);
-          border: 2px solid rgba(255, 255, 255, 0.2);
-          border-radius: 20px;
-          padding: 24px;
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 12px;
+          padding: 12px;
           cursor: pointer;
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           position: relative;
           overflow: hidden;
         }
@@ -325,7 +265,7 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
           width: 100%;
           height: 100%;
           background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-          transition: left 0.8s ease;
+          transition: left 0.6s ease;
         }
 
         .all-countries-button:hover::before {
@@ -335,25 +275,25 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
         .all-countries-button:hover {
           background: rgba(255, 255, 255, 0.2);
           border-color: rgba(255, 255, 255, 0.4);
-          transform: translateY(-4px);
-          box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
         .all-countries-button.active {
           background: #fbbf24;
           border-color: #f59e0b;
           color: #1e40af;
-          box-shadow: 0 16px 32px rgba(251, 191, 36, 0.4);
+          box-shadow: 0 4px 8px rgba(251, 191, 36, 0.3);
         }
 
         .button-icon {
-          font-size: 3rem;
-          filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
-          transition: transform 0.3s ease;
+          font-size: 1.5rem;
+          filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+          transition: transform 0.2s ease;
         }
 
         .all-countries-button:hover .button-icon {
-          transform: scale(1.1) rotate(10deg);
+          transform: scale(1.05);
         }
 
         .button-content {
@@ -363,11 +303,10 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
 
         .button-title {
           display: block;
-          font-size: 1.5rem;
-          font-weight: 700;
+          font-size: 0.875rem;
+          font-weight: 600;
           color: white;
-          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-          margin-bottom: 4px;
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
 
         .all-countries-button.active .button-title {
@@ -375,139 +314,95 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
           text-shadow: none;
         }
 
-        .button-subtitle {
-          display: block;
-          font-size: 1rem;
-          color: rgba(255, 255, 255, 0.8);
-          font-weight: 500;
-        }
-
-        .all-countries-button.active .button-subtitle {
-          color: rgba(30, 64, 175, 0.8);
-        }
-
-        .button-arrow {
-          font-size: 1.5rem;
-          font-weight: 700;
-          color: white;
-          transition: transform 0.3s ease;
-        }
-
-        .all-countries-button:hover .button-arrow {
-          transform: translateX(4px);
-        }
-
-        .all-countries-button.active .button-arrow {
-          color: #1e40af;
-        }
-
         @media (max-width: 1024px) {
           .country-chain-wrapper {
-            padding: 24px;
-            margin-bottom: 24px;
+            padding: 16px;
+            margin-bottom: 16px;
           }
 
           .chain-title {
-            font-size: 1.75rem;
-          }
-
-          .chain-subtitle {
-            font-size: 1rem;
+            font-size: 1.125rem;
           }
 
           .chain-track {
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 6px;
           }
 
           .country-link {
-            padding: 16px;
-            gap: 12px;
-          }
-
-          .country-flag-wrapper {
-            width: 56px;
-            height: 56px;
+            padding: 10px;
+            gap: 6px;
           }
 
           .country-flag {
-            font-size: 2rem;
+            font-size: 1.25rem;
           }
         }
 
         @media (max-width: 768px) {
           .country-chain-wrapper {
-            padding: 20px;
-            margin-bottom: 20px;
+            padding: 12px;
+            margin-bottom: 12px;
           }
 
           .chain-header {
             flex-direction: column;
-            gap: 16px;
+            gap: 8px;
             text-align: center;
-            margin-bottom: 24px;
+            margin-bottom: 12px;
           }
 
           .chain-title {
-            font-size: 1.5rem;
+            font-size: 1rem;
           }
 
           .chain-subtitle {
-            font-size: 0.875rem;
+            font-size: 0.75rem;
           }
 
           .total-badge {
             align-self: center;
-            min-width: 100px;
-            padding: 12px 20px;
+            min-width: 40px;
+            padding: 6px 10px;
           }
 
           .total-number {
-            font-size: 1.5rem;
+            font-size: 1rem;
           }
 
           .chain-track {
             grid-template-columns: 1fr;
-            gap: 8px;
+            gap: 4px;
           }
 
           .country-link {
-            padding: 12px;
-            gap: 10px;
-          }
-
-          .country-flag-wrapper {
-            width: 48px;
-            height: 48px;
+            padding: 8px;
+            gap: 6px;
           }
 
           .country-flag {
-            font-size: 1.75rem;
+            font-size: 1.125rem;
           }
 
           .country-name {
-            font-size: 1rem;
-          }
-
-          .trick-count {
             font-size: 0.75rem;
           }
 
+          .trick-count {
+            font-size: 0.625rem;
+          }
+
           .all-countries-button {
-            padding: 20px;
-            gap: 16px;
+            padding: 8px;
+            gap: 8px;
           }
 
           .button-icon {
-            font-size: 2.5rem;
-          }
-
-          .button-title {
             font-size: 1.25rem;
           }
 
-          .button-subtitle {
-            font-size: 0.875rem;
+          .button-title {
+            font-size: 0.75rem;
           }
         }
       `}</style>
