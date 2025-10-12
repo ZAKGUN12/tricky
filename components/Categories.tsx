@@ -1,208 +1,181 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface Category {
   id: string;
   name: string;
   icon: string;
-  color: string;
-  tags: string[];
+  count: number;
 }
-
-const categories: Category[] = [
-  {
-    id: 'all',
-    name: 'All Tricks',
-    icon: '✨',
-    color: '#00d4aa',
-    tags: []
-  },
-  {
-    id: 'cooking',
-    name: 'Cooking',
-    icon: '👨‍🍳',
-    color: '#e74c3c',
-    tags: ['cooking', 'pasta', 'italian', 'recipe', 'kitchen', 'food', 'meal', 'baking', 'chef']
-  },
-  {
-    id: 'cleaning',
-    name: 'Cleaning',
-    icon: '🧽',
-    color: '#3498db',
-    tags: ['cleaning', 'sanitize', 'stain', 'detergent', 'wash', 'scrub', 'polish', 'disinfect']
-  },
-  {
-    id: 'productivity',
-    name: 'Productivity',
-    icon: '⚡',
-    color: '#f39c12',
-    tags: ['productivity', 'time-management', 'habits', 'work', 'efficiency', 'organization']
-  },
-  {
-    id: 'health',
-    name: 'Health & Wellness',
-    icon: '💪',
-    color: '#27ae60',
-    tags: ['health', 'wellness', 'fitness', 'exercise', 'diet', 'mental', 'sleep']
-  },
-  {
-    id: 'home',
-    name: 'Home & DIY',
-    icon: '🏠',
-    color: '#9b59b6',
-    tags: ['diy', 'home', 'repair', 'maintenance', 'decoration', 'furniture', 'garden']
-  },
-  {
-    id: 'tech',
-    name: 'Technology',
-    icon: '📱',
-    color: '#34495e',
-    tags: ['tech', 'phone', 'computer', 'app', 'digital', 'software', 'gadget']
-  },
-  {
-    id: 'money',
-    name: 'Money & Finance',
-    icon: '💰',
-    color: '#16a085',
-    tags: ['money', 'finance', 'budget', 'save', 'investment', 'frugal', 'cheap']
-  },
-  {
-    id: 'travel',
-    name: 'Travel',
-    icon: '✈️',
-    color: '#e67e22',
-    tags: ['travel', 'trip', 'vacation', 'packing', 'flight', 'hotel', 'tourism']
-  }
-];
 
 interface CategoriesProps {
   selectedCategory: string;
-  onCategorySelect: (categoryId: string) => void;
-  trickCounts?: { [key: string]: number };
+  onCategorySelect: (categoryId: string | null) => void;
 }
 
-export default function Categories({ selectedCategory, onCategorySelect, trickCounts = {} }: CategoriesProps) {
+export default function Categories({ selectedCategory, onCategorySelect }: CategoriesProps) {
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch('/api/categories');
+      if (response.ok) {
+        const data = await response.json();
+        setCategories(data);
+      }
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="categories-wrapper">
+        <div className="header">
+          <h3>📂 Categories</h3>
+        </div>
+        <div className="loading">Loading...</div>
+      </div>
+    );
+  }
+
   return (
-    <div className="categories-container">
-      <h3 className="categories-title">Categories</h3>
-      <div className="categories-grid">
-        {categories.map((category) => {
-          const count = trickCounts[category.id] || 0;
-          const isActive = selectedCategory === category.id;
-          
-          return (
-            <button
-              key={category.id}
-              onClick={() => onCategorySelect(category.id)}
-              className={`category-card ${isActive ? 'active' : ''}`}
-              style={{
-                borderColor: isActive ? category.color : '#333',
-                background: isActive ? `${category.color}15` : '#111'
-              }}
-            >
-              <div className="category-icon" style={{ color: category.color }}>
-                {category.icon}
-              </div>
-              <div className="category-info">
-                <span className="category-name">{category.name}</span>
-                <span className="category-count">{count} tricks</span>
-              </div>
-            </button>
-          );
-        })}
+    <div className="categories-wrapper">
+      <div className="header">
+        <h3>📂 Categories</h3>
+        <span className="count">{categories.length} categories</span>
+      </div>
+      
+      <div className="categories-list">
+        <button
+          onClick={() => onCategorySelect(null)}
+          className={`category-item ${!selectedCategory ? 'active' : ''}`}
+        >
+          <span className="icon">🌟</span>
+          <span className="name">All Categories</span>
+        </button>
+        
+        {categories.map((category) => (
+          <button
+            key={category.id}
+            onClick={() => onCategorySelect(category.id)}
+            className={`category-item ${selectedCategory === category.id ? 'active' : ''}`}
+          >
+            <span className="icon">{category.icon}</span>
+            <div className="category-content">
+              <span className="name">{category.name}</span>
+              <span className="category-count">{category.count}</span>
+            </div>
+          </button>
+        ))}
       </div>
 
       <style jsx>{`
-        .categories-container {
-          margin: 20px 0 !important;
-          padding: 0 !important;
+        .categories-wrapper {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          border-radius: var(--radius-lg);
+          padding: 1.5rem;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(20px);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
-        .categories-title {
-          font-size: 18px !important;
-          font-weight: 700 !important;
-          color: #fff !important;
-          margin-bottom: 16px !important;
-          margin-top: 0 !important;
+        .header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 1rem;
+          padding-bottom: 0.75rem;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .categories-grid {
-          display: grid !important;
-          grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) !important;
-          gap: 12px !important;
-          margin: 0 !important;
+        .header h3 {
+          color: white;
+          font-size: 1.1rem;
+          font-weight: 700;
+          margin: 0;
         }
 
-        .category-card {
-          display: flex !important;
-          align-items: center !important;
-          gap: 12px !important;
-          padding: 12px 16px !important;
-          border: 2px solid #333 !important;
-          border-radius: 12px !important;
-          background: #111 !important;
-          cursor: pointer !important;
-          transition: all 0.2s ease !important;
-          text-align: left !important;
-          margin: 0 !important;
+        .count {
+          background: rgba(255, 255, 255, 0.2);
+          color: white;
+          padding: 0.25rem 0.75rem;
+          border-radius: var(--radius-full);
+          font-size: 0.75rem;
+          font-weight: 600;
         }
 
-        .category-card:hover {
-          transform: translateY(-2px) !important;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+        .categories-list {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
         }
 
-        .category-card.active {
-          transform: translateY(-2px) !important;
-          box-shadow: 0 4px 12px rgba(0, 212, 170, 0.3) !important;
+        .category-item {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          padding: 0.75rem;
+          background: rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: var(--radius-md);
+          color: white;
+          text-decoration: none;
+          transition: all var(--transition-smooth);
+          cursor: pointer;
+          width: 100%;
+          text-align: left;
         }
 
-        .category-icon {
-          font-size: 24px !important;
-          flex-shrink: 0 !important;
-          margin: 0 !important;
+        .category-item:hover {
+          background: rgba(255, 255, 255, 0.2);
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
-        .category-info {
-          display: flex !important;
-          flex-direction: column !important;
-          gap: 2px !important;
-          margin: 0 !important;
+        .category-item.active {
+          background: rgba(255, 255, 255, 0.25);
+          border-color: rgba(255, 255, 255, 0.3);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
-        .category-name {
-          font-size: 14px !important;
-          font-weight: 600 !important;
-          color: #fff !important;
-          margin: 0 !important;
+        .icon {
+          font-size: 1.2rem;
+          flex-shrink: 0;
+        }
+
+        .category-content {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 100%;
+        }
+
+        .name {
+          font-weight: 500;
+          font-size: 0.9rem;
         }
 
         .category-count {
-          font-size: 12px !important;
-          color: #888 !important;
-          margin: 0 !important;
+          background: rgba(255, 255, 255, 0.2);
+          padding: 0.125rem 0.5rem;
+          border-radius: var(--radius-full);
+          font-size: 0.75rem;
+          font-weight: 600;
         }
 
-        @media (max-width: 768px) {
-          .categories-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-            gap: 8px !important;
-          }
-          
-          .category-card {
-            padding: 10px 12px !important;
-          }
-          
-          .category-icon {
-            font-size: 20px !important;
-          }
-          
-          .category-name {
-            font-size: 13px !important;
-          }
+        .loading {
+          color: rgba(255, 255, 255, 0.8);
+          text-align: center;
+          padding: 1rem;
         }
       `}</style>
     </div>
   );
 }
-
-export { categories };

@@ -5,6 +5,7 @@ import { countries } from '../lib/mockData';
 import AdvancedSearch from '../components/AdvancedSearch';
 import CountryChain from '../components/CountryChain';
 import TopTricks from '../components/TopTricks';
+import Categories from '../components/Categories';
 import UserRace from '../components/UserRace';
 import UserStats from '../components/UserStats';
 import Leaderboard from '../components/Leaderboard';
@@ -112,6 +113,10 @@ function HomeContent() {
 
         <div className="main-content">
           <div className="sidebar">
+            <Categories 
+              selectedCategory={selectedCategory}
+              onCategorySelect={(categoryId) => handleCategorySelect(categoryId || '')}
+            />
             <TopTricks />
             <Leaderboard />
           </div>
@@ -296,18 +301,19 @@ function HomeContent() {
         }
 
         .trick-card {
-          background: var(--surface-glass);
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.8) 100%);
           backdrop-filter: blur(20px);
           border-radius: var(--radius-lg);
           padding: 1.5rem;
-          border: 1px solid var(--border-light);
+          border: 1px solid rgba(255, 255, 255, 0.2);
           transition: all var(--transition-smooth);
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
 
         .trick-card:hover {
-          transform: translateY(-4px);
-          box-shadow: var(--shadow-lg);
-          border-color: var(--primary-400);
+          transform: translateY(-8px);
+          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+          border-color: rgba(102, 126, 234, 0.3);
         }
 
         .trick-header {
@@ -341,18 +347,21 @@ function HomeContent() {
         }
 
         .difficulty-badge.easy {
-          background: var(--success-100);
-          color: var(--success-700);
+          background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+          color: white;
+          box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
         }
 
         .difficulty-badge.medium {
-          background: var(--warning-100);
-          color: var(--warning-700);
+          background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+          color: white;
+          box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
         }
 
         .difficulty-badge.hard {
-          background: var(--error-100);
-          color: var(--error-700);
+          background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
+          color: white;
+          box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
         }
 
         .trick-title {
@@ -414,21 +423,25 @@ function HomeContent() {
         }
 
         .action-btn.kudos {
-          background: var(--success-100);
-          color: var(--success-700);
+          background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+          color: white;
+          box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
         }
 
         .action-btn.kudos:hover {
-          background: var(--success-200);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
         }
 
         .action-btn.view {
-          background: var(--primary-100);
-          color: var(--primary-700);
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
         }
 
         .action-btn.view:hover {
-          background: var(--primary-200);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
         }
 
         .no-tricks {

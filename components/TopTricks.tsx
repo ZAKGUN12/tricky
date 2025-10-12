@@ -94,30 +94,39 @@ export default function TopTricks() {
 
       <style jsx>{`
         .top-tricks-wrapper {
-          background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
-          border-radius: 12px;
-          overflow: hidden;
-          box-shadow: 0 4px 8px rgba(255, 215, 0, 0.2);
+          background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+          border-radius: var(--radius-lg);
+          padding: 1.5rem;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(20px);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
         .header {
-          padding: 12px 16px;
-          background: rgba(0, 0, 0, 0.1);
           display: flex;
           justify-content: space-between;
           align-items: center;
+          margin-bottom: 1rem;
+          padding-bottom: 0.75rem;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .header h3 {
-          margin: 0;
-          font-size: 0.875rem;
+          color: white;
+          font-size: 1.1rem;
           font-weight: 700;
-          color: #8b4513;
-          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+          margin: 0;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .count {
+          background: rgba(255, 255, 255, 0.2);
+          color: white;
+          padding: 0.25rem 0.75rem;
+          border-radius: var(--radius-full);
           font-size: 0.75rem;
+          font-weight: 600;
+        }
           color: rgba(139, 69, 19, 0.8);
           font-weight: 600;
         }
