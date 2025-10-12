@@ -21,17 +21,21 @@ export default function TopTricks() {
 
   const fetchTopTricks = async () => {
     try {
+      console.log('Fetching top tricks...');
       const response = await fetch('/api/tricks/top');
+      console.log('API response status:', response.status);
+      
       if (response.ok) {
         const data = await response.json();
-        console.log('Top tricks data:', data); // Debug log
+        console.log('Top tricks data received:', data);
         setTopTricks(Array.isArray(data) ? data : []);
       } else {
-        console.error('Failed to fetch top tricks:', response.status);
+        const errorData = await response.json().catch(() => ({}));
+        console.error('API error:', response.status, errorData);
         setTopTricks([]);
       }
     } catch (error) {
-      console.error('Failed to fetch top tricks:', error);
+      console.error('Network error fetching top tricks:', error);
       setTopTricks([]);
     } finally {
       setLoading(false);

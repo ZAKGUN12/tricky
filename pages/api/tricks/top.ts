@@ -13,19 +13,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
+    console.log('Fetching top tricks from DynamoDB...');
     const command = new ScanCommand({
-      TableName: 'TrickShare-Tricks',
-      FilterExpression: '#status = :status',
-      ExpressionAttributeNames: {
-        '#status': 'status'
-      },
-      ExpressionAttributeValues: {
-        ':status': 'approved'
-      }
+      TableName: 'TrickShare-Tricks'
     });
 
     const result = await docClient.send(command);
+    console.log('DynamoDB response:', { itemCount: result.Items?.length || 0 });
+    
     const tricks = result.Items || [];
+    console.log('Raw tricks data:', tricks.slice(0, 2)); // Log first 2 items
 
     // Sort by kudos (descending) and take top 10
     const topTricks = tricks
@@ -40,9 +37,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         authorName: trick.authorName || 'Anonymous'
       }));
 
+    console.log('Returning top tricks:', topTricks.length);
     res.status(200).json(topTricks);
   } catch (error) {
     console.error('Error fetching top tricks:', error);
-    res.status(500).json({ error: 'Failed to fetch top tricks' });
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    res.status(500).json({ error: 'Failed to fetch top tricks', details: errorMessage });
   }
 }

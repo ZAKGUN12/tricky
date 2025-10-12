@@ -18,17 +18,21 @@ export default function Leaderboard() {
 
   const fetchLeaderboard = async () => {
     try {
+      console.log('Fetching leaderboard...');
       const response = await fetch('/api/leaderboard');
+      console.log('Leaderboard API response status:', response.status);
+      
       if (response.ok) {
         const data = await response.json();
-        console.log('Leaderboard data:', data); // Debug log
+        console.log('Leaderboard data received:', data);
         setUsers(Array.isArray(data) ? data : []);
       } else {
-        console.error('Failed to fetch leaderboard:', response.status);
+        const errorData = await response.json().catch(() => ({}));
+        console.error('Leaderboard API error:', response.status, errorData);
         setUsers([]);
       }
     } catch (error) {
-      console.error('Failed to fetch leaderboard:', error);
+      console.error('Network error fetching leaderboard:', error);
       setUsers([]);
     } finally {
       setLoading(false);

@@ -13,12 +13,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
+    console.log('Fetching leaderboard from DynamoDB...');
     const result = await docClient.send(new ScanCommand({
       TableName: 'TrickShare-Users'
     }));
 
+    console.log('DynamoDB users response:', { itemCount: result.Items?.length || 0 });
+    
     const users = (result.Items || [])
-      .filter(user => user.score > 0) // Only show users with points
       .sort((a, b) => (b.score || 0) - (a.score || 0)) // Sort by score descending
       .slice(0, 10) // Top 10
       .map((user, index) => ({
@@ -30,9 +32,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         kudosReceived: user.kudosReceived || 0
       }));
 
+    console.log('Returning leaderboard users:', users.length);
     res.status(200).json(users);
   } catch (error) {
     console.error('Leaderboard error:', error);
-    res.status(500).json({ error: 'Failed to fetch leaderboard' });
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    res.status(500).json({ error: 'Failed to fetch leaderboard', details: errorMessage });
   }
 }
