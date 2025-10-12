@@ -25,10 +25,13 @@ export default function Categories({ selectedCategory, onCategorySelect }: Categ
       const response = await fetch('/api/categories');
       if (response.ok) {
         const data = await response.json();
-        setCategories(data);
+        // Handle both direct array and wrapped object
+        const categoriesArray = Array.isArray(data) ? data : (data.categories || []);
+        setCategories(categoriesArray);
       }
     } catch (error) {
       console.error('Error fetching categories:', error);
+      setCategories([]); // Set empty array on error
     } finally {
       setLoading(false);
     }
