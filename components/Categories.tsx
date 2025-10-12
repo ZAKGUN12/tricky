@@ -83,10 +83,10 @@ export default function Categories({ selectedCategory, onCategorySelect }: Categ
         .categories-wrapper {
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
           border-radius: var(--radius-lg);
-          padding: 1.5rem;
+          padding: 1rem;
           border: 1px solid rgba(255, 255, 255, 0.1);
           backdrop-filter: blur(20px);
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
           margin-bottom: 1rem;
         }
 
@@ -94,15 +94,15 @@ export default function Categories({ selectedCategory, onCategorySelect }: Categ
           display: flex;
           justify-content: space-between;
           align-items: center;
-          margin-bottom: 1.2rem;
-          padding-bottom: 0.75rem;
+          margin-bottom: 0.75rem;
+          padding-bottom: 0.5rem;
           border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .header h3 {
           color: white;
-          font-size: 1.1rem;
-          font-weight: 700;
+          font-size: 0.9rem;
+          font-weight: 600;
           margin: 0;
           text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         }
@@ -110,31 +110,29 @@ export default function Categories({ selectedCategory, onCategorySelect }: Categ
         .count {
           background: rgba(255, 255, 255, 0.2);
           color: white;
-          padding: 0.3rem 0.8rem;
+          padding: 0.2rem 0.6rem;
           border-radius: var(--radius-full);
-          font-size: 0.75rem;
+          font-size: 0.65rem;
           font-weight: 600;
-          backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .categories-list {
           display: flex;
           flex-direction: column;
-          gap: 0.6rem;
+          gap: 0.4rem;
         }
 
         .category-item {
           display: flex;
           align-items: center;
-          gap: 0.75rem;
-          padding: 0.8rem;
+          gap: 0.6rem;
+          padding: 0.6rem;
           background: rgba(255, 255, 255, 0.15);
           border: 1px solid rgba(255, 255, 255, 0.1);
           border-radius: var(--radius-md);
           color: white;
           text-decoration: none;
-          transition: all 0.3s ease;
+          transition: all 0.2s ease;
           cursor: pointer;
           width: 100%;
           text-align: left;
@@ -143,18 +141,18 @@ export default function Categories({ selectedCategory, onCategorySelect }: Categ
 
         .category-item:hover {
           background: rgba(255, 255, 255, 0.25);
-          transform: translateY(-2px);
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+          transform: translateY(-1px);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
         .category-item.active {
           background: rgba(255, 255, 255, 0.3);
           border-color: rgba(255, 255, 255, 0.3);
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
 
         .icon {
-          font-size: 1.3rem;
+          font-size: 1rem;
           flex-shrink: 0;
         }
 
@@ -166,25 +164,25 @@ export default function Categories({ selectedCategory, onCategorySelect }: Categ
         }
 
         .name {
-          font-weight: 600;
-          font-size: 0.9rem;
+          font-weight: 500;
+          font-size: 0.8rem;
         }
 
         .category-count {
           background: rgba(255, 255, 255, 0.25);
-          padding: 0.2rem 0.6rem;
+          padding: 0.15rem 0.5rem;
           border-radius: var(--radius-full);
-          font-size: 0.7rem;
-          font-weight: 700;
-          min-width: 24px;
+          font-size: 0.65rem;
+          font-weight: 600;
+          min-width: 20px;
           text-align: center;
         }
 
         .loading {
           color: rgba(255, 255, 255, 0.8);
           text-align: center;
-          padding: 1.5rem;
-          font-style: italic;
+          padding: 1rem;
+          font-size: 0.8rem;
         }
       `}</style>
     </div>

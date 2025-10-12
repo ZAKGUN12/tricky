@@ -86,12 +86,12 @@ export default function Leaderboard() {
 
       <style jsx>{`
         .leaderboard-wrapper {
-          background: linear-gradient(135deg, #10ac84 0%, #00d2d3 100%);
+          background: linear-gradient(135deg, #764ba2 0%, #9f7aea 100%);
           border-radius: var(--radius-lg);
-          padding: 1.5rem;
+          padding: 1rem;
           border: 1px solid rgba(255, 255, 255, 0.1);
           backdrop-filter: blur(20px);
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
           margin-bottom: 1rem;
         }
 
@@ -99,15 +99,15 @@ export default function Leaderboard() {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          margin-bottom: 1rem;
-          padding-bottom: 0.75rem;
+          margin-bottom: 0.75rem;
+          padding-bottom: 0.5rem;
           border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .header h3 {
           color: white;
-          font-size: 1.1rem;
-          font-weight: 700;
+          font-size: 0.9rem;
+          font-weight: 600;
           margin: 0;
           text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         }
@@ -115,39 +115,38 @@ export default function Leaderboard() {
         .count {
           background: rgba(255, 255, 255, 0.2);
           color: white;
-          padding: 0.25rem 0.75rem;
+          padding: 0.2rem 0.6rem;
           border-radius: var(--radius-full);
-          font-size: 0.75rem;
+          font-size: 0.65rem;
           font-weight: 600;
         }
 
         .loading, .no-data {
-          padding: 20px;
+          padding: 1rem;
           text-align: center;
           color: rgba(255, 255, 255, 0.8);
-          font-size: 0.75rem;
+          font-size: 0.7rem;
         }
 
         .users-list {
-          padding: 8px;
           display: flex;
           flex-direction: column;
-          gap: 4px;
+          gap: 0.3rem;
         }
 
         .user-item {
           display: flex;
           align-items: center;
-          gap: 12px;
-          padding: 8px;
-          border-radius: 8px;
+          gap: 0.6rem;
+          padding: 0.6rem;
+          border-radius: 6px;
           transition: all 0.2s ease;
           background: rgba(255, 255, 255, 0.1);
         }
 
         .user-item:hover {
           background: rgba(255, 255, 255, 0.2);
-          transform: translateX(4px);
+          transform: translateX(2px);
         }
 
         .rank {
@@ -155,15 +154,15 @@ export default function Leaderboard() {
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 28px;
-          height: 28px;
+          width: 24px;
+          height: 24px;
           border-radius: 50%;
-          background: linear-gradient(135deg, #065f46, #047857);
+          background: rgba(255, 255, 255, 0.2);
           flex-shrink: 0;
         }
 
         .rank-number {
-          font-size: 0.625rem;
+          font-size: 0.6rem;
           font-weight: 700;
           color: white;
           text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
@@ -171,10 +170,9 @@ export default function Leaderboard() {
 
         .medal {
           position: absolute;
-          top: -4px;
-          right: -4px;
-          font-size: 0.75rem;
-          filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+          top: -3px;
+          right: -3px;
+          font-size: 0.7rem;
         }
 
         .user-content {
@@ -183,11 +181,10 @@ export default function Leaderboard() {
         }
 
         .user-name {
-          font-size: 0.75rem;
-          font-weight: 600;
+          font-size: 0.7rem;
+          font-weight: 500;
           color: white;
-          margin-bottom: 4px;
-          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+          margin-bottom: 0.2rem;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -195,13 +192,13 @@ export default function Leaderboard() {
 
         .user-stats {
           display: flex;
-          gap: 8px;
+          gap: 0.4rem;
         }
 
         .stat {
-          font-size: 0.625rem;
+          font-size: 0.6rem;
           color: rgba(255, 255, 255, 0.8);
-          font-weight: 600;
+          font-weight: 500;
         }
 
         @media (max-width: 768px) {
