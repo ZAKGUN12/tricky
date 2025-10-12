@@ -251,27 +251,27 @@ function HomeContent() {
         }
 
         .share-btn {
-          background: rgba(15, 15, 35, 0.8);
-          backdrop-filter: blur(20px);
-          border: 2px solid rgba(120, 119, 198, 0.5);
-          color: #7877c6;
-          padding: 0.75rem 2rem;
-          border-radius: var(--radius-full);
-          text-decoration: none;
-          font-weight: 600;
-          transition: all 0.3s ease;
-          box-shadow: 0 4px 16px rgba(120, 119, 198, 0.3);
-          text-shadow: 0 0 10px rgba(120, 119, 198, 0.5);
-          position: relative;
+          background: rgba(15, 15, 35, 0.8) !important;
+          backdrop-filter: blur(20px) !important;
+          border: 2px solid rgba(120, 119, 198, 0.5) !important;
+          color: #7877c6 !important;
+          padding: 0.75rem 2rem !important;
+          border-radius: var(--radius-full) !important;
+          text-decoration: none !important;
+          font-weight: 600 !important;
+          transition: all 0.3s ease !important;
+          box-shadow: 0 4px 16px rgba(120, 119, 198, 0.3) !important;
+          text-shadow: 0 0 10px rgba(120, 119, 198, 0.5) !important;
+          position: relative !important;
         }
 
         .share-btn:hover {
-          background: rgba(120, 119, 198, 0.2);
-          border-color: rgba(120, 119, 198, 0.8);
-          color: #8988d4;
-          transform: translateY(-2px);
-          box-shadow: 0 8px 24px rgba(120, 119, 198, 0.4);
-          text-shadow: 0 0 15px rgba(120, 119, 198, 0.8);
+          background: rgba(120, 119, 198, 0.2) !important;
+          border-color: rgba(120, 119, 198, 0.8) !important;
+          color: #8988d4 !important;
+          transform: translateY(-2px) !important;
+          box-shadow: 0 8px 24px rgba(120, 119, 198, 0.4) !important;
+          text-shadow: 0 0 15px rgba(120, 119, 198, 0.8) !important;
         }
 
         .tricks-counter {
