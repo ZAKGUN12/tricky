@@ -1,28 +1,44 @@
-/* TrickShare Web-First Design System */
+/* TrickShare Web-First Design System - Global Network Theme */
 
 :root {
-  /* Enhanced Color Palette */
-  --primary: #2563eb;
-  --primary-hover: #1d4ed8;
-  --primary-light: #dbeafe;
-  --secondary: #10b981;
-  --secondary-hover: #059669;
-  --secondary-light: #d1fae5;
-  --accent: #f59e0b;
-  --accent-hover: #d97706;
-  --accent-light: #fef3c7;
+  /* Global Network Theme Colors */
+  --primary: #7877c6;
+  --primary-hover: #8988d4;
+  --primary-light: rgba(120, 119, 198, 0.1);
+  --secondary: #78dbff;
+  --secondary-hover: #89e5ff;
+  --secondary-light: rgba(120, 219, 255, 0.1);
+  --accent: #ff77c6;
+  --accent-hover: #ff88d4;
+  --accent-light: rgba(255, 119, 198, 0.1);
   
-  /* Neutral Colors */
-  --gray-50: #f9fafb;
-  --gray-100: #f3f4f6;
-  --gray-200: #e5e7eb;
-  --gray-300: #d1d5db;
-  --gray-400: #9ca3af;
-  --gray-500: #6b7280;
-  --gray-600: #4b5563;
-  --gray-700: #374151;
-  --gray-800: #1f2937;
-  --gray-900: #111827;
+  /* Global Network Backgrounds */
+  --surface-glass: rgba(15, 15, 35, 0.8);
+  --surface-elevated: rgba(15, 15, 35, 0.9);
+  --gradient-bg: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+  --gradient-primary: linear-gradient(135deg, #7877c6 0%, #ff77c6 100%);
+  
+  /* Border Colors */
+  --border-light: rgba(120, 119, 198, 0.3);
+  --border-medium: rgba(120, 119, 198, 0.5);
+  --border-strong: rgba(120, 119, 198, 0.8);
+  
+  /* Text Colors */
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.8);
+  --text-muted: rgba(255, 255, 255, 0.6);
+  
+  /* Neutral Colors - Dark Theme */
+  --gray-50: #16213e;
+  --gray-100: #1a1a2e;
+  --gray-200: #0f0f23;
+  --gray-300: rgba(255, 255, 255, 0.1);
+  --gray-400: rgba(255, 255, 255, 0.2);
+  --gray-500: rgba(255, 255, 255, 0.4);
+  --gray-600: rgba(255, 255, 255, 0.6);
+  --gray-700: rgba(255, 255, 255, 0.8);
+  --gray-800: #ffffff;
+  --gray-900: #ffffff;
   
   /* Semantic Colors */
   --success: #10b981;
