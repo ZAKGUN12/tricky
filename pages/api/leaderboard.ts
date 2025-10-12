@@ -2,7 +2,9 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, ScanCommand } from '@aws-sdk/lib-dynamodb';
 
-const client = new DynamoDBClient({ region: process.env.AWS_REGION || 'eu-west-1' });
+const client = new DynamoDBClient({ 
+  region: 'eu-west-1' // Use your configured region
+});
 const docClient = DynamoDBDocumentClient.from(client);
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -31,16 +33,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(200).json(users);
   } catch (error) {
     console.error('Leaderboard error:', error);
-    
-    // Fallback data when DynamoDB is not accessible
-    const fallbackUsers = [
-      { rank: 1, username: 'TrickMaster', score: 150, tricksSubmitted: 12, kudosReceived: 45 },
-      { rank: 2, username: 'LifeHacker', score: 120, tricksSubmitted: 8, kudosReceived: 38 },
-      { rank: 3, username: 'TipGuru', score: 95, tricksSubmitted: 6, kudosReceived: 29 },
-      { rank: 4, username: 'HackExpert', score: 80, tricksSubmitted: 5, kudosReceived: 22 },
-      { rank: 5, username: 'TrickWiz', score: 65, tricksSubmitted: 4, kudosReceived: 18 }
-    ];
-    
-    res.status(200).json(fallbackUsers);
+    res.status(500).json({ error: 'Failed to fetch leaderboard' });
   }
 }
