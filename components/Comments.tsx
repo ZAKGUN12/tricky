@@ -40,13 +40,13 @@ export default function Comments({ trickId, onCommentCountChange }: CommentsProp
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user || !newComment.trim()) return;
+    if (!newComment.trim()) return;
 
     setSubmitting(true);
     const response = await apiClient.addComment(trickId, {
       text: newComment.trim(),
-      authorName: user.username || 'Anonymous',
-      authorEmail: user.signInDetails?.loginId || '',
+      authorName: 'Anonymous',
+      authorEmail: 'anonymous@example.com',
     });
 
     if (response.data) {
@@ -70,8 +70,7 @@ export default function Comments({ trickId, onCommentCountChange }: CommentsProp
         💬 Comments ({comments.length})
       </h3>
 
-      {user && (
-        <form onSubmit={handleSubmit} className="comment-form">
+      <form onSubmit={handleSubmit} className="comment-form">
           <textarea
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
@@ -91,7 +90,6 @@ export default function Comments({ trickId, onCommentCountChange }: CommentsProp
             </button>
           </div>
         </form>
-      )}
 
       <div className="comments-list">
         {comments.length === 0 ? (

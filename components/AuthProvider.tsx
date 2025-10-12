@@ -1,8 +1,7 @@
-import { createContext, useContext, useEffect, useState } from 'react';
-import { getCurrentUser, signOut, AuthUser } from 'aws-amplify/auth';
+import { createContext, useContext } from 'react';
 
 interface AuthContextType {
-  user: AuthUser | null;
+  user: null;
   loading: boolean;
   signOut: () => Promise<void>;
   refreshUser: () => Promise<void>;
@@ -11,33 +10,15 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<AuthUser | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  const refreshUser = async () => {
-    try {
-      const currentUser = await getCurrentUser();
-      setUser(currentUser);
-    } catch (error) {
-      setUser(null);
-    }
-  };
-
-  useEffect(() => {
-    refreshUser().finally(() => setLoading(false));
-  }, []);
-
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-      setUser(null);
-    } catch (error) {
-      console.error('Sign out error:', error);
-    }
+  const mockAuth: AuthContextType = {
+    user: null,
+    loading: false,
+    signOut: async () => {},
+    refreshUser: async () => {}
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, signOut: handleSignOut, refreshUser }}>
+    <AuthContext.Provider value={mockAuth}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,25 +1,20 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react';
 
 function LoginContent() {
   const router = useRouter();
-  const { authStatus } = useAuthenticator((context) => [context.authStatus]);
 
   useEffect(() => {
-    if (authStatus === 'authenticated') {
-      router.push('/');
-    }
-  }, [authStatus, router]);
+    // Redirect to home since we removed authentication
+    router.push('/');
+  }, [router]);
 
   return (
     <div className="login-container">
       <div className="login-header">
         <h1>Welcome to TrickShare</h1>
-        <p>Sign in to share tricks and connect with the community</p>
+        <p>Authentication has been removed - redirecting to home...</p>
       </div>
-
-      <Authenticator signUpAttributes={['email']} />
 
       <style jsx>{`
         .login-container {
@@ -28,26 +23,25 @@ function LoginContent() {
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          padding: var(--space-lg);
-          background: var(--bg-gradient);
+          padding: 2rem;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
 
         .login-header {
           text-align: center;
-          margin-bottom: var(--space-xl);
+          margin-bottom: 2rem;
+          color: white;
         }
 
         .login-header h1 {
-          font-size: var(--text-3xl);
-          margin-bottom: var(--space-md);
-          background: var(--primary-gradient);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
+          font-size: 2.5rem;
+          margin-bottom: 1rem;
+          font-weight: 700;
         }
 
         .login-header p {
-          color: #666;
-          font-size: var(--text-lg);
+          font-size: 1.1rem;
+          opacity: 0.9;
         }
       `}</style>
     </div>
@@ -55,9 +49,5 @@ function LoginContent() {
 }
 
 export default function Login() {
-  return (
-    <Authenticator.Provider>
-      <LoginContent />
-    </Authenticator.Provider>
-  );
+  return <LoginContent />;
 }
