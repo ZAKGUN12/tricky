@@ -235,27 +235,33 @@ function HomeContent() {
         }
 
         .share-btn {
-          background: var(--gradient-primary);
-          color: white;
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          color: var(--text-primary);
           padding: 0.75rem 2rem;
           border-radius: var(--radius-full);
           text-decoration: none;
           font-weight: 600;
           transition: all var(--transition-smooth);
-          box-shadow: var(--shadow-md);
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
         }
 
         .share-btn:hover {
+          background: rgba(255, 255, 255, 0.2);
           transform: translateY(-2px);
-          box-shadow: var(--shadow-lg);
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
         }
 
         .tricks-counter {
-          background: var(--surface-elevated);
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
           padding: 0.5rem 1rem;
           border-radius: var(--radius-full);
           font-weight: 600;
           color: var(--text-primary);
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
         }
 
         .main-content {

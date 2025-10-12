@@ -22,54 +22,46 @@ export default function Timer() {
       
       <style jsx>{`
         .timer {
-          position: fixed;
-          top: 12px;
-          left: var(--space-4);
-          background: linear-gradient(135deg, var(--gray-800), var(--gray-700));
-          color: var(--primary);
-          padding: var(--space-2) var(--space-3);
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
           border-radius: var(--radius-lg);
-          border: 1px solid var(--primary);
-          box-shadow: var(--shadow);
+          padding: 0.5rem 1rem;
           display: flex;
           flex-direction: column;
           align-items: center;
-          min-width: 60px;
-          font-family: var(--font-sans);
-          z-index: 101;
+          min-width: 80px;
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
         }
         
         .time-display {
-          font-size: 1rem;
-          font-weight: 700;
-          color: var(--primary);
+          font-size: 0.9rem;
+          font-weight: 600;
+          color: var(--text-primary);
           line-height: 1;
-          text-shadow: 0 0 10px rgba(37, 99, 235, 0.3);
         }
         
         .date-display {
-          font-size: 0.625rem;
-          font-weight: 600;
-          color: white;
+          font-size: 0.7rem;
+          font-weight: 500;
+          color: var(--text-secondary);
           text-transform: uppercase;
           letter-spacing: 0.5px;
-          margin-top: 1px;
+          margin-top: 2px;
         }
         
         @media (max-width: 768px) {
           .timer {
-            top: 8px;
-            left: var(--space-3);
-            min-width: 50px;
-            padding: var(--space-1) var(--space-2);
+            min-width: 70px;
+            padding: 0.4rem 0.8rem;
           }
           
           .time-display {
-            font-size: 0.875rem;
+            font-size: 0.8rem;
           }
           
           .date-display {
-            font-size: 0.5rem;
+            font-size: 0.6rem;
           }
         }
       `}</style>
