@@ -1,11 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, ScanCommand } from '@aws-sdk/lib-dynamodb';
-
-const client = new DynamoDBClient({ 
-  region: 'eu-west-1' // Use your configured region
-});
-const docClient = DynamoDBDocumentClient.from(client);
+import { ScanCommand } from '@aws-sdk/lib-dynamodb';
+import { docClient } from '../../lib/aws-config';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'GET') {
