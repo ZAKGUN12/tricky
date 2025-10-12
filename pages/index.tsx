@@ -263,6 +263,7 @@ function HomeContent() {
           grid-template-columns: 280px 1fr;
           gap: 2rem;
           margin: 2rem 0;
+          align-items: start;
         }
 
         .sidebar {
@@ -276,6 +277,7 @@ function HomeContent() {
           padding-right: 0.5rem;
           scrollbar-width: thin;
           scrollbar-color: rgba(102, 126, 234, 0.5) transparent;
+          z-index: 10;
         }
 
         .sidebar::-webkit-scrollbar {
