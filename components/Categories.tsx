@@ -81,19 +81,19 @@ export default function Categories({ selectedCategory, onCategorySelect }: Categ
 
       <style jsx>{`
         .categories-wrapper {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: rgba(15, 15, 35, 0.8);
+          backdrop-filter: blur(20px);
           border-radius: var(--radius-lg);
           padding: 1rem;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          backdrop-filter: blur(20px);
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+          border: 1px solid rgba(120, 119, 198, 0.3);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
           margin-bottom: 1rem;
         }
 
         .header {
-          background: rgba(255, 255, 255, 0.1);
+          background: rgba(120, 119, 198, 0.2);
           backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 255, 255, 0.2);
+          border: 1px solid rgba(120, 119, 198, 0.3);
           border-radius: var(--radius-md);
           display: flex;
           justify-content: space-between;
@@ -103,20 +103,21 @@ export default function Categories({ selectedCategory, onCategorySelect }: Categ
         }
 
         .header h3 {
-          color: white;
+          color: #7877c6;
           font-size: 0.9rem;
           font-weight: 600;
           margin: 0;
-          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+          text-shadow: 0 0 10px rgba(120, 119, 198, 0.5);
         }
 
         .count {
-          background: rgba(255, 255, 255, 0.2);
-          color: white;
+          background: rgba(120, 219, 255, 0.2);
+          color: #78dbff;
           padding: 0.2rem 0.6rem;
           border-radius: var(--radius-full);
           font-size: 0.65rem;
           font-weight: 600;
+          border: 1px solid rgba(120, 219, 255, 0.3);
         }
 
         .categories-list {
