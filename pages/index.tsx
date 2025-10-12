@@ -10,7 +10,6 @@ import UserRace from '../components/UserRace';
 import UserStats from '../components/UserStats';
 import Leaderboard from '../components/Leaderboard';
 import ReadabilityEnhancer from '../components/ReadabilityEnhancer';
-import CategoryFilter from '../components/CategoryFilter';
 import Timer from '../components/Timer';
 import { useToast } from '../lib/useToast';
 
@@ -130,11 +129,6 @@ function HomeContent() {
               tricks={tricks}
               onCountrySelect={handleCountrySelect}
               selectedCountry={selectedCountry}
-            />
-
-            <CategoryFilter 
-              selectedCategory={selectedCategory}
-              onCategorySelect={(categoryId) => handleCategorySelect(categoryId || '')}
             />
 
             <div className="tricks-grid">
