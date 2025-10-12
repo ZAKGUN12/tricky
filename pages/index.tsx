@@ -283,6 +283,7 @@ function HomeContent() {
           font-weight: 600;
           color: #78dbff;
           box-shadow: 0 4px 16px rgba(120, 219, 255, 0.2);
+          transform: translateY(-2px);
         }
 
         .main-content {
@@ -331,11 +332,12 @@ function HomeContent() {
         }
 
         .search-section {
-          background: var(--surface-glass);
+          background: rgba(15, 15, 35, 0.8);
           backdrop-filter: blur(20px);
           border-radius: var(--radius-lg);
           padding: 1.5rem;
-          border: 1px solid var(--border-light);
+          border: 1px solid rgba(120, 119, 198, 0.3);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
         .tricks-grid {
