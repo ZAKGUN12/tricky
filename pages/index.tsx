@@ -194,7 +194,22 @@ function HomeContent() {
       <style jsx>{`
         .home {
           min-height: 100vh;
-          background: var(--gradient-bg);
+          background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+          position: relative;
+        }
+
+        .home::before {
+          content: '';
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                      radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                      radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+          pointer-events: none;
+          z-index: -1;
         }
 
         .container {
@@ -204,15 +219,16 @@ function HomeContent() {
         }
 
         .header {
-          background: var(--surface-glass);
+          background: rgba(15, 15, 35, 0.8);
           backdrop-filter: blur(20px);
           border-radius: var(--radius-lg);
           margin: 1rem 0;
           padding: 1rem 2rem;
-          border: 1px solid var(--border-light);
+          border: 1px solid rgba(120, 119, 198, 0.3);
           position: sticky;
           top: 1rem;
           z-index: 100;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
         .header-content {
@@ -235,33 +251,32 @@ function HomeContent() {
         }
 
         .share-btn {
-          background: rgba(255, 255, 255, 0.1);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          color: var(--text-primary);
+          background: linear-gradient(135deg, #7877c6 0%, #ff77c6 100%);
+          border: 1px solid rgba(120, 119, 198, 0.5);
+          color: white;
           padding: 0.75rem 2rem;
           border-radius: var(--radius-full);
           text-decoration: none;
           font-weight: 600;
           transition: all var(--transition-smooth);
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 4px 16px rgba(120, 119, 198, 0.3);
         }
 
         .share-btn:hover {
-          background: rgba(255, 255, 255, 0.2);
+          background: linear-gradient(135deg, #8988d4 0%, #ff88d4 100%);
           transform: translateY(-2px);
-          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+          box-shadow: 0 8px 24px rgba(120, 119, 198, 0.4);
         }
 
         .tricks-counter {
-          background: rgba(255, 255, 255, 0.1);
+          background: rgba(15, 15, 35, 0.8);
           backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 255, 255, 0.2);
+          border: 1px solid rgba(120, 219, 255, 0.3);
           padding: 0.5rem 1rem;
           border-radius: var(--radius-full);
           font-weight: 600;
-          color: var(--text-primary);
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+          color: #78dbff;
+          box-shadow: 0 4px 16px rgba(120, 219, 255, 0.2);
         }
 
         .main-content {

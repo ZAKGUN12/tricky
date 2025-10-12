@@ -22,29 +22,30 @@ export default function Timer() {
       
       <style jsx>{`
         .timer {
-          background: rgba(255, 255, 255, 0.1);
+          background: rgba(15, 15, 35, 0.8);
           backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 255, 255, 0.2);
+          border: 1px solid rgba(120, 119, 198, 0.3);
           border-radius: var(--radius-lg);
           padding: 0.5rem 1rem;
           display: flex;
           flex-direction: column;
           align-items: center;
           min-width: 80px;
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 4px 16px rgba(120, 119, 198, 0.2);
         }
         
         .time-display {
           font-size: 0.9rem;
           font-weight: 600;
-          color: var(--text-primary);
+          color: #7877c6;
           line-height: 1;
+          text-shadow: 0 0 10px rgba(120, 119, 198, 0.5);
         }
         
         .date-display {
           font-size: 0.7rem;
           font-weight: 500;
-          color: var(--text-secondary);
+          color: #78dbff;
           text-transform: uppercase;
           letter-spacing: 0.5px;
           margin-top: 2px;
