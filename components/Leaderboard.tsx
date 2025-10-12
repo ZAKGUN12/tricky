@@ -96,12 +96,15 @@ export default function Leaderboard() {
         }
 
         .header {
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: var(--radius-md);
           display: flex;
           justify-content: space-between;
           align-items: center;
           margin-bottom: 0.75rem;
-          padding-bottom: 0.5rem;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+          padding: 0.75rem 1rem;
         }
 
         .header h3 {
