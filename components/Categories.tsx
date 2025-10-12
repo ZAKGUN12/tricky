@@ -114,22 +114,22 @@ export default function Categories({ selectedCategory, onCategorySelect }: Categ
         }
 
         .header h3 {
-          color: white;
+          color: #1a1a1a;
           font-size: 1.1rem;
           font-weight: 700;
           margin: 0;
-          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+          text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
         }
 
         .count {
-          background: rgba(255, 255, 255, 0.25);
+          background: rgba(26, 26, 26, 0.8);
           color: white;
           padding: 0.3rem 0.8rem;
           border-radius: var(--radius-full);
           font-size: 0.75rem;
           font-weight: 600;
           backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .categories-list {
@@ -145,7 +145,7 @@ export default function Categories({ selectedCategory, onCategorySelect }: Categ
           align-items: center;
           gap: 0.75rem;
           padding: 0.8rem;
-          background: rgba(255, 255, 255, 0.15);
+          background: rgba(26, 26, 26, 0.7);
           border: 1px solid rgba(255, 255, 255, 0.1);
           border-radius: var(--radius-md);
           color: white;
@@ -175,16 +175,16 @@ export default function Categories({ selectedCategory, onCategorySelect }: Categ
         }
 
         .category-item:hover {
-          background: rgba(255, 255, 255, 0.25);
+          background: rgba(26, 26, 26, 0.85);
           transform: translateY(-2px) scale(1.02);
-          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-          border-color: rgba(255, 255, 255, 0.3);
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+          border-color: rgba(255, 255, 255, 0.2);
         }
 
         .category-item.active {
-          background: rgba(255, 255, 255, 0.3);
-          border-color: rgba(255, 255, 255, 0.4);
-          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+          background: rgba(26, 26, 26, 0.9);
+          border-color: rgba(255, 255, 255, 0.3);
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
           transform: scale(1.02);
         }
 

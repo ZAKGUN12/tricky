@@ -271,7 +271,28 @@ function HomeContent() {
           gap: 1.5rem;
           position: sticky;
           top: 120px;
-          height: fit-content;
+          height: calc(100vh - 140px);
+          overflow-y: auto;
+          padding-right: 0.5rem;
+          scrollbar-width: thin;
+          scrollbar-color: rgba(102, 126, 234, 0.5) transparent;
+        }
+
+        .sidebar::-webkit-scrollbar {
+          width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+          background: rgba(102, 126, 234, 0.5);
+          border-radius: 3px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+          background: rgba(102, 126, 234, 0.7);
         }
 
         .content {
