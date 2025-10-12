@@ -252,20 +252,40 @@ function HomeContent() {
 
         .share-btn {
           background: linear-gradient(135deg, #7877c6 0%, #ff77c6 100%);
-          border: 1px solid rgba(120, 119, 198, 0.5);
+          border: 2px solid transparent;
+          background-clip: padding-box;
           color: white;
           padding: 0.75rem 2rem;
           border-radius: var(--radius-full);
           text-decoration: none;
           font-weight: 600;
-          transition: all var(--transition-smooth);
-          box-shadow: 0 4px 16px rgba(120, 119, 198, 0.3);
+          transition: all 0.3s ease;
+          box-shadow: 0 0 20px rgba(120, 119, 198, 0.4), 0 4px 16px rgba(0, 0, 0, 0.3);
+          position: relative;
+          overflow: hidden;
+          text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .share-btn::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+          transition: left 0.5s;
+        }
+
+        .share-btn:hover::before {
+          left: 100%;
         }
 
         .share-btn:hover {
           background: linear-gradient(135deg, #8988d4 0%, #ff88d4 100%);
-          transform: translateY(-2px);
-          box-shadow: 0 8px 24px rgba(120, 119, 198, 0.4);
+          transform: translateY(-2px) scale(1.05);
+          box-shadow: 0 0 30px rgba(120, 119, 198, 0.6), 0 8px 24px rgba(0, 0, 0, 0.4);
+          text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
         }
 
         .tricks-counter {
