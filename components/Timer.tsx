@@ -14,53 +14,63 @@ export default function Timer() {
   return (
     <div className="timer">
       <div className="time-display">
-        {time.toLocaleTimeString()}
+        {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
       </div>
       <div className="date-display">
-        {time.toLocaleDateString()}
+        {time.toLocaleDateString([], { month: 'short', day: 'numeric' })}
       </div>
       
       <style jsx>{`
         .timer {
-          position: fixed;
-          top: 20px;
-          left: 20px;
-          background: rgba(0, 0, 0, 0.8);
-          color: white;
-          padding: 12px 16px;
-          border-radius: 12px;
-          font-family: 'Courier New', monospace;
-          z-index: 1000;
-          backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          position: absolute;
+          left: var(--space-4);
+          top: 50%;
+          transform: translateY(-50%);
+          background: linear-gradient(135deg, var(--gray-800), var(--gray-700));
+          color: var(--primary);
+          padding: var(--space-2) var(--space-3);
+          border-radius: var(--radius-lg);
+          border: 1px solid var(--primary);
+          box-shadow: var(--shadow);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          min-width: 60px;
+          font-family: var(--font-sans);
         }
         
         .time-display {
-          font-size: 18px;
-          font-weight: bold;
-          text-align: center;
+          font-size: 1rem;
+          font-weight: 700;
+          color: var(--primary);
+          line-height: 1;
+          text-shadow: 0 0 10px rgba(37, 99, 235, 0.3);
         }
         
         .date-display {
-          font-size: 12px;
-          text-align: center;
-          opacity: 0.8;
-          margin-top: 4px;
+          font-size: 0.625rem;
+          font-weight: 600;
+          color: white;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          margin-top: 1px;
         }
         
         @media (max-width: 768px) {
           .timer {
-            top: 10px;
-            left: 10px;
-            padding: 8px 12px;
+            position: static;
+            transform: none;
+            margin-bottom: var(--space-2);
+            min-width: 50px;
+            padding: var(--space-1) var(--space-2);
           }
           
           .time-display {
-            font-size: 14px;
+            font-size: 0.875rem;
           }
           
           .date-display {
-            font-size: 10px;
+            font-size: 0.5rem;
           }
         }
       `}</style>
