@@ -100,6 +100,7 @@ export default function TopTricks() {
           border: 1px solid rgba(255, 255, 255, 0.1);
           backdrop-filter: blur(20px);
           box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+          margin-bottom: 1rem;
         }
 
         .header {

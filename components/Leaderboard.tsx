@@ -92,6 +92,7 @@ export default function Leaderboard() {
           border: 1px solid rgba(255, 255, 255, 0.1);
           backdrop-filter: blur(20px);
           box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+          margin-bottom: 1rem;
         }
 
         .header {
@@ -104,15 +105,15 @@ export default function Leaderboard() {
         }
 
         .header h3 {
-          color: #1a1a1a;
+          color: white;
           font-size: 1.1rem;
           font-weight: 700;
           margin: 0;
-          text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         .count {
-          background: rgba(26, 26, 26, 0.8);
+          background: rgba(255, 255, 255, 0.2);
           color: white;
           padding: 0.25rem 0.75rem;
           border-radius: var(--radius-full);

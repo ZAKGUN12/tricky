@@ -269,7 +269,7 @@ function HomeContent() {
         .sidebar {
           display: flex;
           flex-direction: column;
-          gap: 1.5rem;
+          gap: 2rem;
           position: sticky;
           top: 120px;
           height: calc(100vh - 140px);
