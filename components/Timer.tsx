@@ -22,10 +22,9 @@ export default function Timer() {
       
       <style jsx>{`
         .timer {
-          position: absolute;
+          position: fixed;
+          top: 12px;
           left: var(--space-4);
-          top: 50%;
-          transform: translateY(-50%);
           background: linear-gradient(135deg, var(--gray-800), var(--gray-700));
           color: var(--primary);
           padding: var(--space-2) var(--space-3);
@@ -37,6 +36,7 @@ export default function Timer() {
           align-items: center;
           min-width: 60px;
           font-family: var(--font-sans);
+          z-index: 101;
         }
         
         .time-display {
@@ -58,9 +58,8 @@ export default function Timer() {
         
         @media (max-width: 768px) {
           .timer {
-            position: static;
-            transform: none;
-            margin-bottom: var(--space-2);
+            top: 8px;
+            left: var(--space-3);
             min-width: 50px;
             padding: var(--space-1) var(--space-2);
           }
