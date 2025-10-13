@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 interface Category {
   id: string;
@@ -17,11 +17,7 @@ export default function Categories({ selectedCategory, onCategorySelect, tricks 
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchCategories();
-  }, [tricks]); // Re-fetch when tricks change
-
-  const fetchCategories = async () => {
+  const fetchCategories = useCallback(async () => {
     try {
       const response = await fetch('/api/categories');
       if (response.ok) {
@@ -42,7 +38,11 @@ export default function Categories({ selectedCategory, onCategorySelect, tricks 
     } finally {
       setLoading(false);
     }
-  };
+  }, [tricks]);
+
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
 
   const calculateCategoryCount = (categoryId: string) => {
     if (!tricks || tricks.length === 0) return 0;
