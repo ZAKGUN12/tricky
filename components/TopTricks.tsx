@@ -53,7 +53,7 @@ export default function TopTricks() {
     );
   }
 
-  const displayTricks = topTricks.slice(0, 5);
+  const displayTricks = topTricks.slice(0, 3);
 
   return (
     <div className="top-tricks-wrapper">

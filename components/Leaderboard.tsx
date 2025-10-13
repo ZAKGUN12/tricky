@@ -50,7 +50,7 @@ export default function Leaderboard() {
     );
   }
 
-  const displayUsers = users.slice(0, 5);
+  const displayUsers = users.slice(0, 3);
 
   return (
     <div className="leaderboard-wrapper">
