@@ -1,10 +1,10 @@
-// Fixed Cognito OIDC configuration
+// Production Cognito OIDC configuration
 export const getCognitoAuthUrl = () => {
   const domain = process.env.NEXT_PUBLIC_COGNITO_DOMAIN;
   const clientId = process.env.NEXT_PUBLIC_COGNITO_CLIENT_ID;
-  const redirectUri = process.env.NEXT_PUBLIC_REDIRECT_URI || 'http://localhost:3000/auth/callback';
+  const redirectUri = process.env.NEXT_PUBLIC_REDIRECT_URI;
   
-  if (!domain || !clientId) {
+  if (!domain || !clientId || !redirectUri) {
     console.error('Missing Cognito configuration');
     return '/login';
   }
@@ -14,7 +14,7 @@ export const getCognitoAuthUrl = () => {
     client_id: clientId,
     redirect_uri: redirectUri,
     scope: 'openid email profile',
-    state: Math.random().toString(36).substring(7) // CSRF protection
+    state: Math.random().toString(36).substring(7)
   });
   
   return `https://${domain}/oauth2/authorize?${params}`;
