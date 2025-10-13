@@ -232,11 +232,18 @@ function HomeContent() {
           left: 0;
           width: 100%;
           height: 100%;
-          background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-                      radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-                      radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+          background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.4) 0%, transparent 50%),
+                      radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.4) 0%, transparent 50%),
+                      radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
           pointer-events: none;
           z-index: -1;
+          animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          33% { transform: translateY(-20px) rotate(1deg); }
+          66% { transform: translateY(10px) rotate(-1deg); }
         }
 
         .container {
@@ -391,14 +398,31 @@ function HomeContent() {
           border-radius: var(--radius-lg);
           padding: 1.5rem;
           border: 1px solid rgba(120, 119, 198, 0.3);
-          transition: all var(--transition-smooth);
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
           box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .trick-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(120, 119, 198, 0.1), transparent);
+          transition: left 0.6s;
+        }
+
+        .trick-card:hover::before {
+          left: 100%;
         }
 
         .trick-card:hover {
-          transform: translateY(-8px);
-          box-shadow: 0 12px 40px rgba(120, 119, 198, 0.4);
-          border-color: rgba(120, 119, 198, 0.5);
+          transform: translateY(-12px) scale(1.02);
+          box-shadow: 0 20px 60px rgba(120, 119, 198, 0.4), 0 0 40px rgba(120, 119, 198, 0.2);
+          border-color: rgba(120, 119, 198, 0.6);
         }
 
         .trick-header {
@@ -509,25 +533,29 @@ function HomeContent() {
         }
 
         .action-btn.kudos {
-          background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+          background: linear-gradient(135deg, #78dbff 0%, #7877c6 100%);
           color: white;
-          box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+          box-shadow: 0 4px 16px rgba(120, 219, 255, 0.3);
+          border: 1px solid rgba(120, 219, 255, 0.4);
         }
 
         .action-btn.kudos:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+          transform: translateY(-3px) scale(1.05);
+          box-shadow: 0 8px 24px rgba(120, 219, 255, 0.5);
+          background: linear-gradient(135deg, #89e5ff 0%, #8988d4 100%);
         }
 
         .action-btn.view {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: linear-gradient(135deg, #7877c6 0%, #ff77c6 100%);
           color: white;
-          box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+          box-shadow: 0 4px 16px rgba(120, 119, 198, 0.3);
+          border: 1px solid rgba(120, 119, 198, 0.4);
         }
 
         .action-btn.view:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+          transform: translateY(-3px) scale(1.05);
+          box-shadow: 0 8px 24px rgba(120, 119, 198, 0.5);
+          background: linear-gradient(135deg, #8988d4 0%, #ff88d4 100%);
         }
 
         .no-tricks {
