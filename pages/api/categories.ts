@@ -2,8 +2,12 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, ScanCommand } from '@aws-sdk/lib-dynamodb';
 import { categorizeAllTricks } from '../../lib/categoryMatcher';
+import { fromIni } from '@aws-sdk/credential-providers';
 
-const client = new DynamoDBClient({ region: process.env.AWS_REGION || 'eu-west-1' });
+const client = new DynamoDBClient({ 
+  region: 'eu-west-1',
+  credentials: fromIni({ profile: 'default' })
+});
 const docClient = DynamoDBDocumentClient.from(client);
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
