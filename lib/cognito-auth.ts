@@ -9,12 +9,18 @@ export const getCognitoAuthUrl = () => {
     return '/login';
   }
   
+  // Generate cryptographically secure state parameter
+  const state = typeof window !== 'undefined' && window.crypto 
+    ? Array.from(window.crypto.getRandomValues(new Uint8Array(16)))
+        .map(b => b.toString(16).padStart(2, '0')).join('')
+    : Math.random().toString(36).substring(7);
+  
   const params = new URLSearchParams({
     response_type: 'code',
     client_id: clientId,
     redirect_uri: redirectUri,
     scope: 'openid email profile',
-    state: Math.random().toString(36).substring(7)
+    state
   });
   
   return `https://${domain}/oauth2/authorize?${params}`;
