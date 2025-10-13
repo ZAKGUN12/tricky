@@ -1,9 +1,10 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { getLogoutUrl } from '../lib/oidc-auth';
+import { getCognitoLogoutUrl } from '../lib/cognito-auth';
 
 interface User {
   email: string;
   name: string;
+  username: string;
   sub: string;
 }
 
@@ -29,7 +30,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const userData = JSON.parse(userInfo);
         setUser({
           email: userData.email,
-          name: userData.name || userData.email,
+          name: userData.name || userData.given_name || userData.email.split('@')[0],
+          username: userData.preferred_username || userData.username || userData.email.split('@')[0],
           sub: userData.sub
         });
       } else {
@@ -48,7 +50,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       localStorage.removeItem('id_token');
       localStorage.removeItem('user_info');
       setUser(null);
-      window.location.href = getLogoutUrl();
+      window.location.href = getCognitoLogoutUrl();
     } catch (error) {
       console.error('Sign out error:', error);
     }
