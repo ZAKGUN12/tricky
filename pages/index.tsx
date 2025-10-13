@@ -283,7 +283,7 @@ function HomeContent() {
           font-weight: 600;
           color: #78dbff;
           box-shadow: 0 4px 16px rgba(120, 219, 255, 0.2);
-          transform: translateY(-2px);
+          transform: translateY(-8px);
         }
 
         .main-content {
