@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { signInWithCognito, signUpWithCognito } from '../lib/cognito-direct';
 
 export default function SignIn() {
   const router = useRouter();
@@ -19,17 +18,28 @@ export default function SignIn() {
     setError('');
 
     try {
+      const response = await fetch('/api/auth/signin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+          username: formData.username,
+          action: isSignUp ? 'signup' : 'signin'
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Authentication failed');
+      }
+
       if (isSignUp) {
-        if (!formData.username) {
-          setError('Username is required');
-          return;
-        }
-        await signUpWithCognito(formData.email, formData.password, formData.username);
         setError('Check your email for verification code');
       } else {
-        const tokens = await signInWithCognito(formData.email, formData.password);
-        localStorage.setItem('access_token', tokens.AccessToken || '');
-        localStorage.setItem('id_token', tokens.IdToken || '');
+        localStorage.setItem('access_token', data.AccessToken || '');
+        localStorage.setItem('id_token', data.IdToken || '');
         
         const returnUrl = router.query.returnUrl as string || '/';
         router.push(returnUrl);
