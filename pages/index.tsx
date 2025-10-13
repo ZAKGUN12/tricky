@@ -347,19 +347,19 @@ function HomeContent() {
         }
 
         .trick-card {
-          background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.8) 100%);
+          background: rgba(15, 15, 35, 0.8);
           backdrop-filter: blur(20px);
           border-radius: var(--radius-lg);
           padding: 1.5rem;
-          border: 1px solid rgba(255, 255, 255, 0.2);
+          border: 1px solid rgba(120, 119, 198, 0.3);
           transition: all var(--transition-smooth);
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
         .trick-card:hover {
           transform: translateY(-8px);
-          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-          border-color: rgba(102, 126, 234, 0.3);
+          box-shadow: 0 12px 40px rgba(120, 119, 198, 0.4);
+          border-color: rgba(120, 119, 198, 0.5);
         }
 
         .trick-header {
@@ -431,12 +431,13 @@ function HomeContent() {
         }
 
         .tag {
-          background: var(--primary-100);
-          color: var(--primary-700);
+          background: rgba(120, 119, 198, 0.2);
+          color: #7877c6;
           padding: 0.25rem 0.5rem;
           border-radius: var(--radius-sm);
           font-size: 0.75rem;
           font-weight: 500;
+          border: 1px solid rgba(120, 119, 198, 0.3);
         }
 
         .trick-footer {
