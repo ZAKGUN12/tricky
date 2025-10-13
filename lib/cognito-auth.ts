@@ -4,29 +4,20 @@ export const getCognitoAuthUrl = () => {
   const clientId = process.env.NEXT_PUBLIC_COGNITO_CLIENT_ID;
   const redirectUri = process.env.NEXT_PUBLIC_REDIRECT_URI;
   
-  // Fallback values if env vars not set
-  const fallbackDomain = 'trickshare-auth.auth.eu-west-1.amazoncognito.com';
-  const fallbackClientId = '7ce3588lqfcmq6ckedmlui6i9e';
-  const fallbackRedirectUri = 'https://tricky-six.vercel.app/auth/callback';
-  
-  const finalDomain = domain || fallbackDomain;
-  const finalClientId = clientId || fallbackClientId;
-  const finalRedirectUri = redirectUri || fallbackRedirectUri;
-  
-  if (!finalDomain || !finalClientId || !finalRedirectUri) {
+  if (!domain || !clientId || !redirectUri) {
     console.error('Missing Cognito configuration');
     return '/login';
   }
   
   const params = new URLSearchParams({
     response_type: 'code',
-    client_id: finalClientId,
-    redirect_uri: finalRedirectUri,
+    client_id: clientId,
+    redirect_uri: redirectUri,
     scope: 'openid email profile',
     state: Math.random().toString(36).substring(7)
   });
   
-  return `https://${finalDomain}/oauth2/authorize?${params}`;
+  return `https://${domain}/oauth2/authorize?${params}`;
 };
 
 export const getCognitoLogoutUrl = () => {
