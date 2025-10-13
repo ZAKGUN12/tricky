@@ -1,11 +1,12 @@
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from '../components/AuthProvider';
 import { getCognitoAuthUrl } from '../lib/cognito-auth';
 
 function LoginContent() {
   const router = useRouter();
   const { user, loading } = useAuth();
+  const [signingIn, setSigningIn] = useState(false);
 
   useEffect(() => {
     if (user && !loading) {
@@ -15,13 +16,14 @@ function LoginContent() {
   }, [user, loading, router]);
 
   const handleLogin = () => {
+    setSigningIn(true);
     window.location.href = getCognitoAuthUrl();
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-purple-500"></div>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-white"></div>
       </div>
     );
   }
@@ -30,9 +32,17 @@ function LoginContent() {
     <div className="login-container">
       <h1>🌍 Welcome to TrickShare</h1>
       <p>Join our global community and share amazing life tricks!</p>
-      <button onClick={handleLogin} className="login-btn">
-        Sign In
-      </button>
+      
+      {signingIn ? (
+        <div className="signing-in">
+          <div className="spinner"></div>
+          <p>Redirecting to secure sign in...</p>
+        </div>
+      ) : (
+        <button onClick={handleLogin} className="login-btn">
+          Sign In
+        </button>
+      )}
 
       <style jsx>{`
         .login-container {
@@ -80,6 +90,34 @@ function LoginContent() {
         .login-btn:hover {
           transform: translateY(-2px) scale(1.05);
           box-shadow: 0 12px 40px rgba(120, 119, 198, 0.5);
+        }
+
+        .signing-in {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 1rem;
+        }
+
+        .signing-in p {
+          color: #78dbff;
+          font-size: 1rem;
+          margin: 0;
+          opacity: 0.8;
+        }
+
+        .spinner {
+          width: 40px;
+          height: 40px;
+          border: 3px solid rgba(120, 219, 255, 0.3);
+          border-top: 3px solid #78dbff;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
         }
 
         @media (max-width: 768px) {
