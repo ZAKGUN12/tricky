@@ -98,12 +98,40 @@ function HomeContent() {
               <Timer />
             </div>
             <div className="header-center">
-              <Link href="/submit" className="share-btn">
+              <Link 
+                href="/submit" 
+                className="share-btn"
+                style={{
+                  background: 'rgba(15, 15, 35, 0.8)',
+                  backdropFilter: 'blur(20px)',
+                  border: '2px solid rgba(120, 119, 198, 0.8)',
+                  color: '#7877c6',
+                  padding: '0.75rem 2rem',
+                  borderRadius: 'var(--radius-full)',
+                  textDecoration: 'none',
+                  fontWeight: '600',
+                  boxShadow: '0 4px 16px rgba(120, 119, 198, 0.4)',
+                  textShadow: '0 0 10px rgba(120, 119, 198, 0.5)'
+                }}
+              >
                 Share Your Trick
               </Link>
             </div>
             <div className="header-right">
-              <div className="tricks-counter">
+              <div 
+                className="tricks-counter"
+                style={{
+                  background: 'rgba(15, 15, 35, 0.8)',
+                  backdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(120, 219, 255, 0.3)',
+                  padding: '0.5rem 1rem',
+                  borderRadius: 'var(--radius-full)',
+                  fontWeight: '600',
+                  color: '#78dbff',
+                  boxShadow: '0 4px 16px rgba(120, 219, 255, 0.2)',
+                  transform: 'translateY(-8px)'
+                }}
+              >
                 {tricks.length} tricks
               </div>
             </div>
