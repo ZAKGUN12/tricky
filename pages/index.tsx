@@ -142,6 +142,7 @@ function HomeContent() {
             <Categories 
               selectedCategory={selectedCategory}
               onCategorySelect={(categoryId) => handleCategorySelect(categoryId || '')}
+              tricks={tricks}
             />
             <TopTricks />
             <Leaderboard />

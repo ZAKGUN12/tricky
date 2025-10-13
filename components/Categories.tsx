@@ -10,31 +10,64 @@ interface Category {
 interface CategoriesProps {
   selectedCategory: string;
   onCategorySelect: (categoryId: string | null) => void;
+  tricks?: any[]; // Add tricks prop to calculate real counts
 }
 
-export default function Categories({ selectedCategory, onCategorySelect }: CategoriesProps) {
+export default function Categories({ selectedCategory, onCategorySelect, tricks = [] }: CategoriesProps) {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchCategories();
-  }, []);
+  }, [tricks]); // Re-fetch when tricks change
 
   const fetchCategories = async () => {
     try {
       const response = await fetch('/api/categories');
       if (response.ok) {
         const data = await response.json();
-        // Handle both direct array and wrapped object
         const categoriesArray = Array.isArray(data) ? data : (data.categories || []);
-        setCategories(categoriesArray);
+        
+        // Calculate real counts from tricks data
+        const categoriesWithRealCounts = categoriesArray.map(category => ({
+          ...category,
+          count: calculateCategoryCount(category.id)
+        }));
+        
+        setCategories(categoriesWithRealCounts);
       }
     } catch (error) {
       console.error('Error fetching categories:', error);
-      setCategories([]); // Set empty array on error
+      setCategories([]);
     } finally {
       setLoading(false);
     }
+  };
+
+  const calculateCategoryCount = (categoryId: string) => {
+    if (!tricks || tricks.length === 0) return 0;
+    
+    // Count tricks that have this category in their tags
+    return tricks.filter(trick => {
+      if (!trick.tags || !Array.isArray(trick.tags)) return false;
+      return trick.tags.some(tag => 
+        tag.toLowerCase().includes(categoryId.toLowerCase()) ||
+        getCategoryKeywords(categoryId).some(keyword => 
+          tag.toLowerCase().includes(keyword.toLowerCase())
+        )
+      );
+    }).length;
+  };
+
+  const getCategoryKeywords = (categoryId: string) => {
+    const keywords = {
+      'cooking': ['cooking', 'recipe', 'food', 'kitchen', 'pizza', 'napoletana', 'forno'],
+      'cleaning': ['cleaning', 'clean', 'wash', 'tidy'],
+      'technology': ['tech', 'computer', 'phone', 'digital', 'app'],
+      'health': ['health', 'fitness', 'exercise', 'wellness'],
+      'travel': ['travel', 'trip', 'vacation', 'journey']
+    };
+    return keywords[categoryId] || [categoryId];
   };
 
   if (loading) {
