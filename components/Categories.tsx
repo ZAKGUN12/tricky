@@ -10,42 +10,19 @@ interface Category {
 interface CategoriesProps {
   selectedCategory: string;
   onCategorySelect: (categoryId: string | null) => void;
-  tricks?: any[]; // Add tricks prop to calculate real counts
+  tricks?: any[];
 }
 
 export default function Categories({ selectedCategory, onCategorySelect, tricks = [] }: CategoriesProps) {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const calculateCategoryCount = useCallback((categoryId: string) => {
-    if (!tricks || tricks.length === 0) return 0;
-    
-    // Count tricks that have this category in their tags
-    return tricks.filter((trick: any) => {
-      if (!trick.tags || !Array.isArray(trick.tags)) return false;
-      return trick.tags.some((tag: any) => 
-        tag.toLowerCase().includes(categoryId.toLowerCase()) ||
-        getCategoryKeywords(categoryId).some((keyword: string) => 
-          tag.toLowerCase().includes(keyword.toLowerCase())
-        )
-      );
-    }).length;
-  }, [tricks]);
-
   const fetchCategories = useCallback(async () => {
     try {
       const response = await fetch('/api/categories');
       if (response.ok) {
         const data = await response.json();
-        const categoriesArray = Array.isArray(data) ? data : (data.categories || []);
-        
-        // Calculate real counts from tricks data
-        const categoriesWithRealCounts = categoriesArray.map((category: any) => ({
-          ...category,
-          count: calculateCategoryCount(category.id)
-        }));
-        
-        setCategories(categoriesWithRealCounts);
+        setCategories(Array.isArray(data) ? data : []);
       }
     } catch (error) {
       console.error('Error fetching categories:', error);
@@ -53,22 +30,11 @@ export default function Categories({ selectedCategory, onCategorySelect, tricks 
     } finally {
       setLoading(false);
     }
-  }, [calculateCategoryCount]);
+  }, []);
 
   useEffect(() => {
     fetchCategories();
   }, [fetchCategories]);
-
-  const getCategoryKeywords = (categoryId: string): string[] => {
-    const keywords: { [key: string]: string[] } = {
-      'cooking': ['cooking', 'recipe', 'food', 'kitchen', 'pizza', 'napoletana', 'forno'],
-      'cleaning': ['cleaning', 'clean', 'wash', 'tidy'],
-      'technology': ['tech', 'computer', 'phone', 'digital', 'app'],
-      'health': ['health', 'fitness', 'exercise', 'wellness'],
-      'travel': ['travel', 'trip', 'vacation', 'journey']
-    };
-    return keywords[categoryId] || [categoryId];
-  };
 
   if (loading) {
     return (
