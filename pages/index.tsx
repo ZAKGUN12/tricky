@@ -253,14 +253,14 @@ function HomeContent() {
         .share-btn {
           background: rgba(15, 15, 35, 0.8) !important;
           backdrop-filter: blur(20px) !important;
-          border: 2px solid rgba(120, 119, 198, 0.5) !important;
+          border: 2px solid rgba(120, 119, 198, 0.8) !important;
           color: #7877c6 !important;
           padding: 0.75rem 2rem !important;
           border-radius: var(--radius-full) !important;
           text-decoration: none !important;
           font-weight: 600 !important;
           transition: all 0.3s ease !important;
-          box-shadow: 0 4px 16px rgba(120, 119, 198, 0.3) !important;
+          box-shadow: 0 4px 16px rgba(120, 119, 198, 0.4) !important;
           text-shadow: 0 0 10px rgba(120, 119, 198, 0.5) !important;
           position: relative !important;
         }
