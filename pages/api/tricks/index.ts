@@ -40,8 +40,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
     
     res.status(500).json({ 
-      error: 'Internal server error',
-      message: process.env.NODE_ENV === 'development' ? (error as Error).message : undefined
+      error: 'Internal server error'
     });
   }
 }
@@ -49,11 +48,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 async function handleGet(req: NextApiRequest, res: NextApiResponse) {
   const { country, search, difficulty, category } = req.query;
   
+  // Validate and sanitize query parameters
+  const sanitizedFilters = {
+    country: validateCountryCode(country),
+    search: sanitizeSearchTerm(search),
+    difficulty: validateDifficulty(difficulty)
+  };
+  
   try {
     const command = new ScanCommand({
       TableName: 'TrickShare-Tricks',
-      FilterExpression: buildFilterExpression({ country, search, difficulty }),
-      ExpressionAttributeValues: buildExpressionValues({ country, search, difficulty })
+      FilterExpression: buildFilterExpression(sanitizedFilters),
+      ExpressionAttributeValues: buildExpressionValues(sanitizedFilters)
     });
 
     const result = await docClient.send(command);
@@ -131,6 +137,21 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
     }
     throw error;
   }
+}
+
+function validateCountryCode(country: any): string | undefined {
+  if (!country || typeof country !== 'string') return undefined;
+  return /^[A-Z]{2}$/.test(country) ? country : undefined;
+}
+
+function sanitizeSearchTerm(search: any): string | undefined {
+  if (!search || typeof search !== 'string') return undefined;
+  return search.replace(/[^a-zA-Z0-9\s]/g, '').substring(0, 50) || undefined;
+}
+
+function validateDifficulty(difficulty: any): string | undefined {
+  if (!difficulty || typeof difficulty !== 'string') return undefined;
+  return ['easy', 'medium', 'hard'].includes(difficulty) ? difficulty : undefined;
 }
 
 function buildFilterExpression(filters: any) {

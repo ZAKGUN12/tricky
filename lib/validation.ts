@@ -32,19 +32,33 @@ export const TrickSchema = z.object({
 export const CommentSchema = z.object({
   text: z.string()
     .min(1, 'Comment cannot be empty')
-    .max(500, 'Comment must be less than 500 characters'),
+    .max(500, 'Comment must be less than 500 characters')
+    .transform(sanitizeInput),
   
   authorName: z.string()
     .min(1, 'Author name is required')
     .max(50, 'Author name must be less than 50 characters')
+    .transform(sanitizeInput)
 });
 
-// Sanitize HTML content
+// Comprehensive input sanitization to prevent XSS
 export function sanitizeInput(input: string): string {
   return input
-    .replace(/[<>]/g, '') // Remove HTML tags
-    .replace(/javascript:/gi, '') // Remove javascript: URLs
-    .replace(/on\w+=/gi, '') // Remove event handlers
+    .replace(/[<>"'&]/g, (match) => {
+      const htmlEntities: { [key: string]: string } = {
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#x27;',
+        '&': '&amp;'
+      };
+      return htmlEntities[match];
+    })
+    .replace(/javascript:/gi, '')
+    .replace(/on\w+\s*=/gi, '')
+    .replace(/data:/gi, '')
+    .replace(/vbscript:/gi, '')
+    .replace(/[\x00-\x1f\x7f-\x9f]/g, '')
     .trim();
 }
 

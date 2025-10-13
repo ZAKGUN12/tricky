@@ -14,7 +14,9 @@ export function rateLimit(options: {
   maxRequests: number;
 }) {
   return (req: NextApiRequest, res: NextApiResponse, next: () => void) => {
-    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || 'unknown';
+    const ip = req.socket.remoteAddress || 
+              (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() || 
+              'unknown';
     const key = `${ip}:${req.url}`;
     const now = Date.now();
     
