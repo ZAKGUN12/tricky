@@ -31,7 +31,7 @@ function LoginContent() {
       <h1>🌍 Welcome to TrickShare</h1>
       <p>Join our global community and share amazing life tricks!</p>
       <button onClick={handleLogin} className="login-btn">
-        🔐 Sign in with Cognito
+        Sign In
       </button>
 
       <style jsx>{`
