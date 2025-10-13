@@ -25,10 +25,10 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
       <div className="chain-header">
         <div className="header-content">
           <h3 className="chain-title">🌍 Global Network</h3>
-          <p className="chain-subtitle">{countriesWithTricks.length} countries</p>
         </div>
-        <div className="total-badge">
-          <span className="total-number">{tricks.length}</span>
+        <div className="calendar-badge">
+          <div className="calendar-number">{countriesWithTricks.length}</div>
+          <div className="calendar-label">Countries</div>
         </div>
       </div>
 
@@ -117,22 +117,45 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
           font-weight: 500;
         }
 
-        .total-badge {
-          background: rgba(255, 255, 255, 0.2);
-          backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.3);
-          border-radius: 12px;
-          padding: 8px 12px;
+        .calendar-badge {
+          background: rgba(255, 255, 255, 0.9);
+          border: 2px solid rgba(120, 119, 198, 0.4);
+          border-radius: 8px;
+          padding: 0;
           text-align: center;
-          min-width: 50px;
+          min-width: 60px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+          position: relative;
         }
 
-        .total-number {
-          display: block;
-          font-size: 1.25rem;
+        .calendar-badge::before {
+          content: '';
+          position: absolute;
+          top: -2px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 80%;
+          height: 8px;
+          background: linear-gradient(135deg, #7877c6 0%, #ff77c6 100%);
+          border-radius: 4px 4px 0 0;
+        }
+
+        .calendar-number {
+          font-size: 1.5rem;
           font-weight: 700;
-          color: white;
-          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+          color: #7877c6;
+          padding: 8px 4px 2px 4px;
+          line-height: 1;
+        }
+
+        .calendar-label {
+          font-size: 0.65rem;
+          font-weight: 600;
+          color: #666;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          padding: 0 4px 6px 4px;
+          border-top: 1px solid rgba(120, 119, 198, 0.2);
         }
 
         .chain-container {
