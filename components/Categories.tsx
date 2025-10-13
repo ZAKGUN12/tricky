@@ -17,6 +17,21 @@ export default function Categories({ selectedCategory, onCategorySelect, tricks 
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const calculateCategoryCount = useCallback((categoryId: string) => {
+    if (!tricks || tricks.length === 0) return 0;
+    
+    // Count tricks that have this category in their tags
+    return tricks.filter((trick: any) => {
+      if (!trick.tags || !Array.isArray(trick.tags)) return false;
+      return trick.tags.some((tag: any) => 
+        tag.toLowerCase().includes(categoryId.toLowerCase()) ||
+        getCategoryKeywords(categoryId).some((keyword: string) => 
+          tag.toLowerCase().includes(keyword.toLowerCase())
+        )
+      );
+    }).length;
+  }, [tricks]);
+
   const fetchCategories = useCallback(async () => {
     try {
       const response = await fetch('/api/categories');
@@ -38,26 +53,11 @@ export default function Categories({ selectedCategory, onCategorySelect, tricks 
     } finally {
       setLoading(false);
     }
-  }, [tricks]);
+  }, [calculateCategoryCount]);
 
   useEffect(() => {
     fetchCategories();
   }, [fetchCategories]);
-
-  const calculateCategoryCount = (categoryId: string) => {
-    if (!tricks || tricks.length === 0) return 0;
-    
-    // Count tricks that have this category in their tags
-    return tricks.filter((trick: any) => {
-      if (!trick.tags || !Array.isArray(trick.tags)) return false;
-      return trick.tags.some((tag: any) => 
-        tag.toLowerCase().includes(categoryId.toLowerCase()) ||
-        getCategoryKeywords(categoryId).some((keyword: string) => 
-          tag.toLowerCase().includes(keyword.toLowerCase())
-        )
-      );
-    }).length;
-  };
 
   const getCategoryKeywords = (categoryId: string): string[] => {
     const keywords: { [key: string]: string[] } = {
