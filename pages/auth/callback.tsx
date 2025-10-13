@@ -10,36 +10,43 @@ export default function AuthCallback() {
   useEffect(() => {
     const handleCallback = async () => {
       try {
-        const { code, error: authError } = router.query;
+        const { code, error: authError, error_description } = router.query;
 
         if (authError) {
-          setError(authError as string);
+          setError(`${authError}: ${error_description || 'Authentication failed'}`);
           setStatus('error');
           return;
         }
 
-        if (code) {
-          const tokens = await exchangeCodeForTokens(code as string);
-          
-          // Store tokens
-          localStorage.setItem('access_token', tokens.access_token);
+        if (!code) {
+          setError('No authorization code received');
+          setStatus('error');
+          return;
+        }
+
+        const tokens = await exchangeCodeForTokens(code as string);
+        
+        // Store tokens
+        localStorage.setItem('access_token', tokens.access_token);
+        if (tokens.id_token) {
           localStorage.setItem('id_token', tokens.id_token);
-          
-          // Get user info
-          const userResponse = await fetch(`https://${process.env.NEXT_PUBLIC_COGNITO_DOMAIN}/oauth2/userInfo`, {
+        }
+        
+        // Get user info
+        const domain = process.env.NEXT_PUBLIC_COGNITO_DOMAIN;
+        if (domain) {
+          const userResponse = await fetch(`https://${domain}/oauth2/userInfo`, {
             headers: { Authorization: `Bearer ${tokens.access_token}` }
           });
 
           if (userResponse.ok) {
             const userInfo = await userResponse.json();
             localStorage.setItem('user_info', JSON.stringify(userInfo));
-            setStatus('success');
-            
-            setTimeout(() => router.push('/'), 1000);
-          } else {
-            throw new Error('Failed to get user info');
           }
         }
+        
+        setStatus('success');
+        setTimeout(() => router.push('/'), 1000);
       } catch (err) {
         console.error('Auth callback error:', err);
         setError(err instanceof Error ? err.message : 'Authentication failed');
@@ -73,13 +80,19 @@ export default function AuthCallback() {
         {status === 'error' && (
           <div className="text-center">
             <div className="text-red-400 text-6xl mb-4">✗</div>
-            <h2 className="text-2xl font-bold text-white mb-2">Error</h2>
-            <p className="text-white/80 mb-4">{error}</p>
+            <h2 className="text-2xl font-bold text-white mb-2">Authentication Error</h2>
+            <p className="text-white/80 mb-4 text-sm">{error}</p>
+            <button
+              onClick={() => router.push('/login')}
+              className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded mr-2"
+            >
+              Try Again
+            </button>
             <button
               onClick={() => router.push('/')}
-              className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
+              className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
             >
-              Return Home
+              Go Home
             </button>
           </div>
         )}
