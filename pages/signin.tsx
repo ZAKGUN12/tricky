@@ -5,6 +5,7 @@ export default function SignIn() {
   const router = useRouter();
   const [isSignUp, setIsSignUp] = useState(false);
   const [formData, setFormData] = useState({
+    emailOrUsername: '',
     email: '',
     password: '',
     username: ''
@@ -22,9 +23,9 @@ export default function SignIn() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          email: formData.email,
+          email: isSignUp ? formData.email : formData.emailOrUsername,
           password: formData.password,
-          username: formData.username,
+          username: isSignUp ? formData.username : formData.emailOrUsername,
           action: isSignUp ? 'signup' : 'signin'
         })
       });
@@ -40,7 +41,7 @@ export default function SignIn() {
       } else {
         localStorage.setItem('access_token', data.AccessToken || '');
         localStorage.setItem('id_token', data.IdToken || '');
-        localStorage.setItem('username', formData.username);
+        localStorage.setItem('username', data.username || (isSignUp ? formData.username : formData.emailOrUsername));
         
         const returnUrl = router.query.returnUrl as string || '/';
         router.push(returnUrl);
@@ -75,29 +76,45 @@ export default function SignIn() {
           </div>
 
           <form onSubmit={handleSubmit} className="signin-form">
-            <div className="input-group">
-              <input
-                type="text"
-                placeholder="Username"
-                value={formData.username}
-                onChange={(e) => setFormData({...formData, username: e.target.value})}
-                className="signin-input"
-                required
-              />
-              <div className="input-glow"></div>
-            </div>
-            
-            <div className="input-group">
-              <input
-                type="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={(e) => setFormData({...formData, email: e.target.value})}
-                className="signin-input"
-                required
-              />
-              <div className="input-glow"></div>
-            </div>
+            {isSignUp ? (
+              <>
+                <div className="input-group">
+                  <input
+                    type="text"
+                    placeholder="Username"
+                    value={formData.username}
+                    onChange={(e) => setFormData({...formData, username: e.target.value})}
+                    className="signin-input"
+                    required
+                  />
+                  <div className="input-glow"></div>
+                </div>
+                
+                <div className="input-group">
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                    className="signin-input"
+                    required
+                  />
+                  <div className="input-glow"></div>
+                </div>
+              </>
+            ) : (
+              <div className="input-group">
+                <input
+                  type="text"
+                  placeholder="Username or Email"
+                  value={formData.emailOrUsername}
+                  onChange={(e) => setFormData({...formData, emailOrUsername: e.target.value})}
+                  className="signin-input"
+                  required
+                />
+                <div className="input-glow"></div>
+              </div>
+            )}
             
             <div className="input-group">
               <input

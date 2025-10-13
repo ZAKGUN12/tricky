@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { CognitoIdentityProviderClient, InitiateAuthCommand, SignUpCommand } from '@aws-sdk/client-cognito-identity-provider';
+import { CognitoIdentityProviderClient, InitiateAuthCommand, SignUpCommand, GetUserCommand } from '@aws-sdk/client-cognito-identity-provider';
 
 const client = new CognitoIdentityProviderClient({
   region: process.env.NEXT_PUBLIC_AWS_REGION || 'eu-west-1'
@@ -33,7 +33,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         AuthFlow: 'USER_PASSWORD_AUTH',
         ClientId: CLIENT_ID,
         AuthParameters: {
-          USERNAME: email,
+          USERNAME: email, // This could be email or username
           PASSWORD: password
         }
       });
@@ -44,11 +44,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(400).json({ error: 'Authentication failed' });
       }
 
+      // Get user info to extract the actual username
+      let actualUsername = username;
+      try {
+        const getUserCommand = new GetUserCommand({
+          AccessToken: response.AuthenticationResult.AccessToken
+        });
+        const userResponse = await client.send(getUserCommand);
+        
+        // Extract preferred_username from user attributes
+        const usernameAttr = userResponse.UserAttributes?.find(attr => attr.Name === 'preferred_username');
+        if (usernameAttr?.Value) {
+          actualUsername = usernameAttr.Value;
+        }
+      } catch (error) {
+        console.log('Could not fetch user details, using provided username');
+      }
+
       return res.status(200).json({
         AccessToken: response.AuthenticationResult.AccessToken,
         IdToken: response.AuthenticationResult.IdToken,
         RefreshToken: response.AuthenticationResult.RefreshToken,
-        username: username // Include username in response
+        username: actualUsername // Return the actual username from Cognito
       });
     }
   } catch (error: any) {
