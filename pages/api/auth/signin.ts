@@ -47,7 +47,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(200).json({
         AccessToken: response.AuthenticationResult.AccessToken,
         IdToken: response.AuthenticationResult.IdToken,
-        RefreshToken: response.AuthenticationResult.RefreshToken
+        RefreshToken: response.AuthenticationResult.RefreshToken,
+        username: username // Include username in response
       });
     }
   } catch (error: any) {

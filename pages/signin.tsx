@@ -40,6 +40,7 @@ export default function SignIn() {
       } else {
         localStorage.setItem('access_token', data.AccessToken || '');
         localStorage.setItem('id_token', data.IdToken || '');
+        localStorage.setItem('username', formData.username);
         
         const returnUrl = router.query.returnUrl as string || '/';
         router.push(returnUrl);
@@ -74,19 +75,17 @@ export default function SignIn() {
           </div>
 
           <form onSubmit={handleSubmit} className="signin-form">
-            {isSignUp && (
-              <div className="input-group">
-                <input
-                  type="text"
-                  placeholder="Username"
-                  value={formData.username}
-                  onChange={(e) => setFormData({...formData, username: e.target.value})}
-                  className="signin-input"
-                  required
-                />
-                <div className="input-glow"></div>
-              </div>
-            )}
+            <div className="input-group">
+              <input
+                type="text"
+                placeholder="Username"
+                value={formData.username}
+                onChange={(e) => setFormData({...formData, username: e.target.value})}
+                className="signin-input"
+                required
+              />
+              <div className="input-glow"></div>
+            </div>
             
             <div className="input-group">
               <input

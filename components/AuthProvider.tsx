@@ -25,6 +25,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const accessToken = localStorage.getItem('access_token');
       const idToken = localStorage.getItem('id_token');
+      const storedUsername = localStorage.getItem('username');
       
       if (accessToken && idToken) {
         // Decode JWT to get user info
@@ -32,8 +33,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         
         setUser({
           email: payload.email || payload['cognito:username'],
-          name: payload.name || payload.preferred_username || payload['cognito:username'],
-          username: payload.preferred_username || payload['cognito:username'],
+          name: storedUsername || payload.name || payload.preferred_username || payload['cognito:username'],
+          username: storedUsername || payload.preferred_username || payload['cognito:username'],
           sub: payload.sub
         });
       } else {
@@ -44,6 +45,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(null);
       localStorage.removeItem('access_token');
       localStorage.removeItem('id_token');
+      localStorage.removeItem('username');
     } finally {
       setLoading(false);
     }
@@ -53,6 +55,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       localStorage.removeItem('access_token');
       localStorage.removeItem('id_token');
+      localStorage.removeItem('username');
       setUser(null);
       window.location.href = '/';
     } catch (error) {
