@@ -431,13 +431,13 @@ function HomeContent() {
         }
 
         .trick-card {
-          background: rgba(15, 15, 35, 0.8);
-          backdrop-filter: blur(20px);
+          background: rgba(15, 15, 35, 0.85);
+          backdrop-filter: blur(25px);
           border-radius: var(--radius-lg);
           padding: 1.5rem;
           border: 1px solid rgba(120, 119, 198, 0.3);
           transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(120, 119, 198, 0.1);
           position: relative;
           overflow: hidden;
         }
@@ -449,12 +449,28 @@ function HomeContent() {
           left: -100%;
           width: 100%;
           height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(120, 119, 198, 0.1), transparent);
+          background: linear-gradient(90deg, transparent, rgba(120, 119, 198, 0.15), transparent);
           transition: left 0.6s;
+        }
+
+        .trick-card::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 3px;
+          background: linear-gradient(90deg, #7877c6, #ff77c6, #78dbff);
+          opacity: 0;
+          transition: opacity 0.3s;
         }
 
         .trick-card:hover::before {
           left: 100%;
+        }
+
+        .trick-card:hover::after {
+          opacity: 1;
         }
 
         .trick-card:hover {
@@ -468,47 +484,75 @@ function HomeContent() {
           justify-content: space-between;
           align-items: center;
           margin-bottom: 1rem;
+          position: relative;
+          z-index: 2;
         }
 
         .country-info {
           display: flex;
           align-items: center;
-          gap: 0.5rem;
+          gap: 0.75rem;
+          background: rgba(120, 119, 198, 0.15);
+          padding: 0.5rem 1rem;
+          border-radius: var(--radius-full);
+          border: 1px solid rgba(120, 119, 198, 0.3);
+          backdrop-filter: blur(10px);
         }
 
         .flag {
-          font-size: 1.2rem;
+          font-size: 1.5rem;
+          filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
         }
 
         .country-name {
-          font-weight: 500;
-          color: var(--text-secondary);
+          font-weight: 600;
+          color: var(--text-primary);
+          font-size: 0.9rem;
+        }
+
+        .difficulty {
+          position: relative;
         }
 
         .difficulty-badge {
-          padding: 0.25rem 0.75rem;
+          padding: 0.4rem 1rem;
           border-radius: var(--radius-full);
           font-size: 0.75rem;
-          font-weight: 600;
+          font-weight: 700;
           text-transform: uppercase;
+          letter-spacing: 0.5px;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .difficulty-badge::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: inherit;
+          opacity: 0.8;
+          z-index: -1;
         }
 
         .difficulty-badge.easy {
           background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
           color: white;
-          box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+          box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
         }
 
         .difficulty-badge.medium {
           background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
           color: white;
-          box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+          box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
         }
 
         .difficulty-badge.hard {
           background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
           color: white;
-          box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+          box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
         }
 
         .trick-title {
@@ -528,46 +572,99 @@ function HomeContent() {
           display: flex;
           flex-wrap: wrap;
           gap: 0.5rem;
-          margin-bottom: 1rem;
+          margin-bottom: 1.5rem;
         }
 
         .tag {
           background: rgba(120, 119, 198, 0.2);
           color: #7877c6;
-          padding: 0.25rem 0.5rem;
-          border-radius: var(--radius-sm);
+          padding: 0.3rem 0.8rem;
+          border-radius: var(--radius-full);
           font-size: 0.75rem;
-          font-weight: 500;
+          font-weight: 600;
           border: 1px solid rgba(120, 119, 198, 0.3);
+          transition: all 0.2s ease;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .tag::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(120, 119, 198, 0.3), transparent);
+          transition: left 0.3s;
+        }
+
+        .tag:hover::before {
+          left: 100%;
+        }
+
+        .tag:hover {
+          background: rgba(120, 119, 198, 0.3);
+          transform: translateY(-1px);
+          box-shadow: 0 4px 8px rgba(120, 119, 198, 0.2);
         }
 
         .trick-footer {
           display: flex;
           justify-content: space-between;
           align-items: center;
+          margin-top: 1.5rem;
+          padding-top: 1rem;
+          border-top: 1px solid rgba(120, 119, 198, 0.2);
         }
 
         .author-info {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
           color: var(--text-secondary);
           font-size: 0.875rem;
         }
 
+        .author-info::before {
+          content: '👤';
+          opacity: 0.7;
+        }
+
         .trick-actions {
           display: flex;
-          gap: 0.5rem;
+          gap: 0.75rem;
         }
 
         .action-btn {
-          padding: 0.5rem 1rem;
-          border-radius: var(--radius-md);
+          padding: 0.6rem 1.2rem;
+          border-radius: var(--radius-full);
           border: none;
-          font-weight: 500;
+          font-weight: 600;
           cursor: pointer;
-          transition: all var(--transition-smooth);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           text-decoration: none;
           display: inline-flex;
           align-items: center;
-          gap: 0.25rem;
+          gap: 0.5rem;
+          font-size: 0.875rem;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .action-btn::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+          transition: left 0.4s;
+        }
+
+        .action-btn:hover::before {
+          left: 100%;
         }
 
         .action-btn.kudos {

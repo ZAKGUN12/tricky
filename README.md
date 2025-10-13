@@ -1,61 +1,75 @@
 # TrickShare - Global Community for Life Tricks
 
-A modern, multilingual platform where people from around the world share practical life tricks and tips. Built with Next.js, AWS DynamoDB, and Cognito authentication.
+A modern, multilingual platform where people from around the world share practical life tricks and tips. Built with Next.js, AWS DynamoDB, and featuring a stunning **🌍 Global Network** space theme with advanced visual effects.
 
 ## 🌍 Live Demo
 
 **Production:** [tricky-peach.vercel.app](https://tricky-peach.vercel.app)
 
-## ✨ Features
+## ✨ Latest Features (v2.0)
 
-### Core Functionality
-- **Browse Tricks:** Discover life hacks from 20+ countries in native languages
-- **Submit Tricks:** Share your own tips with the global community
-- **Interactive Engagement:** Give kudos, comment, and view trick details
-- **Country Filtering:** Filter tricks by specific countries using the dynamic country chain
-- **Search:** Find tricks by title, description, or tags across all content
+### 🚀 Global Network Theme
+- **Space-age Design**: Dark gradient backgrounds with floating particle effects
+- **Advanced Animations**: Pulsing glow effects, shimmer animations, and floating orbs
+- **Glass Morphism**: Sophisticated backdrop blur effects throughout the interface
+- **Color Palette**: Purple (#7877c6), cyan (#78dbff), and pink (#ff77c6) accents
+- **Interactive Elements**: Enhanced hover effects with scaling and glow animations
 
-### International Support
-- **Multilingual Content:** Tricks in Turkish, Japanese, French, Hindi, Portuguese, Arabic, Russian, Chinese, and more
-- **Country Representation:** 🇹🇷 Turkey, 🇯🇵 Japan, 🇩🇪 Germany, 🇫🇷 France, 🇬🇧 UK, 🇮🇹 Italy, 🇪🇸 Spain, 🇨🇦 Canada, 🇦🇺 Australia, 🇧🇷 Brazil, 🇮🇳 India, 🇨🇳 China, 🇰🇷 South Korea, 🇲🇽 Mexico, 🇳🇱 Netherlands, 🇸🇪 Sweden, 🇳🇴 Norway, 🇩🇰 Denmark, 🇫🇮 Finland, 🇨🇭 Switzerland, 🇷🇺 Russia, 🇪🇬 Egypt
-- **Dynamic Country Chain:** Animated bike chain showing trick counts per country
+### 📱 Mobile-First Experience
+- **Responsive Design**: Optimized layouts for all screen sizes
+- **Performance Optimized**: Reduced animations on mobile for better performance
+- **Touch-Friendly**: Improved button sizes and spacing for mobile interaction
+- **Single-Column Layout**: Clean mobile sidebar organization
 
-### Social Features
-- **User Authentication:** AWS Cognito integration with email-based login
-- **User Profiles:** Track personal stats, submitted tricks, and kudos received
-- **Leaderboard:** Top contributors ranked by community engagement
-- **Comments System:** Real-time commenting on tricks
-- **Top 10 Tricks:** Dynamic ranking based on community kudos
+### 🎯 Enhanced UI Components
+- **Compact Sidebar**: Top 3 style for Categories, TopTricks, and Leaderboard
+- **Calendar-Style Counter**: Beautiful calendar badge for Global Network countries
+- **Real-Time Counting**: Accurate category counts from live DynamoDB data
+- **Smart Filtering**: Dynamic category detection with keyword matching
 
-### Technical Features
-- **Real-time Updates:** Live trick counts, view tracking, and engagement metrics
-- **Responsive Design:** Mobile-first approach with smooth animations
-- **Performance Optimized:** Fast loading with efficient data fetching
-- **Error Handling:** Robust error handling and graceful degradation
+## ✨ Core Features
+
+### International Content
+- **Multilingual Tricks**: Content in 20+ languages including Turkish, Japanese, French, Hindi, Portuguese, Arabic, Russian, Chinese, and more
+- **Global Representation**: 🇹🇷 Turkey, 🇯🇵 Japan, 🇩🇪 Germany, 🇫🇷 France, 🇬🇧 UK, 🇮🇹 Italy, 🇪🇸 Spain, 🇨🇦 Canada, 🇦🇺 Australia, 🇧🇷 Brazil, 🇮🇳 India, 🇨🇳 China, 🇰🇷 South Korea, 🇲🇽 Mexico, and more
+- **Dynamic Country Chain**: Interactive country selector with trick counts
+
+### Smart Features
+- **Browse & Discover**: Explore life hacks from around the world
+- **Submit Tricks**: Share your own tips with the global community
+- **Interactive Engagement**: Give kudos, comment, and view detailed trick instructions
+- **Advanced Search**: Find tricks by title, description, or tags
+- **Category Filtering**: Smart categorization with real-time counting
+
+### Social & Gamification
+- **Top 3 Leaderboard**: See the top contributors ranked by community engagement
+- **Top 3 Tricks**: Dynamic ranking based on community kudos
+- **Real-Time Stats**: Live view counts, kudos, and engagement metrics
+- **Comments System**: Interactive commenting on tricks
 
 ## 🛠 Tech Stack
 
 ### Frontend
 - **Next.js 14** - React framework with SSR/SSG
-- **TypeScript** - Type-safe development
-- **CSS-in-JS** - Styled JSX for component styling
-- **AWS Amplify UI** - Authentication components
+- **TypeScript** - Type-safe development with full compliance
+- **Advanced CSS** - Glass morphism, animations, and responsive design
+- **React Hooks** - Optimized with useCallback and proper dependency management
 
-### Backend
-- **AWS DynamoDB** - NoSQL database for tricks, users, and comments
-- **AWS Cognito** - User authentication and management
+### Backend & Database
+- **AWS DynamoDB** - NoSQL database with optimized queries
 - **Next.js API Routes** - Serverless API endpoints
+- **Real-Time Data** - Live updates and accurate counting
 
-### Deployment
+### Deployment & Performance
 - **Vercel** - Frontend hosting with automatic deployments
-- **GitHub Actions** - CI/CD pipeline with automated testing
-- **AWS** - Backend services and data storage
+- **AWS IAM** - Secure credential management
+- **Performance Optimized** - Mobile-first approach with efficient data fetching
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 - Node.js 18+ and npm
-- AWS Account with DynamoDB and Cognito access
+- AWS Account with DynamoDB access
 - Git
 
 ### Installation
@@ -83,22 +97,12 @@ AWS_ACCESS_KEY_ID=your_access_key_here
 AWS_SECRET_ACCESS_KEY=your_secret_key_here
 ```
 
-4. **Set up AWS infrastructure:**
-```bash
-# Create DynamoDB tables
-node scripts/setup-db.js
-
-# Populate with sample data
-node scripts/populate-db.js
-node scripts/add-more-data.js
-```
-
-5. **Run development server:**
+4. **Run development server:**
 ```bash
 npm run dev
 ```
 
-Visit [http://localhost:3000](http://localhost:3000) to see the application.
+Visit [http://localhost:3000](http://localhost:3000) to experience the Global Network theme.
 
 ## 📊 Database Schema
 
@@ -113,7 +117,8 @@ Visit [http://localhost:3000](http://localhost:3000) to see the application.
   countryCode: string,     // ISO country code
   difficulty: 'easy' | 'medium' | 'hard',
   tags: string[],          // Searchable tags
-  authorName: string,
+  category: string,        // Category classification
+  authorName: string,      // Username
   authorEmail: string,
   kudos: number,           // Community likes
   views: number,           // View count
@@ -123,149 +128,90 @@ Visit [http://localhost:3000](http://localhost:3000) to see the application.
 }
 ```
 
-### TrickShare-Users
-```javascript
-{
-  email: string,           // Primary key
-  score: number,           // Total points
-  tricksSubmitted: number,
-  kudosReceived: number,
-  createdAt: string
-}
-```
-
-### TrickShare-Comments
-```javascript
-{
-  trickId: string,         // Partition key
-  id: string,              // Sort key
-  text: string,
-  authorName: string,
-  createdAt: string
-}
-```
-
 ## 🌐 API Endpoints
 
 ### Tricks
-- `GET /api/tricks` - List all tricks with filtering
+- `GET /api/tricks` - List all tricks with smart filtering
 - `POST /api/tricks` - Create new trick
 - `GET /api/tricks/[id]` - Get specific trick
 - `POST /api/tricks/[id]/kudos` - Give kudos to trick
-- `POST /api/tricks/[id]/view` - Increment view count
-- `GET /api/tricks/top` - Get top 10 tricks by kudos
+- `GET /api/tricks/top` - Get top 3 tricks by kudos
 
-### Comments
-- `GET /api/tricks/[id]/comments` - Get trick comments
-- `POST /api/tricks/[id]/comments` - Add comment
-
-### Users
+### Categories & Stats
+- `GET /api/categories` - Get categories with real-time counts
+- `GET /api/leaderboard` - Get top 3 contributors
 - `GET /api/users/stats` - Get user statistics
-- `GET /api/leaderboard` - Get top contributors
 
-## 🎨 Key Components
+## 🎨 Global Network Theme Components
 
-### CountryChain
-Dynamic bike chain animation showing countries with trick counts. Features:
-- Circular chain links with country flags
-- Real-time trick counts per country
-- Smooth animations and hover effects
-- Mobile responsive design
+### Enhanced Sidebar
+- **Categories**: Purple gradient with real-time trick counting
+- **Top 3 Tricks**: Pink gradient showing community favorites
+- **Top 3 Leaderboard**: Cyan gradient with contributor rankings
 
-### TopTricks
-Real-time top 10 tricks based on community engagement:
-- Live data from API
-- Ranking with crown icons for top 3
-- Click-through to full trick details
-- Loading states and error handling
+### Interactive Elements
+- **Country Chain**: Flexbox layout with side-by-side country display
+- **Trick Cards**: Glass morphism with shimmer hover effects
+- **Action Buttons**: Global Network color gradients with scale animations
 
-### TrickCard
-Individual trick display with:
-- Country flag and author info
-- Difficulty indicators
-- Tag system
-- Engagement metrics (kudos, views, comments)
-- Responsive design
+### Visual Effects
+- **Particle Starfield**: Twinkling star particles across the background
+- **Floating Orbs**: Animated gradient orbs with subtle movement
+- **Pulsing Borders**: Synchronized pulse animations on sidebar components
+
+## 📱 Mobile Experience
+
+- **Single-Column Sidebar**: Clean mobile layout with proper spacing
+- **Optimized Performance**: Reduced animations for better mobile performance
+- **Touch-Friendly Interface**: Improved button sizes and interaction areas
+- **Responsive Typography**: Scalable text and elements across all devices
 
 ## 🔧 Development
 
 ### Available Scripts
 ```bash
-npm run dev          # Start development server
+npm run dev          # Start development server with hot reload
 npm run build        # Build for production
 npm run start        # Start production server
-npm run lint         # Run ESLint
+npm run lint         # Run ESLint with zero warnings
 npm run type-check   # Run TypeScript checks
 ```
 
 ### Code Quality
-- **ESLint** - Code linting with Next.js rules
-- **TypeScript** - Type checking
-- **Husky** - Pre-commit hooks
-- **GitHub Actions** - Automated CI/CD
-
-### Project Structure
-```
-├── components/          # Reusable React components
-├── lib/                # Utility functions and configurations
-├── pages/              # Next.js pages and API routes
-│   ├── api/           # Backend API endpoints
-│   └── trick/         # Dynamic trick pages
-├── scripts/           # Database setup and population scripts
-├── styles/            # Global CSS styles
-└── public/            # Static assets
-```
+- **ESLint**: Zero warnings or errors
+- **TypeScript**: Full type safety with proper React Hook dependencies
+- **React Best Practices**: useCallback optimization and dependency management
+- **Performance**: Optimized for both desktop and mobile experiences
 
 ## 🌍 Internationalization
 
-The platform supports content in multiple languages:
+The platform supports content in multiple languages with smart category detection:
 - **English** - Primary interface language
-- **Turkish** - Çay demleme, mutfak hileleri
-- **Japanese** - 生活のコツ、掃除方法
-- **French** - Astuces de vie, nettoyage
-- **German** - Lebenstipps, Haushaltstricks
-- **Spanish** - Trucos de vida, cocina
-- **Portuguese** - Dicas de vida, limpeza
-- **Hindi** - जीवन की तरकीबें
-- **Chinese** - 生活小窍门
-- **Arabic** - حيل الحياة
-- **Russian** - Лайфхаки
-
-## 📱 Mobile Experience
-
-- Responsive design optimized for mobile devices
-- Touch-friendly interface elements
-- Optimized country chain for small screens
-- Mobile-first CSS approach
-
-## 🔒 Security
-
-- AWS Cognito authentication
-- Input validation and sanitization
-- CORS protection
-- Environment variable protection
-- Secure API endpoints
+- **Asian Languages**: Japanese (生活のコツ), Chinese (生活小窍门), Korean, Hindi (जीवन की तरकीबें)
+- **European Languages**: Turkish, French, German, Spanish, Italian, Portuguese, Russian
+- **Middle Eastern**: Arabic (حيل الحياة)
 
 ## 🚀 Deployment
 
 ### Vercel (Recommended)
 1. Connect GitHub repository to Vercel
 2. Add environment variables in Vercel dashboard
-3. Deploy automatically on push to main branch
+3. Automatic deployment on push to main branch
 
-### Manual Deployment
-```bash
-npm run build
-npm run start
-```
+### AWS Configuration
+- **DynamoDB**: Optimized tables with proper indexing
+- **IAM**: Secure credential management with minimal permissions
+- **Performance**: Efficient queries and real-time data updates
 
 ## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Commit changes: `git commit -m 'Add amazing feature'`
-4. Push to branch: `git push origin feature/amazing-feature`
-5. Open a Pull Request
+3. Follow TypeScript and React best practices
+4. Ensure all ESLint checks pass
+5. Commit changes: `git commit -m 'Add amazing feature'`
+6. Push to branch: `git push origin feature/amazing-feature`
+7. Open a Pull Request
 
 ## 📄 License
 
@@ -273,10 +219,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- Community contributors from around the world
+- Global community contributors from 20+ countries
 - AWS for reliable cloud infrastructure
 - Vercel for seamless deployment
 - Next.js team for the excellent framework
+- The open-source community for inspiration
 
 ## 📞 Support
 
@@ -284,4 +231,6 @@ For support, email [support@trickshare.com](mailto:support@trickshare.com) or cr
 
 ---
 
-**Built with ❤️ by the global community**
+**Built with ❤️ and 🌍 Global Network theme by the worldwide community**
+
+*Experience the future of knowledge sharing with our space-age interface and real-time global connectivity.*
