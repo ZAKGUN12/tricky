@@ -15,7 +15,20 @@ function LoginContent() {
   }, [user, loading, router]);
 
   const handleLogin = () => {
-    window.location.href = getCognitoAuthUrl();
+    const authUrl = getCognitoAuthUrl();
+    console.log('Auth URL:', authUrl);
+    console.log('Environment vars:', {
+      domain: process.env.NEXT_PUBLIC_COGNITO_DOMAIN,
+      clientId: process.env.NEXT_PUBLIC_COGNITO_CLIENT_ID,
+      redirectUri: process.env.NEXT_PUBLIC_REDIRECT_URI
+    });
+    
+    if (authUrl === '/login') {
+      alert('Cognito environment variables not configured. Please check Vercel settings.');
+      return;
+    }
+    
+    window.location.href = authUrl;
   };
 
   if (loading) {
