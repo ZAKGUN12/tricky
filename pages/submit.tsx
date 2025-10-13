@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from '../components/AuthProvider';
-import { getCognitoAuthUrl } from '../lib/cognito-auth';
 
 export default function Submit() {
   const router = useRouter();
@@ -91,7 +90,7 @@ export default function Submit() {
             lineHeight: '1.5'
           }}>Sign in to share your amazing life tricks with the global community!</p>
           <button
-            onClick={() => window.location.href = getCognitoAuthUrl()}
+            onClick={() => router.push('/signin?returnUrl=/submit')}
             style={{
               width: '100%',
               background: 'linear-gradient(135deg, #9333ea 0%, #ec4899 100%)',

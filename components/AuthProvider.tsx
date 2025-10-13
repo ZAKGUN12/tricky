@@ -23,22 +23,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const refreshUser = async () => {
     try {
-      const userInfo = localStorage.getItem('user_info');
       const accessToken = localStorage.getItem('access_token');
+      const idToken = localStorage.getItem('id_token');
       
-      if (userInfo && accessToken) {
-        const userData = JSON.parse(userInfo);
+      if (accessToken && idToken) {
+        // Decode JWT to get user info
+        const payload = JSON.parse(atob(idToken.split('.')[1]));
+        
         setUser({
-          email: userData.email,
-          name: userData.name || userData.given_name || userData.email.split('@')[0],
-          username: userData.preferred_username || userData.username || userData.email.split('@')[0],
-          sub: userData.sub
+          email: payload.email || payload['cognito:username'],
+          name: payload.name || payload.preferred_username || payload['cognito:username'],
+          username: payload.preferred_username || payload['cognito:username'],
+          sub: payload.sub
         });
       } else {
         setUser(null);
       }
     } catch (error) {
+      console.error('Error refreshing user:', error);
       setUser(null);
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('id_token');
     } finally {
       setLoading(false);
     }
@@ -48,9 +53,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       localStorage.removeItem('access_token');
       localStorage.removeItem('id_token');
-      localStorage.removeItem('user_info');
       setUser(null);
-      window.location.href = getCognitoLogoutUrl();
+      window.location.href = '/';
     } catch (error) {
       console.error('Sign out error:', error);
     }

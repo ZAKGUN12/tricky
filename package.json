@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@aws-amplify/ui-react": "^6.13.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.908.0",
     "@aws-sdk/client-dynamodb": "^3.450.0",
     "@aws-sdk/client-s3": "^3.450.0",
     "@aws-sdk/credential-providers": "^3.908.0",
