@@ -5,6 +5,7 @@ import { rateLimit } from '../../../lib/rateLimit';
 import { validateTrick } from '../../../lib/validation';
 import { logger } from '../../../lib/logger';
 import { cache } from '../../../lib/cache';
+import { matchesCategory } from '../../../lib/categoryMatcher';
 
 const client = new DynamoDBClient({ region: process.env.AWS_REGION || 'eu-west-1' });
 const docClient = DynamoDBDocumentClient.from(client);
@@ -185,7 +186,6 @@ function buildFilterExpression(filters: any) {
   if (filters.country) expressions.push('countryCode = :country');
   if (filters.difficulty) expressions.push('difficulty = :difficulty');
   if (filters.search) expressions.push('contains(title, :search) OR contains(description, :search)');
-  // Remove category filter from DynamoDB - we'll filter in memory for smart detection
   return expressions.length > 0 ? expressions.join(' AND ') : undefined;
 }
 
@@ -194,45 +194,5 @@ function buildExpressionValues(filters: any) {
   if (filters.country) values[':country'] = filters.country;
   if (filters.difficulty) values[':difficulty'] = filters.difficulty;
   if (filters.search) values[':search'] = filters.search;
-  // Remove category from expression values
   return Object.keys(values).length > 0 ? values : undefined;
-}
-
-function matchesCategory(trick: any, categoryFilter: string): boolean {
-  if (!categoryFilter) return true;
-  
-  const category = trick.category?.toLowerCase() || '';
-  const title = trick.title?.toLowerCase() || '';
-  const description = trick.description?.toLowerCase() || '';
-  const content = `${title} ${description}`;
-
-  switch (categoryFilter.toLowerCase()) {
-    case 'technology':
-      return category === 'technology' || category === 'productivity' ||
-             content.includes('tech') || content.includes('app') || content.includes('phone') ||
-             content.includes('computer') || content.includes('digital') || content.includes('software') ||
-             content.includes('internet') || content.includes('online') || content.includes('productivity');
-    
-    case 'cooking':
-      return category === 'cooking' ||
-             content.includes('cook') || content.includes('recipe') || content.includes('food') ||
-             content.includes('tea') || content.includes('coffee') || content.includes('pasta') ||
-             content.includes('bread') || content.includes('sauce') || content.includes('spice');
-    
-    case 'travel':
-      return category === 'travel' ||
-             content.includes('travel') || content.includes('car') || content.includes('winter') ||
-             content.includes('trip') || content.includes('journey');
-    
-    case 'cleaning':
-      return category === 'cleaning' ||
-             content.includes('clean') || content.includes('organize') || content.includes('tidy');
-    
-    case 'health':
-      return category === 'health' ||
-             content.includes('health') || content.includes('exercise') || content.includes('diet');
-    
-    default:
-      return category === categoryFilter;
-  }
 }
