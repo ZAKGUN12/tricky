@@ -88,6 +88,12 @@ export default function Categories({ selectedCategory, onCategorySelect }: Categ
           border: 1px solid rgba(120, 119, 198, 0.3);
           box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
           margin-bottom: 1rem;
+          animation: sidebarPulse 6s ease-in-out infinite;
+        }
+
+        @keyframes sidebarPulse {
+          0%, 100% { border-color: rgba(120, 119, 198, 0.3); }
+          50% { border-color: rgba(120, 119, 198, 0.5); }
         }
 
         .header {

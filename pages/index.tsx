@@ -240,6 +240,31 @@ function HomeContent() {
           animation: float 20s ease-in-out infinite;
         }
 
+        .home::after {
+          content: '';
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-image: 
+            radial-gradient(2px 2px at 20px 30px, rgba(120, 219, 255, 0.8), transparent),
+            radial-gradient(2px 2px at 40px 70px, rgba(255, 119, 198, 0.6), transparent),
+            radial-gradient(1px 1px at 90px 40px, rgba(120, 119, 198, 0.9), transparent),
+            radial-gradient(1px 1px at 130px 80px, rgba(120, 219, 255, 0.7), transparent),
+            radial-gradient(2px 2px at 160px 30px, rgba(255, 119, 198, 0.5), transparent);
+          background-repeat: repeat;
+          background-size: 200px 100px;
+          pointer-events: none;
+          z-index: -1;
+          animation: sparkle 15s linear infinite;
+        }
+
+        @keyframes sparkle {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
+        }
+
         @keyframes float {
           0%, 100% { transform: translateY(0px) rotate(0deg); }
           33% { transform: translateY(-20px) rotate(1deg); }
@@ -262,7 +287,13 @@ function HomeContent() {
           position: sticky;
           top: 1rem;
           z-index: 100;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 60px rgba(120, 119, 198, 0.1);
+          animation: headerGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes headerGlow {
+          0%, 100% { box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 60px rgba(120, 119, 198, 0.1); }
+          50% { box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 80px rgba(120, 119, 198, 0.2); }
         }
 
         .header-content {
@@ -588,8 +619,21 @@ function HomeContent() {
         }
 
         @media (max-width: 768px) {
+          .container {
+            padding: 0 0.5rem;
+          }
+
+          .header {
+            margin: 0.5rem 0;
+            padding: 0.75rem 1rem;
+            position: relative;
+            top: 0;
+          }
+
           .main-content {
             grid-template-columns: 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
           }
 
           .sidebar {
@@ -598,29 +642,80 @@ function HomeContent() {
             height: auto;
             overflow-y: visible;
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 1rem;
-            margin-bottom: 2rem;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            padding-right: 0;
           }
 
           .header-content {
             grid-template-columns: auto 1fr auto;
             gap: 0.5rem;
-            padding: 0 0.5rem;
+            padding: 0;
+            height: auto;
+          }
+
+          .header-left, .header-center, .header-right {
+            display: flex;
+            align-items: center;
+            justify-content: center;
           }
 
           .header-center .share-btn {
-            padding: 0.5rem 1rem !important;
-            font-size: 0.8rem !important;
+            padding: 0.5rem 1.2rem !important;
+            font-size: 0.75rem !important;
+            white-space: nowrap;
           }
 
           .header-right .tricks-counter {
             padding: 0.4rem 0.8rem !important;
-            font-size: 0.8rem !important;
+            font-size: 0.75rem !important;
+            white-space: nowrap;
+          }
+
+          .search-section {
+            padding: 1rem;
+            margin-bottom: 1rem;
           }
 
           .tricks-grid {
             grid-template-columns: 1fr;
+            gap: 1rem;
+          }
+
+          .trick-card {
+            padding: 1rem;
+          }
+
+          .country-chain-wrapper {
+            padding: 1rem;
+            margin-bottom: 1rem;
+          }
+
+          .chain-track {
+            gap: 0.5rem;
+          }
+
+          .country-link {
+            min-width: auto;
+            flex: 1;
+          }
+
+          /* Reduce animations on mobile for better performance */
+          .home::before, .home::after {
+            animation: none;
+          }
+
+          .header {
+            animation: none;
+          }
+
+          .trick-card:hover {
+            transform: translateY(-4px) scale(1.01);
+          }
+
+          .action-btn:hover {
+            transform: translateY(-1px) scale(1.02);
           }
         }
       `}</style>
