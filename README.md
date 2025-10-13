@@ -39,7 +39,7 @@ A modern, multilingual platform where people from around the world share practic
 - **Submit Tricks**: Share your own tips with the global community
 - **Interactive Engagement**: Give kudos, comment, and view detailed trick instructions
 - **Advanced Search**: Find tricks by title, description, or tags
-- **Category Filtering**: Smart categorization with real-time counting
+- **Smart Category Filtering**: Intelligent categorization with multilingual keyword detection ([Architecture Details](CATEGORY_FILTERING_ARCHITECTURE.md))
 
 ### Social & Gamification
 - **Top 3 Leaderboard**: See the top contributors ranked by community engagement
