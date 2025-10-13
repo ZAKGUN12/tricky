@@ -250,7 +250,9 @@ function HomeContent() {
           justify-self: end;
         }
 
-        .share-btn {
+        .header .share-btn,
+        .header-center .share-btn,
+        a.share-btn {
           background: rgba(15, 15, 35, 0.8) !important;
           backdrop-filter: blur(20px) !important;
           border: 2px solid rgba(120, 119, 198, 0.8) !important;
@@ -265,7 +267,9 @@ function HomeContent() {
           position: relative !important;
         }
 
-        .share-btn:hover {
+        .header .share-btn:hover,
+        .header-center .share-btn:hover,
+        a.share-btn:hover {
           background: rgba(120, 119, 198, 0.2) !important;
           border-color: rgba(120, 119, 198, 0.8) !important;
           color: #8988d4 !important;
@@ -274,16 +278,17 @@ function HomeContent() {
           text-shadow: 0 0 15px rgba(120, 119, 198, 0.8) !important;
         }
 
-        .tricks-counter {
-          background: rgba(15, 15, 35, 0.8);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(120, 219, 255, 0.3);
-          padding: 0.5rem 1rem;
-          border-radius: var(--radius-full);
-          font-weight: 600;
-          color: #78dbff;
-          box-shadow: 0 4px 16px rgba(120, 219, 255, 0.2);
-          transform: translateY(-8px);
+        .header .tricks-counter,
+        .header-right .tricks-counter {
+          background: rgba(15, 15, 35, 0.8) !important;
+          backdrop-filter: blur(20px) !important;
+          border: 1px solid rgba(120, 219, 255, 0.3) !important;
+          padding: 0.5rem 1rem !important;
+          border-radius: var(--radius-full) !important;
+          font-weight: 600 !important;
+          color: #78dbff !important;
+          box-shadow: 0 4px 16px rgba(120, 219, 255, 0.2) !important;
+          transform: translateY(-8px) !important;
         }
 
         .main-content {
