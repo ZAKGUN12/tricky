@@ -6,11 +6,9 @@ import { validateTrick } from '../../../lib/validation';
 import { logger } from '../../../lib/logger';
 import { cache } from '../../../lib/cache';
 import { matchesCategory } from '../../../lib/categoryMatcher';
-import { fromIni } from '@aws-sdk/credential-providers';
 
 const client = new DynamoDBClient({ 
-  region: 'eu-west-1',
-  credentials: fromIni({ profile: 'default' })
+  region: process.env.AWS_REGION || 'eu-west-1'
 });
 const docClient = DynamoDBDocumentClient.from(client);
 
