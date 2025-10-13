@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useAuth } from '../components/AuthProvider';
-import { getAuthUrl } from '../lib/simple-oidc';
+import { getCognitoAuthUrl } from '../lib/cognito-auth';
 
 function LoginContent() {
   const router = useRouter();
@@ -15,7 +15,7 @@ function LoginContent() {
   }, [user, loading, router]);
 
   const handleLogin = () => {
-    window.location.href = getAuthUrl();
+    window.location.href = getCognitoAuthUrl();
   };
 
   if (loading) {
@@ -39,7 +39,7 @@ function LoginContent() {
           <p className="auth-subtitle">Secure authentication with AWS Cognito</p>
         </div>
         <button onClick={handleLogin} className="login-btn">
-          🔐 Sign in with Cognito OIDC
+          🔐 Sign in with Cognito
         </button>
       </div>
 
