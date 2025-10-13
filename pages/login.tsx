@@ -22,9 +22,15 @@ function LoginContent() {
       clientId: process.env.NEXT_PUBLIC_COGNITO_CLIENT_ID,
       redirectUri: process.env.NEXT_PUBLIC_REDIRECT_URI
     });
+    console.log('All env vars:', process.env);
     
     if (authUrl === '/login') {
-      alert('Cognito environment variables not configured. Please check Vercel settings.');
+      alert(`Cognito environment variables not configured. 
+Domain: ${process.env.NEXT_PUBLIC_COGNITO_DOMAIN || 'MISSING'}
+Client ID: ${process.env.NEXT_PUBLIC_COGNITO_CLIENT_ID || 'MISSING'}  
+Redirect URI: ${process.env.NEXT_PUBLIC_REDIRECT_URI || 'MISSING'}
+
+Please check Vercel settings and redeploy.`);
       return;
     }
     
