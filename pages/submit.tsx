@@ -61,13 +61,58 @@ export default function Submit() {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
-        <div className="bg-white/10 backdrop-blur-lg rounded-lg p-8 max-w-md w-full mx-4 text-center">
-          <h1 className="text-3xl font-bold text-white mb-4">🌍 Share Your Trick</h1>
-          <p className="text-white/80 mb-6">Sign in to share your amazing life tricks with the global community!</p>
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'linear-gradient(135deg, #581c87 0%, #1e3a8a 50%, #312e81 100%)'
+      }}>
+        <div style={{
+          background: 'rgba(255, 255, 255, 0.1)',
+          backdropFilter: 'blur(20px)',
+          borderRadius: '16px',
+          padding: '2rem',
+          maxWidth: '400px',
+          width: '100%',
+          margin: '0 1rem',
+          textAlign: 'center',
+          border: '1px solid rgba(255, 255, 255, 0.2)'
+        }}>
+          <h1 style={{
+            fontSize: '2rem',
+            fontWeight: 'bold',
+            color: 'white',
+            marginBottom: '1rem'
+          }}>🌍 Share Your Trick</h1>
+          <p style={{
+            color: 'rgba(255, 255, 255, 0.8)',
+            marginBottom: '2rem',
+            lineHeight: '1.5'
+          }}>Sign in to share your amazing life tricks with the global community!</p>
           <button
             onClick={() => window.location.href = getCognitoAuthUrl()}
-            className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold py-3 px-6 rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-200 transform hover:scale-105"
+            style={{
+              width: '100%',
+              background: 'linear-gradient(135deg, #9333ea 0%, #ec4899 100%)',
+              color: 'white',
+              fontWeight: 'bold',
+              padding: '1rem 1.5rem',
+              borderRadius: '12px',
+              border: 'none',
+              cursor: 'pointer',
+              fontSize: '1.1rem',
+              transition: 'all 0.2s ease',
+              transform: 'scale(1)'
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.background = 'linear-gradient(135deg, #a855f7 0%, #f472b6 100%)';
+              e.currentTarget.style.transform = 'scale(1.05)';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.background = 'linear-gradient(135deg, #9333ea 0%, #ec4899 100%)';
+              e.currentTarget.style.transform = 'scale(1)';
+            }}
           >
             🔐 Sign In to Share
           </button>
