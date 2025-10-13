@@ -49,12 +49,17 @@ async function handleGet(req: NextApiRequest, res: NextApiResponse) {
   try {
     const command = new ScanCommand({
       TableName: 'TrickShare-Tricks',
-      FilterExpression: buildFilterExpression({ country, search, difficulty, category }),
-      ExpressionAttributeValues: buildExpressionValues({ country, search, difficulty, category })
+      FilterExpression: buildFilterExpression({ country, search, difficulty }),
+      ExpressionAttributeValues: buildExpressionValues({ country, search, difficulty })
     });
 
     const result = await docClient.send(command);
-    const tricks = result.Items || [];
+    let tricks = result.Items || [];
+    
+    // Apply smart category filtering in memory
+    if (category) {
+      tricks = tricks.filter(trick => matchesCategory(trick, category as string));
+    }
     
     logger.info('Tricks fetched successfully', { count: tricks.length });
     res.status(200).json(tricks);
@@ -179,8 +184,8 @@ function buildFilterExpression(filters: any) {
   const expressions = [];
   if (filters.country) expressions.push('countryCode = :country');
   if (filters.difficulty) expressions.push('difficulty = :difficulty');
-  if (filters.category) expressions.push('category = :category');
   if (filters.search) expressions.push('contains(title, :search) OR contains(description, :search)');
+  // Remove category filter from DynamoDB - we'll filter in memory for smart detection
   return expressions.length > 0 ? expressions.join(' AND ') : undefined;
 }
 
@@ -188,7 +193,46 @@ function buildExpressionValues(filters: any) {
   const values: any = {};
   if (filters.country) values[':country'] = filters.country;
   if (filters.difficulty) values[':difficulty'] = filters.difficulty;
-  if (filters.category) values[':category'] = filters.category;
   if (filters.search) values[':search'] = filters.search;
+  // Remove category from expression values
   return Object.keys(values).length > 0 ? values : undefined;
+}
+
+function matchesCategory(trick: any, categoryFilter: string): boolean {
+  if (!categoryFilter) return true;
+  
+  const category = trick.category?.toLowerCase() || '';
+  const title = trick.title?.toLowerCase() || '';
+  const description = trick.description?.toLowerCase() || '';
+  const content = `${title} ${description}`;
+
+  switch (categoryFilter.toLowerCase()) {
+    case 'technology':
+      return category === 'technology' || category === 'productivity' ||
+             content.includes('tech') || content.includes('app') || content.includes('phone') ||
+             content.includes('computer') || content.includes('digital') || content.includes('software') ||
+             content.includes('internet') || content.includes('online') || content.includes('productivity');
+    
+    case 'cooking':
+      return category === 'cooking' ||
+             content.includes('cook') || content.includes('recipe') || content.includes('food') ||
+             content.includes('tea') || content.includes('coffee') || content.includes('pasta') ||
+             content.includes('bread') || content.includes('sauce') || content.includes('spice');
+    
+    case 'travel':
+      return category === 'travel' ||
+             content.includes('travel') || content.includes('car') || content.includes('winter') ||
+             content.includes('trip') || content.includes('journey');
+    
+    case 'cleaning':
+      return category === 'cleaning' ||
+             content.includes('clean') || content.includes('organize') || content.includes('tidy');
+    
+    case 'health':
+      return category === 'health' ||
+             content.includes('health') || content.includes('exercise') || content.includes('diet');
+    
+    default:
+      return category === categoryFilter;
+  }
 }
