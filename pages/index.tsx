@@ -1,7 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { Trick } from '../lib/types';
 import { countries } from '../lib/mockData';
+import { useAuth } from '../components/AuthProvider';
 import AdvancedSearch from '../components/AdvancedSearch';
 import CountryChain from '../components/CountryChain';
 import TopTricks from '../components/TopTricks';
@@ -22,6 +24,8 @@ function HomeContent() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const { showToast, ToastContainer } = useToast();
+  const { user, signOut } = useAuth();
+  const router = useRouter();
 
   const fetchTricks = useCallback(async () => {
     try {
@@ -52,11 +56,16 @@ function HomeContent() {
   }, [fetchTricks]);
 
   const handleKudos = async (trickId: string) => {
+    if (!user) {
+      router.push(`/login?returnUrl=${encodeURIComponent(router.asPath)}`);
+      return;
+    }
+
     try {
       await fetch(`/api/tricks/${trickId}/kudos`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userEmail: 'anonymous@example.com' })
+        body: JSON.stringify({ userEmail: user.email })
       });
       
       setTricks(prev => prev.map(trick => 
@@ -104,26 +113,83 @@ function HomeContent() {
               <Timer />
             </div>
             <div className="header-center">
-              <Link 
-                href="/submit" 
-                className="share-btn"
-                style={{
-                  background: 'rgba(15, 15, 35, 0.8)',
-                  backdropFilter: 'blur(20px)',
-                  border: '2px solid rgba(120, 119, 198, 0.8)',
-                  color: '#7877c6',
-                  padding: '0.75rem 2rem',
-                  borderRadius: 'var(--radius-full)',
-                  textDecoration: 'none',
-                  fontWeight: '600',
-                  boxShadow: '0 4px 16px rgba(120, 119, 198, 0.4)',
-                  textShadow: '0 0 10px rgba(120, 119, 198, 0.5)'
-                }}
-              >
-                Share Your Trick
-              </Link>
+              {user ? (
+                <Link 
+                  href="/submit" 
+                  className="share-btn"
+                  style={{
+                    background: 'rgba(15, 15, 35, 0.8)',
+                    backdropFilter: 'blur(20px)',
+                    border: '2px solid rgba(120, 119, 198, 0.8)',
+                    color: '#7877c6',
+                    padding: '0.75rem 2rem',
+                    borderRadius: 'var(--radius-full)',
+                    textDecoration: 'none',
+                    fontWeight: '600',
+                    boxShadow: '0 4px 16px rgba(120, 119, 198, 0.4)',
+                    textShadow: '0 0 10px rgba(120, 119, 198, 0.5)'
+                  }}
+                >
+                  Share Your Trick
+                </Link>
+              ) : (
+                <button 
+                  onClick={() => router.push(`/login?returnUrl=${encodeURIComponent('/submit')}`)}
+                  className="share-btn"
+                  style={{
+                    background: 'rgba(15, 15, 35, 0.8)',
+                    backdropFilter: 'blur(20px)',
+                    border: '2px solid rgba(120, 119, 198, 0.8)',
+                    color: '#7877c6',
+                    padding: '0.75rem 2rem',
+                    borderRadius: 'var(--radius-full)',
+                    fontWeight: '600',
+                    boxShadow: '0 4px 16px rgba(120, 119, 198, 0.4)',
+                    textShadow: '0 0 10px rgba(120, 119, 198, 0.5)',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Share Your Trick
+                </button>
+              )}
             </div>
             <div className="header-right">
+              {user ? (
+                <div className="user-section">
+                  <div className="user-info">
+                    <span className="welcome">Welcome, {user.name}!</span>
+                    <button 
+                      onClick={async () => {
+                        if (confirm('Are you sure you want to sign out?')) {
+                          await signOut();
+                          router.push('/');
+                        }
+                      }}
+                      className="sign-out-btn"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <button 
+                  onClick={() => router.push('/login')}
+                  className="login-btn"
+                  style={{
+                    background: 'rgba(15, 15, 35, 0.8)',
+                    backdropFilter: 'blur(20px)',
+                    border: '1px solid rgba(120, 219, 255, 0.3)',
+                    padding: '0.5rem 1rem',
+                    borderRadius: 'var(--radius-full)',
+                    fontWeight: '600',
+                    color: '#78dbff',
+                    boxShadow: '0 4px 16px rgba(120, 219, 255, 0.2)',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Sign In
+                </button>
+              )}
               <div 
                 className="tricks-counter"
                 style={{
@@ -134,7 +200,8 @@ function HomeContent() {
                   borderRadius: 'var(--radius-full)',
                   fontWeight: '600',
                   color: '#78dbff',
-                  boxShadow: '0 4px 16px rgba(120, 219, 255, 0.2)'
+                  boxShadow: '0 4px 16px rgba(120, 219, 255, 0.2)',
+                  marginLeft: '1rem'
                 }}
               >
                 {tricks.length} tricks
@@ -367,7 +434,56 @@ function HomeContent() {
           font-weight: 600 !important;
           color: #78dbff !important;
           box-shadow: 0 4px 16px rgba(120, 219, 255, 0.2) !important;
-          transform: translateY(-8px) !important;
+        }
+
+        .user-section {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+
+        .user-info {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          background: rgba(15, 15, 35, 0.8);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(120, 119, 198, 0.3);
+          padding: 0.5rem 1rem;
+          border-radius: var(--radius-full);
+          box-shadow: 0 4px 16px rgba(120, 119, 198, 0.2);
+        }
+
+        .welcome {
+          color: #7877c6;
+          font-weight: 600;
+          font-size: 0.9rem;
+        }
+
+        .sign-out-btn {
+          background: rgba(239, 68, 68, 0.8);
+          color: white;
+          border: none;
+          padding: 0.3rem 0.8rem;
+          border-radius: var(--radius-full);
+          font-size: 0.8rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        .sign-out-btn:hover {
+          background: rgba(239, 68, 68, 1);
+          transform: translateY(-1px);
+        }
+
+        .login-btn {
+          transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+          background: rgba(120, 219, 255, 0.2) !important;
+          transform: translateY(-1px);
         }
 
         .main-content {
@@ -775,6 +891,27 @@ function HomeContent() {
             padding: 0.4rem 0.8rem !important;
             font-size: 0.75rem !important;
             white-space: nowrap;
+            margin-left: 0 !important;
+          }
+
+          .user-info {
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 0.4rem 0.8rem;
+          }
+
+          .welcome {
+            font-size: 0.8rem;
+          }
+
+          .sign-out-btn {
+            padding: 0.2rem 0.6rem;
+            font-size: 0.7rem;
+          }
+
+          .header-right {
+            flex-direction: column;
+            gap: 0.5rem;
           }
 
           .search-section {

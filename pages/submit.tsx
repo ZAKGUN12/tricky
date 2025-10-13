@@ -2,9 +2,12 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { countries } from '../lib/mockData';
+import { useAuth } from '../components/AuthProvider';
+import AuthGuard from '../components/AuthGuard';
 
 function SubmitContent() {
   const router = useRouter();
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -27,8 +30,8 @@ function SubmitContent() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
-          authorName: 'Anonymous',
-          authorEmail: 'anonymous@example.com',
+          authorName: user?.name || 'Anonymous',
+          authorEmail: user?.email || 'anonymous@example.com',
           tags: formData.tags.split(',').map(tag => tag.trim()).filter(Boolean),
           steps: formData.steps.filter(step => step.trim())
         })
@@ -332,5 +335,9 @@ function SubmitContent() {
 }
 
 export default function Submit() {
-  return <SubmitContent />;
+  return (
+    <AuthGuard>
+      <SubmitContent />
+    </AuthGuard>
+  );
 }

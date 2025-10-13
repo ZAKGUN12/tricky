@@ -3,11 +3,13 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { Trick } from '../../lib/types';
 import { countries } from '../../lib/mockData';
+import { useAuth } from '../../components/AuthProvider';
 import Comments from '../../components/Comments';
 
 function TrickDetailContent() {
   const router = useRouter();
   const { id } = router.query;
+  const { user } = useAuth();
   const [trick, setTrick] = useState<Trick | null>(null);
   const [loading, setLoading] = useState(true);
   const [kudosLoading, setKudosLoading] = useState(false);
@@ -49,13 +51,18 @@ function TrickDetailContent() {
   const handleKudos = async () => {
     if (!trick) return;
     
+    if (!user) {
+      router.push(`/login?returnUrl=${encodeURIComponent(router.asPath)}`);
+      return;
+    }
+    
     setKudosLoading(true);
     
     try {
       const response = await fetch(`/api/tricks/${trick.id}/kudos`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userEmail: 'anonymous@example.com' })
+        body: JSON.stringify({ userEmail: user.email })
       });
       
       if (response.ok) {

@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import Link from 'next/link';
 import { useAuth } from './AuthProvider';
 import { apiClient } from '../lib/api-client';
 
@@ -40,13 +41,13 @@ export default function Comments({ trickId, onCommentCountChange }: CommentsProp
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newComment.trim()) return;
+    if (!newComment.trim() || !user) return;
 
     setSubmitting(true);
     const response = await apiClient.addComment(trickId, {
       text: newComment.trim(),
-      authorName: 'Anonymous',
-      authorEmail: 'anonymous@example.com',
+      authorName: user.name,
+      authorEmail: user.email,
     });
 
     if (response.data) {
@@ -70,7 +71,8 @@ export default function Comments({ trickId, onCommentCountChange }: CommentsProp
         💬 Comments ({comments.length})
       </h3>
 
-      <form onSubmit={handleSubmit} className="comment-form">
+      {user ? (
+        <form onSubmit={handleSubmit} className="comment-form">
           <textarea
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
@@ -90,6 +92,11 @@ export default function Comments({ trickId, onCommentCountChange }: CommentsProp
             </button>
           </div>
         </form>
+      ) : (
+        <div className="auth-prompt">
+          <p>Please <Link href="/login" className="login-link">sign in</Link> to leave a comment.</p>
+        </div>
+      )}
 
       <div className="comments-list">
         {comments.length === 0 ? (
@@ -228,6 +235,32 @@ export default function Comments({ trickId, onCommentCountChange }: CommentsProp
           text-align: center;
           padding: 2rem;
           color: #6b7280;
+        }
+
+        .auth-prompt {
+          text-align: center;
+          padding: 1.5rem;
+          background: rgba(120, 119, 198, 0.1);
+          border-radius: 8px;
+          border: 1px solid rgba(120, 119, 198, 0.3);
+          margin-bottom: 2rem;
+        }
+
+        .auth-prompt p {
+          margin: 0;
+          color: #7877c6;
+          font-weight: 500;
+        }
+
+        .login-link {
+          color: #7877c6;
+          text-decoration: none;
+          font-weight: 600;
+        }
+
+        .login-link:hover {
+          color: #8988d4;
+          text-decoration: underline;
         }
       `}</style>
     </div>

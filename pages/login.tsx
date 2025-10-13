@@ -1,19 +1,46 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { useAuth } from '../components/AuthProvider';
+import { getAuthUrl } from '../lib/simple-oidc';
 
 function LoginContent() {
   const router = useRouter();
+  const { user, loading } = useAuth();
 
   useEffect(() => {
-    // Redirect to home since we removed authentication
-    router.push('/');
-  }, [router]);
+    if (user && !loading) {
+      const returnUrl = router.query.returnUrl as string || '/';
+      router.push(returnUrl);
+    }
+  }, [user, loading, router]);
+
+  const handleLogin = () => {
+    window.location.href = getAuthUrl();
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-purple-500"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="login-container">
       <div className="login-header">
-        <h1>Welcome to TrickShare</h1>
-        <p>Authentication has been removed - redirecting to home...</p>
+        <h1>🌍 Welcome to TrickShare</h1>
+        <p>Join our global community and share amazing life tricks!</p>
+      </div>
+
+      <div className="auth-wrapper">
+        <div className="auth-header">
+          <h2>Sign in to continue</h2>
+          <p className="auth-subtitle">Secure authentication with AWS Cognito</p>
+        </div>
+        <button onClick={handleLogin} className="login-btn">
+          🔐 Sign in with Cognito OIDC
+        </button>
       </div>
 
       <style jsx>{`
@@ -24,12 +51,12 @@ function LoginContent() {
           align-items: center;
           justify-content: center;
           padding: 2rem;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
         }
 
         .login-header {
           text-align: center;
-          margin-bottom: 2rem;
+          margin-bottom: 3rem;
           color: white;
         }
 
@@ -37,11 +64,53 @@ function LoginContent() {
           font-size: 2.5rem;
           margin-bottom: 1rem;
           font-weight: 700;
+          background: linear-gradient(135deg, #7877c6, #ff77c6, #78dbff);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
         }
 
-        .login-header p {
+        .auth-wrapper {
+          background: rgba(15, 15, 35, 0.8);
+          backdrop-filter: blur(20px);
+          border-radius: 16px;
+          padding: 2rem;
+          border: 1px solid rgba(120, 119, 198, 0.3);
+          min-width: 400px;
+        }
+
+        .auth-header {
+          text-align: center;
+          margin-bottom: 2rem;
+        }
+
+        .auth-header h2 {
+          color: #7877c6;
+          margin-bottom: 0.5rem;
+        }
+
+        .auth-subtitle {
+          color: #78dbff;
+          font-size: 0.9rem;
+          opacity: 0.8;
+        }
+
+        .login-btn {
+          width: 100%;
+          background: linear-gradient(135deg, #7877c6 0%, #ff77c6 100%);
+          color: white;
+          border: none;
+          padding: 1rem 2rem;
+          border-radius: 8px;
           font-size: 1.1rem;
-          opacity: 0.9;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 24px rgba(120, 119, 198, 0.4);
         }
       `}</style>
     </div>
