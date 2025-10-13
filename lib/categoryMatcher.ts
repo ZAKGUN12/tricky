@@ -49,11 +49,10 @@ export function categorizeAllTricks(tricks: any[]) {
 
   tricks.forEach((trick: any) => {
     if (matchesCategory(trick, 'cooking')) categoryCounts.cooking++;
-    else if (matchesCategory(trick, 'cleaning')) categoryCounts.cleaning++;
-    else if (matchesCategory(trick, 'technology')) categoryCounts.technology++;
-    else if (matchesCategory(trick, 'health')) categoryCounts.health++;
-    else if (matchesCategory(trick, 'travel')) categoryCounts.travel++;
-    else categoryCounts.cooking++; // fallback
+    if (matchesCategory(trick, 'cleaning')) categoryCounts.cleaning++;
+    if (matchesCategory(trick, 'technology')) categoryCounts.technology++;
+    if (matchesCategory(trick, 'health')) categoryCounts.health++;
+    if (matchesCategory(trick, 'travel')) categoryCounts.travel++;
   });
 
   return categoryCounts;
