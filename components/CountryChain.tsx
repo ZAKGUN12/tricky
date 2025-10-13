@@ -65,13 +65,15 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
 
       <style jsx>{`
         .country-chain-wrapper {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: rgba(15, 15, 35, 0.8);
+          backdrop-filter: blur(20px);
           border-radius: 16px;
           padding: 20px;
           margin-bottom: 20px;
           position: relative;
           overflow: hidden;
-          box-shadow: 0 8px 16px rgba(102, 126, 234, 0.2);
+          border: 1px solid rgba(120, 119, 198, 0.3);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
         .country-chain-wrapper::before {
@@ -139,10 +141,11 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
         }
 
         .chain-track {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+          display: flex;
+          flex-wrap: wrap;
           gap: 8px;
           margin-bottom: 16px;
+          justify-content: flex-start;
         }
 
         .country-link {

@@ -564,10 +564,31 @@ function HomeContent() {
             grid-template-columns: 1fr;
           }
 
-          .header-content {
-            grid-template-columns: 1fr;
-            text-align: center;
+          .sidebar {
+            order: -1;
+            position: static;
+            height: auto;
+            overflow-y: visible;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 1rem;
+            margin-bottom: 2rem;
+          }
+
+          .header-content {
+            grid-template-columns: auto 1fr auto;
+            gap: 0.5rem;
+            padding: 0 0.5rem;
+          }
+
+          .header-center .share-btn {
+            padding: 0.5rem 1rem !important;
+            font-size: 0.8rem !important;
+          }
+
+          .header-right .tricks-counter {
+            padding: 0.4rem 0.8rem !important;
+            font-size: 0.8rem !important;
           }
 
           .tricks-grid {
