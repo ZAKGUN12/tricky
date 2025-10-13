@@ -128,8 +128,7 @@ function HomeContent() {
                   borderRadius: 'var(--radius-full)',
                   fontWeight: '600',
                   color: '#78dbff',
-                  boxShadow: '0 4px 16px rgba(120, 219, 255, 0.2)',
-                  transform: 'translateY(-8px)'
+                  boxShadow: '0 4px 16px rgba(120, 219, 255, 0.2)'
                 }}
               >
                 {tricks.length} tricks
