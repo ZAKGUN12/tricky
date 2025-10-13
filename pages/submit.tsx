@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from '../components/AuthProvider';
-import AuthGuard from '../components/AuthGuard';
+import { getCognitoAuthUrl } from '../lib/cognito-auth';
 
-function SubmitContent() {
+export default function Submit() {
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -16,13 +16,13 @@ function SubmitContent() {
     tags: '',
     category: 'cooking'
   });
-  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) return;
     
-    setLoading(true);
+    setSubmitting(true);
 
     try {
       const response = await fetch('/api/tricks', {
@@ -45,11 +45,36 @@ function SubmitContent() {
     } catch (error) {
       alert('Error submitting trick');
     } finally {
-      setLoading(false);
+      setSubmitting(false);
     }
   };
 
   const addStep = () => setFormData(prev => ({ ...prev, steps: [...prev.steps, ''] }));
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-white"></div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+        <div className="bg-white/10 backdrop-blur-lg rounded-lg p-8 max-w-md w-full mx-4 text-center">
+          <h1 className="text-3xl font-bold text-white mb-4">🌍 Share Your Trick</h1>
+          <p className="text-white/80 mb-6">Sign in to share your amazing life tricks with the global community!</p>
+          <button
+            onClick={() => window.location.href = getCognitoAuthUrl()}
+            className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold py-3 px-6 rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-200 transform hover:scale-105"
+          >
+            🔐 Sign In to Share
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 py-8">
@@ -57,7 +82,7 @@ function SubmitContent() {
         <div className="bg-white/10 backdrop-blur-lg rounded-lg p-8 border border-white/20">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-white mb-2">🌍 Share Your Trick</h1>
-            <p className="text-white/80">Welcome back, <span className="text-cyan-300">{user?.name}</span>!</p>
+            <p className="text-white/80">Welcome back, <span className="text-cyan-300">{user.name}</span>!</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -177,22 +202,14 @@ function SubmitContent() {
 
             <button
               type="submit"
-              disabled={loading}
+              disabled={submitting}
               className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold py-4 px-6 rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-200 disabled:opacity-50 transform hover:scale-105"
             >
-              {loading ? '🚀 Sharing...' : '🌟 Share Your Trick'}
+              {submitting ? '🚀 Sharing...' : '🌟 Share Your Trick'}
             </button>
           </form>
         </div>
       </div>
     </div>
-  );
-}
-
-export default function Submit() {
-  return (
-    <AuthGuard>
-      <SubmitContent />
-    </AuthGuard>
   );
 }
