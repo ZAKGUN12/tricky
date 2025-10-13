@@ -263,18 +263,25 @@ function HomeContent() {
           grid-template-columns: 1fr auto 1fr;
           align-items: center;
           gap: 2rem;
+          height: 100%;
         }
 
         .header-left {
           justify-self: start;
+          display: flex;
+          align-items: center;
         }
 
         .header-center {
           justify-self: center;
+          display: flex;
+          align-items: center;
         }
 
         .header-right {
           justify-self: end;
+          display: flex;
+          align-items: center;
         }
 
         .header .share-btn,
