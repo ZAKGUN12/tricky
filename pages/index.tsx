@@ -15,6 +15,7 @@ import { useToast } from '../lib/useToast';
 
 function HomeContent() {
   const [tricks, setTricks] = useState<Trick[]>([]);
+  const [allTricks, setAllTricks] = useState<Trick[]>([]); // Keep all tricks for category counting
   const [filteredTricks, setFilteredTricks] = useState<Trick[]>([]);
   const [selectedCountry, setSelectedCountry] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<string>('');
@@ -33,13 +34,18 @@ function HomeContent() {
       if (response.ok) {
         const data = await response.json();
         setTricks(data);
+        
+        // Also fetch all tricks for category counting if we don't have them
+        if (allTricks.length === 0 || (!selectedCountry && !selectedCategory && !searchQuery)) {
+          setAllTricks(data);
+        }
       }
     } catch (error) {
       console.error('Error fetching tricks:', error);
     } finally {
       setLoading(false);
     }
-  }, [selectedCountry, selectedCategory, searchQuery]);
+  }, [selectedCountry, selectedCategory, searchQuery, allTricks.length]);
 
   useEffect(() => {
     fetchTricks();
@@ -142,7 +148,7 @@ function HomeContent() {
             <Categories 
               selectedCategory={selectedCategory}
               onCategorySelect={(categoryId) => handleCategorySelect(categoryId || '')}
-              tricks={tricks}
+              tricks={allTricks}
             />
             <TopTricks />
             <Leaderboard />
