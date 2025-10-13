@@ -29,7 +29,7 @@ export default function Categories({ selectedCategory, onCategorySelect, tricks 
         const categoriesArray = Array.isArray(data) ? data : (data.categories || []);
         
         // Calculate real counts from tricks data
-        const categoriesWithRealCounts = categoriesArray.map(category => ({
+        const categoriesWithRealCounts = categoriesArray.map((category: any) => ({
           ...category,
           count: calculateCategoryCount(category.id)
         }));
@@ -48,19 +48,19 @@ export default function Categories({ selectedCategory, onCategorySelect, tricks 
     if (!tricks || tricks.length === 0) return 0;
     
     // Count tricks that have this category in their tags
-    return tricks.filter(trick => {
+    return tricks.filter((trick: any) => {
       if (!trick.tags || !Array.isArray(trick.tags)) return false;
-      return trick.tags.some(tag => 
+      return trick.tags.some((tag: any) => 
         tag.toLowerCase().includes(categoryId.toLowerCase()) ||
-        getCategoryKeywords(categoryId).some(keyword => 
+        getCategoryKeywords(categoryId).some((keyword: string) => 
           tag.toLowerCase().includes(keyword.toLowerCase())
         )
       );
     }).length;
   };
 
-  const getCategoryKeywords = (categoryId: string) => {
-    const keywords = {
+  const getCategoryKeywords = (categoryId: string): string[] => {
+    const keywords: { [key: string]: string[] } = {
       'cooking': ['cooking', 'recipe', 'food', 'kitchen', 'pizza', 'napoletana', 'forno'],
       'cleaning': ['cleaning', 'clean', 'wash', 'tidy'],
       'technology': ['tech', 'computer', 'phone', 'digital', 'app'],
