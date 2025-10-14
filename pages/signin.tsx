@@ -4,11 +4,13 @@ import { useRouter } from 'next/router';
 export default function SignIn() {
   const router = useRouter();
   const [isSignUp, setIsSignUp] = useState(false);
+  const [showVerification, setShowVerification] = useState(false);
   const [formData, setFormData] = useState({
     emailOrUsername: '',
     email: '',
     password: '',
-    username: ''
+    username: '',
+    verificationCode: ''
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -19,32 +21,55 @@ export default function SignIn() {
     setError('');
 
     try {
-      const response = await fetch('/api/auth/signin', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: isSignUp ? formData.email : formData.emailOrUsername,
-          password: formData.password,
-          username: isSignUp ? formData.username : formData.emailOrUsername,
-          action: isSignUp ? 'signup' : 'signin'
-        })
-      });
+      if (showVerification) {
+        // Handle verification code submission
+        const response = await fetch('/api/auth/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: formData.email,
+            code: formData.verificationCode
+          })
+        });
 
-      const data = await response.json();
+        const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.error || 'Authentication failed');
-      }
+        if (!response.ok) {
+          throw new Error(data.error || 'Verification failed');
+        }
 
-      if (isSignUp) {
-        setError('Check your email for verification code');
+        setError('Account verified! Please sign in.');
+        setShowVerification(false);
+        setIsSignUp(false);
       } else {
-        localStorage.setItem('access_token', data.AccessToken || '');
-        localStorage.setItem('id_token', data.IdToken || '');
-        localStorage.setItem('username', data.username || (isSignUp ? formData.username : formData.emailOrUsername));
-        
-        const returnUrl = router.query.returnUrl as string || '/';
-        router.push(returnUrl);
+        const response = await fetch('/api/auth/signin', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: isSignUp ? formData.email : formData.emailOrUsername,
+            password: formData.password,
+            username: isSignUp ? formData.username : formData.emailOrUsername,
+            action: isSignUp ? 'signup' : 'signin'
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Authentication failed');
+        }
+
+        if (isSignUp) {
+          setShowVerification(true);
+          setError('Check your email for verification code');
+        } else {
+          localStorage.setItem('access_token', data.AccessToken || '');
+          localStorage.setItem('id_token', data.IdToken || '');
+          localStorage.setItem('username', data.username || (isSignUp ? formData.username : formData.emailOrUsername));
+          
+          const returnUrl = router.query.returnUrl as string || '/';
+          router.push(returnUrl);
+        }
       }
     } catch (err: any) {
       setError(err.message || 'Authentication failed');
@@ -65,68 +90,87 @@ export default function SignIn() {
           
           <div className="signin-header">
             <h1 className="signin-title">
-              🌍 {isSignUp ? 'Join TrickShare' : 'Welcome Back'}
+              🌍 {showVerification ? 'Verify Email' : (isSignUp ? 'Join TrickShare' : 'Welcome Back')}
             </h1>
             <p className="signin-subtitle">
-              {isSignUp 
-                ? 'Join our global community and share amazing life tricks!' 
-                : 'Sign in to share your tricks with the world'
+              {showVerification 
+                ? 'Enter the verification code sent to your email'
+                : (isSignUp 
+                  ? 'Join our global community and share amazing life tricks!' 
+                  : 'Sign in to share your tricks with the world'
+                )
               }
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="signin-form">
-            {isSignUp ? (
+            {showVerification ? (
+              <div className="input-group">
+                <input
+                  type="text"
+                  placeholder="Verification Code"
+                  value={formData.verificationCode}
+                  onChange={(e) => setFormData({...formData, verificationCode: e.target.value})}
+                  className="signin-input"
+                  required
+                />
+                <div className="input-glow"></div>
+              </div>
+            ) : (
               <>
-                <div className="input-group">
-                  <input
-                    type="text"
-                    placeholder="Username"
-                    value={formData.username}
-                    onChange={(e) => setFormData({...formData, username: e.target.value})}
-                    className="signin-input"
-                    required
-                  />
-                  <div className="input-glow"></div>
-                </div>
+                {isSignUp ? (
+                  <>
+                    <div className="input-group">
+                      <input
+                        type="text"
+                        placeholder="Username"
+                        value={formData.username}
+                        onChange={(e) => setFormData({...formData, username: e.target.value})}
+                        className="signin-input"
+                        required
+                      />
+                      <div className="input-glow"></div>
+                    </div>
+                    
+                    <div className="input-group">
+                      <input
+                        type="email"
+                        placeholder="Email"
+                        value={formData.email}
+                        onChange={(e) => setFormData({...formData, email: e.target.value})}
+                        className="signin-input"
+                        required
+                      />
+                      <div className="input-glow"></div>
+                    </div>
+                  </>
+                ) : (
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      placeholder="Username or Email"
+                      value={formData.emailOrUsername}
+                      onChange={(e) => setFormData({...formData, emailOrUsername: e.target.value})}
+                      className="signin-input"
+                      required
+                    />
+                    <div className="input-glow"></div>
+                  </div>
+                )}
                 
                 <div className="input-group">
                   <input
-                    type="email"
-                    placeholder="Email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                    type="password"
+                    placeholder="Password"
+                    value={formData.password}
+                    onChange={(e) => setFormData({...formData, password: e.target.value})}
                     className="signin-input"
                     required
                   />
                   <div className="input-glow"></div>
                 </div>
               </>
-            ) : (
-              <div className="input-group">
-                <input
-                  type="text"
-                  placeholder="Username or Email"
-                  value={formData.emailOrUsername}
-                  onChange={(e) => setFormData({...formData, emailOrUsername: e.target.value})}
-                  className="signin-input"
-                  required
-                />
-                <div className="input-glow"></div>
-              </div>
             )}
-            
-            <div className="input-group">
-              <input
-                type="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={(e) => setFormData({...formData, password: e.target.value})}
-                className="signin-input"
-                required
-              />
-              <div className="input-glow"></div>
-            </div>
 
             {error && (
               <div className="error-message">
@@ -148,7 +192,7 @@ export default function SignIn() {
                   </>
                 ) : (
                   <>
-                    {isSignUp ? '🚀 Create Account' : '✨ Sign In'}
+                    {showVerification ? '✅ Verify Email' : (isSignUp ? '🚀 Create Account' : '✨ Sign In')}
                   </>
                 )}
               </span>
