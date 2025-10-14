@@ -13,7 +13,7 @@ export default function AuthGuard({ children, fallback }: AuthGuardProps) {
 
   useEffect(() => {
     if (!loading && !user) {
-      router.push(`/login?returnUrl=${encodeURIComponent(router.asPath)}`);
+      router.push(`/signin?returnUrl=${encodeURIComponent(router.asPath)}`);
     }
   }, [user, loading, router]);
 

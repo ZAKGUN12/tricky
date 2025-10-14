@@ -83,7 +83,7 @@ export default function AuthCallback() {
             <h2 className="text-2xl font-bold text-white mb-2">Authentication Error</h2>
             <p className="text-white/80 mb-4 text-sm">{error}</p>
             <button
-              onClick={() => router.push('/login')}
+              onClick={() => router.push('/signin')}
               className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded mr-2"
             >
               Try Again

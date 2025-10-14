@@ -57,7 +57,7 @@ function HomeContent() {
 
   const handleKudos = async (trickId: string) => {
     if (!user) {
-      router.push(`/login?returnUrl=${encodeURIComponent(router.asPath)}`);
+      router.push(`/signin?returnUrl=${encodeURIComponent(router.asPath)}`);
       return;
     }
 
@@ -134,7 +134,7 @@ function HomeContent() {
                 </Link>
               ) : (
                 <button 
-                  onClick={() => router.push(`/login?returnUrl=${encodeURIComponent('/submit')}`)}
+                  onClick={() => router.push(`/signin?returnUrl=${encodeURIComponent('/submit')}`)}
                   className="share-btn"
                   style={{
                     background: 'rgba(15, 15, 35, 0.8)',
@@ -173,7 +173,7 @@ function HomeContent() {
                 </div>
               ) : (
                 <button 
-                  onClick={() => router.push('/login')}
+                  onClick={() => router.push('/signin')}
                   className="login-btn"
                   style={{
                     background: 'rgba(15, 15, 35, 0.8)',

@@ -52,7 +52,7 @@ function TrickDetailContent() {
     if (!trick) return;
     
     if (!user) {
-      router.push(`/login?returnUrl=${encodeURIComponent(router.asPath)}`);
+      router.push(`/signin?returnUrl=${encodeURIComponent(router.asPath)}`);
       return;
     }
     
