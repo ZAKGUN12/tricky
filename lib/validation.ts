@@ -15,15 +15,21 @@ export const TrickSchema = z.object({
     .min(1, 'At least one step is required')
     .max(5, 'Maximum 5 steps allowed'),
   
+  country: z.string().optional(),
+  
   countryCode: z.string()
     .length(2, 'Country code must be 2 characters')
     .regex(/^[A-Z]{2}$/, 'Invalid country code format'),
   
   difficulty: z.enum(['easy', 'medium', 'hard']),
   
+  category: z.string().optional(),
+  
   tags: z.array(z.string().min(2).max(20))
     .max(5, 'Maximum 5 tags allowed')
     .optional(),
+  
+  authorName: z.string().optional(),
   
   authorEmail: z.string().email('Invalid email format')
 });

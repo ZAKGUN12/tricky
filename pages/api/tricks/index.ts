@@ -6,6 +6,7 @@ import { validateTrick } from '../../../lib/validation';
 import { logger } from '../../../lib/logger';
 import { cache } from '../../../lib/cache';
 import { matchesCategory } from '../../../lib/categoryMatcher';
+import { countries } from '../../../lib/mockData';
 
 const client = new DynamoDBClient({ 
   region: process.env.AWS_REGION || 'eu-west-1'
@@ -80,8 +81,15 @@ async function handleGet(req: NextApiRequest, res: NextApiResponse) {
 
 async function handlePost(req: NextApiRequest, res: NextApiResponse) {
   try {
+    // Handle country name to countryCode conversion
+    const requestData = { ...req.body };
+    if (requestData.country && !requestData.countryCode) {
+      const selectedCountry = countries.find(c => c.name === requestData.country);
+      requestData.countryCode = selectedCountry?.code || '';
+    }
+    
     // Validate and sanitize input
-    const validatedData = validateTrick(req.body);
+    const validatedData = validateTrick(requestData);
     
     const trick = {
       id: Date.now().toString(),
