@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from '../components/AuthProvider';
+import { countries } from '../lib/mockData';
 
 export default function Submit() {
   const router = useRouter();
@@ -10,7 +11,6 @@ export default function Submit() {
     description: '',
     steps: [''],
     country: '',
-    countryCode: '',
     difficulty: 'easy',
     tags: '',
     category: 'cooking'
@@ -24,11 +24,13 @@ export default function Submit() {
     setSubmitting(true);
 
     try {
+      const selectedCountry = countries.find(c => c.name === formData.country);
       const response = await fetch('/api/tricks', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
+          countryCode: selectedCountry?.code || '',
           authorName: user.username,
           authorEmail: user.email,
           steps: formData.steps.filter(step => step.trim()),
@@ -298,27 +300,21 @@ export default function Submit() {
               </div>
             </div>
 
-            <div className="form-row-split">
+            <div className="form-row">
               <div className="input-group">
                 <label className="input-label">🌍 Country</label>
-                <input
-                  type="text"
+                <select
                   value={formData.country}
                   onChange={(e) => setFormData(prev => ({ ...prev, country: e.target.value }))}
-                  className="form-input"
-                  placeholder="Turkey, Japan, USA..."
-                />
-              </div>
-              <div className="input-group">
-                <label className="input-label">🏳️ Code</label>
-                <input
-                  type="text"
-                  value={formData.countryCode}
-                  onChange={(e) => setFormData(prev => ({ ...prev, countryCode: e.target.value }))}
-                  className="form-input"
-                  placeholder="TR, JP, US..."
-                  maxLength={2}
-                />
+                  className="form-select"
+                >
+                  <option value="">Select your country...</option>
+                  {countries.map(country => (
+                    <option key={country.code} value={country.name}>
+                      {country.flag} {country.name}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
 
