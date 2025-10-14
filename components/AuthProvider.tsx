@@ -6,6 +6,13 @@ interface User {
   name: string;
   username: string;
   sub: string;
+  profile?: {
+    displayName: string;
+    bio: string;
+    country: string;
+    interests: string;
+    completedAt: string;
+  };
 }
 
 interface AuthContextType {
@@ -24,19 +31,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const refreshUser = async () => {
     try {
       const accessToken = localStorage.getItem('access_token');
-      const idToken = localStorage.getItem('id_token');
-      const storedUsername = localStorage.getItem('username');
+      const profileData = localStorage.getItem('user_profile');
       
-      if (accessToken && idToken) {
-        // Decode JWT to get user info
-        const payload = JSON.parse(atob(idToken.split('.')[1]));
-        
-        setUser({
-          email: payload.email || payload['cognito:username'],
-          name: storedUsername || payload.name || payload.preferred_username || payload['cognito:username'],
-          username: storedUsername || payload.preferred_username || payload['cognito:username'],
-          sub: payload.sub
+      if (accessToken) {
+        // Validate token server-side and get user info
+        const response = await fetch('/api/auth/user', {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`
+          }
         });
+
+        if (response.ok) {
+          const userData = await response.json();
+          setUser({
+            email: userData.email,
+            name: userData.name,
+            username: userData.preferredUsername || userData.name,
+            sub: userData.sub,
+            profile: profileData ? JSON.parse(profileData) : undefined
+          });
+        } else {
+          // Token is invalid, clear storage
+          localStorage.removeItem('access_token');
+          localStorage.removeItem('id_token');
+          localStorage.removeItem('username');
+          localStorage.removeItem('user_profile');
+          setUser(null);
+        }
       } else {
         setUser(null);
       }
@@ -46,6 +67,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       localStorage.removeItem('access_token');
       localStorage.removeItem('id_token');
       localStorage.removeItem('username');
+      localStorage.removeItem('user_profile');
     } finally {
       setLoading(false);
     }
@@ -56,6 +78,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       localStorage.removeItem('access_token');
       localStorage.removeItem('id_token');
       localStorage.removeItem('username');
+      localStorage.removeItem('user_profile');
       setUser(null);
       window.location.href = '/';
     } catch (error) {

@@ -67,8 +67,17 @@ export default function SignIn() {
           localStorage.setItem('id_token', data.IdToken || '');
           localStorage.setItem('username', data.username || (isSignUp ? formData.username : formData.emailOrUsername));
           
+          // Check if user has completed profile setup
+          const hasProfile = localStorage.getItem('user_profile');
           const returnUrl = router.query.returnUrl as string || '/';
-          router.push(returnUrl);
+          
+          if (!hasProfile && returnUrl === '/submit') {
+            // New user going to submit - redirect to profile setup first
+            router.push('/profile-setup');
+          } else {
+            // Existing user or other destination
+            router.push(returnUrl);
+          }
         }
       }
     } catch (err: any) {
