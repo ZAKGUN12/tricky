@@ -29,32 +29,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const response = await client.send(command);
       return res.status(200).json({ success: true, userSub: response.UserSub });
     } else {
-      // For signin, try with the provided email/username first
-      let authUsername = email;
-      
-      // If it looks like an email, try to find the user first
-      if (email.includes('@')) {
-        try {
-          const listUsersCommand = new ListUsersCommand({
-            UserPoolId: 'eu-west-1_XiRks5WuH',
-            Filter: `email = "${email}"`
-          });
-          
-          const listResponse = await client.send(listUsersCommand);
-          
-          if (listResponse.Users && listResponse.Users.length > 0) {
-            authUsername = listResponse.Users[0].Username || email;
-          }
-        } catch (error) {
-          console.log('Could not lookup user by email, trying direct auth');
-        }
-      }
-
       const command = new InitiateAuthCommand({
         AuthFlow: 'USER_PASSWORD_AUTH',
         ClientId: CLIENT_ID,
         AuthParameters: {
-          USERNAME: authUsername,
+          USERNAME: email, // Email should work directly since UsernameAttributes includes email
           PASSWORD: password
         }
       });
