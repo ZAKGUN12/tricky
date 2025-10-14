@@ -4,9 +4,9 @@ import { useAuth } from '../components/AuthProvider';
 
 export default function ProfileSetup() {
   const router = useRouter();
-  const { user } = useAuth();
+  const { refreshUser } = useAuth();
   const [formData, setFormData] = useState({
-    displayName: user?.name || '',
+    displayName: '',
     bio: '',
     country: '',
     interests: ''
@@ -24,8 +24,13 @@ export default function ProfileSetup() {
         completedAt: new Date().toISOString()
       }));
 
-      // Redirect to submit page
-      router.push('/submit');
+      // Refresh user state to include profile data
+      await refreshUser();
+
+      // Small delay to ensure state is updated
+      setTimeout(() => {
+        router.push('/submit');
+      }, 100);
     } catch (error) {
       console.error('Profile setup error:', error);
     } finally {
@@ -112,7 +117,17 @@ export default function ProfileSetup() {
           <div className="skip-section">
             <button
               type="button"
-              onClick={() => router.push('/submit')}
+              onClick={async () => {
+                // Store minimal profile data
+                localStorage.setItem('user_profile', JSON.stringify({
+                  displayName: 'User',
+                  completedAt: new Date().toISOString()
+                }));
+                await refreshUser();
+                setTimeout(() => {
+                  router.push('/submit');
+                }, 100);
+              }}
               className="skip-button"
             >
               Skip for now
