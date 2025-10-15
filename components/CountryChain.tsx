@@ -26,9 +26,15 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
         <div className="header-content">
           <h3 className="chain-title">🌍 Global Network</h3>
         </div>
-        <div className="calendar-badge">
-          <div className="calendar-number">{countriesWithTricks.length}</div>
-          <div className="calendar-label">Countries</div>
+        <div className="counters-section">
+          <div className="calendar-badge">
+            <div className="calendar-number">{countriesWithTricks.length}</div>
+            <div className="calendar-label">Countries</div>
+          </div>
+          <div className="tricks-badge">
+            <div className="tricks-number">{tricks.length}</div>
+            <div className="tricks-label">Tricks</div>
+          </div>
         </div>
       </div>
 
@@ -117,7 +123,13 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
           font-weight: 500;
         }
 
-        .calendar-badge {
+        .counters-section {
+          display: flex;
+          gap: 0.75rem;
+          align-items: center;
+        }
+
+        .calendar-badge, .tricks-badge {
           background: rgba(255, 255, 255, 0.9);
           border: 2px solid rgba(120, 119, 198, 0.4);
           border-radius: 8px;
@@ -140,7 +152,19 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
           border-radius: 4px 4px 0 0;
         }
 
-        .calendar-number {
+        .tricks-badge::before {
+          content: '';
+          position: absolute;
+          top: -2px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 80%;
+          height: 8px;
+          background: linear-gradient(135deg, #78dbff 0%, #7877c6 100%);
+          border-radius: 4px 4px 0 0;
+        }
+
+        .calendar-number, .tricks-number {
           font-size: 1.5rem;
           font-weight: 700;
           color: #7877c6;
@@ -148,7 +172,11 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
           line-height: 1;
         }
 
-        .calendar-label {
+        .tricks-number {
+          color: #78dbff;
+        }
+
+        .calendar-label, .tricks-label {
           font-size: 0.65rem;
           font-weight: 600;
           color: #666;

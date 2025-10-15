@@ -201,22 +201,6 @@ function HomeContent() {
                   Sign In
                 </button>
               )}
-              <div 
-                className="tricks-counter"
-                style={{
-                  background: 'rgba(15, 15, 35, 0.8)',
-                  backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(120, 219, 255, 0.3)',
-                  padding: '0.5rem 1rem',
-                  borderRadius: 'var(--radius-full)',
-                  fontWeight: '600',
-                  color: '#78dbff',
-                  boxShadow: '0 4px 16px rgba(120, 219, 255, 0.2)',
-                  marginLeft: '1rem'
-                }}
-              >
-                {tricks.length} tricks
-              </div>
             </div>
           </div>
         </header>
@@ -984,11 +968,6 @@ function HomeContent() {
 
           .user-section {
             order: 1;
-          }
-
-          .tricks-counter {
-            order: 2;
-            margin-left: 0 !important;
           }
 
           .search-section {
