@@ -23,6 +23,7 @@ function HomeContent() {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [loading, setLoading] = useState(true);
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
   const { showToast, ToastContainer } = useToast();
   const { user, signOut } = useAuth();
   const router = useRouter();
@@ -51,21 +52,42 @@ function HomeContent() {
     }
   }, [selectedCountry, selectedCategory, searchQuery, allTricks.length]);
 
+  const handleUnauthenticatedAction = (e?: React.MouseEvent) => {
+    if (!user) {
+      if (e) e.preventDefault();
+      setShowLoginPopup(true);
+      return true;
+    }
+    return false;
+  };
+
+  useEffect(() => {
+    if (!user) {
+      const handleScroll = () => setShowLoginPopup(true);
+      const handleClick = () => setShowLoginPopup(true);
+      
+      window.addEventListener('scroll', handleScroll);
+      document.addEventListener('click', handleClick);
+      
+      return () => {
+        window.removeEventListener('scroll', handleScroll);
+        document.removeEventListener('click', handleClick);
+      };
+    }
+  }, [user]);
+
   useEffect(() => {
     fetchTricks();
   }, [fetchTricks]);
 
   const handleKudos = async (trickId: string) => {
-    if (!user) {
-      router.push(`/signin?returnUrl=${encodeURIComponent(router.asPath)}`);
-      return;
-    }
+    if (handleUnauthenticatedAction()) return;
 
     try {
       await fetch(`/api/tricks/${trickId}/kudos`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userEmail: user.email })
+        body: JSON.stringify({ userEmail: user?.email })
       });
       
       setTricks(prev => prev.map(trick => 
@@ -87,10 +109,12 @@ function HomeContent() {
   };
 
   const handleCountrySelect = (countryCode: string) => {
+    if (handleUnauthenticatedAction()) return;
     setSelectedCountry(countryCode === selectedCountry ? '' : countryCode);
   };
 
   const handleCategorySelect = (category: string) => {
+    if (handleUnauthenticatedAction()) return;
     setSelectedCategory(category === selectedCategory ? '' : category);
   };
 
@@ -291,6 +315,41 @@ function HomeContent() {
           </div>
         </div>
       </div>
+
+      {/* Login Popup */}
+      {showLoginPopup && (
+        <div className="login-popup-overlay" onClick={(e) => {
+          e.stopPropagation();
+          setShowLoginPopup(false);
+        }}>
+          <div className="login-popup" onClick={(e) => e.stopPropagation()}>
+            <button 
+              className="popup-close"
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowLoginPopup(false);
+              }}
+            >
+              ×
+            </button>
+            <div className="popup-content">
+              <h2 className="popup-title">🔐 Sign In Required</h2>
+              <p className="popup-subtitle">
+                Please sign in to interact with tricks and explore the global community!
+              </p>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  router.push('/signin');
+                }}
+                className="popup-signin-btn"
+              >
+                🚀 Sign In Now
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <style jsx>{`
         .home {
@@ -957,6 +1016,106 @@ function HomeContent() {
 
           .action-btn:hover {
             transform: translateY(-1px) scale(1.02);
+          }
+        }
+
+        /* Login Popup Styles */
+        .login-popup-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.8);
+          backdrop-filter: blur(10px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 1000;
+          animation: fadeIn 0.3s ease-out;
+        }
+
+        .login-popup {
+          background: rgba(15, 15, 35, 0.95);
+          backdrop-filter: blur(25px);
+          border-radius: 20px;
+          padding: 2.5rem;
+          max-width: 400px;
+          width: 90%;
+          border: 1px solid rgba(120, 119, 198, 0.3);
+          box-shadow: 0 20px 60px rgba(120, 119, 198, 0.4);
+          position: relative;
+          animation: popupSlide 0.3s ease-out;
+        }
+
+        .popup-close {
+          position: absolute;
+          top: 1rem;
+          right: 1rem;
+          background: none;
+          border: none;
+          color: rgba(255, 255, 255, 0.7);
+          font-size: 1.5rem;
+          cursor: pointer;
+          transition: color 0.3s;
+        }
+
+        .popup-close:hover {
+          color: #ff77c6;
+        }
+
+        .popup-content {
+          text-align: center;
+        }
+
+        .popup-title {
+          font-size: 2rem;
+          font-weight: 700;
+          color: white;
+          margin-bottom: 1rem;
+          background: linear-gradient(135deg, #7877c6, #ff77c6, #78dbff);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+
+        .popup-subtitle {
+          color: rgba(120, 219, 255, 0.9);
+          margin-bottom: 2rem;
+          line-height: 1.5;
+        }
+
+        .popup-signin-btn {
+          background: linear-gradient(135deg, #7877c6 0%, #ff77c6 100%);
+          color: white;
+          border: none;
+          padding: 1rem 2rem;
+          border-radius: 12px;
+          font-size: 1.1rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          box-shadow: 0 8px 32px rgba(120, 119, 198, 0.3);
+        }
+
+        .popup-signin-btn:hover {
+          transform: translateY(-2px) scale(1.05);
+          box-shadow: 0 12px 40px rgba(120, 119, 198, 0.5);
+        }
+
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+
+        @keyframes popupSlide {
+          from { 
+            opacity: 0;
+            transform: translateY(-20px) scale(0.95);
+          }
+          to { 
+            opacity: 1;
+            transform: translateY(0) scale(1);
           }
         }
       `}</style>

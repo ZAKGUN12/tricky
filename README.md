@@ -90,11 +90,14 @@ npm install
 cp .env.local.example .env.local
 ```
 
-Edit `.env.local` with your AWS credentials:
+Edit `.env.local` with your configuration:
 ```env
-AWS_REGION=eu-west-1
+AWS_REGION=your_aws_region
 AWS_ACCESS_KEY_ID=your_access_key_here
 AWS_SECRET_ACCESS_KEY=your_secret_key_here
+NEXT_PUBLIC_COGNITO_USER_POOL_ID=your_user_pool_id
+NEXT_PUBLIC_COGNITO_CLIENT_ID=your_client_id
+NEXT_PUBLIC_COGNITO_DOMAIN=your_cognito_domain
 ```
 
 4. **Run development server:**
