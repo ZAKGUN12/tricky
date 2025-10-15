@@ -180,36 +180,23 @@ function HomeContent() {
             <div className="header-right">
               {user ? (
                 <div className="user-section">
-                  <div className="user-info">
-                    <span className="welcome">Welcome, {user.name}!</span>
-                    <button 
-                      onClick={async () => {
-                        if (confirm('Are you sure you want to sign out?')) {
-                          await signOut();
-                          router.push('/');
-                        }
-                      }}
-                      className="sign-out-btn"
-                    >
-                      Sign Out
-                    </button>
-                  </div>
+                  <span className="welcome">👋 {user.name}</span>
+                  <button 
+                    onClick={async () => {
+                      if (confirm('Are you sure you want to sign out?')) {
+                        await signOut();
+                        router.push('/');
+                      }
+                    }}
+                    className="sign-out-btn"
+                  >
+                    🚪 Sign Out
+                  </button>
                 </div>
               ) : (
                 <button 
                   onClick={() => router.push('/signin')}
                   className="login-btn"
-                  style={{
-                    background: 'rgba(15, 15, 35, 0.8)',
-                    backdropFilter: 'blur(20px)',
-                    border: '1px solid rgba(120, 219, 255, 0.3)',
-                    padding: '0.5rem 1rem',
-                    borderRadius: 'var(--radius-full)',
-                    fontWeight: '600',
-                    color: '#78dbff',
-                    boxShadow: '0 4px 16px rgba(120, 219, 255, 0.2)',
-                    cursor: 'pointer'
-                  }}
                 >
                   Sign In
                 </button>
@@ -453,6 +440,7 @@ function HomeContent() {
           justify-self: end;
           display: flex;
           align-items: center;
+          gap: 1rem;
         }
 
         .header .share-btn,
@@ -498,7 +486,13 @@ function HomeContent() {
         .user-section {
           display: flex;
           align-items: center;
-          gap: 1rem;
+          gap: 0.75rem;
+          background: rgba(15, 15, 35, 0.8);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(120, 119, 198, 0.3);
+          padding: 0.5rem 1rem;
+          border-radius: var(--radius-full);
+          box-shadow: 0 4px 16px rgba(120, 119, 198, 0.2);
         }
 
         .user-info {
@@ -517,31 +511,45 @@ function HomeContent() {
           color: #7877c6;
           font-weight: 600;
           font-size: 0.9rem;
+          white-space: nowrap;
         }
 
         .sign-out-btn {
-          background: rgba(239, 68, 68, 0.8);
+          background: linear-gradient(135deg, #ef4444, #dc2626);
           color: white;
           border: none;
-          padding: 0.3rem 0.8rem;
+          padding: 0.4rem 0.8rem;
           border-radius: var(--radius-full);
           font-size: 0.8rem;
           font-weight: 600;
           cursor: pointer;
           transition: all 0.3s ease;
+          white-space: nowrap;
+          box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
         }
 
         .sign-out-btn:hover {
-          background: rgba(239, 68, 68, 1);
+          background: linear-gradient(135deg, #dc2626, #b91c1c);
           transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
         }
 
         .login-btn {
+          background: rgba(15, 15, 35, 0.8);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(120, 219, 255, 0.3);
+          padding: 0.5rem 1rem;
+          border-radius: var(--radius-full);
+          font-weight: 600;
+          color: #78dbff;
+          box-shadow: 0 4px 16px rgba(120, 219, 255, 0.2);
+          cursor: pointer;
           transition: all 0.3s ease;
+          white-space: nowrap;
         }
 
         .login-btn:hover {
-          background: rgba(120, 219, 255, 0.2) !important;
+          background: rgba(120, 219, 255, 0.2);
           transform: translateY(-1px);
         }
 
@@ -971,6 +979,16 @@ function HomeContent() {
           .header-right {
             flex-direction: column;
             gap: 0.5rem;
+            align-items: flex-end;
+          }
+
+          .user-section {
+            order: 1;
+          }
+
+          .tricks-counter {
+            order: 2;
+            margin-left: 0 !important;
           }
 
           .search-section {
