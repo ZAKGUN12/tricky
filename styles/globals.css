@@ -531,3 +531,72 @@
     font-size: 1rem;
   }
 }
+/* Sidebar improvements - override CSS-in-JS */
+.categories-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+}
+
+.categories-list .category-item {
+  border-radius: 0 !important;
+  border-bottom: none !important;
+  padding: 0.8rem !important;
+}
+
+.categories-list .category-item:first-child {
+  border-top-left-radius: 8px !important;
+  border-top-right-radius: 8px !important;
+}
+
+.categories-list .category-item:last-child {
+  border-bottom-left-radius: 8px !important;
+  border-bottom-right-radius: 8px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.tricks-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+}
+
+.tricks-list .trick-item {
+  border-radius: 0 !important;
+  border-bottom: none !important;
+  padding: 0.8rem !important;
+}
+
+.tricks-list .trick-item:first-child {
+  border-top-left-radius: 8px !important;
+  border-top-right-radius: 8px !important;
+}
+
+.tricks-list .trick-item:last-child {
+  border-bottom-left-radius: 8px !important;
+  border-bottom-right-radius: 8px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.users-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+}
+
+.users-list .user-item {
+  border-radius: 0 !important;
+  border-bottom: none !important;
+  padding: 0.8rem !important;
+}
+
+.users-list .user-item:first-child {
+  border-top-left-radius: 8px !important;
+  border-top-right-radius: 8px !important;
+}
+
+.users-list .user-item:last-child {
+  border-bottom-left-radius: 8px !important;
+  border-bottom-right-radius: 8px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
