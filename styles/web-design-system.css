@@ -1,0 +1,275 @@
+/* TrickShare Web-First Design System - Global Network Theme */
+
+:root {
+  /* Global Network Theme Colors */
+  --primary: #7877c6;
+  --primary-hover: #8988d4;
+  --primary-light: rgba(120, 119, 198, 0.1);
+  --secondary: #78dbff;
+  --secondary-hover: #89e5ff;
+  --secondary-light: rgba(120, 219, 255, 0.1);
+  --accent: #ff77c6;
+  --accent-hover: #ff88d4;
+  --accent-light: rgba(255, 119, 198, 0.1);
+  
+  /* Global Network Backgrounds */
+  --surface-glass: rgba(15, 15, 35, 0.8);
+  --surface-elevated: rgba(15, 15, 35, 0.9);
+  --gradient-bg: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+  --gradient-primary: linear-gradient(135deg, #7877c6 0%, #ff77c6 100%);
+  
+  /* Border Colors */
+  --border-light: rgba(120, 119, 198, 0.3);
+  --border-medium: rgba(120, 119, 198, 0.5);
+  --border-strong: rgba(120, 119, 198, 0.8);
+  
+  /* Text Colors */
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.8);
+  --text-muted: rgba(255, 255, 255, 0.6);
+  
+  /* Neutral Colors - Dark Theme */
+  --gray-50: #16213e;
+  --gray-100: #1a1a2e;
+  --gray-200: #0f0f23;
+  --gray-300: rgba(255, 255, 255, 0.1);
+  --gray-400: rgba(255, 255, 255, 0.2);
+  --gray-500: rgba(255, 255, 255, 0.4);
+  --gray-600: rgba(255, 255, 255, 0.6);
+  --gray-700: rgba(255, 255, 255, 0.8);
+  --gray-800: #ffffff;
+  --gray-900: #ffffff;
+  
+  /* Semantic Colors */
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --info: #3b82f6;
+  
+  /* Spacing Scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  
+  /* Border Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  
+  /* Global Network Specific Shadows */
+  --shadow-glow-primary: 0 0 20px rgba(120, 119, 198, 0.3);
+  --shadow-glow-secondary: 0 0 20px rgba(120, 219, 255, 0.3);
+  --shadow-glow-accent: 0 0 20px rgba(255, 119, 198, 0.3);
+  
+  /* Typography Scale */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+  
+  /* Line Heights */
+  --leading-none: 1;
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 2;
+  
+  /* Font Weights */
+  --font-thin: 100;
+  --font-light: 300;
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --font-extrabold: 800;
+  --font-black: 900;
+  
+  /* Z-Index Scale */
+  --z-0: 0;
+  --z-10: 10;
+  --z-20: 20;
+  --z-30: 30;
+  --z-40: 40;
+  --z-50: 50;
+  --z-auto: auto;
+  
+  /* Transitions */
+  --transition-fast: 150ms ease-in-out;
+  --transition-base: 300ms ease-in-out;
+  --transition-slow: 500ms ease-in-out;
+  
+  /* Backdrop Blur */
+  --blur-sm: blur(4px);
+  --blur-md: blur(8px);
+  --blur-lg: blur(16px);
+  --blur-xl: blur(24px);
+  --blur-2xl: blur(40px);
+  --blur-3xl: blur(64px);
+}
+
+/* Global Network Theme Typography */
+.text-gradient-primary {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-glow {
+  text-shadow: 0 0 10px currentColor;
+}
+
+/* Global Network Glass Morphism */
+.glass-surface {
+  background: var(--surface-glass);
+  backdrop-filter: var(--blur-md);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.glass-elevated {
+  background: var(--surface-elevated);
+  backdrop-filter: var(--blur-lg);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+}
+
+/* Global Network Buttons */
+.btn-primary {
+  background: var(--gradient-primary);
+  color: var(--text-primary);
+  border: none;
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-lg);
+  font-weight: var(--font-semibold);
+  transition: var(--transition-base);
+  box-shadow: var(--shadow-glow-primary);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-xl), var(--shadow-glow-primary);
+}
+
+.btn-secondary {
+  background: rgba(120, 219, 255, 0.2);
+  color: var(--secondary);
+  border: 1px solid var(--secondary);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-lg);
+  font-weight: var(--font-semibold);
+  transition: var(--transition-base);
+  backdrop-filter: var(--blur-sm);
+}
+
+.btn-secondary:hover {
+  background: rgba(120, 219, 255, 0.3);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-glow-secondary);
+}
+
+/* Global Network Cards */
+.card-glass {
+  background: var(--surface-glass);
+  backdrop-filter: var(--blur-md);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-lg);
+  transition: var(--transition-base);
+}
+
+.card-glass:hover {
+  border-color: var(--border-medium);
+  box-shadow: var(--shadow-xl);
+  transform: translateY(-2px);
+}
+
+/* Global Network Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: var(--shadow-glow-primary); }
+  50% { box-shadow: 0 0 30px rgba(120, 119, 198, 0.5); }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Global Network Utilities */
+.bg-gradient-primary {
+  background: var(--gradient-primary);
+}
+
+.bg-glass {
+  background: var(--surface-glass);
+  backdrop-filter: var(--blur-md);
+}
+
+.border-glow {
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-glow-primary);
+}
+
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-muted { color: var(--text-muted); }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  :root {
+    --space-4: 0.75rem;
+    --space-6: 1rem;
+    --space-8: 1.5rem;
+    --text-base: 0.875rem;
+    --text-lg: 1rem;
+    --text-xl: 1.125rem;
+  }
+  
+  .glass-surface,
+  .glass-elevated {
+    backdrop-filter: var(--blur-sm);
+  }
+}
