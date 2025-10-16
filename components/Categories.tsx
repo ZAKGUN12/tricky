@@ -54,20 +54,30 @@ export default function Categories({ selectedCategory, onCategorySelect, tricks 
         <span className="count">{categories.length} categories</span>
       </div>
       
-      <div className="categories-list">
+      <div className="categories-list" style={{display: 'flex', flexDirection: 'column', gap: '0'}}>
         <button
           onClick={() => onCategorySelect(null)}
           className={`category-item ${!selectedCategory ? 'active' : ''}`}
+          style={{
+            borderRadius: '8px 8px 0 0',
+            borderBottom: 'none',
+            padding: '0.8rem'
+          }}
         >
           <span className="icon">🌟</span>
           <span className="name">All Categories</span>
         </button>
         
-        {categories.map((category) => (
+        {categories.map((category, index) => (
           <button
             key={category.id}
             onClick={() => onCategorySelect(category.id)}
             className={`category-item ${selectedCategory === category.id ? 'active' : ''}`}
+            style={{
+              borderRadius: index === categories.length - 1 ? '0 0 8px 8px' : '0',
+              borderBottom: index === categories.length - 1 ? '1px solid rgba(255, 255, 255, 0.1)' : 'none',
+              padding: '0.8rem'
+            }}
           >
             <span className="icon">{category.icon}</span>
             <div className="category-content">
