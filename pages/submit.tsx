@@ -25,25 +25,56 @@ export default function Submit() {
 
     try {
       const selectedCountry = countries.find(c => c.name === formData.country);
+      
+      // Ensure all required fields are present
+      const submitData = {
+        title: formData.title.trim(),
+        description: formData.description.trim(),
+        steps: formData.steps.filter(step => step.trim()).map(step => step.trim()),
+        country: formData.country,
+        countryCode: selectedCountry?.code || 'US', // Default to US if no country selected
+        difficulty: formData.difficulty as 'easy' | 'medium' | 'hard',
+        category: formData.category,
+        tags: formData.tags ? formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag) : [],
+        authorName: user.username || user.name || 'Anonymous',
+        authorEmail: user.email || 'anonymous@example.com'
+      };
+
+      // Validate required fields before sending
+      if (!submitData.title || submitData.title.length < 5) {
+        alert('Title must be at least 5 characters long');
+        return;
+      }
+      
+      if (!submitData.description || submitData.description.length < 10) {
+        alert('Description must be at least 10 characters long');
+        return;
+      }
+      
+      if (!submitData.steps.length || submitData.steps[0].length < 5) {
+        alert('At least one step with 5+ characters is required');
+        return;
+      }
+
+      console.log('Submitting data:', submitData);
+
       const response = await fetch('/api/tricks', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formData,
-          countryCode: selectedCountry?.code || '',
-          authorName: user.username,
-          authorEmail: user.email,
-          steps: formData.steps.filter(step => step.trim()),
-          tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag)
-        })
+        body: JSON.stringify(submitData)
       });
+
+      const result = await response.json();
+      console.log('Response:', result);
 
       if (response.ok) {
         router.push('/');
       } else {
-        alert('Failed to submit trick');
+        console.error('Validation error:', result);
+        alert(`Failed to submit trick: ${result.error || 'Unknown error'}`);
       }
     } catch (error) {
+      console.error('Submit error:', error);
       alert('Error submitting trick');
     } finally {
       setSubmitting(false);
