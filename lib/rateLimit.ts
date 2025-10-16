@@ -1,54 +1,59 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-interface RateLimitStore {
-  [key: string]: {
-    count: number;
-    resetTime: number;
-  };
-}
-
-const store: RateLimitStore = {};
-
-export function rateLimit(options: {
+interface RateLimitOptions {
   windowMs: number;
   maxRequests: number;
-}) {
+  skipSuccessfulRequests?: boolean;
+}
+
+const requestCounts = new Map<string, { count: number; resetTime: number }>();
+
+export function rateLimit(options: RateLimitOptions) {
   return (req: NextApiRequest, res: NextApiResponse, next: () => void) => {
-    const ip = req.socket.remoteAddress || 
-              (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() || 
-              'unknown';
-    const key = `${ip}:${req.url}`;
+    const ip = getClientIP(req);
     const now = Date.now();
     
-    // Clean expired entries
-    if (store[key] && now > store[key].resetTime) {
-      delete store[key];
+    // Clean old entries
+    const keysToDelete: string[] = [];
+    requestCounts.forEach((value, key) => {
+      if (value.resetTime < now) {
+        keysToDelete.push(key);
+      }
+    });
+    keysToDelete.forEach(key => requestCounts.delete(key));
+    
+    const current = requestCounts.get(ip) || { count: 0, resetTime: now + options.windowMs };
+    
+    if (current.resetTime < now) {
+      current.count = 0;
+      current.resetTime = now + options.windowMs;
     }
     
-    // Initialize or increment counter
-    if (!store[key]) {
-      store[key] = {
-        count: 1,
-        resetTime: now + options.windowMs
-      };
-    } else {
-      store[key].count++;
-    }
+    current.count++;
+    requestCounts.set(ip, current);
     
-    // Check if limit exceeded
-    if (store[key].count > options.maxRequests) {
-      res.status(429).json({
+    if (current.count > options.maxRequests) {
+      res.status(429).json({ 
         error: 'Too many requests',
-        retryAfter: Math.ceil((store[key].resetTime - now) / 1000)
+        retryAfter: Math.ceil((current.resetTime - now) / 1000)
       });
       return;
     }
     
     // Add rate limit headers
     res.setHeader('X-RateLimit-Limit', options.maxRequests);
-    res.setHeader('X-RateLimit-Remaining', Math.max(0, options.maxRequests - store[key].count));
-    res.setHeader('X-RateLimit-Reset', Math.ceil(store[key].resetTime / 1000));
+    res.setHeader('X-RateLimit-Remaining', Math.max(0, options.maxRequests - current.count));
+    res.setHeader('X-RateLimit-Reset', Math.ceil(current.resetTime / 1000));
     
     next();
   };
+}
+
+function getClientIP(req: NextApiRequest): string {
+  const forwarded = req.headers['x-forwarded-for'];
+  const ip = forwarded 
+    ? (Array.isArray(forwarded) ? forwarded[0] : forwarded.split(',')[0])
+    : req.socket.remoteAddress || 'unknown';
+  
+  return ip.trim();
 }

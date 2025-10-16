@@ -47,7 +47,7 @@ export const CommentSchema = z.object({
     .transform(sanitizeInput)
 });
 
-// Comprehensive input sanitization to prevent XSS
+// Comprehensive input sanitization to prevent XSS and injection attacks
 export function sanitizeInput(input: string): string {
   return input
     .replace(/[<>"'&]/g, (match) => {
@@ -64,8 +64,35 @@ export function sanitizeInput(input: string): string {
     .replace(/on\w+\s*=/gi, '')
     .replace(/data:/gi, '')
     .replace(/vbscript:/gi, '')
+    .replace(/expression\s*\(/gi, '')
+    .replace(/url\s*\(/gi, '')
+    .replace(/import\s+/gi, '')
+    .replace(/eval\s*\(/gi, '')
     .replace(/[\x00-\x1f\x7f-\x9f]/g, '')
+    .replace(/\s+/g, ' ')
     .trim();
+}
+
+// Additional security validation
+export function validateSecureInput(input: string): boolean {
+  const dangerousPatterns = [
+    /<script/i,
+    /javascript:/i,
+    /on\w+\s*=/i,
+    /data:text\/html/i,
+    /vbscript:/i,
+    /expression\s*\(/i,
+    /url\s*\(/i,
+    /import\s+/i,
+    /eval\s*\(/i,
+    /<iframe/i,
+    /<object/i,
+    /<embed/i,
+    /<link/i,
+    /<meta/i
+  ];
+  
+  return !dangerousPatterns.some(pattern => pattern.test(input));
 }
 
 // Validate and sanitize trick data
