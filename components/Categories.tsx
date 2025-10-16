@@ -126,37 +126,38 @@ export default function Categories({ selectedCategory, onCategorySelect, tricks 
         }
 
         .categories-list {
-          display: flex;
-          flex-direction: column;
-          gap: 0;
+          display: flex !important;
+          flex-direction: column !important;
+          gap: 0 !important;
         }
 
         .category-item {
-          display: flex;
-          align-items: center;
-          gap: 0.6rem;
-          padding: 0.8rem;
-          background: rgba(255, 255, 255, 0.15);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-bottom: none;
-          color: white;
-          text-decoration: none;
-          transition: all 0.2s ease;
-          cursor: pointer;
-          width: 100%;
-          text-align: left;
-          backdrop-filter: blur(10px);
+          display: flex !important;
+          align-items: center !important;
+          gap: 0.6rem !important;
+          padding: 0.8rem !important;
+          background: rgba(255, 255, 255, 0.15) !important;
+          border: 1px solid rgba(255, 255, 255, 0.1) !important;
+          border-bottom: none !important;
+          color: white !important;
+          text-decoration: none !important;
+          transition: all 0.2s ease !important;
+          cursor: pointer !important;
+          width: 100% !important;
+          text-align: left !important;
+          backdrop-filter: blur(10px) !important;
+          border-radius: 0 !important;
         }
 
-        .category-item:first-child {
-          border-top-left-radius: var(--radius-md);
-          border-top-right-radius: var(--radius-md);
+        .categories-list .category-item:first-child {
+          border-top-left-radius: var(--radius-md) !important;
+          border-top-right-radius: var(--radius-md) !important;
         }
 
-        .category-item:last-child {
-          border-bottom-left-radius: var(--radius-md);
-          border-bottom-right-radius: var(--radius-md);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        .categories-list .category-item:last-child {
+          border-bottom-left-radius: var(--radius-md) !important;
+          border-bottom-right-radius: var(--radius-md) !important;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
         }
 
         .category-item:hover {

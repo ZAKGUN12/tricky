@@ -150,36 +150,37 @@ export default function TopTricks() {
         }
 
         .tricks-list {
-          display: flex;
-          flex-direction: column;
-          gap: 0;
+          display: flex !important;
+          flex-direction: column !important;
+          gap: 0 !important;
         }
 
         .trick-link {
-          text-decoration: none;
-          color: inherit;
+          text-decoration: none !important;
+          color: inherit !important;
         }
 
         .trick-item {
-          display: flex;
-          align-items: center;
-          gap: 0.6rem;
-          padding: 0.8rem;
-          transition: all 0.2s ease;
-          background: rgba(255, 255, 255, 0.1);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-bottom: none;
+          display: flex !important;
+          align-items: center !important;
+          gap: 0.6rem !important;
+          padding: 0.8rem !important;
+          transition: all 0.2s ease !important;
+          background: rgba(255, 255, 255, 0.1) !important;
+          border: 1px solid rgba(255, 255, 255, 0.1) !important;
+          border-bottom: none !important;
+          border-radius: 0 !important;
         }
 
-        .trick-item:first-child {
-          border-top-left-radius: var(--radius-md);
-          border-top-right-radius: var(--radius-md);
+        .tricks-list .trick-item:first-child {
+          border-top-left-radius: var(--radius-md) !important;
+          border-top-right-radius: var(--radius-md) !important;
         }
 
-        .trick-item:last-child {
-          border-bottom-left-radius: var(--radius-md);
-          border-bottom-right-radius: var(--radius-md);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        .tricks-list .trick-item:last-child {
+          border-bottom-left-radius: var(--radius-md) !important;
+          border-bottom-right-radius: var(--radius-md) !important;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
         }
 
         .trick-item:hover {
