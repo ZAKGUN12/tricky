@@ -53,3 +53,9 @@ secrets/
 # Logs
 logs/
 *.log
+
+# Build artifacts
+tsconfig.tsbuildinfo
+*.log
+*.tmp
+.DS_Store
