@@ -70,17 +70,9 @@ export default function Leaderboard() {
         <span className="count">Top {displayUsers.length}</span>
       </div>
       
-      <div className="users-list" style={{display: 'flex', flexDirection: 'column', gap: '0'}}>
+      <div className="users-list">
         {displayUsers.length > 0 ? displayUsers.map((user, index) => (
-          <div 
-            key={user.username} 
-            className="user-item"
-            style={{
-              borderRadius: index === 0 ? '8px 8px 0 0' : index === displayUsers.length - 1 ? '0 0 8px 8px' : '0',
-              borderBottom: index === displayUsers.length - 1 ? '1px solid rgba(255, 255, 255, 0.1)' : 'none',
-              padding: '0.8rem'
-            }}
-          >
+          <div key={user.username} className="user-item">
             <div className="rank">
               <span className="rank-number">#{index + 1}</span>
               {index < 3 && (
