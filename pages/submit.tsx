@@ -119,14 +119,14 @@ export default function Submit() {
       <div className="home">
         <div className="container">
           <div className="signin-prompt">
-            <div className="prompt-card">
-              <h1 className="prompt-title">🔐 Sign In Required</h1>
-              <p className="prompt-subtitle">
+            <div className="prompt-card glass-elevated">
+              <h1 className="prompt-title text-gradient-primary">🔐 Sign In Required</h1>
+              <p className="prompt-subtitle text-secondary">
                 Please sign in to share your amazing tricks with the global community!
               </p>
               <button
                 onClick={() => router.push('/signin?returnUrl=/submit')}
-                className="signin-button"
+                className="signin-button btn-primary"
               >
                 🚀 Sign In to Continue
               </button>
