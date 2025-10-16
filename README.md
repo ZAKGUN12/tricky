@@ -6,7 +6,14 @@ A modern, multilingual platform where people from around the world share practic
 
 **Production:** [tricky-peach.vercel.app](https://tricky-peach.vercel.app)
 
-## ✨ Latest Features (v2.0)
+## ✨ Latest Features (v2.1) - October 2025
+
+### 🔧 Recent Improvements
+- **Fixed Authentication Flow**: Resolved redirect loop issues after sign-in
+- **Enhanced Logout UX**: Improved logout button visibility and mobile layout
+- **Relocated Counters**: Moved tricks counter to Global Network section for better organization
+- **Fixed Form Validation**: Resolved "Validation failed" errors in trick submission
+- **Better Error Handling**: Added comprehensive client-side validation and error messages
 
 ### 🚀 Global Network Theme
 - **Space-age Design**: Dark gradient backgrounds with floating particle effects
@@ -19,11 +26,11 @@ A modern, multilingual platform where people from around the world share practic
 - **Responsive Design**: Optimized layouts for all screen sizes
 - **Performance Optimized**: Reduced animations on mobile for better performance
 - **Touch-Friendly**: Improved button sizes and spacing for mobile interaction
-- **Single-Column Layout**: Clean mobile sidebar organization
+- **Fixed Header Layout**: Resolved overlapping issues between logout button and counters
 
 ### 🎯 Enhanced UI Components
-- **Compact Sidebar**: Top 3 style for Categories, TopTricks, and Leaderboard
-- **Calendar-Style Counter**: Beautiful calendar badge for Global Network countries
+- **Dual Counter Display**: Countries and Tricks counters side-by-side in Global Network
+- **Improved Authentication**: Seamless sign-in/sign-out experience with proper state management
 - **Real-Time Counting**: Accurate category counts from live DynamoDB data
 - **Smart Filtering**: Dynamic category detection with keyword matching
 
@@ -36,10 +43,10 @@ A modern, multilingual platform where people from around the world share practic
 
 ### Smart Features
 - **Browse & Discover**: Explore life hacks from around the world
-- **Submit Tricks**: Share your own tips with the global community
+- **Submit Tricks**: Share your own tips with the global community (with robust validation)
 - **Interactive Engagement**: Give kudos, comment, and view detailed trick instructions
 - **Advanced Search**: Find tricks by title, description, or tags
-- **Smart Category Filtering**: Intelligent categorization with multilingual keyword detection ([Architecture Details](CATEGORY_FILTERING_ARCHITECTURE.md))
+- **Smart Category Filtering**: Intelligent categorization with multilingual keyword detection
 
 ### Social & Gamification
 - **Top 3 Leaderboard**: See the top contributors ranked by community engagement
@@ -57,8 +64,14 @@ A modern, multilingual platform where people from around the world share practic
 
 ### Backend & Database
 - **AWS DynamoDB** - NoSQL database with optimized queries
-- **Next.js API Routes** - Serverless API endpoints
+- **Next.js API Routes** - Serverless API endpoints with comprehensive validation
 - **Real-Time Data** - Live updates and accurate counting
+
+### Authentication & Security
+- **AWS Cognito** - Secure user authentication and management
+- **Input Validation** - Comprehensive Zod schema validation
+- **XSS Protection** - Input sanitization and security measures
+- **Rate Limiting** - API protection against abuse
 
 ### Deployment & Performance
 - **Vercel** - Frontend hosting with automatic deployments
@@ -113,16 +126,16 @@ Visit [http://localhost:3000](http://localhost:3000) to experience the Global Ne
 ```javascript
 {
   id: string,              // Primary key
-  title: string,
-  description: string,
-  steps: string[],         // Array of step instructions
+  title: string,           // 5-100 characters, validated
+  description: string,     // 10-500 characters, validated
+  steps: string[],         // Array of step instructions (1-5 steps)
   country: string,         // Country name
-  countryCode: string,     // ISO country code
+  countryCode: string,     // ISO country code (2 letters)
   difficulty: 'easy' | 'medium' | 'hard',
-  tags: string[],          // Searchable tags
+  tags: string[],          // Searchable tags (max 5)
   category: string,        // Category classification
   authorName: string,      // Username
-  authorEmail: string,
+  authorEmail: string,     // Validated email
   kudos: number,           // Community likes
   views: number,           // View count
   comments: number,        // Comment count
@@ -135,7 +148,7 @@ Visit [http://localhost:3000](http://localhost:3000) to experience the Global Ne
 
 ### Tricks
 - `GET /api/tricks` - List all tricks with smart filtering
-- `POST /api/tricks` - Create new trick
+- `POST /api/tricks` - Create new trick (with comprehensive validation)
 - `GET /api/tricks/[id]` - Get specific trick
 - `POST /api/tricks/[id]/kudos` - Give kudos to trick
 - `GET /api/tricks/top` - Get top 3 tricks by kudos
@@ -145,6 +158,11 @@ Visit [http://localhost:3000](http://localhost:3000) to experience the Global Ne
 - `GET /api/leaderboard` - Get top 3 contributors
 - `GET /api/users/stats` - Get user statistics
 
+### Authentication
+- `POST /api/auth/signin` - User authentication
+- `GET /api/auth/user` - Get user profile
+- `POST /api/auth/verify` - Email verification
+
 ## 🎨 Global Network Theme Components
 
 ### Enhanced Sidebar
@@ -152,19 +170,19 @@ Visit [http://localhost:3000](http://localhost:3000) to experience the Global Ne
 - **Top 3 Tricks**: Pink gradient showing community favorites
 - **Top 3 Leaderboard**: Cyan gradient with contributor rankings
 
+### Global Network Section
+- **Dual Counters**: Countries and Tricks displayed side-by-side
+- **Calendar-Style Badges**: Beautiful counter design with gradient headers
+- **Country Chain**: Interactive country selector with trick counts
+
 ### Interactive Elements
-- **Country Chain**: Flexbox layout with side-by-side country display
 - **Trick Cards**: Glass morphism with shimmer hover effects
 - **Action Buttons**: Global Network color gradients with scale animations
-
-### Visual Effects
-- **Particle Starfield**: Twinkling star particles across the background
-- **Floating Orbs**: Animated gradient orbs with subtle movement
-- **Pulsing Borders**: Synchronized pulse animations on sidebar components
+- **Authentication UI**: Seamless sign-in/sign-out with proper state management
 
 ## 📱 Mobile Experience
 
-- **Single-Column Sidebar**: Clean mobile layout with proper spacing
+- **Responsive Header**: Fixed layout issues with proper element spacing
 - **Optimized Performance**: Reduced animations for better mobile performance
 - **Touch-Friendly Interface**: Improved button sizes and interaction areas
 - **Responsive Typography**: Scalable text and elements across all devices
@@ -186,6 +204,13 @@ npm run type-check   # Run TypeScript checks
 - **React Best Practices**: useCallback optimization and dependency management
 - **Performance**: Optimized for both desktop and mobile experiences
 
+### Recent Bug Fixes
+- ✅ **Authentication Redirect Loop**: Fixed infinite redirect after sign-in
+- ✅ **Logout Button Visibility**: Improved header layout and mobile responsiveness
+- ✅ **Form Validation**: Resolved "Validation failed" errors with proper data formatting
+- ✅ **Counter Layout**: Relocated tricks counter to Global Network section
+- ✅ **Error Handling**: Added comprehensive client-side validation
+
 ## 🌍 Internationalization
 
 The platform supports content in multiple languages with smart category detection:
@@ -203,6 +228,7 @@ The platform supports content in multiple languages with smart category detectio
 
 ### AWS Configuration
 - **DynamoDB**: Optimized tables with proper indexing
+- **Cognito**: Secure user authentication and management
 - **IAM**: Secure credential management with minimal permissions
 - **Performance**: Efficient queries and real-time data updates
 
@@ -212,9 +238,10 @@ The platform supports content in multiple languages with smart category detectio
 2. Create a feature branch: `git checkout -b feature/amazing-feature`
 3. Follow TypeScript and React best practices
 4. Ensure all ESLint checks pass
-5. Commit changes: `git commit -m 'Add amazing feature'`
-6. Push to branch: `git push origin feature/amazing-feature`
-7. Open a Pull Request
+5. Test authentication and form validation
+6. Commit changes: `git commit -m 'Add amazing feature'`
+7. Push to branch: `git push origin feature/amazing-feature`
+8. Open a Pull Request
 
 ## 📄 License
 
@@ -223,7 +250,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🙏 Acknowledgments
 
 - Global community contributors from 20+ countries
-- AWS for reliable cloud infrastructure
+- AWS for reliable cloud infrastructure and authentication
 - Vercel for seamless deployment
 - Next.js team for the excellent framework
 - The open-source community for inspiration
@@ -236,4 +263,4 @@ For support, email [support@trickshare.com](mailto:support@trickshare.com) or cr
 
 **Built with ❤️ and 🌍 Global Network theme by the worldwide community**
 
-*Experience the future of knowledge sharing with our space-age interface and real-time global connectivity.*
+*Experience the future of knowledge sharing with our space-age interface, robust authentication, and real-time global connectivity.*
