@@ -138,26 +138,31 @@ export default function Submit() {
           .home {
             min-height: 100vh;
             background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
-            position: relative;
-          }
-
-          .home::before {
-            content: '';
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.4) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.4) 0%, transparent 50%),
-                        radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: -1;
-            animation: float 20s ease-in-out infinite;
+            right: 0;
+            bottom: 0;
+            z-index: 9999;
+            overflow: hidden;
           }
 
-          .home::after {
-            content: '';
+          .container {
+            position: relative;
+            z-index: 10000;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+
+          .signin-prompt {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+          }
             position: fixed;
             top: 0;
             left: 0;
