@@ -128,17 +128,17 @@ export default function Categories({ selectedCategory, onCategorySelect, tricks 
         .categories-list {
           display: flex;
           flex-direction: column;
-          gap: 0.4rem;
+          gap: 0;
         }
 
         .category-item {
           display: flex;
           align-items: center;
           gap: 0.6rem;
-          padding: 0.6rem;
+          padding: 0.8rem;
           background: rgba(255, 255, 255, 0.15);
           border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: var(--radius-md);
+          border-bottom: none;
           color: white;
           text-decoration: none;
           transition: all 0.2s ease;
@@ -146,6 +146,17 @@ export default function Categories({ selectedCategory, onCategorySelect, tricks 
           width: 100%;
           text-align: left;
           backdrop-filter: blur(10px);
+        }
+
+        .category-item:first-child {
+          border-top-left-radius: var(--radius-md);
+          border-top-right-radius: var(--radius-md);
+        }
+
+        .category-item:last-child {
+          border-bottom-left-radius: var(--radius-md);
+          border-bottom-right-radius: var(--radius-md);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .category-item:hover {

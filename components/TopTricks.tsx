@@ -152,7 +152,7 @@ export default function TopTricks() {
         .tricks-list {
           display: flex;
           flex-direction: column;
-          gap: 0.3rem;
+          gap: 0;
         }
 
         .trick-link {
@@ -164,10 +164,22 @@ export default function TopTricks() {
           display: flex;
           align-items: center;
           gap: 0.6rem;
-          padding: 0.6rem;
-          border-radius: 6px;
+          padding: 0.8rem;
           transition: all 0.2s ease;
           background: rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-bottom: none;
+        }
+
+        .trick-item:first-child {
+          border-top-left-radius: var(--radius-md);
+          border-top-right-radius: var(--radius-md);
+        }
+
+        .trick-item:last-child {
+          border-bottom-left-radius: var(--radius-md);
+          border-bottom-right-radius: var(--radius-md);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .trick-item:hover {

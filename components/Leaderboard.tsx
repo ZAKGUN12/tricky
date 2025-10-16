@@ -25,7 +25,18 @@ export default function Leaderboard() {
       if (response.ok) {
         const data = await response.json();
         console.log('Leaderboard data received:', data);
-        setUsers(Array.isArray(data) ? data : []);
+        
+        // If no real users, show mock data
+        if (!data || data.length === 0) {
+          const mockUsers = [
+            { rank: 1, username: 'TrickMaster', score: 850, tricksSubmitted: 12, kudosReceived: 145 },
+            { rank: 2, username: 'LifeHacker', score: 720, tricksSubmitted: 8, kudosReceived: 98 },
+            { rank: 3, username: 'QuickTips', score: 650, tricksSubmitted: 6, kudosReceived: 87 }
+          ];
+          setUsers(mockUsers);
+        } else {
+          setUsers(Array.isArray(data) ? data : []);
+        }
       } else {
         const errorData = await response.json().catch(() => ({}));
         console.error('Leaderboard API error:', response.status, errorData);
@@ -141,17 +152,29 @@ export default function Leaderboard() {
         .users-list {
           display: flex;
           flex-direction: column;
-          gap: 0.3rem;
+          gap: 0;
         }
 
         .user-item {
           display: flex;
           align-items: center;
           gap: 0.6rem;
-          padding: 0.6rem;
-          border-radius: 6px;
+          padding: 0.8rem;
           transition: all 0.2s ease;
           background: rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-bottom: none;
+        }
+
+        .user-item:first-child {
+          border-top-left-radius: var(--radius-md);
+          border-top-right-radius: var(--radius-md);
+        }
+
+        .user-item:last-child {
+          border-bottom-left-radius: var(--radius-md);
+          border-bottom-right-radius: var(--radius-md);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .user-item:hover {
