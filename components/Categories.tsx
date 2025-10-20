@@ -48,32 +48,30 @@ export default function Categories({ selectedCategory, onCategorySelect, tricks 
   }
 
   return (
-    <div className="categories-wrapper">
-      <div className="header">
-        <h3>📂 Categories</h3>
-        <span className="count">{categories.length} categories</span>
+    <div className="reddit-sidebar-section">
+      <div className="reddit-header">
+        <h3>Popular Communities</h3>
       </div>
       
-      <div className="categories-list">
+      <div className="reddit-content">
         <button
           onClick={() => onCategorySelect(null)}
-          className={`category-item ${!selectedCategory ? 'active' : ''}`}
+          className={`reddit-item ${!selectedCategory ? 'active' : ''}`}
         >
-          <span className="icon">🌟</span>
-          <span className="name">All Categories</span>
+          <span className="reddit-icon">🏠</span>
+          <span className="reddit-name">All</span>
+          <span className="reddit-count">{tricks.length}</span>
         </button>
         
         {categories.map((category) => (
           <button
             key={category.id}
             onClick={() => onCategorySelect(category.id)}
-            className={`category-item ${selectedCategory === category.id ? 'active' : ''}`}
+            className={`reddit-item ${selectedCategory === category.id ? 'active' : ''}`}
           >
-            <span className="icon">{category.icon}</span>
-            <div className="category-content">
-              <span className="name">{category.name}</span>
-              <span className="category-count">{category.count}</span>
-            </div>
+            <span className="reddit-icon">{category.icon}</span>
+            <span className="reddit-name">{category.name}</span>
+            <span className="reddit-count">{category.count}</span>
           </button>
         ))}
       </div>
