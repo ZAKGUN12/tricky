@@ -24,9 +24,32 @@ function HomeContent() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const [sortBy, setSortBy] = useState('hot');
+  const [viewMode, setViewMode] = useState('card');
   const { showToast, ToastContainer } = useToast();
   const { user, signOut } = useAuth();
   const router = useRouter();
+
+  // Sort tricks based on selected sort option
+  const sortTricks = useCallback((tricksToSort: Trick[]) => {
+    const sorted = [...tricksToSort];
+    switch (sortBy) {
+      case 'hot':
+        return sorted.sort((a, b) => (b.kudos + b.views * 0.1) - (a.kudos + a.views * 0.1));
+      case 'new':
+        return sorted.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      case 'top':
+        return sorted.sort((a, b) => b.kudos - a.kudos);
+      case 'rising':
+        return sorted.sort((a, b) => {
+          const aScore = a.kudos / Math.max(1, Math.floor((Date.now() - new Date(a.createdAt).getTime()) / (1000 * 60 * 60)));
+          const bScore = b.kudos / Math.max(1, Math.floor((Date.now() - new Date(b.createdAt).getTime()) / (1000 * 60 * 60)));
+          return bScore - aScore;
+        });
+      default:
+        return sorted;
+    }
+  }, [sortBy]);
 
   const fetchTricks = useCallback(async () => {
     try {
@@ -38,7 +61,8 @@ function HomeContent() {
       const response = await fetch(`/api/tricks?${params}`);
       if (response.ok) {
         const data = await response.json();
-        setTricks(data);
+        const sortedData = sortTricks(data);
+        setTricks(sortedData);
         
         // Also fetch all tricks for category counting if we don't have them
         if (allTricks.length === 0 || (!selectedCountry && !selectedCategory && !searchQuery)) {
@@ -79,6 +103,14 @@ function HomeContent() {
   useEffect(() => {
     fetchTricks();
   }, [fetchTricks]);
+
+  // Re-sort tricks when sort option changes
+  useEffect(() => {
+    if (tricks.length > 0) {
+      const sortedTricks = sortTricks(tricks);
+      setTricks(sortedTricks);
+    }
+  }, [sortBy, sortTricks]);
 
   const handleKudos = async (trickId: string) => {
     if (handleUnauthenticatedAction()) return;
@@ -221,13 +253,60 @@ function HomeContent() {
               <AdvancedSearch onSearch={handleSearch} onFilter={handleFilter} />
             </div>
 
+            {/* Reddit-style controls */}
+            <div className="reddit-controls">
+              <div className="sort-controls">
+                <button 
+                  className={`sort-btn ${sortBy === 'hot' ? 'active' : ''}`}
+                  onClick={() => setSortBy('hot')}
+                >
+                  🔥 Hot
+                </button>
+                <button 
+                  className={`sort-btn ${sortBy === 'new' ? 'active' : ''}`}
+                  onClick={() => setSortBy('new')}
+                >
+                  🆕 New
+                </button>
+                <button 
+                  className={`sort-btn ${sortBy === 'top' ? 'active' : ''}`}
+                  onClick={() => setSortBy('top')}
+                >
+                  ⭐ Top
+                </button>
+                <button 
+                  className={`sort-btn ${sortBy === 'rising' ? 'active' : ''}`}
+                  onClick={() => setSortBy('rising')}
+                >
+                  📈 Rising
+                </button>
+              </div>
+              
+              <div className="view-controls">
+                <button 
+                  className={`view-btn ${viewMode === 'card' ? 'active' : ''}`}
+                  onClick={() => setViewMode('card')}
+                  title="Card view"
+                >
+                  ⊞
+                </button>
+                <button 
+                  className={`view-btn ${viewMode === 'compact' ? 'active' : ''}`}
+                  onClick={() => setViewMode('compact')}
+                  title="Compact view"
+                >
+                  ☰
+                </button>
+              </div>
+            </div>
+
             <CountryChain 
               tricks={tricks}
               onCountrySelect={handleCountrySelect}
               selectedCountry={selectedCountry}
             />
 
-            <div className="tricks-grid">
+            <div className={`tricks-grid ${viewMode === 'compact' ? 'compact-view' : 'card-view'}`}>
               {tricks.map((trick) => {
                 const country = countries.find(c => c.code === trick.countryCode);
                 return (
@@ -598,6 +677,111 @@ function HomeContent() {
           padding: 1.5rem;
           border: 1px solid rgba(120, 119, 198, 0.3);
           box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+          margin-bottom: var(--space-4);
+        }
+
+        .reddit-controls {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          background: var(--surface-glass);
+          backdrop-filter: var(--blur-md);
+          border: 1px solid var(--border-light);
+          border-radius: var(--radius-lg);
+          padding: var(--space-3);
+          margin-bottom: var(--space-4);
+          box-shadow: var(--shadow-md);
+        }
+
+        .sort-controls {
+          display: flex;
+          gap: var(--space-1);
+        }
+
+        .sort-btn {
+          background: none;
+          border: none;
+          color: var(--text-muted);
+          padding: var(--space-2) var(--space-3);
+          border-radius: var(--radius-md);
+          font-size: var(--text-sm);
+          font-weight: var(--font-medium);
+          cursor: pointer;
+          transition: var(--transition-fast);
+        }
+
+        .sort-btn:hover {
+          background: var(--gray-300);
+          color: var(--text-secondary);
+        }
+
+        .sort-btn.active {
+          background: var(--primary);
+          color: white;
+          box-shadow: var(--shadow-glow-primary);
+        }
+
+        .view-controls {
+          display: flex;
+          gap: var(--space-1);
+          border: 1px solid var(--border-light);
+          border-radius: var(--radius-md);
+          overflow: hidden;
+        }
+
+        .view-btn {
+          background: none;
+          border: none;
+          color: var(--text-muted);
+          padding: var(--space-2);
+          font-size: var(--text-lg);
+          cursor: pointer;
+          transition: var(--transition-fast);
+          width: 40px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .view-btn:hover {
+          background: var(--gray-300);
+          color: var(--text-secondary);
+        }
+
+        .view-btn.active {
+          background: var(--primary);
+          color: white;
+        }
+
+        .tricks-grid.compact-view {
+          gap: var(--space-1);
+        }
+
+        .tricks-grid.compact-view .trick-card.reddit-style {
+          padding: 0;
+        }
+
+        .tricks-grid.compact-view .trick-votes {
+          min-width: 50px;
+          padding: var(--space-2);
+        }
+
+        .tricks-grid.compact-view .trick-content {
+          padding: var(--space-3);
+        }
+
+        .tricks-grid.compact-view .trick-title {
+          font-size: var(--text-base);
+          margin-bottom: var(--space-1);
+        }
+
+        .tricks-grid.compact-view .trick-description {
+          display: none;
+        }
+
+        .tricks-grid.compact-view .trick-tags {
+          margin-bottom: var(--space-2);
         }
 
         .tricks-grid {
