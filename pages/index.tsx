@@ -231,45 +231,54 @@ function HomeContent() {
               {tricks.map((trick) => {
                 const country = countries.find(c => c.code === trick.countryCode);
                 return (
-                  <div key={trick.id} className="trick-card">
-                    <div className="trick-header">
-                      <div className="country-info">
-                        <span className="flag">{country?.flag}</span>
-                        <span className="country-name">{country?.name}</span>
-                      </div>
-                      <div className="difficulty">
+                  <div key={trick.id} className="trick-card reddit-style">
+                    <div className="trick-votes">
+                      <button 
+                        onClick={() => handleKudos(trick.id)}
+                        className="vote-btn upvote"
+                        aria-label={`Give kudos to ${trick.title}`}
+                      >
+                        ▲
+                      </button>
+                      <span className="vote-count">{trick.kudos}</span>
+                      <button className="vote-btn downvote" disabled>
+                        ▼
+                      </button>
+                    </div>
+                    
+                    <div className="trick-content">
+                      <div className="trick-meta">
+                        <span className="country-flag">{country?.flag}</span>
+                        <span className="subreddit">r/lifehacks</span>
+                        <span className="author">• Posted by u/{trick.authorName}</span>
+                        <span className="time">• {new Date(trick.createdAt).toLocaleDateString()}</span>
                         <span className={`difficulty-badge ${trick.difficulty}`}>
                           {trick.difficulty}
                         </span>
                       </div>
-                    </div>
-
-                    <h3 className="trick-title">{trick.title}</h3>
-                    <p className="trick-description">{trick.description}</p>
-
-                    <div className="trick-tags">
-                      {trick.tags?.map((tag, index) => (
-                        <span key={index} className="tag">#{tag}</span>
-                      ))}
-                    </div>
-
-                    <div className="trick-footer">
-                      <div className="author-info">
-                        <span>by {trick.authorName}</span>
-                      </div>
                       
+                      <Link href={`/trick/${trick.id}`} className="trick-link">
+                        <h3 className="trick-title">{trick.title}</h3>
+                      </Link>
+                      
+                      <p className="trick-description">{trick.description}</p>
+                      
+                      <div className="trick-tags">
+                        {trick.tags?.slice(0, 3).map((tag, index) => (
+                          <span key={index} className="tag">#{tag}</span>
+                        ))}
+                      </div>
+
                       <div className="trick-actions">
-                        <button 
-                          onClick={() => handleKudos(trick.id)}
-                          className="action-btn kudos"
-                          aria-label={`Give kudos to ${trick.title}`}
-                        >
-                          👍 {trick.kudos}
-                        </button>
-                        
-                        <Link href={`/trick/${trick.id}`} className="action-btn view">
-                          View Details
+                        <Link href={`/trick/${trick.id}`} className="action-btn comments">
+                          💬 {trick.comments || 0} comments
                         </Link>
+                        <button className="action-btn share">
+                          📤 Share
+                        </button>
+                        <button className="action-btn save">
+                          🔖 Save
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -592,9 +601,175 @@ function HomeContent() {
         }
 
         .tricks-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-          gap: 1.5rem;
+          display: flex;
+          flex-direction: column;
+          gap: var(--space-2);
+          max-width: 800px;
+          margin: 0 auto;
+        }
+
+        .trick-card.reddit-style {
+          display: flex;
+          background: var(--surface-glass);
+          backdrop-filter: var(--blur-md);
+          border: 1px solid var(--border-light);
+          border-radius: var(--radius-lg);
+          padding: 0;
+          box-shadow: var(--shadow-md);
+          transition: var(--transition-base);
+          overflow: hidden;
+        }
+
+        .trick-card.reddit-style:hover {
+          border-color: var(--border-medium);
+          box-shadow: var(--shadow-lg);
+        }
+
+        .trick-votes {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: var(--space-3);
+          background: var(--surface-elevated);
+          border-right: 1px solid var(--border-light);
+          min-width: 60px;
+        }
+
+        .vote-btn {
+          background: none;
+          border: none;
+          color: var(--text-secondary);
+          font-size: var(--text-lg);
+          cursor: pointer;
+          padding: var(--space-1);
+          transition: var(--transition-fast);
+          border-radius: var(--radius-sm);
+        }
+
+        .vote-btn.upvote:hover {
+          color: var(--accent);
+          background: var(--accent-light);
+        }
+
+        .vote-btn:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+
+        .vote-count {
+          font-weight: var(--font-bold);
+          color: var(--text-primary);
+          margin: var(--space-1) 0;
+          font-size: var(--text-sm);
+        }
+
+        .trick-content {
+          flex: 1;
+          padding: var(--space-4);
+        }
+
+        .trick-meta {
+          display: flex;
+          align-items: center;
+          gap: var(--space-2);
+          margin-bottom: var(--space-2);
+          font-size: var(--text-xs);
+          color: var(--text-muted);
+          flex-wrap: wrap;
+        }
+
+        .subreddit {
+          color: var(--primary);
+          font-weight: var(--font-semibold);
+        }
+
+        .trick-title {
+          font-size: var(--text-lg);
+          font-weight: var(--font-semibold);
+          color: var(--text-primary);
+          margin-bottom: var(--space-2);
+          line-height: var(--leading-tight);
+        }
+
+        .trick-link {
+          text-decoration: none;
+          color: inherit;
+        }
+
+        .trick-link:hover .trick-title {
+          color: var(--primary);
+        }
+
+        .trick-description {
+          color: var(--text-secondary);
+          margin-bottom: var(--space-3);
+          line-height: var(--leading-normal);
+          font-size: var(--text-sm);
+        }
+
+        .trick-tags {
+          display: flex;
+          gap: var(--space-2);
+          margin-bottom: var(--space-3);
+          flex-wrap: wrap;
+        }
+
+        .tag {
+          background: var(--primary-light);
+          color: var(--primary);
+          padding: var(--space-1) var(--space-2);
+          border-radius: var(--radius-full);
+          font-size: var(--text-xs);
+          font-weight: var(--font-medium);
+        }
+
+        .trick-actions {
+          display: flex;
+          gap: var(--space-4);
+          align-items: center;
+        }
+
+        .action-btn {
+          background: none;
+          border: none;
+          color: var(--text-muted);
+          font-size: var(--text-xs);
+          cursor: pointer;
+          padding: var(--space-1) var(--space-2);
+          border-radius: var(--radius-sm);
+          transition: var(--transition-fast);
+          text-decoration: none;
+          display: flex;
+          align-items: center;
+          gap: var(--space-1);
+        }
+
+        .action-btn:hover {
+          background: var(--gray-300);
+          color: var(--text-secondary);
+        }
+
+        .difficulty-badge {
+          padding: var(--space-1) var(--space-2);
+          border-radius: var(--radius-sm);
+          font-size: var(--text-xs);
+          font-weight: var(--font-medium);
+          text-transform: uppercase;
+        }
+
+        .difficulty-badge.easy {
+          background: var(--success);
+          color: white;
+        }
+
+        .difficulty-badge.medium {
+          background: var(--warning);
+          color: white;
+        }
+
+        .difficulty-badge.hard {
+          background: var(--error);
+          color: white;
         }
 
         .trick-card {
