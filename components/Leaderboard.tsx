@@ -1,15 +1,13 @@
 import { useState, useEffect } from 'react';
 
-interface LeaderboardUser {
-  rank: number;
+interface User {
   username: string;
-  score: number;
-  tricksSubmitted: number;
-  kudosReceived: number;
+  tricksCount: number;
+  totalKudos: number;
 }
 
 export default function Leaderboard() {
-  const [users, setUsers] = useState<LeaderboardUser[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -18,25 +16,10 @@ export default function Leaderboard() {
 
   const fetchLeaderboard = async () => {
     try {
-      console.log('Fetching leaderboard...');
       const response = await fetch('/api/leaderboard');
-      console.log('Leaderboard API response status:', response.status);
-      
       if (response.ok) {
         const data = await response.json();
-        console.log('Leaderboard data received:', data);
-        
-        // If no real users, show mock data
-        if (!data || data.length === 0) {
-          const mockUsers = [
-            { rank: 1, username: 'TrickMaster', score: 850, tricksSubmitted: 12, kudosReceived: 145 },
-            { rank: 2, username: 'LifeHacker', score: 720, tricksSubmitted: 8, kudosReceived: 98 },
-            { rank: 3, username: 'QuickTips', score: 650, tricksSubmitted: 6, kudosReceived: 87 }
-          ];
-          setUsers(mockUsers);
-        } else {
-          setUsers(Array.isArray(data) ? data : []);
-        }
+        setUsers(Array.isArray(data) ? data : []);
       } else {
         const errorData = await response.json().catch(() => ({}));
         console.error('Leaderboard API error:', response.status, errorData);
@@ -52,11 +35,51 @@ export default function Leaderboard() {
 
   if (loading) {
     return (
-      <div className="leaderboard-wrapper">
-        <div className="header">
-          <h3>🏅 Leaderboard</h3>
+      <div className="leaderboard-container">
+        <div className="leaderboard-header">
+          <div className="header-icon">🏅</div>
+          <h3>Leaderboard</h3>
         </div>
-        <div className="loading">Loading...</div>
+        <div className="loading">Loading leaderboard...</div>
+        
+        <style jsx>{`
+          .leaderboard-container {
+            background: linear-gradient(145deg, rgba(15, 15, 35, 0.95), rgba(25, 25, 45, 0.9));
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            border: 1px solid rgba(120, 219, 255, 0.2);
+            overflow: hidden;
+          }
+
+          .leaderboard-header {
+            background: linear-gradient(135deg, rgba(120, 219, 255, 0.3), rgba(78, 219, 255, 0.2));
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 1px solid rgba(120, 219, 255, 0.2);
+          }
+
+          .header-icon {
+            font-size: 1.2rem;
+            filter: drop-shadow(0 0 8px rgba(120, 219, 255, 0.6));
+          }
+
+          .leaderboard-header h3 {
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin: 0;
+            text-shadow: 0 0 10px rgba(120, 219, 255, 0.4);
+          }
+
+          .loading {
+            padding: 2rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.85rem;
+          }
+        `}</style>
       </div>
     );
   }
@@ -64,221 +87,178 @@ export default function Leaderboard() {
   const displayUsers = users.slice(0, 3);
 
   return (
-    <div className="leaderboard-wrapper">
-      <div className="header">
-        <h3>🏅 Leaderboard</h3>
-        <span className="count">Top {displayUsers.length}</span>
+    <div className="leaderboard-container">
+      <div className="leaderboard-header">
+        <div className="header-icon">🏅</div>
+        <h3>Leaderboard</h3>
+        <div className="badge">Top {displayUsers.length}</div>
       </div>
       
       <div className="users-list">
         {displayUsers.length > 0 ? displayUsers.map((user, index) => (
           <div key={user.username} className="user-item">
-            <div className="rank">
+            <div className="rank-badge">
               <span className="rank-number">#{index + 1}</span>
-              {index < 3 && (
-                <span className="medal">
-                  {index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉'}
-                </span>
-              )}
+              <div className="medal">
+                {index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉'}
+              </div>
             </div>
             
             <div className="user-content">
-              <div className="user-name">{user.username}</div>
-              <div className="user-stats">
-                <span className="stat">⭐ {user.score}</span>
-                <span className="stat">📝 {user.tricksSubmitted}</span>
+              <div className="user-info">
+                <h4 className="username">👤 {user.username}</h4>
+                <div className="user-stats">
+                  <span className="stat">📝 {user.tricksCount} tricks</span>
+                  <span className="stat">⭐ {user.totalKudos} kudos</span>
+                </div>
               </div>
             </div>
           </div>
         )) : (
-          <div className="no-data">No users available</div>
+          <div className="no-users">
+            <span>🎯</span>
+            <p>No contributors yet</p>
+          </div>
         )}
       </div>
 
       <style jsx>{`
-        .leaderboard-wrapper {
-          background: rgba(15, 15, 35, 0.8);
+        .leaderboard-container {
+          background: linear-gradient(145deg, rgba(15, 15, 35, 0.95), rgba(25, 25, 45, 0.9));
           backdrop-filter: blur(20px);
-          border-radius: var(--radius-lg);
+          border-radius: 16px;
+          border: 1px solid rgba(120, 219, 255, 0.2);
+          overflow: hidden;
+          box-shadow: 
+            0 8px 32px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .leaderboard-header {
+          background: linear-gradient(135deg, rgba(120, 219, 255, 0.3), rgba(78, 219, 255, 0.2));
           padding: 1rem;
-          border: 1px solid rgba(120, 219, 255, 0.3);
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-          margin-bottom: 1rem;
-          animation: sidebarPulse 8s ease-in-out infinite;
-        }
-
-        @keyframes sidebarPulse {
-          0%, 100% { border-color: rgba(120, 219, 255, 0.3); }
-          50% { border-color: rgba(120, 219, 255, 0.5); }
-        }
-
-        .header {
-          background: rgba(120, 219, 255, 0.2);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(120, 219, 255, 0.3);
-          border-radius: var(--radius-md);
           display: flex;
-          justify-content: space-between;
           align-items: center;
-          margin-bottom: 0.75rem;
-          padding: 0.75rem 1rem;
+          gap: 0.75rem;
+          border-bottom: 1px solid rgba(120, 219, 255, 0.2);
         }
 
-        .header h3 {
-          color: #78dbff;
-          font-size: 0.9rem;
+        .header-icon {
+          font-size: 1.2rem;
+          filter: drop-shadow(0 0 8px rgba(120, 219, 255, 0.6));
+        }
+
+        .leaderboard-header h3 {
+          color: #ffffff;
+          font-size: 0.95rem;
           font-weight: 600;
           margin: 0;
-          text-shadow: 0 0 10px rgba(120, 219, 255, 0.5);
+          flex: 1;
+          text-shadow: 0 0 10px rgba(120, 219, 255, 0.4);
         }
 
-        .count {
-          background: rgba(120, 119, 198, 0.2);
-          color: #7877c6;
-          padding: 0.2rem 0.6rem;
-          border-radius: var(--radius-full);
-          font-size: 0.65rem;
-          font-weight: 600;
-          border: 1px solid rgba(120, 119, 198, 0.3);
-        }
-
-        .loading, .no-data {
-          padding: 1rem;
-          text-align: center;
-          color: rgba(255, 255, 255, 0.8);
+        .badge {
+          background: rgba(120, 219, 255, 0.3);
+          color: rgba(120, 219, 255, 0.9);
+          padding: 0.25rem 0.75rem;
+          border-radius: 12px;
           font-size: 0.7rem;
+          font-weight: 600;
+          border: 1px solid rgba(120, 219, 255, 0.4);
         }
 
         .users-list {
-          display: flex !important;
-          flex-direction: column !important;
-          gap: 0 !important;
+          padding: 0.5rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
         }
 
         .user-item {
-          display: flex !important;
-          align-items: center !important;
-          gap: 0.6rem !important;
-          padding: 0.8rem !important;
-          transition: all 0.2s ease !important;
-          background: rgba(255, 255, 255, 0.1) !important;
-          border: 1px solid rgba(255, 255, 255, 0.1) !important;
-          border-bottom: none !important;
-          border-radius: 0 !important;
-        }
-
-        .users-list .user-item:first-child {
-          border-top-left-radius: var(--radius-md) !important;
-          border-top-right-radius: var(--radius-md) !important;
-        }
-
-        .users-list .user-item:last-child {
-          border-bottom-left-radius: var(--radius-md) !important;
-          border-bottom-right-radius: var(--radius-md) !important;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+          display: flex;
+          gap: 0.75rem;
+          padding: 0.75rem;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 12px;
+          transition: all 0.3s ease;
         }
 
         .user-item:hover {
-          background: rgba(255, 255, 255, 0.2);
-          transform: translateX(2px);
+          background: rgba(120, 219, 255, 0.15);
+          border-color: rgba(120, 219, 255, 0.3);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 16px rgba(120, 219, 255, 0.2);
         }
 
-        .rank {
-          position: relative;
+        .rank-badge {
           display: flex;
+          flex-direction: column;
           align-items: center;
-          justify-content: center;
-          width: 24px;
-          height: 24px;
-          border-radius: 50%;
-          background: rgba(255, 255, 255, 0.2);
-          flex-shrink: 0;
+          gap: 0.25rem;
+          min-width: 40px;
         }
 
         .rank-number {
-          font-size: 0.6rem;
+          font-size: 0.7rem;
           font-weight: 700;
-          color: white;
-          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+          color: rgba(120, 219, 255, 0.9);
+          background: rgba(120, 219, 255, 0.2);
+          padding: 0.2rem 0.4rem;
+          border-radius: 6px;
+          border: 1px solid rgba(120, 219, 255, 0.3);
         }
 
         .medal {
-          position: absolute;
-          top: -3px;
-          right: -3px;
-          font-size: 0.7rem;
+          font-size: 1.2rem;
+          filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.5));
         }
 
         .user-content {
           flex: 1;
-          min-width: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 0.3rem;
         }
 
-        .user-name {
-          font-size: 0.7rem;
-          font-weight: 500;
-          color: white;
-          margin-bottom: 0.2rem;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
+        .username {
+          font-size: 0.8rem;
+          font-weight: 600;
+          color: #ffffff;
+          margin: 0;
+          line-height: 1.3;
         }
 
         .user-stats {
           display: flex;
-          gap: 0.4rem;
+          gap: 0.5rem;
+          flex-wrap: wrap;
         }
 
         .stat {
-          font-size: 0.6rem;
-          color: rgba(255, 255, 255, 0.8);
-          font-weight: 500;
+          font-size: 0.7rem;
+          color: rgba(255, 255, 255, 0.6);
+          background: rgba(120, 219, 255, 0.1);
+          padding: 0.2rem 0.5rem;
+          border-radius: 8px;
+          border: 1px solid rgba(120, 219, 255, 0.2);
         }
 
-        @media (max-width: 768px) {
-          .header {
-            padding: 10px 12px;
-          }
+        .no-users {
+          text-align: center;
+          padding: 2rem;
+          color: rgba(255, 255, 255, 0.6);
+        }
 
-          .header h3 {
-            font-size: 0.75rem;
-          }
+        .no-users span {
+          font-size: 2rem;
+          display: block;
+          margin-bottom: 0.5rem;
+        }
 
-          .count {
-            font-size: 0.625rem;
-          }
-
-          .users-list {
-            padding: 6px;
-          }
-
-          .user-item {
-            padding: 6px;
-            gap: 8px;
-          }
-
-          .rank {
-            width: 24px;
-            height: 24px;
-          }
-
-          .rank-number {
-            font-size: 0.5rem;
-          }
-
-          .medal {
-            font-size: 0.625rem;
-            top: -3px;
-            right: -3px;
-          }
-
-          .user-name {
-            font-size: 0.625rem;
-          }
-
-          .stat {
-            font-size: 0.5rem;
-          }
+        .no-users p {
+          margin: 0;
+          font-size: 0.85rem;
         }
       `}</style>
     </div>

@@ -5,10 +5,9 @@ import { countries } from '../lib/mockData';
 interface Trick {
   id: string;
   title: string;
-  countryCode: string;
+  description: string;
   kudos: number;
-  views: number;
-  authorName?: string;
+  countryCode: string;
 }
 
 export default function TopTricks() {
@@ -21,21 +20,13 @@ export default function TopTricks() {
 
   const fetchTopTricks = async () => {
     try {
-      console.log('Fetching top tricks...');
       const response = await fetch('/api/tricks/top');
-      console.log('API response status:', response.status);
-      
       if (response.ok) {
         const data = await response.json();
-        console.log('Top tricks data received:', data);
         setTopTricks(Array.isArray(data) ? data : []);
-      } else {
-        const errorData = await response.json().catch(() => ({}));
-        console.error('API error:', response.status, errorData);
-        setTopTricks([]);
       }
     } catch (error) {
-      console.error('Network error fetching top tricks:', error);
+      console.error('Error fetching top tricks:', error);
       setTopTricks([]);
     } finally {
       setLoading(false);
@@ -44,11 +35,51 @@ export default function TopTricks() {
 
   if (loading) {
     return (
-      <div className="top-tricks-wrapper">
-        <div className="header">
-          <h3>🏆 Top Tricks</h3>
+      <div className="top-tricks-container">
+        <div className="top-tricks-header">
+          <div className="header-icon">🏆</div>
+          <h3>Top Tricks</h3>
         </div>
-        <div className="loading">Loading...</div>
+        <div className="loading">Loading top tricks...</div>
+        
+        <style jsx>{`
+          .top-tricks-container {
+            background: linear-gradient(145deg, rgba(15, 15, 35, 0.95), rgba(25, 25, 45, 0.9));
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 119, 198, 0.2);
+            overflow: hidden;
+          }
+
+          .top-tricks-header {
+            background: linear-gradient(135deg, rgba(255, 119, 198, 0.3), rgba(255, 77, 198, 0.2));
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 1px solid rgba(255, 119, 198, 0.2);
+          }
+
+          .header-icon {
+            font-size: 1.2rem;
+            filter: drop-shadow(0 0 8px rgba(255, 119, 198, 0.6));
+          }
+
+          .top-tricks-header h3 {
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin: 0;
+            text-shadow: 0 0 10px rgba(255, 119, 198, 0.4);
+          }
+
+          .loading {
+            padding: 2rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.85rem;
+          }
+        `}</style>
       </div>
     );
   }
@@ -56,10 +87,11 @@ export default function TopTricks() {
   const displayTricks = topTricks.slice(0, 3);
 
   return (
-    <div className="top-tricks-wrapper">
-      <div className="header">
-        <h3>🏆 Top Tricks</h3>
-        <span className="count">Top {displayTricks.length}</span>
+    <div className="top-tricks-container">
+      <div className="top-tricks-header">
+        <div className="header-icon">🏆</div>
+        <h3>Top Tricks</h3>
+        <div className="badge">Top {displayTricks.length}</div>
       </div>
       
       <div className="tricks-list">
@@ -68,225 +100,191 @@ export default function TopTricks() {
           return (
             <Link key={trick.id} href={`/trick/${trick.id}`} className="trick-link">
               <div className="trick-item">
-                <div className="rank">
+                <div className="rank-badge">
                   <span className="rank-number">#{index + 1}</span>
-                  {index < 3 && (
-                    <span className="medal">
-                      {index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉'}
-                    </span>
-                  )}
+                  <div className="medal">
+                    {index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉'}
+                  </div>
                 </div>
                 
                 <div className="trick-content">
-                  <div className="trick-title">{trick.title}</div>
                   <div className="trick-meta">
-                    <span className="country">{country?.flag}</span>
-                    <span className="stats">👍 {trick.kudos}</span>
+                    <span className="country-flag">{country?.flag}</span>
+                    <span className="kudos">⭐ {trick.kudos}</span>
                   </div>
+                  <h4 className="trick-title">{trick.title}</h4>
+                  <p className="trick-preview">{trick.description.slice(0, 60)}...</p>
                 </div>
               </div>
             </Link>
           );
         }) : (
-          <div className="no-data">No tricks available</div>
+          <div className="no-tricks">
+            <span>🎯</span>
+            <p>No top tricks yet</p>
+          </div>
         )}
       </div>
 
       <style jsx>{`
-        .top-tricks-wrapper {
-          background: rgba(15, 15, 35, 0.8);
+        .top-tricks-container {
+          background: linear-gradient(145deg, rgba(15, 15, 35, 0.95), rgba(25, 25, 45, 0.9));
           backdrop-filter: blur(20px);
-          border-radius: var(--radius-lg);
+          border-radius: 16px;
+          border: 1px solid rgba(255, 119, 198, 0.2);
+          overflow: hidden;
+          box-shadow: 
+            0 8px 32px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .top-tricks-header {
+          background: linear-gradient(135deg, rgba(255, 119, 198, 0.3), rgba(255, 77, 198, 0.2));
           padding: 1rem;
-          border: 1px solid rgba(255, 119, 198, 0.3);
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-          margin-bottom: 1rem;
-          animation: sidebarPulse 7s ease-in-out infinite;
-        }
-
-        @keyframes sidebarPulse {
-          0%, 100% { border-color: rgba(255, 119, 198, 0.3); }
-          50% { border-color: rgba(255, 119, 198, 0.5); }
-        }
-
-        .header {
-          background: rgba(255, 119, 198, 0.2);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 119, 198, 0.3);
-          border-radius: var(--radius-md);
           display: flex;
-          justify-content: space-between;
           align-items: center;
-          margin-bottom: 0.75rem;
-          padding: 0.75rem 1rem;
+          gap: 0.75rem;
+          border-bottom: 1px solid rgba(255, 119, 198, 0.2);
         }
 
-        .header h3 {
-          color: #ff77c6;
-          font-size: 0.9rem;
+        .header-icon {
+          font-size: 1.2rem;
+          filter: drop-shadow(0 0 8px rgba(255, 119, 198, 0.6));
+        }
+
+        .top-tricks-header h3 {
+          color: #ffffff;
+          font-size: 0.95rem;
           font-weight: 600;
           margin: 0;
-          text-shadow: 0 0 10px rgba(255, 119, 198, 0.5);
+          flex: 1;
+          text-shadow: 0 0 10px rgba(255, 119, 198, 0.4);
         }
 
-        .count {
-          background: rgba(120, 219, 255, 0.2);
-          color: #78dbff;
-          padding: 0.2rem 0.6rem;
-          border-radius: var(--radius-full);
-          font-size: 0.65rem;
+        .badge {
+          background: rgba(255, 119, 198, 0.3);
+          color: rgba(255, 119, 198, 0.9);
+          padding: 0.25rem 0.75rem;
+          border-radius: 12px;
+          font-size: 0.7rem;
           font-weight: 600;
-          border: 1px solid rgba(120, 219, 255, 0.3);
-        }
-          color: rgba(139, 69, 19, 0.8);
-          font-weight: 600;
-        }
-
-        .loading, .no-data {
-          padding: 20px;
-          text-align: center;
-          color: rgba(139, 69, 19, 0.7);
-          font-size: 0.75rem;
+          border: 1px solid rgba(255, 119, 198, 0.4);
         }
 
         .tricks-list {
-          display: flex !important;
-          flex-direction: column !important;
-          gap: 0 !important;
+          padding: 0.5rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
         }
 
         .trick-link {
-          text-decoration: none !important;
-          color: inherit !important;
+          text-decoration: none;
+          color: inherit;
         }
 
         .trick-item {
-          display: flex !important;
-          align-items: center !important;
-          gap: 0.6rem !important;
-          padding: 0.8rem !important;
-          transition: all 0.2s ease !important;
-          background: rgba(255, 255, 255, 0.1) !important;
-          border: 1px solid rgba(255, 255, 255, 0.1) !important;
-          border-bottom: none !important;
-          border-radius: 0 !important;
-        }
-
-        .tricks-list .trick-item:first-child {
-          border-top-left-radius: var(--radius-md) !important;
-          border-top-right-radius: var(--radius-md) !important;
-        }
-
-        .tricks-list .trick-item:last-child {
-          border-bottom-left-radius: var(--radius-md) !important;
-          border-bottom-right-radius: var(--radius-md) !important;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+          display: flex;
+          gap: 0.75rem;
+          padding: 0.75rem;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 12px;
+          transition: all 0.3s ease;
+          cursor: pointer;
         }
 
         .trick-item:hover {
-          background: rgba(255, 255, 255, 0.2);
-          transform: translateX(2px);
+          background: rgba(255, 119, 198, 0.15);
+          border-color: rgba(255, 119, 198, 0.3);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 16px rgba(255, 119, 198, 0.2);
         }
 
-        .rank {
-          position: relative;
+        .rank-badge {
           display: flex;
+          flex-direction: column;
           align-items: center;
-          justify-content: center;
-          width: 24px;
-          height: 24px;
-          border-radius: 50%;
-          background: rgba(255, 255, 255, 0.2);
-          flex-shrink: 0;
+          gap: 0.25rem;
+          min-width: 40px;
         }
 
         .rank-number {
-          font-size: 0.6rem;
+          font-size: 0.7rem;
           font-weight: 700;
-          color: white;
-          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+          color: rgba(255, 119, 198, 0.9);
+          background: rgba(255, 119, 198, 0.2);
+          padding: 0.2rem 0.4rem;
+          border-radius: 6px;
+          border: 1px solid rgba(255, 119, 198, 0.3);
         }
 
         .medal {
-          position: absolute;
-          top: -3px;
-          right: -3px;
-          font-size: 0.7rem;
+          font-size: 1.2rem;
+          filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.5));
         }
 
         .trick-content {
           flex: 1;
-          min-width: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 0.3rem;
+        }
+
+        .trick-meta {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-size: 0.7rem;
+        }
+
+        .country-flag {
+          font-size: 0.9rem;
+        }
+
+        .kudos {
+          color: rgba(255, 215, 0, 0.9);
+          font-weight: 600;
         }
 
         .trick-title {
-          font-size: 0.7rem;
-          font-weight: 500;
-          color: white;
-          margin-bottom: 0.2rem;
-          line-height: 1.2;
+          font-size: 0.8rem;
+          font-weight: 600;
+          color: #ffffff;
+          margin: 0;
+          line-height: 1.3;
           display: -webkit-box;
           -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
           overflow: hidden;
         }
 
-        .trick-meta {
-          display: flex;
-          align-items: center;
-          gap: 0.4rem;
+        .trick-preview {
+          font-size: 0.7rem;
+          color: rgba(255, 255, 255, 0.6);
+          margin: 0;
+          line-height: 1.3;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
         }
 
-        .country {
-          font-size: 0.8rem;
+        .no-tricks {
+          text-align: center;
+          padding: 2rem;
+          color: rgba(255, 255, 255, 0.6);
         }
 
-        .stats {
-          font-size: 0.6rem;
-          color: rgba(255, 255, 255, 0.8);
-          font-weight: 500;
+        .no-tricks span {
+          font-size: 2rem;
+          display: block;
+          margin-bottom: 0.5rem;
         }
 
-        @media (max-width: 768px) {
-          .header {
-            padding: 10px 12px;
-          }
-
-          .header h3 {
-            font-size: 0.75rem;
-          }
-
-          .count {
-            font-size: 0.625rem;
-          }
-
-          .tricks-list {
-            padding: 6px;
-          }
-
-          .trick-item {
-            padding: 6px;
-            gap: 8px;
-          }
-
-          .rank {
-            width: 24px;
-            height: 24px;
-          }
-
-          .rank-number {
-            font-size: 0.5rem;
-          }
-
-          .medal {
-            font-size: 0.625rem;
-            top: -3px;
-            right: -3px;
-          }
-
-          .trick-title {
-            font-size: 0.625rem;
-          }
+        .no-tricks p {
+          margin: 0;
+          font-size: 0.85rem;
         }
       `}</style>
     </div>

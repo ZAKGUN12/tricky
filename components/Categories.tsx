@@ -38,170 +38,214 @@ export default function Categories({ selectedCategory, onCategorySelect, tricks 
 
   if (loading) {
     return (
-      <div className="categories-wrapper">
-        <div className="header">
-          <h3>📂 Categories</h3>
+      <div className="communities-container">
+        <div className="communities-header">
+          <div className="header-icon">🌟</div>
+          <h3>Popular Communities</h3>
         </div>
-        <div className="loading">Loading...</div>
+        <div className="loading">Loading communities...</div>
+        
+        <style jsx>{`
+          .communities-container {
+            background: linear-gradient(145deg, rgba(15, 15, 35, 0.95), rgba(25, 25, 45, 0.9));
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            border: 1px solid rgba(120, 119, 198, 0.2);
+            overflow: hidden;
+          }
+
+          .communities-header {
+            background: linear-gradient(135deg, rgba(120, 119, 198, 0.3), rgba(120, 219, 255, 0.2));
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 1px solid rgba(120, 119, 198, 0.2);
+          }
+
+          .header-icon {
+            font-size: 1.2rem;
+            filter: drop-shadow(0 0 8px rgba(120, 219, 255, 0.6));
+          }
+
+          .communities-header h3 {
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin: 0;
+            text-shadow: 0 0 10px rgba(120, 219, 255, 0.4);
+          }
+
+          .loading {
+            padding: 2rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.85rem;
+          }
+        `}</style>
       </div>
     );
   }
 
   return (
-    <div className="reddit-sidebar-section">
-      <div className="reddit-header">
+    <div className="communities-container">
+      <div className="communities-header">
+        <div className="header-icon">🌟</div>
         <h3>Popular Communities</h3>
       </div>
       
-      <div className="reddit-content">
+      <div className="communities-list">
         <button
           onClick={() => onCategorySelect(null)}
-          className={`reddit-item ${!selectedCategory ? 'active' : ''}`}
+          className={`community-item ${!selectedCategory ? 'active' : ''}`}
         >
-          <span className="reddit-icon">🏠</span>
-          <span className="reddit-name">All</span>
-          <span className="reddit-count">{tricks.length}</span>
+          <div className="community-icon">🏠</div>
+          <div className="community-info">
+            <span className="community-name">All Tricks</span>
+            <span className="community-count">{tricks.length} posts</span>
+          </div>
         </button>
         
         {categories.map((category) => (
           <button
             key={category.id}
             onClick={() => onCategorySelect(category.id)}
-            className={`reddit-item ${selectedCategory === category.id ? 'active' : ''}`}
+            className={`community-item ${selectedCategory === category.id ? 'active' : ''}`}
           >
-            <span className="reddit-icon">{category.icon}</span>
-            <span className="reddit-name">{category.name}</span>
-            <span className="reddit-count">{category.count}</span>
+            <div className="community-icon">{category.icon}</div>
+            <div className="community-info">
+              <span className="community-name">{category.name}</span>
+              <span className="community-count">{category.count} posts</span>
+            </div>
           </button>
         ))}
       </div>
 
       <style jsx>{`
-        .categories-wrapper {
-          background: rgba(15, 15, 35, 0.8);
+        .communities-container {
+          background: linear-gradient(145deg, rgba(15, 15, 35, 0.95), rgba(25, 25, 45, 0.9));
           backdrop-filter: blur(20px);
-          border-radius: var(--radius-lg);
+          border-radius: 16px;
+          border: 1px solid rgba(120, 119, 198, 0.2);
+          overflow: hidden;
+          box-shadow: 
+            0 8px 32px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .communities-header {
+          background: linear-gradient(135deg, rgba(120, 119, 198, 0.3), rgba(120, 219, 255, 0.2));
           padding: 1rem;
-          border: 1px solid rgba(120, 119, 198, 0.3);
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-          margin-bottom: 1rem;
-          animation: sidebarPulse 6s ease-in-out infinite;
-        }
-
-        @keyframes sidebarPulse {
-          0%, 100% { border-color: rgba(120, 119, 198, 0.3); }
-          50% { border-color: rgba(120, 119, 198, 0.5); }
-        }
-
-        .header {
-          background: rgba(120, 119, 198, 0.2);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(120, 119, 198, 0.3);
-          border-radius: var(--radius-md);
           display: flex;
-          justify-content: space-between;
           align-items: center;
-          margin-bottom: 0.75rem;
-          padding: 0.75rem 1rem;
+          gap: 0.75rem;
+          border-bottom: 1px solid rgba(120, 119, 198, 0.2);
         }
 
-        .header h3 {
-          color: #7877c6;
-          font-size: 0.9rem;
+        .header-icon {
+          font-size: 1.2rem;
+          filter: drop-shadow(0 0 8px rgba(120, 219, 255, 0.6));
+        }
+
+        .communities-header h3 {
+          color: #ffffff;
+          font-size: 0.95rem;
           font-weight: 600;
           margin: 0;
-          text-shadow: 0 0 10px rgba(120, 119, 198, 0.5);
+          text-shadow: 0 0 10px rgba(120, 219, 255, 0.4);
         }
 
-        .count {
-          background: rgba(120, 219, 255, 0.2);
-          color: #78dbff;
-          padding: 0.2rem 0.6rem;
-          border-radius: var(--radius-full);
-          font-size: 0.65rem;
-          font-weight: 600;
-          border: 1px solid rgba(120, 219, 255, 0.3);
-        }
-
-        .categories-list {
-          display: flex !important;
-          flex-direction: column !important;
-          gap: 0 !important;
-        }
-
-        .category-item {
-          display: flex !important;
-          align-items: center !important;
-          gap: 0.6rem !important;
-          padding: 0.8rem !important;
-          background: rgba(255, 255, 255, 0.15) !important;
-          border: 1px solid rgba(255, 255, 255, 0.1) !important;
-          border-bottom: none !important;
-          color: white !important;
-          text-decoration: none !important;
-          transition: all 0.2s ease !important;
-          cursor: pointer !important;
-          width: 100% !important;
-          text-align: left !important;
-          backdrop-filter: blur(10px) !important;
-          border-radius: 0 !important;
-        }
-
-        .categories-list .category-item:first-child {
-          border-top-left-radius: var(--radius-md) !important;
-          border-top-right-radius: var(--radius-md) !important;
-        }
-
-        .categories-list .category-item:last-child {
-          border-bottom-left-radius: var(--radius-md) !important;
-          border-bottom-right-radius: var(--radius-md) !important;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-        }
-
-        .category-item:hover {
-          background: rgba(255, 255, 255, 0.25);
-          transform: translateY(-1px);
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .category-item.active {
-          background: rgba(255, 255, 255, 0.3);
-          border-color: rgba(255, 255, 255, 0.3);
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        .icon {
-          font-size: 1rem;
-          flex-shrink: 0;
-        }
-
-        .category-content {
+        .communities-list {
+          padding: 0.5rem;
           display: flex;
-          justify-content: space-between;
+          flex-direction: column;
+          gap: 0.25rem;
+        }
+
+        .community-item {
+          display: flex;
           align-items: center;
+          gap: 0.75rem;
+          padding: 0.75rem;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 12px;
+          color: rgba(255, 255, 255, 0.9);
+          cursor: pointer;
+          transition: all 0.3s ease;
           width: 100%;
+          text-align: left;
         }
 
-        .name {
-          font-weight: 500;
-          font-size: 0.8rem;
+        .community-item:hover {
+          background: rgba(120, 119, 198, 0.15);
+          border-color: rgba(120, 119, 198, 0.3);
+          transform: translateX(4px);
+          box-shadow: 0 4px 16px rgba(120, 119, 198, 0.2);
         }
 
-        .category-count {
-          background: rgba(255, 255, 255, 0.25);
-          padding: 0.15rem 0.5rem;
-          border-radius: var(--radius-full);
-          font-size: 0.65rem;
+        .community-item.active {
+          background: linear-gradient(135deg, rgba(120, 119, 198, 0.3), rgba(120, 219, 255, 0.2));
+          border-color: rgba(120, 219, 255, 0.5);
+          color: #ffffff;
+          box-shadow: 
+            0 4px 16px rgba(120, 219, 255, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .community-icon {
+          font-size: 1.1rem;
+          width: 32px;
+          height: 32px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(120, 119, 198, 0.2);
+          border-radius: 8px;
+          border: 1px solid rgba(120, 119, 198, 0.3);
+          transition: all 0.3s ease;
+        }
+
+        .community-item:hover .community-icon {
+          background: rgba(120, 219, 255, 0.3);
+          border-color: rgba(120, 219, 255, 0.5);
+          transform: scale(1.1);
+        }
+
+        .community-item.active .community-icon {
+          background: rgba(120, 219, 255, 0.4);
+          border-color: rgba(120, 219, 255, 0.6);
+          box-shadow: 0 0 12px rgba(120, 219, 255, 0.4);
+        }
+
+        .community-info {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 0.2rem;
+        }
+
+        .community-name {
+          font-size: 0.85rem;
           font-weight: 600;
-          min-width: 20px;
-          text-align: center;
+          color: inherit;
+        }
+
+        .community-count {
+          font-size: 0.7rem;
+          color: rgba(255, 255, 255, 0.6);
+          font-weight: 500;
+        }
+
+        .community-item.active .community-count {
+          color: rgba(120, 219, 255, 0.9);
         }
 
         .loading {
-          color: rgba(255, 255, 255, 0.8);
+          padding: 2rem;
           text-align: center;
-          padding: 1rem;
-          font-size: 0.8rem;
+          color: rgba(255, 255, 255, 0.7);
+          font-size: 0.85rem;
         }
       `}</style>
     </div>
