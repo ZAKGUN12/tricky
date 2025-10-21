@@ -641,7 +641,7 @@ function HomeContent() {
 
         .main-content {
           display: grid;
-          grid-template-columns: 280px 1fr;
+          grid-template-columns: auto 1fr;
           gap: 2rem;
           margin: 2rem 0;
           align-items: start;
@@ -651,15 +651,14 @@ function HomeContent() {
           display: flex;
           flex-direction: column;
           gap: 1rem;
-          position: fixed;
-          left: 1rem;
-          top: 120px;
-          height: calc(100vh - 140px);
+          position: sticky;
+          top: 140px;
+          height: calc(100vh - 160px);
           overflow-y: auto;
           padding-right: 0.5rem;
           scrollbar-width: thin;
           scrollbar-color: rgba(120, 119, 198, 0.5) transparent;
-          z-index: 500;
+          z-index: 10;
           width: 300px;
           transition: all 0.3s ease;
         }
@@ -1429,20 +1428,9 @@ function HomeContent() {
 
           .main-content {
             margin-top: 100px;
-          }
-
-          .sidebar {
-            left: 0.5rem;
-            top: 100px;
-            width: 250px;
-          }
-
-          .content {
-            margin-left: 270px;
-          }
-
-          .sidebar.collapsed + .content {
-            margin-left: 70px;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
           }
 
           .main-content {
