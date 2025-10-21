@@ -27,6 +27,8 @@ function HomeContent() {
   const [sortBy, setSortBy] = useState('hot');
   const [viewMode, setViewMode] = useState('card');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [theme, setTheme] = useState('dark');
+  const [rightSidebarOpen, setRightSidebarOpen] = useState(false);
   const { showToast, ToastContainer } = useToast();
   const { user, signOut } = useAuth();
   const router = useRouter();
@@ -211,6 +213,20 @@ function HomeContent() {
               )}
             </div>
             <div className="header-right">
+              <button 
+                className="theme-toggle"
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                aria-label="Toggle theme"
+              >
+                {theme === 'dark' ? '☀️' : '🌙'}
+              </button>
+              <button 
+                className="right-sidebar-toggle"
+                onClick={() => setRightSidebarOpen(!rightSidebarOpen)}
+                aria-label="Toggle right sidebar"
+              >
+                ⚙️
+              </button>
               {user ? (
                 <div className="user-section">
                   <span className="welcome">👋 {user.name}</span>
@@ -380,6 +396,34 @@ function HomeContent() {
               </div>
             )}
           </div>
+
+          {rightSidebarOpen && (
+            <div className="right-sidebar">
+              <button 
+                className="right-sidebar-close"
+                onClick={() => setRightSidebarOpen(false)}
+                aria-label="Close right sidebar"
+              >
+                ✕
+              </button>
+              <div className="reddit-sidebar-section">
+                <div className="reddit-header">
+                  <h3>Settings</h3>
+                </div>
+                <div className="reddit-content">
+                  <div className="setting-item">
+                    <span>Theme</span>
+                    <button 
+                      className="setting-btn"
+                      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                    >
+                      {theme === 'dark' ? 'Dark' : 'Light'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -419,10 +463,97 @@ function HomeContent() {
       )}
 
       <style jsx>{`
+        :root {
+          --text-primary: ${theme === 'dark' ? '#ffffff' : '#1a1a1a'};
+          --text-secondary: ${theme === 'dark' ? '#e5e7eb' : '#4a4a4a'};
+          --text-muted: ${theme === 'dark' ? '#9ca3af' : '#6b7280'};
+          --bg-primary: ${theme === 'dark' ? 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)' : 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%)'};
+          --surface-glass: ${theme === 'dark' ? 'rgba(0, 0, 0, 0.4)' : 'rgba(255, 255, 255, 0.8)'};
+          --border-light: ${theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'};
+        }
+
         .home {
           min-height: 100vh;
-          background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+          background: var(--bg-primary);
+          color: var(--text-primary);
           position: relative;
+        }
+
+        .theme-toggle, .right-sidebar-toggle {
+          background: rgba(120, 119, 198, 0.2);
+          border: 1px solid rgba(120, 119, 198, 0.4);
+          color: #ffffff;
+          padding: 8px 12px;
+          border-radius: 8px;
+          cursor: pointer;
+          font-size: 16px;
+          margin-right: 0.5rem;
+          transition: all 0.2s ease;
+        }
+
+        .theme-toggle:hover, .right-sidebar-toggle:hover {
+          background: rgba(120, 119, 198, 0.3);
+          transform: scale(1.05);
+        }
+
+        .right-sidebar {
+          position: fixed;
+          right: 1rem;
+          top: 140px;
+          width: 300px;
+          height: calc(100vh - 160px);
+          overflow-y: auto;
+          z-index: 500;
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .right-sidebar-close {
+          position: absolute;
+          top: -10px;
+          left: -10px;
+          background: rgba(120, 119, 198, 0.8);
+          border: 2px solid rgba(255, 255, 255, 0.2);
+          color: #ffffff;
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          cursor: pointer;
+          font-size: 14px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.2s ease;
+          z-index: 10;
+        }
+
+        .right-sidebar-close:hover {
+          background: rgba(120, 119, 198, 1);
+          transform: scale(1.1);
+        }
+
+        .setting-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 8px 0;
+          border-bottom: 1px solid var(--border-light);
+        }
+
+        .setting-btn {
+          background: rgba(120, 119, 198, 0.2);
+          border: 1px solid rgba(120, 119, 198, 0.4);
+          color: var(--text-primary);
+          padding: 4px 12px;
+          border-radius: 6px;
+          cursor: pointer;
+          font-size: 12px;
+          transition: all 0.2s ease;
+        }
+
+        .setting-btn:hover {
+          background: rgba(120, 119, 198, 0.3);
         }
 
         .home::before {
