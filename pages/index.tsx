@@ -26,6 +26,7 @@ function HomeContent() {
   const [showLoginPopup, setShowLoginPopup] = useState(false);
   const [sortBy, setSortBy] = useState('hot');
   const [viewMode, setViewMode] = useState('card');
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const { showToast, ToastContainer } = useToast();
   const { user, signOut } = useAuth();
   const router = useRouter();
@@ -166,6 +167,13 @@ function HomeContent() {
         <header className="header">
           <div className="header-content">
             <div className="header-left">
+              <button 
+                className="sidebar-toggle"
+                onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+                aria-label="Toggle sidebar"
+              >
+                ☰
+              </button>
               <Timer />
             </div>
             <div className="header-center">
@@ -238,7 +246,7 @@ function HomeContent() {
         </header>
 
         <div className="main-content">
-          <div className="sidebar">
+          <div className={`sidebar ${sidebarCollapsed ? 'collapsed' : ''}`}>
             <Categories 
               selectedCategory={selectedCategory}
               onCategorySelect={(categoryId) => handleCategorySelect(categoryId || '')}
@@ -476,11 +484,34 @@ function HomeContent() {
           margin: 1rem 0;
           padding: 1rem 2rem;
           border: 1px solid rgba(120, 119, 198, 0.3);
-          position: sticky;
+          position: fixed;
           top: 1rem;
-          z-index: 100;
+          left: 1rem;
+          right: 1rem;
+          z-index: 1000;
           box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 60px rgba(120, 119, 198, 0.1);
           animation: headerGlow 4s ease-in-out infinite;
+        }
+
+        .main-content {
+          margin-top: 120px;
+        }
+
+        .sidebar-toggle {
+          background: rgba(120, 119, 198, 0.2);
+          border: 1px solid rgba(120, 119, 198, 0.4);
+          color: #ffffff;
+          padding: 8px 12px;
+          border-radius: 8px;
+          cursor: pointer;
+          font-size: 16px;
+          margin-right: 1rem;
+          transition: all 0.2s ease;
+        }
+
+        .sidebar-toggle:hover {
+          background: rgba(120, 119, 198, 0.3);
+          transform: scale(1.05);
         }
 
         @keyframes headerGlow {
@@ -638,13 +669,48 @@ function HomeContent() {
           flex-direction: column;
           gap: 1rem;
           position: sticky;
-          top: 120px;
-          height: calc(100vh - 140px);
+          top: 140px;
+          height: calc(100vh - 160px);
           overflow-y: auto;
           padding-right: 0.5rem;
           scrollbar-width: thin;
           scrollbar-color: rgba(120, 119, 198, 0.5) transparent;
           z-index: 10;
+          width: 300px;
+          transition: all 0.3s ease;
+        }
+
+        .sidebar.collapsed {
+          width: 60px;
+          overflow: hidden;
+        }
+
+        .sidebar.collapsed .reddit-sidebar-section {
+          width: 60px;
+          padding: 0;
+        }
+
+        .sidebar.collapsed .reddit-header {
+          padding: 12px 8px;
+          text-align: center;
+        }
+
+        .sidebar.collapsed .reddit-header h3 {
+          display: none;
+        }
+
+        .sidebar.collapsed .reddit-item {
+          padding: 8px;
+          justify-content: center;
+        }
+
+        .sidebar.collapsed .reddit-name,
+        .sidebar.collapsed .reddit-count {
+          display: none;
+        }
+
+        .sidebar.collapsed .reddit-icon {
+          margin: 0;
         }
 
         /* Reddit-style sidebar sections */
@@ -1335,10 +1401,17 @@ function HomeContent() {
           }
 
           .header {
-            margin: 0.5rem 0;
+            margin: 0.5rem;
             padding: 0.75rem 1rem;
-            position: relative;
-            top: 0;
+            position: fixed;
+            top: 0.5rem;
+            left: 0.5rem;
+            right: 0.5rem;
+            z-index: 1000;
+          }
+
+          .main-content {
+            margin-top: 100px;
           }
 
           .main-content {
