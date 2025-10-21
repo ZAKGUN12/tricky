@@ -25,20 +25,50 @@
   align-items: start !important;
 }
 
-/* Sidebar - Sticky positioning */
+/* Sidebar - Sticky positioning with improved scrolling */
 .sidebar {
   position: sticky !important;
   top: 140px !important;
   height: calc(100vh - 160px) !important;
   overflow-y: auto !important;
+  overflow-x: hidden !important;
   background: rgba(15, 15, 35, 0.8) !important;
   backdrop-filter: blur(20px) !important;
   border: 1px solid rgba(120, 119, 198, 0.3) !important;
   border-radius: 16px !important;
-  padding: 1rem !important;
+  padding: 0 !important;
   display: flex !important;
   flex-direction: column !important;
-  gap: 1rem !important;
+  gap: 0 !important;
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(120, 119, 198, 0.5) transparent !important;
+}
+
+/* Custom scrollbar for webkit browsers */
+.sidebar::-webkit-scrollbar {
+  width: 6px !important;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(120, 119, 198, 0.5) !important;
+  border-radius: 3px !important;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(120, 119, 198, 0.7) !important;
+}
+
+/* Sidebar sections spacing */
+.sidebar > * {
+  margin-bottom: 1rem !important;
+}
+
+.sidebar > *:last-child {
+  margin-bottom: 0 !important;
 }
 
 /* Content area */
@@ -90,6 +120,8 @@
     height: auto !important;
     order: 2 !important;
     margin-bottom: 1rem !important;
+    max-height: 60vh !important;
+    overflow-y: auto !important;
   }
 
   .content {
@@ -110,6 +142,20 @@
     background: rgba(0, 0, 0, 0.95) !important;
     padding: 2rem !important;
   }
+}
+
+/* Smooth scrolling for all elements */
+* {
+  scroll-behavior: smooth !important;
+}
+
+/* Enhanced sidebar scrolling */
+.sidebar {
+  scroll-behavior: smooth !important;
+}
+
+.sidebar:hover {
+  scrollbar-color: rgba(120, 119, 198, 0.7) transparent !important;
 }
 
 /* Z-index hierarchy */

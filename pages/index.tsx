@@ -696,11 +696,49 @@ function HomeContent() {
           top: 140px;
           height: calc(100vh - 160px);
           overflow-y: auto;
+          overflow-x: hidden;
           background: rgba(15, 15, 35, 0.8);
           backdrop-filter: blur(20px);
           border: 1px solid rgba(120, 119, 198, 0.3);
           border-radius: 16px;
-          padding: 1rem;
+          padding: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 0;
+          width: 300px;
+          transition: all 0.3s ease;
+          scrollbar-width: thin;
+          scrollbar-color: rgba(120, 119, 198, 0.5) transparent;
+        }
+
+        .sidebar::-webkit-scrollbar {
+          width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+          background: rgba(120, 119, 198, 0.5);
+          border-radius: 3px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+          background: rgba(120, 119, 198, 0.7);
+        }
+
+        .sidebar.collapsed {
+          width: 60px;
+          overflow: hidden;
+        }
+
+        .sidebar > * {
+          margin-bottom: 1rem;
+        }
+
+        .sidebar > *:last-child {
+          margin-bottom: 0;
         }
 
         .header-left {
@@ -863,14 +901,14 @@ function HomeContent() {
 
         .sidebar-close {
           position: absolute;
-          top: -10px;
-          right: -10px;
-          background: rgba(120, 119, 198, 0.8);
-          border: 2px solid rgba(255, 255, 255, 0.2);
+          top: 10px;
+          right: 10px;
+          background: rgba(120, 119, 198, 0.9);
+          border: 1px solid rgba(255, 255, 255, 0.2);
           color: #ffffff;
-          width: 30px;
-          height: 30px;
-          border-radius: 50%;
+          width: 32px;
+          height: 32px;
+          border-radius: 8px;
           cursor: pointer;
           font-size: 14px;
           display: flex;
@@ -878,11 +916,13 @@ function HomeContent() {
           justify-content: center;
           transition: all 0.2s ease;
           z-index: 10;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
 
         .sidebar-close:hover {
           background: rgba(120, 119, 198, 1);
-          transform: scale(1.1);
+          transform: scale(1.05);
+          box-shadow: 0 4px 12px rgba(120, 119, 198, 0.4);
         }
 
         .content {
