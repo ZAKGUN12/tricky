@@ -67,9 +67,9 @@ export default function SignIn() {
           localStorage.setItem('id_token', data.IdToken || '');
           localStorage.setItem('username', data.username || (isSignUp ? formData.username : formData.emailOrUsername));
           
-          // Force page reload to trigger AuthProvider refresh
+          // Use router.push instead of window.location.href
           const returnUrl = router.query.returnUrl as string || '/';
-          window.location.href = returnUrl;
+          router.push(returnUrl);
         }
       }
     } catch (err: any) {

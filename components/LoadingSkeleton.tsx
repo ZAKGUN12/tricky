@@ -1,22 +1,20 @@
-export default function LoadingSkeleton({ count = 3 }: { count?: number }) {
+export default function LoadingSkeleton({ count = 6 }: { count?: number }) {
   return (
     <div className="skeleton-container">
       {Array.from({ length: count }).map((_, index) => (
         <div key={index} className="skeleton-card">
-          <div className="skeleton-header">
-            <div className="skeleton-avatar"></div>
-            <div className="skeleton-text skeleton-author"></div>
-            <div className="skeleton-badge"></div>
+          <div className="skeleton-votes">
+            <div className="skeleton-vote-btn"></div>
+            <div className="skeleton-count"></div>
+            <div className="skeleton-vote-btn"></div>
           </div>
-          <div className="skeleton-text skeleton-title"></div>
-          <div className="skeleton-text skeleton-description"></div>
-          <div className="skeleton-text skeleton-description short"></div>
-          <div className="skeleton-footer">
-            <div className="skeleton-tag"></div>
-            <div className="skeleton-tag"></div>
-            <div className="skeleton-actions">
-              <div className="skeleton-action"></div>
-              <div className="skeleton-action"></div>
+          <div className="skeleton-content">
+            <div className="skeleton-meta"></div>
+            <div className="skeleton-title"></div>
+            <div className="skeleton-description"></div>
+            <div className="skeleton-tags">
+              <div className="skeleton-tag"></div>
+              <div className="skeleton-tag"></div>
             </div>
           </div>
         </div>
@@ -24,106 +22,91 @@ export default function LoadingSkeleton({ count = 3 }: { count?: number }) {
 
       <style jsx>{`
         .skeleton-container {
-          display: flex !important;
-          flex-direction: column !important;
-          gap: 16px !important;
-          margin: 0 !important;
-          padding: 0 !important;
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          padding: 1rem;
         }
 
         .skeleton-card {
-          background: #111 !important;
-          border: 1px solid #333 !important;
-          border-radius: 12px !important;
-          padding: 20px !important;
-          animation: pulse 1.5s ease-in-out infinite !important;
-          margin: 0 !important;
+          display: flex;
+          background: rgba(15, 15, 35, 0.6);
+          border-radius: 12px;
+          padding: 1rem;
+          border: 1px solid rgba(120, 119, 198, 0.2);
         }
-
-        .skeleton-header {
-          display: flex !important;
-          align-items: center !important;
-          gap: 12px !important;
-          margin-bottom: 16px !important;
+        
+        .skeleton-votes {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.5rem;
+          margin-right: 1rem;
         }
-
-        .skeleton-avatar {
-          width: 32px !important;
-          height: 32px !important;
-          border-radius: 50% !important;
-          background: #333 !important;
-          margin: 0 !important;
+        
+        .skeleton-vote-btn {
+          width: 24px;
+          height: 24px;
+          background: rgba(120, 119, 198, 0.3);
+          border-radius: 4px;
+          animation: pulse 1.5s ease-in-out infinite;
         }
-
-        .skeleton-text {
-          background: #333 !important;
-          border-radius: 4px !important;
-          height: 16px !important;
-          margin: 0 !important;
+        
+        .skeleton-count {
+          width: 20px;
+          height: 16px;
+          background: rgba(120, 119, 198, 0.3);
+          border-radius: 4px;
+          animation: pulse 1.5s ease-in-out infinite;
         }
-
-        .skeleton-author {
-          width: 120px !important;
-          flex: 1 !important;
+        
+        .skeleton-content {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
         }
-
-        .skeleton-badge {
-          width: 60px !important;
-          height: 24px !important;
-          border-radius: 12px !important;
-          background: #333 !important;
-          margin: 0 !important;
+        
+        .skeleton-meta {
+          width: 60%;
+          height: 16px;
+          background: rgba(120, 119, 198, 0.3);
+          border-radius: 4px;
+          animation: pulse 1.5s ease-in-out infinite;
         }
-
+        
         .skeleton-title {
-          height: 20px !important;
-          width: 80% !important;
-          margin-bottom: 12px !important;
+          width: 80%;
+          height: 20px;
+          background: rgba(120, 119, 198, 0.4);
+          border-radius: 4px;
+          animation: pulse 1.5s ease-in-out infinite;
         }
-
+        
         .skeleton-description {
-          width: 100% !important;
-          margin-bottom: 8px !important;
+          width: 100%;
+          height: 40px;
+          background: rgba(120, 119, 198, 0.3);
+          border-radius: 4px;
+          animation: pulse 1.5s ease-in-out infinite;
         }
-
-        .skeleton-description.short {
-          width: 60% !important;
-          margin-bottom: 16px !important;
+        
+        .skeleton-tags {
+          display: flex;
+          gap: 0.5rem;
         }
-
-        .skeleton-footer {
-          display: flex !important;
-          justify-content: space-between !important;
-          align-items: center !important;
-          margin: 0 !important;
-        }
-
+        
         .skeleton-tag {
-          width: 60px !important;
-          height: 20px !important;
-          border-radius: 10px !important;
-          background: #333 !important;
-          margin-right: 8px !important;
+          width: 60px;
+          height: 20px;
+          background: rgba(120, 119, 198, 0.3);
+          border-radius: 12px;
+          animation: pulse 1.5s ease-in-out infinite;
         }
-
-        .skeleton-actions {
-          display: flex !important;
-          gap: 16px !important;
-          margin: 0 !important;
-        }
-
-        .skeleton-action {
-          width: 40px !important;
-          height: 16px !important;
-          border-radius: 4px !important;
-          background: #333 !important;
-          margin: 0 !important;
-        }
-
+        
         @keyframes pulse {
-          0% { opacity: 1; }
+          0%, 100% { opacity: 1; }
           50% { opacity: 0.5; }
-          100% { opacity: 1; }
         }
       `}</style>
     </div>

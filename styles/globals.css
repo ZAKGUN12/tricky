@@ -600,6 +600,17 @@ input, textarea, select {
     height: auto;
   }
   
+  .header-right {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .user-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
   .compact-header {
     height: auto;
     padding: var(--space-2) 0;

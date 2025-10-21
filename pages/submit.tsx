@@ -16,6 +16,49 @@ export default function Submit() {
     category: 'cooking'
   });
   const [submitting, setSubmitting] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const validateField = (name: string, value: any) => {
+    const newErrors = { ...errors };
+    
+    switch (name) {
+      case 'title':
+        if (!value || value.length < 5) {
+          newErrors.title = 'Title must be at least 5 characters long';
+        } else if (value.length > 100) {
+          newErrors.title = 'Title must be less than 100 characters';
+        } else {
+          delete newErrors.title;
+        }
+        break;
+      case 'description':
+        if (!value || value.length < 10) {
+          newErrors.description = 'Description must be at least 10 characters long';
+        } else if (value.length > 500) {
+          newErrors.description = 'Description must be less than 500 characters';
+        } else {
+          delete newErrors.description;
+        }
+        break;
+      case 'steps':
+        const validSteps = value.filter((step: string) => step.trim());
+        if (validSteps.length === 0) {
+          newErrors.steps = 'At least one step is required';
+        } else if (validSteps[0].length < 5) {
+          newErrors.steps = 'First step must be at least 5 characters long';
+        } else {
+          delete newErrors.steps;
+        }
+        break;
+    }
+    
+    setErrors(newErrors);
+  };
+
+  const handleInputChange = (name: string, value: any) => {
+    setFormData(prev => ({ ...prev, [name]: value }));
+    validateField(name, value);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,19 +83,13 @@ export default function Submit() {
         authorEmail: user.email || 'anonymous@example.com'
       };
 
-      // Validate required fields before sending
-      if (!submitData.title || submitData.title.length < 5) {
-        alert('Title must be at least 5 characters long');
-        return;
-      }
+      // Validate all fields before sending
+      validateField('title', formData.title);
+      validateField('description', formData.description);
+      validateField('steps', formData.steps);
       
-      if (!submitData.description || submitData.description.length < 10) {
-        alert('Description must be at least 10 characters long');
-        return;
-      }
-      
-      if (!submitData.steps.length || submitData.steps[0].length < 5) {
-        alert('At least one step with 5+ characters is required');
+      if (Object.keys(errors).length > 0) {
+        alert('Please fix the validation errors before submitting');
         return;
       }
 
@@ -286,10 +323,11 @@ export default function Submit() {
                   type="text"
                   required
                   value={formData.title}
-                  onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                  className="form-input"
+                  onChange={(e) => handleInputChange('title', e.target.value)}
+                  className={`form-input ${errors.title ? 'error' : ''}`}
                   placeholder="Enter your amazing trick title"
                 />
+                {errors.title && <span className="error-message">{errors.title}</span>}
               </div>
             </div>
 
@@ -299,11 +337,12 @@ export default function Submit() {
                 <textarea
                   required
                   value={formData.description}
-                  onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                  className="form-textarea"
+                  onChange={(e) => handleInputChange('description', e.target.value)}
+                  className={`form-textarea ${errors.description ? 'error' : ''}`}
                   placeholder="Describe your trick in detail"
                   rows={3}
                 />
+                {errors.description && <span className="error-message">{errors.description}</span>}
               </div>
             </div>
 

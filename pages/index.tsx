@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Trick } from '../lib/types';
@@ -11,7 +11,7 @@ import Categories from '../components/Categories';
 import UserRace from '../components/UserRace';
 import UserStats from '../components/UserStats';
 import Leaderboard from '../components/Leaderboard';
-import ReadabilityEnhancer from '../components/ReadabilityEnhancer';
+import LoadingSkeleton from '../components/LoadingSkeleton';
 import Timer from '../components/Timer';
 import { useToast } from '../lib/useToast';
 
@@ -23,7 +23,7 @@ function HomeContent() {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [loading, setLoading] = useState(true);
-  const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState('hot');
   const [viewMode, setViewMode] = useState('card');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -33,9 +33,9 @@ function HomeContent() {
   const { user, signOut } = useAuth();
   const router = useRouter();
 
-  // Sort tricks based on selected sort option
-  const sortTricks = useCallback((tricksToSort: Trick[]) => {
-    const sorted = [...tricksToSort];
+  // Memoize sorted tricks to prevent unnecessary re-renders
+  const sortedTricks = useMemo(() => {
+    const sorted = [...tricks];
     switch (sortBy) {
       case 'hot':
         return sorted.sort((a, b) => (b.kudos + b.views * 0.1) - (a.kudos + a.views * 0.1));
@@ -52,28 +52,31 @@ function HomeContent() {
       default:
         return sorted;
     }
-  }, [sortBy]);
+  }, [tricks, sortBy]);
 
   const fetchTricks = useCallback(async () => {
     try {
+      setError(null);
       const params = new URLSearchParams();
       if (selectedCountry) params.append('country', selectedCountry);
       if (selectedCategory) params.append('category', selectedCategory);
       if (searchQuery) params.append('search', searchQuery);
 
       const response = await fetch(`/api/tricks?${params}`);
-      if (response.ok) {
-        const data = await response.json();
-        const sortedData = sortTricks(data);
-        setTricks(sortedData);
-        
-        // Also fetch all tricks for category counting if we don't have them
-        if (allTricks.length === 0 || (!selectedCountry && !selectedCategory && !searchQuery)) {
-          setAllTricks(data);
-        }
+      if (!response.ok) {
+        throw new Error(`Failed to fetch tricks: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      setTricks(data);
+      
+      // Also fetch all tricks for category counting if we don't have them
+      if (allTricks.length === 0 || (!selectedCountry && !selectedCategory && !searchQuery)) {
+        setAllTricks(data);
       }
     } catch (error) {
       console.error('Error fetching tricks:', error);
+      setError(error instanceof Error ? error.message : 'Failed to load tricks');
     } finally {
       setLoading(false);
     }
@@ -82,38 +85,15 @@ function HomeContent() {
   const handleUnauthenticatedAction = (e?: React.MouseEvent) => {
     if (!user) {
       if (e) e.preventDefault();
-      setShowLoginPopup(true);
+      showToast('Please sign in to interact with tricks', 'info');
       return true;
     }
     return false;
   };
 
   useEffect(() => {
-    if (!user) {
-      const handleScroll = () => setShowLoginPopup(true);
-      const handleClick = () => setShowLoginPopup(true);
-      
-      window.addEventListener('scroll', handleScroll);
-      document.addEventListener('click', handleClick);
-      
-      return () => {
-        window.removeEventListener('scroll', handleScroll);
-        document.removeEventListener('click', handleClick);
-      };
-    }
-  }, [user]);
-
-  useEffect(() => {
     fetchTricks();
   }, [fetchTricks]);
-
-  // Re-sort tricks when sort option changes
-  useEffect(() => {
-    if (tricks.length > 0) {
-      const sortedTricks = sortTricks(tricks);
-      setTricks(sortedTricks);
-    }
-  }, [sortBy, sortTricks]);
 
   const handleKudos = async (trickId: string) => {
     if (handleUnauthenticatedAction()) return;
@@ -155,9 +135,33 @@ function HomeContent() {
 
   if (loading) {
     return (
-      <div className="loading-container">
-        <div className="loading-spinner"></div>
-        <p>Loading amazing tricks from around the world...</p>
+      <div className="home">
+        <div className="container">
+          <LoadingSkeleton count={6} />
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="home">
+        <div className="container">
+          <div className="error-state">
+            <h2>🚨 Oops! Something went wrong</h2>
+            <p>{error}</p>
+            <button 
+              onClick={() => {
+                setError(null);
+                setLoading(true);
+                fetchTricks();
+              }}
+              className="retry-button"
+            >
+              🔄 Try Again
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
@@ -331,7 +335,7 @@ function HomeContent() {
             />
 
             <div className={`tricks-grid ${viewMode === 'compact' ? 'compact-view' : 'card-view'}`}>
-              {tricks.map((trick) => {
+              {sortedTricks.map((trick) => {
                 const country = countries.find(c => c.code === trick.countryCode);
                 return (
                   <div key={trick.id} className="trick-card reddit-style">
@@ -340,11 +344,18 @@ function HomeContent() {
                         onClick={() => handleKudos(trick.id)}
                         className="vote-btn upvote"
                         aria-label={`Give kudos to ${trick.title}`}
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            handleKudos(trick.id);
+                          }
+                        }}
                       >
                         ▲
                       </button>
-                      <span className="vote-count">{trick.kudos}</span>
-                      <button className="vote-btn downvote" disabled>
+                      <span className="vote-count" aria-label={`${trick.kudos} kudos`}>{trick.kudos}</span>
+                      <button className="vote-btn downvote" disabled aria-label="Downvote disabled">
                         ▼
                       </button>
                     </div>
@@ -427,41 +438,6 @@ function HomeContent() {
         </div>
       </div>
 
-      {/* Login Popup */}
-      {showLoginPopup && (
-        <div className="login-popup-overlay" onClick={(e) => {
-          e.stopPropagation();
-          setShowLoginPopup(false);
-        }}>
-          <div className="login-popup" onClick={(e) => e.stopPropagation()}>
-            <button 
-              className="popup-close"
-              onClick={(e) => {
-                e.stopPropagation();
-                setShowLoginPopup(false);
-              }}
-            >
-              ×
-            </button>
-            <div className="popup-content">
-              <h2 className="popup-title">🔐 Sign In Required</h2>
-              <p className="popup-subtitle">
-                Please sign in to interact with tricks and explore the global community!
-              </p>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  router.push('/signin');
-                }}
-                className="popup-signin-btn"
-              >
-                🚀 Sign In Now
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
       <style jsx>{`
         :root {
           --text-primary: ${theme === 'dark' ? '#ffffff' : '#1a1a1a'};
@@ -470,6 +446,56 @@ function HomeContent() {
           --bg-primary: ${theme === 'dark' ? 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)' : 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%)'};
           --surface-glass: ${theme === 'dark' ? 'rgba(0, 0, 0, 0.4)' : 'rgba(255, 255, 255, 0.8)'};
           --border-light: ${theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'};
+        }
+
+        /* Error state styles */
+        .error-state {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          min-height: 50vh;
+          text-align: center;
+          background: rgba(15, 15, 35, 0.8);
+          backdrop-filter: blur(20px);
+          border: 2px solid rgba(255, 119, 198, 0.3);
+          border-radius: 16px;
+          padding: 2rem;
+          margin: 2rem;
+        }
+        
+        .retry-button {
+          background: rgba(120, 119, 198, 0.8);
+          border: none;
+          color: white;
+          padding: 0.75rem 1.5rem;
+          border-radius: 8px;
+          cursor: pointer;
+          margin-top: 1rem;
+          transition: all 0.2s ease;
+        }
+        
+        .retry-button:hover {
+          background: rgba(120, 119, 198, 1);
+          transform: scale(1.05);
+        }
+
+        /* Accessibility improvements */
+        .vote-btn:focus,
+        .sort-btn:focus,
+        .view-btn:focus,
+        .action-btn:focus {
+          outline: 2px solid #7877c6;
+          outline-offset: 2px;
+        }
+
+        .vote-btn:focus-visible,
+        .sort-btn:focus-visible,
+        .view-btn:focus-visible,
+        .action-btn:focus-visible {
+          outline: 2px solid #7877c6;
+          outline-offset: 2px;
+          box-shadow: 0 0 0 4px rgba(120, 119, 198, 0.3);
         }
 
         .home {
@@ -507,6 +533,19 @@ function HomeContent() {
           display: flex;
           flex-direction: column;
           gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+          .right-sidebar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+          }
         }
 
         .right-sidebar-close {
@@ -609,10 +648,9 @@ function HomeContent() {
         }
 
         .header {
-          background: rgba(15, 15, 35, 0.8);
+          background: rgba(15, 15, 35, 0.95);
           backdrop-filter: blur(20px);
-          border-radius: var(--radius-lg);
-          margin: 1rem 0;
+          border-radius: 16px;
           padding: 1rem 2rem;
           border: 1px solid rgba(120, 119, 198, 0.3);
           position: fixed;
@@ -620,17 +658,16 @@ function HomeContent() {
           left: 1rem;
           right: 1rem;
           z-index: 1000;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 60px rgba(120, 119, 198, 0.1);
-          animation: headerGlow 4s ease-in-out infinite;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
         .main-content {
           margin-top: 120px;
-        }
-
-        @keyframes headerGlow {
-          0%, 100% { box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 60px rgba(120, 119, 198, 0.1); }
-          50% { box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 80px rgba(120, 119, 198, 0.2); }
+          display: grid;
+          grid-template-columns: 300px 1fr;
+          gap: 2rem;
+          padding: 0 2rem;
+          align-items: start;
         }
 
         .header-content {
@@ -639,6 +676,18 @@ function HomeContent() {
           align-items: center;
           gap: 2rem;
           height: 100%;
+        }
+
+        .sidebar {
+          position: sticky;
+          top: 140px;
+          height: calc(100vh - 160px);
+          overflow-y: auto;
+          background: rgba(15, 15, 35, 0.8);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(120, 119, 198, 0.3);
+          border-radius: 16px;
+          padding: 1rem;
         }
 
         .header-left {
