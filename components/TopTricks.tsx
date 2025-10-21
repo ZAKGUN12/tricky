@@ -132,6 +132,9 @@ export default function TopTricks() {
           border-radius: 0;
           border: none;
           overflow: hidden;
+          margin: 0;
+          padding: 0;
+          box-shadow: none;
         }
 
         .top-tricks-header {
@@ -168,10 +171,11 @@ export default function TopTricks() {
         }
 
         .tricks-list {
-          padding: 0.5rem;
+          padding: 0;
           display: flex;
           flex-direction: column;
-          gap: 0.5rem;
+          gap: 0;
+          margin: 0;
         }
 
         .trick-link {
@@ -182,19 +186,18 @@ export default function TopTricks() {
         .trick-item {
           display: flex;
           gap: 0.75rem;
-          padding: 0.75rem;
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 12px;
-          transition: all 0.3s ease;
+          padding: 0.75rem 1rem;
+          background: white;
+          border: none;
+          border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+          border-radius: 0;
+          transition: all 0.2s ease;
           cursor: pointer;
+          margin: 0;
         }
 
         .trick-item:hover {
-          background: rgba(255, 119, 198, 0.15);
-          border-color: rgba(255, 119, 198, 0.3);
-          transform: translateY(-2px);
-          box-shadow: 0 4px 16px rgba(255, 119, 198, 0.2);
+          background: rgba(255, 119, 198, 0.05);
         }
 
         .rank-badge {

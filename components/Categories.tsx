@@ -122,14 +122,13 @@ export default function Categories({ selectedCategory, onCategorySelect, tricks 
 
       <style jsx>{`
         .communities-container {
-          background: linear-gradient(145deg, rgba(15, 15, 35, 0.95), rgba(25, 25, 45, 0.9));
-          backdrop-filter: blur(20px);
-          border-radius: 16px;
-          border: 1px solid rgba(120, 119, 198, 0.2);
+          background: white;
+          border-radius: 0;
+          border: none;
           overflow: hidden;
-          box-shadow: 
-            0 8px 32px rgba(0, 0, 0, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+          margin: 0;
+          padding: 0;
+          box-shadow: none;
         }
 
         .communities-header {

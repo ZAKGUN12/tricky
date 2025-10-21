@@ -68,10 +68,20 @@
 /* Sidebar sections spacing */
 .sidebar > * {
   margin: 0 !important;
+  padding: 0 !important;
 }
 
 .sidebar > *:not(:last-child) {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Ensure each sidebar component has proper internal padding */
+.sidebar .communities-container,
+.sidebar .top-tricks-container,
+.sidebar .leaderboard-container {
+  border-radius: 0 !important;
+  border: none !important;
+  margin: 0 !important;
 }
 
 /* Content area */
