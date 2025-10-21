@@ -167,13 +167,6 @@ function HomeContent() {
         <header className="header">
           <div className="header-content">
             <div className="header-left">
-              <button 
-                className="sidebar-toggle"
-                onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-                aria-label="Toggle sidebar"
-              >
-                ☰
-              </button>
               <Timer />
             </div>
             <div className="header-center">
@@ -247,6 +240,13 @@ function HomeContent() {
 
         <div className="main-content">
           <div className={`sidebar ${sidebarCollapsed ? 'collapsed' : ''}`}>
+            <button 
+              className="sidebar-close"
+              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+              aria-label="Toggle sidebar"
+            >
+              {sidebarCollapsed ? '☰' : '✕'}
+            </button>
             <Categories 
               selectedCategory={selectedCategory}
               onCategorySelect={(categoryId) => handleCategorySelect(categoryId || '')}
@@ -497,23 +497,6 @@ function HomeContent() {
           margin-top: 120px;
         }
 
-        .sidebar-toggle {
-          background: rgba(120, 119, 198, 0.2);
-          border: 1px solid rgba(120, 119, 198, 0.4);
-          color: #ffffff;
-          padding: 8px 12px;
-          border-radius: 8px;
-          cursor: pointer;
-          font-size: 16px;
-          margin-right: 1rem;
-          transition: all 0.2s ease;
-        }
-
-        .sidebar-toggle:hover {
-          background: rgba(120, 119, 198, 0.3);
-          transform: scale(1.05);
-        }
-
         @keyframes headerGlow {
           0%, 100% { box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 60px rgba(120, 119, 198, 0.1); }
           50% { box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 80px rgba(120, 119, 198, 0.2); }
@@ -668,14 +651,15 @@ function HomeContent() {
           display: flex;
           flex-direction: column;
           gap: 1rem;
-          position: sticky;
-          top: 140px;
-          height: calc(100vh - 160px);
+          position: fixed;
+          left: 1rem;
+          top: 120px;
+          height: calc(100vh - 140px);
           overflow-y: auto;
           padding-right: 0.5rem;
           scrollbar-width: thin;
           scrollbar-color: rgba(120, 119, 198, 0.5) transparent;
-          z-index: 10;
+          z-index: 500;
           width: 300px;
           transition: all 0.3s ease;
         }
@@ -683,6 +667,39 @@ function HomeContent() {
         .sidebar.collapsed {
           width: 60px;
           overflow: hidden;
+        }
+
+        .sidebar-close {
+          position: absolute;
+          top: -10px;
+          right: -10px;
+          background: rgba(120, 119, 198, 0.8);
+          border: 2px solid rgba(255, 255, 255, 0.2);
+          color: #ffffff;
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          cursor: pointer;
+          font-size: 14px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.2s ease;
+          z-index: 10;
+        }
+
+        .sidebar-close:hover {
+          background: rgba(120, 119, 198, 1);
+          transform: scale(1.1);
+        }
+
+        .content {
+          margin-left: 320px;
+          transition: margin-left 0.3s ease;
+        }
+
+        .sidebar.collapsed + .content {
+          margin-left: 80px;
         }
 
         .sidebar.collapsed .reddit-sidebar-section {
@@ -1412,6 +1429,20 @@ function HomeContent() {
 
           .main-content {
             margin-top: 100px;
+          }
+
+          .sidebar {
+            left: 0.5rem;
+            top: 100px;
+            width: 250px;
+          }
+
+          .content {
+            margin-left: 270px;
+          }
+
+          .sidebar.collapsed + .content {
+            margin-left: 70px;
           }
 
           .main-content {
