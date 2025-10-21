@@ -82,6 +82,12 @@ function HomeContent() {
     }
   }, [selectedCountry, selectedCategory, searchQuery, allTricks.length]);
 
+  const clearFilters = () => {
+    setSelectedCountry('');
+    setSelectedCategory('');
+    setSearchQuery('');
+  };
+
   const handleUnauthenticatedAction = (e?: React.MouseEvent) => {
     if (!user) {
       if (e) e.preventDefault();
@@ -124,12 +130,10 @@ function HomeContent() {
   };
 
   const handleCountrySelect = (countryCode: string) => {
-    if (handleUnauthenticatedAction()) return;
     setSelectedCountry(countryCode === selectedCountry ? '' : countryCode);
   };
 
   const handleCategorySelect = (category: string) => {
-    if (handleUnauthenticatedAction()) return;
     setSelectedCategory(category === selectedCategory ? '' : category);
   };
 
@@ -308,6 +312,15 @@ function HomeContent() {
                 >
                   📈 Rising
                 </button>
+                {(selectedCountry || selectedCategory || searchQuery) && (
+                  <button 
+                    className="clear-filters-btn"
+                    onClick={clearFilters}
+                    title="Clear all filters"
+                  >
+                    🗑️ Clear
+                  </button>
+                )}
               </div>
               
               <div className="view-controls">
@@ -1039,9 +1052,10 @@ function HomeContent() {
         .sort-controls {
           display: flex;
           gap: var(--space-1);
+          flex-wrap: wrap;
         }
 
-        .sort-btn {
+        .sort-btn, .clear-filters-btn {
           background: none;
           border: none;
           color: var(--text-muted);
@@ -1053,9 +1067,20 @@ function HomeContent() {
           transition: var(--transition-fast);
         }
 
-        .sort-btn:hover {
+        .clear-filters-btn {
+          background: rgba(255, 119, 198, 0.2);
+          border: 1px solid rgba(255, 119, 198, 0.4);
+          color: rgba(255, 119, 198, 0.9);
+        }
+
+        .sort-btn:hover, .clear-filters-btn:hover {
           background: var(--gray-300);
           color: var(--text-secondary);
+        }
+
+        .clear-filters-btn:hover {
+          background: rgba(255, 119, 198, 0.3);
+          color: #ffffff;
         }
 
         .sort-btn.active {
