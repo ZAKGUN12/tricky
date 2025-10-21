@@ -128,47 +128,43 @@ export default function TopTricks() {
 
       <style jsx>{`
         .top-tricks-container {
-          background: linear-gradient(145deg, rgba(15, 15, 35, 0.95), rgba(25, 25, 45, 0.9));
-          backdrop-filter: blur(20px);
-          border-radius: 16px;
-          border: 1px solid rgba(255, 119, 198, 0.2);
+          background: white;
+          border-radius: 0;
+          border: none;
           overflow: hidden;
-          box-shadow: 
-            0 8px 32px rgba(0, 0, 0, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         .top-tricks-header {
-          background: linear-gradient(135deg, rgba(255, 119, 198, 0.3), rgba(255, 77, 198, 0.2));
+          background: linear-gradient(135deg, rgba(255, 119, 198, 0.1), rgba(255, 77, 198, 0.05));
           padding: 1rem;
           display: flex;
           align-items: center;
           gap: 0.75rem;
-          border-bottom: 1px solid rgba(255, 119, 198, 0.2);
+          border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
 
         .header-icon {
           font-size: 1.2rem;
-          filter: drop-shadow(0 0 8px rgba(255, 119, 198, 0.6));
+          filter: none;
         }
 
         .top-tricks-header h3 {
-          color: #ffffff;
+          color: #333;
           font-size: 0.95rem;
           font-weight: 600;
           margin: 0;
           flex: 1;
-          text-shadow: 0 0 10px rgba(255, 119, 198, 0.4);
+          text-shadow: none;
         }
 
         .badge {
-          background: rgba(255, 119, 198, 0.3);
-          color: rgba(255, 119, 198, 0.9);
+          background: rgba(255, 119, 198, 0.1);
+          color: #ff77c6;
           padding: 0.25rem 0.75rem;
           border-radius: 12px;
           font-size: 0.7rem;
           font-weight: 600;
-          border: 1px solid rgba(255, 119, 198, 0.4);
+          border: 1px solid rgba(255, 119, 198, 0.2);
         }
 
         .tricks-list {

@@ -47,39 +47,38 @@ export default function Categories({ selectedCategory, onCategorySelect, tricks 
         
         <style jsx>{`
           .communities-container {
-            background: linear-gradient(145deg, rgba(15, 15, 35, 0.95), rgba(25, 25, 45, 0.9));
-            backdrop-filter: blur(20px);
-            border-radius: 16px;
-            border: 1px solid rgba(120, 119, 198, 0.2);
+            background: white;
+            border-radius: 0;
+            border: none;
             overflow: hidden;
           }
 
           .communities-header {
-            background: linear-gradient(135deg, rgba(120, 119, 198, 0.3), rgba(120, 219, 255, 0.2));
+            background: linear-gradient(135deg, rgba(120, 119, 198, 0.1), rgba(120, 219, 255, 0.05));
             padding: 1rem;
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            border-bottom: 1px solid rgba(120, 119, 198, 0.2);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
           }
 
           .header-icon {
             font-size: 1.2rem;
-            filter: drop-shadow(0 0 8px rgba(120, 219, 255, 0.6));
+            filter: none;
           }
 
           .communities-header h3 {
-            color: #ffffff;
+            color: #333;
             font-size: 0.95rem;
             font-weight: 600;
             margin: 0;
-            text-shadow: 0 0 10px rgba(120, 219, 255, 0.4);
+            text-shadow: none;
           }
 
           .loading {
             padding: 2rem;
             text-align: center;
-            color: rgba(255, 255, 255, 0.7);
+            color: #666;
             font-size: 0.85rem;
           }
         `}</style>
@@ -156,41 +155,37 @@ export default function Categories({ selectedCategory, onCategorySelect, tricks 
         }
 
         .communities-list {
-          padding: 0.5rem;
+          padding: 0;
           display: flex;
           flex-direction: column;
-          gap: 0.25rem;
+          gap: 0;
         }
 
         .community-item {
           display: flex;
           align-items: center;
           gap: 0.75rem;
-          padding: 0.75rem;
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 12px;
-          color: rgba(255, 255, 255, 0.9);
+          padding: 0.75rem 1rem;
+          background: white;
+          border: none;
+          border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+          border-radius: 0;
+          color: #333;
           cursor: pointer;
-          transition: all 0.3s ease;
+          transition: all 0.2s ease;
           width: 100%;
           text-align: left;
         }
 
         .community-item:hover {
-          background: rgba(120, 119, 198, 0.15);
-          border-color: rgba(120, 119, 198, 0.3);
-          transform: translateX(4px);
-          box-shadow: 0 4px 16px rgba(120, 119, 198, 0.2);
+          background: rgba(120, 119, 198, 0.05);
+          color: #333;
         }
 
         .community-item.active {
-          background: linear-gradient(135deg, rgba(120, 119, 198, 0.3), rgba(120, 219, 255, 0.2));
-          border-color: rgba(120, 219, 255, 0.5);
-          color: #ffffff;
-          box-shadow: 
-            0 4px 16px rgba(120, 219, 255, 0.3),
-            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+          background: rgba(120, 119, 198, 0.1);
+          color: #333;
+          border-left: 3px solid #7877c6;
         }
 
         .community-icon {
@@ -200,22 +195,19 @@ export default function Categories({ selectedCategory, onCategorySelect, tricks 
           display: flex;
           align-items: center;
           justify-content: center;
-          background: rgba(120, 119, 198, 0.2);
+          background: rgba(120, 119, 198, 0.1);
           border-radius: 8px;
-          border: 1px solid rgba(120, 119, 198, 0.3);
-          transition: all 0.3s ease;
+          border: 1px solid rgba(120, 119, 198, 0.2);
+          transition: all 0.2s ease;
         }
 
         .community-item:hover .community-icon {
-          background: rgba(120, 219, 255, 0.3);
-          border-color: rgba(120, 219, 255, 0.5);
-          transform: scale(1.1);
+          background: rgba(120, 119, 198, 0.2);
         }
 
         .community-item.active .community-icon {
-          background: rgba(120, 219, 255, 0.4);
-          border-color: rgba(120, 219, 255, 0.6);
-          box-shadow: 0 0 12px rgba(120, 219, 255, 0.4);
+          background: rgba(120, 119, 198, 0.2);
+          border-color: #7877c6;
         }
 
         .community-info {
@@ -233,12 +225,12 @@ export default function Categories({ selectedCategory, onCategorySelect, tricks 
 
         .community-count {
           font-size: 0.7rem;
-          color: rgba(255, 255, 255, 0.6);
+          color: #666;
           font-weight: 500;
         }
 
         .community-item.active .community-count {
-          color: rgba(120, 219, 255, 0.9);
+          color: #7877c6;
         }
 
         .loading {
