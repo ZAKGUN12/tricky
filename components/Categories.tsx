@@ -102,7 +102,7 @@ export default function Categories({ selectedCategory, onCategorySelect, tricks 
           <div className="community-icon">🏠</div>
           <div className="community-info">
             <span className="community-name">All Tricks</span>
-            <span className="community-count">{tricks.length} posts</span>
+            <span className="community-count">{(tricks || []).length} posts</span>
           </div>
         </button>
         

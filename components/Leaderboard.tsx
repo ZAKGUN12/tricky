@@ -84,7 +84,7 @@ export default function Leaderboard() {
     );
   }
 
-  const displayUsers = users.slice(0, 3);
+  const displayUsers = (users || []).slice(0, 3);
 
   return (
     <div className="leaderboard-container">

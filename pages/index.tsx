@@ -35,7 +35,7 @@ function HomeContent() {
 
   // Memoize sorted tricks to prevent unnecessary re-renders
   const sortedTricks = useMemo(() => {
-    const sorted = [...tricks];
+    const sorted = [...(tricks || [])];
     switch (sortBy) {
       case 'hot':
         return sorted.sort((a, b) => (b.kudos + b.views * 0.1) - (a.kudos + a.views * 0.1));
@@ -335,7 +335,7 @@ function HomeContent() {
             />
 
             <div className={`tricks-grid ${viewMode === 'compact' ? 'compact-view' : 'card-view'}`}>
-              {sortedTricks.map((trick) => {
+              {(sortedTricks || []).map((trick) => {
                 const country = countries.find(c => c.code === trick.countryCode);
                 return (
                   <div key={trick.id} className="trick-card reddit-style">
@@ -400,7 +400,7 @@ function HomeContent() {
               })}
             </div>
 
-            {tricks.length === 0 && (
+            {(tricks || []).length === 0 && (
               <div className="no-tricks">
                 <h3>No tricks found</h3>
                 <p>Try adjusting your filters or search terms</p>

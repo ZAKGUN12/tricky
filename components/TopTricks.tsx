@@ -84,7 +84,7 @@ export default function TopTricks() {
     );
   }
 
-  const displayTricks = topTricks.slice(0, 3);
+  const displayTricks = (topTricks || []).slice(0, 3);
 
   return (
     <div className="top-tricks-container">
@@ -113,7 +113,7 @@ export default function TopTricks() {
                     <span className="kudos">⭐ {trick.kudos}</span>
                   </div>
                   <h4 className="trick-title">{trick.title}</h4>
-                  <p className="trick-preview">{trick.description.slice(0, 60)}...</p>
+                  <p className="trick-preview">{(trick.description || '').slice(0, 60)}...</p>
                 </div>
               </div>
             </Link>
