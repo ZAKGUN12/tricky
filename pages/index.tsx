@@ -692,53 +692,73 @@ function HomeContent() {
         }
 
         .sidebar {
-          position: sticky;
-          top: 140px;
-          height: calc(100vh - 160px);
+          position: fixed;
+          left: 1rem;
+          top: 120px;
+          height: calc(100vh - 140px);
+          width: 320px;
           overflow-y: auto;
           overflow-x: hidden;
-          background: rgba(15, 15, 35, 0.8);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(120, 119, 198, 0.3);
-          border-radius: 16px;
-          padding: 0;
+          background: linear-gradient(145deg, rgba(15, 15, 35, 0.95), rgba(25, 25, 45, 0.9));
+          backdrop-filter: blur(25px);
+          border: 1px solid rgba(120, 219, 255, 0.4);
+          border-radius: 20px;
+          padding: 1.5rem;
           display: flex;
           flex-direction: column;
-          gap: 0;
-          width: 300px;
-          transition: all 0.3s ease;
+          gap: 1.5rem;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
           scrollbar-width: thin;
-          scrollbar-color: rgba(120, 119, 198, 0.5) transparent;
+          scrollbar-color: rgba(120, 219, 255, 0.6) transparent;
+          box-shadow: 
+            0 20px 40px rgba(0, 0, 0, 0.3),
+            0 0 0 1px rgba(120, 219, 255, 0.1),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+          z-index: 100;
+        }
+
+        .sidebar::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(135deg, 
+            rgba(120, 119, 198, 0.05) 0%, 
+            rgba(120, 219, 255, 0.05) 50%, 
+            rgba(255, 119, 198, 0.05) 100%);
+          border-radius: 20px;
+          pointer-events: none;
+          z-index: -1;
         }
 
         .sidebar::-webkit-scrollbar {
-          width: 6px;
+          width: 8px;
         }
 
         .sidebar::-webkit-scrollbar-track {
-          background: transparent;
+          background: rgba(120, 219, 255, 0.1);
+          border-radius: 4px;
         }
 
         .sidebar::-webkit-scrollbar-thumb {
-          background: rgba(120, 119, 198, 0.5);
-          border-radius: 3px;
+          background: linear-gradient(180deg, rgba(120, 219, 255, 0.6), rgba(120, 119, 198, 0.6));
+          border-radius: 4px;
+          border: 1px solid rgba(120, 219, 255, 0.2);
         }
 
         .sidebar::-webkit-scrollbar-thumb:hover {
-          background: rgba(120, 119, 198, 0.7);
+          background: linear-gradient(180deg, rgba(120, 219, 255, 0.8), rgba(120, 119, 198, 0.8));
         }
 
         .sidebar.collapsed {
-          width: 60px;
-          overflow: hidden;
+          width: 80px;
+          padding: 1rem;
         }
 
         .sidebar > * {
-          margin-bottom: 1rem;
-        }
-
-        .sidebar > *:last-child {
-          margin-bottom: 0;
+          flex-shrink: 0;
         }
 
         .header-left {
@@ -901,37 +921,42 @@ function HomeContent() {
 
         .sidebar-close {
           position: absolute;
-          top: 10px;
-          right: 10px;
-          background: rgba(120, 119, 198, 0.9);
-          border: 1px solid rgba(255, 255, 255, 0.2);
+          top: 1rem;
+          right: 1rem;
+          width: 36px;
+          height: 36px;
+          background: linear-gradient(135deg, rgba(120, 219, 255, 0.2), rgba(120, 119, 198, 0.2));
+          border: 1px solid rgba(120, 219, 255, 0.4);
+          border-radius: 12px;
           color: #ffffff;
-          width: 32px;
-          height: 32px;
-          border-radius: 8px;
+          font-size: 16px;
           cursor: pointer;
-          font-size: 14px;
           display: flex;
           align-items: center;
           justify-content: center;
-          transition: all 0.2s ease;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          backdrop-filter: blur(10px);
           z-index: 10;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
 
         .sidebar-close:hover {
-          background: rgba(120, 119, 198, 1);
-          transform: scale(1.05);
-          box-shadow: 0 4px 12px rgba(120, 119, 198, 0.4);
+          background: linear-gradient(135deg, rgba(120, 219, 255, 0.4), rgba(120, 119, 198, 0.4));
+          border-color: rgba(120, 219, 255, 0.6);
+          transform: scale(1.1) rotate(90deg);
+          box-shadow: 0 8px 20px rgba(120, 219, 255, 0.3);
+        }
+
+        .sidebar-close:active {
+          transform: scale(0.95);
         }
 
         .content {
-          margin-left: 320px;
-          transition: margin-left 0.3s ease;
+          margin-left: 360px;
+          transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .sidebar.collapsed + .content {
-          margin-left: 80px;
+          margin-left: 120px;
         }
 
         .sidebar.collapsed .reddit-sidebar-section {
@@ -1678,21 +1703,30 @@ function HomeContent() {
             margin: 1rem 0;
           }
 
-          .main-content {
-            grid-template-columns: 1fr;
-            gap: 1rem;
-            margin: 1rem 0;
+          .sidebar {
+            position: fixed;
+            left: -340px;
+            top: 0;
+            height: 100vh;
+            width: 320px;
+            z-index: 1001;
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 0 20px 20px 0;
+            padding-top: 80px;
           }
 
-          .sidebar {
-            order: -1;
-            position: static;
-            height: auto;
-            overflow-y: visible;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 0.75rem;
-            margin-bottom: 1.5rem;
+          .sidebar.collapsed {
+            left: 0;
+            width: 320px;
+          }
+
+          .content {
+            margin-left: 0;
+          }
+
+          .sidebar.collapsed + .content {
+            margin-left: 0;
+          }
             padding-right: 0;
           }
 
