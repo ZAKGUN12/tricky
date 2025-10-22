@@ -74,26 +74,33 @@ function HomeContent() {
   const fetchTricks = useCallback(async () => {
     try {
       setError(null);
+      setLoading(true);
       const params = new URLSearchParams();
       if (selectedCountry) params.append('country', selectedCountry);
       if (selectedCategory) params.append('category', selectedCategory);
       if (searchQuery) params.append('search', searchQuery);
 
+      console.log('Fetching tricks with params:', params.toString());
       const response = await fetch(`/api/tricks?${params}`);
+      
       if (!response.ok) {
-        throw new Error(`Failed to fetch tricks: ${response.status}`);
+        const errorText = await response.text();
+        throw new Error(`Failed to fetch tricks: ${response.status} - ${errorText}`);
       }
       
       const data = await response.json();
-      setTricks(data);
+      console.log('Fetched tricks:', data.length, 'items');
+      
+      setTricks(Array.isArray(data) ? data : []);
       
       // Also fetch all tricks for category counting if we don't have them
       if (allTricks.length === 0 || (!selectedCountry && !selectedCategory && !searchQuery)) {
-        setAllTricks(data);
+        setAllTricks(Array.isArray(data) ? data : []);
       }
     } catch (error) {
       console.error('Error fetching tricks:', error);
       setError(error instanceof Error ? error.message : 'Failed to load tricks');
+      setTricks([]);
     } finally {
       setLoading(false);
     }
@@ -460,6 +467,7 @@ function HomeContent() {
               <div className="no-tricks">
                 <h3>🔍 No tricks found</h3>
                 <p>Try adjusting your filters or search terms</p>
+                <p className="debug-info">Debug: {tricks?.length || 0} tricks loaded, {sortedTricks?.length || 0} after sorting</p>
                 <button 
                   onClick={() => {
                     clearFilters();
@@ -768,6 +776,13 @@ function HomeContent() {
           font-weight: 600;
           font-size: 1.1rem;
           text-shadow: 0 0 10px rgba(120, 119, 198, 0.5);
+        }
+
+        .debug-info {
+          font-size: 0.8rem;
+          color: #78dbff;
+          opacity: 0.7;
+          margin: 0.5rem 0;
         }
 
         .sidebar {
