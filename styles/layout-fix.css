@@ -1,178 +1,196 @@
-/* Layout Fix - Resolve positioning conflicts */
+/* Layout Fix CSS - Resolving Header and Sidebar Issues */
 
-/* Header - Fixed positioning */
+/* Header Fixes */
 .header {
   position: fixed !important;
   top: 1rem !important;
   left: 1rem !important;
   right: 1rem !important;
   z-index: 1000 !important;
-  background: rgba(15, 15, 35, 0.95) !important;
-  backdrop-filter: blur(20px) !important;
-  border: 1px solid rgba(120, 119, 198, 0.3) !important;
-  border-radius: 16px !important;
-  padding: 1rem 2rem !important;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+  height: 80px !important;
+  display: flex !important;
+  align-items: center !important;
 }
 
-/* Main Content - Grid layout */
-.main-content {
-  margin-top: 120px !important;
+.header-content {
+  width: 100% !important;
   display: grid !important;
-  grid-template-columns: 280px 1fr !important;
-  gap: 1rem !important;
-  padding: 0 1rem !important;
-  align-items: start !important;
+  grid-template-columns: 1fr auto 1fr !important;
+  align-items: center !important;
+  gap: 2rem !important;
 }
 
-/* Sidebar - Sticky positioning with improved scrolling */
+/* Main Layout Fixes */
+.main-content {
+  margin-top: 100px !important;
+  display: flex !important;
+  gap: 2rem !important;
+  padding: 0 1rem !important;
+  min-height: calc(100vh - 120px) !important;
+}
+
+/* Sidebar Fixes */
 .sidebar {
   position: sticky !important;
-  top: 140px !important;
-  height: calc(100vh - 160px) !important;
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-  background: rgba(255, 255, 255, 0.95) !important;
-  backdrop-filter: blur(20px) !important;
-  border: 1px solid rgba(0, 0, 0, 0.1) !important;
-  border-radius: 16px !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 0 !important;
-  width: 280px !important;
-  scrollbar-width: thin !important;
-  scrollbar-color: rgba(120, 119, 198, 0.5) transparent !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+  top: 120px !important;
+  width: 320px !important;
+  min-width: 320px !important;
+  height: calc(100vh - 140px) !important;
+  flex-shrink: 0 !important;
 }
 
-/* Custom scrollbar for webkit browsers */
-.sidebar::-webkit-scrollbar {
-  width: 6px !important;
+.sidebar.collapsed {
+  width: 80px !important;
+  min-width: 80px !important;
 }
 
-.sidebar::-webkit-scrollbar-track {
-  background: transparent !important;
-}
-
-.sidebar::-webkit-scrollbar-thumb {
-  background: rgba(120, 119, 198, 0.5) !important;
-  border-radius: 3px !important;
-}
-
-.sidebar::-webkit-scrollbar-thumb:hover {
-  background: rgba(120, 119, 198, 0.7) !important;
-}
-
-/* Sidebar sections spacing */
-.sidebar > * {
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-.sidebar > *:not(:last-child) {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
-}
-
-/* Ensure each sidebar component has proper internal padding */
-.sidebar .communities-container,
-.sidebar .top-tricks-container,
-.sidebar .leaderboard-container {
-  border-radius: 0 !important;
-  border: none !important;
-  margin: 0 !important;
-}
-
-/* Content area */
+/* Content Area */
 .content {
-  min-height: calc(100vh - 140px) !important;
+  flex: 1 !important;
+  min-width: 0 !important;
+  width: 100% !important;
 }
 
-/* Right sidebar positioning */
-.right-sidebar {
-  position: fixed !important;
-  right: 1rem !important;
-  top: 140px !important;
-  width: 300px !important;
-  height: calc(100vh - 160px) !important;
-  z-index: 500 !important;
-  background: rgba(15, 15, 35, 0.95) !important;
-  backdrop-filter: blur(20px) !important;
-  border: 1px solid rgba(120, 119, 198, 0.3) !important;
-  border-radius: 16px !important;
-  padding: 1rem !important;
+/* Mobile Sidebar Toggle */
+.mobile-sidebar-toggle {
+  display: none !important;
 }
 
-/* Responsive breakpoints */
-@media (max-width: 1024px) {
-  .main-content {
-    grid-template-columns: 250px 1fr !important;
-    gap: 1.5rem !important;
-    padding: 0 1rem !important;
-  }
-}
-
+/* Mobile Responsive Fixes */
 @media (max-width: 768px) {
   .header {
     top: 0.5rem !important;
     left: 0.5rem !important;
     right: 0.5rem !important;
-    padding: 0.75rem 1rem !important;
+    height: 70px !important;
   }
 
   .main-content {
-    margin-top: 100px !important;
-    grid-template-columns: 1fr !important;
-    gap: 1rem !important;
-    padding: 0 1rem !important;
+    margin-top: 90px !important;
+    flex-direction: column !important;
+    padding: 1rem !important;
+  }
+
+  .mobile-sidebar-toggle {
+    display: block !important;
   }
 
   .sidebar {
-    position: static !important;
-    height: auto !important;
-    order: 2 !important;
-    margin-bottom: 1rem !important;
-    max-height: 60vh !important;
-    overflow-y: auto !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: -340px !important;
+    width: 320px !important;
+    min-width: 320px !important;
+    height: 100vh !important;
+    z-index: 1001 !important;
+    border-radius: 0 20px 20px 0 !important;
+    padding-top: 80px !important;
+    transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+
+  .sidebar.collapsed {
+    left: 0 !important;
+    width: 320px !important;
+    min-width: 320px !important;
   }
 
   .content {
+    width: 100% !important;
     order: 1 !important;
   }
 
+  .sidebar-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: rgba(0, 0, 0, 0.5) !important;
+    z-index: 999 !important;
+    backdrop-filter: blur(4px) !important;
+  }
+
+  /* Fix header layout on mobile */
   .header-content {
     grid-template-columns: auto 1fr auto !important;
     gap: 0.5rem !important;
   }
 
-  .right-sidebar {
-    position: fixed !important;
-    top: 0 !important;
-    right: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    background: rgba(0, 0, 0, 0.95) !important;
-    padding: 2rem !important;
+  .header-right {
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+  }
+
+  .user-section {
+    flex-direction: row !important;
+    gap: 0.5rem !important;
+  }
+
+  .welcome {
+    font-size: 0.8rem !important;
+  }
+
+  .sign-out-btn {
+    padding: 0.3rem 0.6rem !important;
+    font-size: 0.7rem !important;
   }
 }
 
-/* Smooth scrolling for all elements */
-* {
-  scroll-behavior: smooth !important;
+/* Tablet Responsive */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .sidebar {
+    width: 280px !important;
+    min-width: 280px !important;
+  }
+
+  .sidebar.collapsed {
+    width: 70px !important;
+    min-width: 70px !important;
+  }
 }
 
-/* Enhanced sidebar scrolling */
+/* Large Desktop */
+@media (min-width: 1400px) {
+  .main-content {
+    max-width: 1400px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+/* Fix for overlapping elements */
+.header * {
+  z-index: inherit !important;
+}
+
+.sidebar * {
+  z-index: inherit !important;
+}
+
+/* Ensure proper stacking */
+.header {
+  z-index: 1000 !important;
+}
+
 .sidebar {
-  scroll-behavior: smooth !important;
+  z-index: 100 !important;
 }
 
-.sidebar:hover {
-  scrollbar-color: rgba(120, 119, 198, 0.7) transparent !important;
+.sidebar.collapsed {
+  z-index: 1001 !important;
 }
 
-/* Z-index hierarchy */
-.header { z-index: 1000 !important; }
-.right-sidebar { z-index: 500 !important; }
-.sidebar { z-index: 100 !important; }
-.trick-card { z-index: 1 !important; }
+.sidebar-overlay {
+  z-index: 999 !important;
+}
+
+.content {
+  z-index: 1 !important;
+}
+
+/* Prevent body scroll when sidebar is open on mobile */
+@media (max-width: 768px) {
+  body.sidebar-open {
+    overflow: hidden !important;
+  }
+}

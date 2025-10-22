@@ -27,6 +27,23 @@ function HomeContent() {
   const [sortBy, setSortBy] = useState('hot');
   const [viewMode, setViewMode] = useState('card');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
+  // Prevent body scroll when sidebar is open on mobile
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      if (sidebarCollapsed && window.innerWidth <= 768) {
+        document.body.classList.add('sidebar-open');
+      } else {
+        document.body.classList.remove('sidebar-open');
+      }
+    }
+    
+    return () => {
+      if (typeof document !== 'undefined') {
+        document.body.classList.remove('sidebar-open');
+      }
+    };
+  }, [sidebarCollapsed]);
   const [theme, setTheme] = useState('dark');
   const [rightSidebarOpen, setRightSidebarOpen] = useState(false);
   const { showToast, ToastContainer } = useToast();
@@ -177,6 +194,13 @@ function HomeContent() {
         <header className="header">
           <div className="header-content">
             <div className="header-left">
+              <button 
+                className="mobile-sidebar-toggle"
+                onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+                aria-label="Toggle sidebar"
+              >
+                ☰
+              </button>
               <Timer />
             </div>
             <div className="header-center">
@@ -279,6 +303,13 @@ function HomeContent() {
             <TopTricks />
             <Leaderboard />
           </div>
+          {sidebarCollapsed && (
+            <div 
+              className="sidebar-overlay"
+              onClick={() => setSidebarCollapsed(false)}
+              onTouchStart={(e) => e.preventDefault()}
+            />
+          )}
 
           <div className="content">
             <div className="search-section">
@@ -672,15 +703,16 @@ function HomeContent() {
           right: 1rem;
           z-index: 1000;
           box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+          height: 80px;
         }
 
         .main-content {
-          margin-top: 120px;
-          display: grid;
-          grid-template-columns: 300px 1fr;
+          margin-top: 100px;
+          display: flex;
           gap: 2rem;
-          padding: 0 2rem;
+          padding: 0 1rem;
           align-items: start;
+          min-height: calc(100vh - 120px);
         }
 
         .header-content {
@@ -691,12 +723,30 @@ function HomeContent() {
           height: 100%;
         }
 
+        .mobile-sidebar-toggle {
+          display: none;
+          background: rgba(120, 119, 198, 0.2);
+          border: 1px solid rgba(120, 119, 198, 0.4);
+          color: #ffffff;
+          padding: 8px 12px;
+          border-radius: 8px;
+          cursor: pointer;
+          font-size: 16px;
+          margin-right: 0.5rem;
+          transition: all 0.2s ease;
+        }
+
+        .mobile-sidebar-toggle:hover {
+          background: rgba(120, 119, 198, 0.3);
+          transform: scale(1.05);
+        }
+
         .sidebar {
-          position: fixed;
-          left: 1rem;
+          position: sticky;
           top: 120px;
           height: calc(100vh - 140px);
           width: 320px;
+          min-width: 320px;
           overflow-y: auto;
           overflow-x: hidden;
           background: linear-gradient(145deg, rgba(15, 15, 35, 0.95), rgba(25, 25, 45, 0.9));
@@ -754,6 +804,7 @@ function HomeContent() {
 
         .sidebar.collapsed {
           width: 80px;
+          min-width: 80px;
           padding: 1rem;
         }
 
@@ -951,12 +1002,9 @@ function HomeContent() {
         }
 
         .content {
-          margin-left: 360px;
-          transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .sidebar.collapsed + .content {
-          margin-left: 120px;
+          flex: 1;
+          min-width: 0;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .sidebar.collapsed .reddit-sidebar-section {
@@ -1694,13 +1742,14 @@ function HomeContent() {
             left: 0.5rem;
             right: 0.5rem;
             z-index: 1000;
+            height: 70px;
           }
 
           .main-content {
-            margin-top: 100px;
-            grid-template-columns: 1fr;
+            margin-top: 90px;
+            flex-direction: column;
             gap: 1rem;
-            margin: 1rem 0;
+            padding: 1rem;
           }
 
           .sidebar {
@@ -1709,6 +1758,7 @@ function HomeContent() {
             top: 0;
             height: 100vh;
             width: 320px;
+            min-width: 320px;
             z-index: 1001;
             transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             border-radius: 0 20px 20px 0;
@@ -1718,16 +1768,22 @@ function HomeContent() {
           .sidebar.collapsed {
             left: 0;
             width: 320px;
+            min-width: 320px;
           }
 
           .content {
-            margin-left: 0;
+            width: 100%;
+            order: 1;
           }
-
-          .sidebar.collapsed + .content {
-            margin-left: 0;
-          }
-            padding-right: 0;
+          .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            backdrop-filter: blur(4px);
           }
 
           .header-content {
@@ -1735,6 +1791,10 @@ function HomeContent() {
             gap: 0.5rem;
             padding: 0;
             height: auto;
+          }
+
+          .mobile-sidebar-toggle {
+            display: block;
           }
 
           .header-left, .header-center, .header-right {
