@@ -157,8 +157,20 @@ function HomeContent() {
   if (loading) {
     return (
       <div className="home">
+        <ToastContainer />
         <div className="container">
-          <LoadingSkeleton count={6} />
+          <header className="header">
+            <div className="header-content">
+              <div className="header-center">
+                <div className="loading-header">
+                  🌍 TrickShare - Loading...
+                </div>
+              </div>
+            </div>
+          </header>
+          <div className="main-content">
+            <LoadingSkeleton count={6} />
+          </div>
         </div>
       </div>
     );
@@ -444,10 +456,19 @@ function HomeContent() {
               })}
             </div>
 
-            {(tricks || []).length === 0 && (
+            {(sortedTricks || []).length === 0 && !loading && (
               <div className="no-tricks">
-                <h3>No tricks found</h3>
+                <h3>🔍 No tricks found</h3>
                 <p>Try adjusting your filters or search terms</p>
+                <button 
+                  onClick={() => {
+                    clearFilters();
+                    fetchTricks();
+                  }}
+                  className="retry-button"
+                >
+                  🔄 Show All Tricks
+                </button>
               </div>
             )}
           </div>
@@ -725,20 +746,28 @@ function HomeContent() {
 
         .mobile-sidebar-toggle {
           display: none;
-          background: rgba(120, 119, 198, 0.2);
-          border: 1px solid rgba(120, 119, 198, 0.4);
+          background: rgba(120, 119, 198, 0.3);
+          border: 2px solid rgba(120, 119, 198, 0.6);
           color: #ffffff;
           padding: 8px 12px;
           border-radius: 8px;
           cursor: pointer;
-          font-size: 16px;
+          font-size: 18px;
           margin-right: 0.5rem;
           transition: all 0.2s ease;
+          box-shadow: 0 2px 8px rgba(120, 119, 198, 0.3);
         }
 
         .mobile-sidebar-toggle:hover {
           background: rgba(120, 119, 198, 0.3);
           transform: scale(1.05);
+        }
+
+        .loading-header {
+          color: #7877c6;
+          font-weight: 600;
+          font-size: 1.1rem;
+          text-shadow: 0 0 10px rgba(120, 119, 198, 0.5);
         }
 
         .sidebar {
@@ -749,9 +778,9 @@ function HomeContent() {
           min-width: 320px;
           overflow-y: auto;
           overflow-x: hidden;
-          background: linear-gradient(145deg, rgba(15, 15, 35, 0.95), rgba(25, 25, 45, 0.9));
+          background: linear-gradient(145deg, rgba(15, 15, 35, 0.98), rgba(25, 25, 45, 0.95));
           backdrop-filter: blur(25px);
-          border: 1px solid rgba(120, 219, 255, 0.4);
+          border: 1px solid rgba(120, 219, 255, 0.5);
           border-radius: 20px;
           padding: 1.5rem;
           display: flex;
@@ -761,8 +790,8 @@ function HomeContent() {
           scrollbar-width: thin;
           scrollbar-color: rgba(120, 219, 255, 0.6) transparent;
           box-shadow: 
-            0 20px 40px rgba(0, 0, 0, 0.3),
-            0 0 0 1px rgba(120, 219, 255, 0.1),
+            0 20px 40px rgba(0, 0, 0, 0.4),
+            0 0 0 1px rgba(120, 219, 255, 0.2),
             inset 0 1px 0 rgba(255, 255, 255, 0.1);
           z-index: 100;
         }
@@ -1794,7 +1823,10 @@ function HomeContent() {
           }
 
           .mobile-sidebar-toggle {
-            display: block;
+            display: block !important;
+            background: rgba(120, 119, 198, 0.4) !important;
+            border: 2px solid rgba(120, 219, 255, 0.6) !important;
+            box-shadow: 0 0 10px rgba(120, 219, 255, 0.4) !important;
           }
 
           .header-left, .header-center, .header-right {
