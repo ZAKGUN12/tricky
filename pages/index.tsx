@@ -80,7 +80,6 @@ function HomeContent() {
       if (selectedCategory) params.append('category', selectedCategory);
       if (searchQuery) params.append('search', searchQuery);
 
-      console.log('Fetching tricks with params:', params.toString());
       const response = await fetch(`/api/tricks?${params}`);
       
       if (!response.ok) {
@@ -89,7 +88,6 @@ function HomeContent() {
       }
       
       const data = await response.json();
-      console.log('Fetched tricks:', data.length, 'items');
       
       setTricks(Array.isArray(data) ? data : []);
       
@@ -397,8 +395,16 @@ function HomeContent() {
               selectedCountry={selectedCountry}
             />
 
-            <div className={`tricks-grid ${viewMode === 'compact' ? 'compact-view' : 'card-view'}`}>
-              {(sortedTricks || []).map((trick) => {
+            {loading && (
+              <div className="loading-tricks">
+                <div className="loading-spinner"></div>
+                <p>Loading tricks...</p>
+              </div>
+            )}
+            
+            {!loading && (sortedTricks || []).length > 0 && (
+              <div className={`tricks-grid ${viewMode === 'compact' ? 'compact-view' : 'card-view'}`}>
+                {(sortedTricks || []).map((trick) => {
                 const country = countries.find(c => c.code === trick.countryCode);
                 return (
                   <div key={trick.id} className="trick-card reddit-style">
@@ -460,14 +466,17 @@ function HomeContent() {
                     </div>
                   </div>
                 );
-              })}
-            </div>
+                })}
+              </div>
+            )}
 
             {(sortedTricks || []).length === 0 && !loading && (
               <div className="no-tricks">
                 <h3>🔍 No tricks found</h3>
                 <p>Try adjusting your filters or search terms</p>
-                <p className="debug-info">Debug: {tricks?.length || 0} tricks loaded, {sortedTricks?.length || 0} after sorting</p>
+                {process.env.NODE_ENV === 'development' && (
+                  <p className="debug-info">Debug: {tricks?.length || 0} tricks loaded, {sortedTricks?.length || 0} after sorting</p>
+                )}
                 <button 
                   onClick={() => {
                     clearFilters();
@@ -783,6 +792,25 @@ function HomeContent() {
           color: #78dbff;
           opacity: 0.7;
           margin: 0.5rem 0;
+        }
+
+        .loading-tricks {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 3rem;
+          color: var(--text-secondary);
+          gap: 1rem;
+        }
+
+        .loading-tricks .loading-spinner {
+          width: 40px;
+          height: 40px;
+          border: 3px solid rgba(120, 119, 198, 0.3);
+          border-top: 3px solid #7877c6;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
         }
 
         .sidebar {
