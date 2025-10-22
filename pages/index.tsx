@@ -1804,9 +1804,21 @@ function HomeContent() {
           }
 
           .header-center .share-btn {
-            padding: 0.5rem 1.2rem !important;
-            font-size: 0.75rem !important;
+            padding: 0.4rem 1rem !important;
+            font-size: 0.7rem !important;
             white-space: nowrap;
+          }
+
+          .header-left {
+            justify-content: flex-start !important;
+          }
+
+          .header-center {
+            justify-content: center !important;
+          }
+
+          .header-right {
+            justify-content: flex-end !important;
           }
 
           .header-right .tricks-counter {
@@ -1832,13 +1844,23 @@ function HomeContent() {
           }
 
           .header-right {
-            flex-direction: column;
-            gap: 0.5rem;
-            align-items: flex-end;
+            flex-direction: row;
+            gap: 0.3rem;
+            align-items: center;
+            justify-content: flex-end;
+            flex-wrap: wrap;
           }
 
           .user-section {
             order: 1;
+            padding: 0.3rem 0.6rem;
+            font-size: 0.7rem;
+          }
+
+          .theme-toggle, .right-sidebar-toggle {
+            padding: 6px 8px;
+            font-size: 14px;
+            margin-right: 0.2rem;
           }
 
           .search-section {
