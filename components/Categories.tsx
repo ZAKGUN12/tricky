@@ -48,6 +48,17 @@ export default function Categories({ selectedCategory, onCategorySelect, tricks 
     );
   }
 
+  // Fallback categories if API fails
+  const fallbackCategories = [
+    { id: 'cooking', name: 'Food & Cooking', icon: '🍳', count: 0 },
+    { id: 'cleaning', name: 'Cleaning', icon: '🧹', count: 0 },
+    { id: 'technology', name: 'Technology', icon: '📱', count: 0 },
+    { id: 'health', name: 'Health', icon: '🍎', count: 0 },
+    { id: 'travel', name: 'Travel', icon: '✈️', count: 0 },
+  ];
+
+  const displayCategories = categories.length > 0 ? categories : fallbackCategories;
+
   return (
     <div className="sidebar-section">
       <div className="sidebar-header">
@@ -63,7 +74,7 @@ export default function Categories({ selectedCategory, onCategorySelect, tricks 
           <span className="category-name">All Tricks</span>
           <span className="category-count">{tricks.length}</span>
         </button>
-        {categories.map((category) => (
+        {displayCategories.map((category) => (
           <button
             key={category.id}
             className={`category-item ${selectedCategory === category.id ? 'active' : ''}`}

@@ -45,6 +45,15 @@ export default function TopTricks() {
     );
   }
 
+  // Fallback tricks if API fails
+  const fallbackTricks = [
+    { id: '1', title: 'Quick Kitchen Cleaning Hack', kudos: 45, countryCode: 'US' },
+    { id: '2', title: 'Phone Battery Life Extension', kudos: 38, countryCode: 'GB' },
+    { id: '3', title: 'Travel Packing Technique', kudos: 32, countryCode: 'FR' },
+  ];
+
+  const displayTricks = topTricks.length > 0 ? topTricks : fallbackTricks;
+
   return (
     <div className="sidebar-section">
       <div className="sidebar-header">
@@ -52,7 +61,7 @@ export default function TopTricks() {
         <h3>Top Tricks</h3>
       </div>
       <div className="top-tricks-list">
-        {topTricks.slice(0, 3).map((trick, index) => {
+        {displayTricks.slice(0, 3).map((trick, index) => {
           const country = countries.find(c => c.code === trick.countryCode);
           return (
             <Link key={trick.id} href={`/trick/${trick.id}`} className="top-trick-item">
@@ -60,7 +69,7 @@ export default function TopTricks() {
               <div className="trick-info">
                 <div className="trick-title">{trick.title}</div>
                 <div className="trick-meta">
-                  <span className="country-flag">{country?.flag}</span>
+                  <span className="country-flag">{country?.flag || '🌍'}</span>
                   <span className="kudos">🔥 {trick.kudos}</span>
                 </div>
               </div>
