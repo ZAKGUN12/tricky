@@ -23,6 +23,7 @@ function HomeContent() {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [loading, setLoading] = useState(true);
+  const [filtering, setFiltering] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState('hot');
   const [viewMode, setViewMode] = useState('card');
@@ -74,7 +75,13 @@ function HomeContent() {
   const fetchTricks = useCallback(async () => {
     try {
       setError(null);
-      setLoading(true);
+      // Use filtering state for filter changes, loading only for initial load
+      if (tricks.length > 0) {
+        setFiltering(true);
+      } else {
+        setLoading(true);
+      }
+      
       const params = new URLSearchParams();
       if (selectedCountry) params.append('country', selectedCountry);
       if (selectedCategory) params.append('category', selectedCategory);
@@ -101,8 +108,9 @@ function HomeContent() {
       setTricks([]);
     } finally {
       setLoading(false);
+      setFiltering(false);
     }
-  }, [selectedCountry, selectedCategory, searchQuery, allTricks.length]);
+  }, [selectedCountry, selectedCategory, searchQuery, allTricks.length, tricks.length]);
 
   const clearFilters = () => {
     setSelectedCountry('');
@@ -403,7 +411,7 @@ function HomeContent() {
             )}
             
             {!loading && (sortedTricks || []).length > 0 && (
-              <div className={`tricks-grid ${viewMode === 'compact' ? 'compact-view' : 'card-view'}`}>
+              <div className={`tricks-grid ${viewMode === 'compact' ? 'compact-view' : 'card-view'} ${filtering ? 'filtering' : ''}`}>
                 {(sortedTricks || []).map((trick) => {
                 const country = countries.find(c => c.code === trick.countryCode);
                 return (

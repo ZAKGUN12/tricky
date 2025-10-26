@@ -1,0 +1,45 @@
+/* Smooth Filter Transitions - Fix Flash/Blank Screen */
+
+.tricks-grid {
+  opacity: 1 !important;
+  transition: opacity 0.2s ease-in-out !important;
+}
+
+.tricks-grid.loading {
+  opacity: 0.7 !important;
+}
+
+.loading-tricks {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  background: rgba(15, 15, 35, 0.9) !important;
+  padding: 2rem !important;
+  border-radius: 12px !important;
+  border: 1px solid rgba(120, 119, 198, 0.3) !important;
+  z-index: 100 !important;
+}
+
+.content {
+  position: relative !important;
+  min-height: 400px !important;
+}
+
+/* Prevent flash by keeping content visible during filter */
+.trick-card {
+  transition: opacity 0.15s ease !important;
+}
+
+.filtering .trick-card {
+  opacity: 0.5 !important;
+}
+
+/* Smooth button states */
+.sort-btn, .category-item {
+  transition: all 0.15s ease !important;
+}
+
+.sort-btn:active, .category-item:active {
+  transform: scale(0.98) !important;
+}
