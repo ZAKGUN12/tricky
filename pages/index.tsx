@@ -733,9 +733,7 @@ function HomeContent() {
 
         /* Layout styles are now handled by layout-system.css */
 
-        .mobile-sidebar-toggle {
-          display: none;
-        }
+        /* All sidebar styles moved to perfect-left-sidebar.css */
 
         .loading-header {
           color: #7877c6;
