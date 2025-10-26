@@ -35,255 +35,117 @@ export default function TopTricks() {
 
   if (loading) {
     return (
-      <div className="top-tricks-container">
-        <div className="top-tricks-header">
+      <div className="sidebar-section">
+        <div className="sidebar-header">
           <div className="header-icon">🏆</div>
           <h3>Top Tricks</h3>
         </div>
         <div className="loading">Loading top tricks...</div>
-        
-        <style jsx>{`
-          .top-tricks-container {
-            background: linear-gradient(145deg, rgba(15, 15, 35, 0.95), rgba(25, 25, 45, 0.9));
-            backdrop-filter: blur(20px);
-            border-radius: 16px;
-            border: 1px solid rgba(255, 119, 198, 0.2);
-            overflow: hidden;
-          }
-
-          .top-tricks-header {
-            background: linear-gradient(135deg, rgba(255, 119, 198, 0.3), rgba(255, 77, 198, 0.2));
-            padding: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            border-bottom: 1px solid rgba(255, 119, 198, 0.2);
-          }
-
-          .header-icon {
-            font-size: 1.2rem;
-            filter: drop-shadow(0 0 8px rgba(255, 119, 198, 0.6));
-          }
-
-          .top-tricks-header h3 {
-            color: #ffffff;
-            font-size: 0.95rem;
-            font-weight: 600;
-            margin: 0;
-            text-shadow: 0 0 10px rgba(255, 119, 198, 0.4);
-          }
-
-          .loading {
-            padding: 2rem;
-            text-align: center;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.85rem;
-          }
-        `}</style>
       </div>
     );
   }
 
-  const displayTricks = (topTricks || []).slice(0, 3);
-
   return (
-    <div className="top-tricks-container">
-      <div className="top-tricks-header">
+    <div className="sidebar-section">
+      <div className="sidebar-header">
         <div className="header-icon">🏆</div>
         <h3>Top Tricks</h3>
-        <div className="badge">Top {displayTricks.length}</div>
       </div>
-      
-      <div className="tricks-list">
-        {displayTricks.length > 0 ? displayTricks.map((trick, index) => {
+      <div className="top-tricks-list">
+        {topTricks.slice(0, 3).map((trick, index) => {
           const country = countries.find(c => c.code === trick.countryCode);
           return (
-            <Link key={trick.id} href={`/trick/${trick.id}`} className="trick-link">
-              <div className="trick-item">
-                <div className="rank-badge">
-                  <span className="rank-number">#{index + 1}</span>
-                  <div className="medal">
-                    {index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉'}
-                  </div>
-                </div>
-                
-                <div className="trick-content">
-                  <div className="trick-meta">
-                    <span className="country-flag">{country?.flag}</span>
-                    <span className="kudos">⭐ {trick.kudos}</span>
-                  </div>
-                  <h4 className="trick-title">{trick.title}</h4>
-                  <p className="trick-preview">{(trick.description || '').slice(0, 60)}...</p>
+            <Link key={trick.id} href={`/trick/${trick.id}`} className="top-trick-item">
+              <div className="trick-rank">#{index + 1}</div>
+              <div className="trick-info">
+                <div className="trick-title">{trick.title}</div>
+                <div className="trick-meta">
+                  <span className="country-flag">{country?.flag}</span>
+                  <span className="kudos">🔥 {trick.kudos}</span>
                 </div>
               </div>
             </Link>
           );
-        }) : (
-          <div className="no-tricks">
-            <span>🎯</span>
-            <p>No top tricks yet</p>
-          </div>
-        )}
+        })}
       </div>
-
+      
       <style jsx>{`
-        .top-tricks-container {
-          background: white;
-          border-radius: 0;
-          border: none;
-          overflow: hidden;
-          margin: 0;
-          padding: 0;
-          box-shadow: none;
+        .top-tricks-list {
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
         }
-
-        .top-tricks-header {
-          background: linear-gradient(135deg, rgba(255, 119, 198, 0.1), rgba(255, 77, 198, 0.05));
-          padding: 1rem;
+        
+        .top-trick-item {
           display: flex;
           align-items: center;
           gap: 0.75rem;
-          border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-        }
-
-        .header-icon {
-          font-size: 1.2rem;
-          filter: none;
-        }
-
-        .top-tricks-header h3 {
-          color: #333;
-          font-size: 0.95rem;
-          font-weight: 600;
-          margin: 0;
-          flex: 1;
-          text-shadow: none;
-        }
-
-        .badge {
-          background: rgba(255, 119, 198, 0.1);
-          color: #ff77c6;
-          padding: 0.25rem 0.75rem;
-          border-radius: 12px;
-          font-size: 0.7rem;
-          font-weight: 600;
+          padding: 0.75rem;
+          background: rgba(255, 255, 255, 0.05);
           border: 1px solid rgba(255, 119, 198, 0.2);
-        }
-
-        .tricks-list {
-          padding: 0;
-          display: flex;
-          flex-direction: column;
-          gap: 0;
-          margin: 0;
-        }
-
-        .trick-link {
+          border-radius: 8px;
+          color: #ffffff;
           text-decoration: none;
-          color: inherit;
-        }
-
-        .trick-item {
-          display: flex;
-          gap: 0.75rem;
-          padding: 0.75rem 1rem;
-          background: white;
-          border: none;
-          border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-          border-radius: 0;
           transition: all 0.2s ease;
-          cursor: pointer;
-          margin: 0;
         }
-
-        .trick-item:hover {
-          background: rgba(255, 119, 198, 0.05);
-        }
-
-        .rank-badge {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 0.25rem;
-          min-width: 40px;
-        }
-
-        .rank-number {
-          font-size: 0.7rem;
-          font-weight: 700;
-          color: rgba(255, 119, 198, 0.9);
+        
+        .top-trick-item:hover {
           background: rgba(255, 119, 198, 0.2);
-          padding: 0.2rem 0.4rem;
-          border-radius: 6px;
-          border: 1px solid rgba(255, 119, 198, 0.3);
+          border-color: rgba(255, 119, 198, 0.4);
+          transform: translateX(4px);
+          box-shadow: 0 4px 16px rgba(255, 119, 198, 0.2);
         }
-
-        .medal {
-          font-size: 1.2rem;
-          filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.5));
-        }
-
-        .trick-content {
-          flex: 1;
+        
+        .trick-rank {
+          background: linear-gradient(135deg, #ff77c6, #ff4da6);
+          color: #ffffff;
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
           display: flex;
-          flex-direction: column;
-          gap: 0.3rem;
+          align-items: center;
+          justify-content: center;
+          font-weight: 700;
+          font-size: 0.9rem;
+          flex-shrink: 0;
+          box-shadow: 0 2px 8px rgba(255, 119, 198, 0.4);
         }
-
+        
+        .trick-info {
+          flex: 1;
+          min-width: 0;
+        }
+        
+        .trick-title {
+          font-weight: 600;
+          font-size: 0.9rem;
+          line-height: 1.3;
+          margin-bottom: 0.25rem;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        
         .trick-meta {
           display: flex;
           align-items: center;
           gap: 0.5rem;
-          font-size: 0.7rem;
-        }
-
-        .country-flag {
-          font-size: 0.9rem;
-        }
-
-        .kudos {
-          color: rgba(255, 215, 0, 0.9);
-          font-weight: 600;
-        }
-
-        .trick-title {
           font-size: 0.8rem;
+          color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .country-flag {
+          font-size: 1rem;
+        }
+        
+        .kudos {
+          color: #ff77c6;
           font-weight: 600;
-          color: #ffffff;
-          margin: 0;
-          line-height: 1.3;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
         }
-
-        .trick-preview {
-          font-size: 0.7rem;
-          color: rgba(255, 255, 255, 0.6);
-          margin: 0;
-          line-height: 1.3;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-
-        .no-tricks {
-          text-align: center;
-          padding: 2rem;
-          color: rgba(255, 255, 255, 0.6);
-        }
-
-        .no-tricks span {
-          font-size: 2rem;
-          display: block;
-          margin-bottom: 0.5rem;
-        }
-
-        .no-tricks p {
-          margin: 0;
-          font-size: 0.85rem;
+        
+        .top-trick-item:focus {
+          outline: 2px solid #ff77c6;
+          outline-offset: 2px;
         }
       `}</style>
     </div>

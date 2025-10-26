@@ -723,61 +723,10 @@ function HomeContent() {
           66% { transform: translateY(10px) rotate(-1deg); }
         }
 
-        .container {
-          max-width: 1400px;
-          margin: 0 auto;
-          padding: 0 1rem;
-        }
-
-        .header {
-          background: rgba(15, 15, 35, 0.95);
-          backdrop-filter: blur(20px);
-          border-radius: 16px;
-          padding: 1rem 2rem;
-          border: 1px solid rgba(120, 119, 198, 0.3);
-          position: fixed;
-          top: 1rem;
-          left: 1rem;
-          right: 1rem;
-          z-index: 1000;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-          height: 80px;
-        }
-
-        .main-content {
-          margin-top: 100px;
-          display: flex;
-          gap: 2rem;
-          padding: 0 1rem;
-          align-items: start;
-          min-height: calc(100vh - 120px);
-        }
-
-        .header-content {
-          display: grid;
-          grid-template-columns: 1fr auto 1fr;
-          align-items: center;
-          gap: 2rem;
-          height: 100%;
-        }
+        /* Layout styles are now handled by layout-system.css */
 
         .mobile-sidebar-toggle {
           display: none;
-          background: rgba(120, 119, 198, 0.3);
-          border: 2px solid rgba(120, 119, 198, 0.6);
-          color: #ffffff;
-          padding: 8px 12px;
-          border-radius: 8px;
-          cursor: pointer;
-          font-size: 18px;
-          margin-right: 0.5rem;
-          transition: all 0.2s ease;
-          box-shadow: 0 2px 8px rgba(120, 119, 198, 0.3);
-        }
-
-        .mobile-sidebar-toggle:hover {
-          background: rgba(120, 119, 198, 0.3);
-          transform: scale(1.05);
         }
 
         .loading-header {
@@ -813,31 +762,7 @@ function HomeContent() {
           animation: spin 1s linear infinite;
         }
 
-        .sidebar {
-          position: sticky;
-          top: 120px;
-          height: calc(100vh - 140px);
-          width: 320px;
-          min-width: 320px;
-          overflow-y: auto;
-          overflow-x: hidden;
-          background: linear-gradient(145deg, rgba(15, 15, 35, 0.98), rgba(25, 25, 45, 0.95));
-          backdrop-filter: blur(25px);
-          border: 1px solid rgba(120, 219, 255, 0.5);
-          border-radius: 20px;
-          padding: 1.5rem;
-          display: flex;
-          flex-direction: column;
-          gap: 1.5rem;
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-          scrollbar-width: thin;
-          scrollbar-color: rgba(120, 219, 255, 0.6) transparent;
-          box-shadow: 
-            0 20px 40px rgba(0, 0, 0, 0.4),
-            0 0 0 1px rgba(120, 219, 255, 0.2),
-            inset 0 1px 0 rgba(255, 255, 255, 0.1);
-          z-index: 100;
-        }
+        /* First sidebar styles removed - handled by layout-system.css */
 
         .sidebar::before {
           content: '';
@@ -1013,13 +938,7 @@ function HomeContent() {
           transform: translateY(-1px);
         }
 
-        .main-content {
-          display: grid;
-          grid-template-columns: auto 1fr;
-          gap: 2rem;
-          margin: 2rem 0;
-          align-items: start;
-        }
+        /* Main content styles handled by layout-system.css */
 
         .sidebar {
           display: flex;
@@ -1822,12 +1741,7 @@ function HomeContent() {
             height: 70px;
           }
 
-          .main-content {
-            margin-top: 90px;
-            flex-direction: column;
-            gap: 1rem;
-            padding: 1rem;
-          }
+          /* Mobile main-content styles handled by layout-system.css */
 
           .sidebar {
             position: fixed;
