@@ -527,6 +527,7 @@ function HomeContent() {
                   <div key={trick.id} className="trick-card reddit-style">
                     <div className="trick-votes">
                       <KudosButton
+                        key={`kudos-${trick.id}-${userKudos[trick.id] ? 'liked' : 'not-liked'}`}
                         trickId={trick.id}
                         kudosCount={trick.kudos}
                         hasUserKudos={userKudos[trick.id] || false}
