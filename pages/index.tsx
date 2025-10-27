@@ -195,6 +195,17 @@ function HomeContent() {
     fetchTricks();
   }, [fetchTricks]);
 
+  // Fetch user kudos when user logs in and we have tricks
+  useEffect(() => {
+    if (user?.email && tricks.length > 0) {
+      const trickIds = tricks.map(trick => trick.id);
+      fetchUserKudos(trickIds);
+    } else if (!user?.email) {
+      // Clear kudos state when user logs out
+      setUserKudos({});
+    }
+  }, [user?.email, tricks.length, fetchUserKudos]);
+
   const handleKudosToggle = async (trickId: string) => {
     if (handleUnauthenticatedAction()) return;
 
