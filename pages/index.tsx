@@ -209,16 +209,13 @@ function HomeContent() {
   const handleKudosToggle = async (trickId: string) => {
     if (handleUnauthenticatedAction()) return;
 
-    const currentState = userKudos[trickId] || false;
-    const action = currentState ? 'remove' : 'give';
-
     try {
       const response = await fetch(`/api/tricks/${trickId}/kudos`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
           userEmail: user?.email,
-          action: action
+          action: 'toggle'
         })
       });
       
@@ -233,16 +230,16 @@ function HomeContent() {
         
         setUserKudos(prev => ({
           ...prev,
-          [trickId]: !currentState
+          [trickId]: result.hasKudos
         }));
         
-        showToast(currentState ? 'Kudos removed! 👎' : 'Kudos given! 👍', 'success');
+        showToast(result.hasKudos ? 'Kudos given! 👍' : 'Kudos removed! 👎', 'success');
       } else {
-        showToast(result.error || `Failed to ${action} kudos`, 'error');
+        showToast(result.error || 'Failed to toggle kudos', 'error');
       }
     } catch (error: any) {
-      console.error(`Error ${action}ing kudos:`, error);
-      showToast(`Error ${action}ing kudos`, 'error');
+      console.error('Error toggling kudos:', error);
+      showToast('Error toggling kudos', 'error');
     }
   };
 
