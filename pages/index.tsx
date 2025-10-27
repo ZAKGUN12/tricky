@@ -13,6 +13,7 @@ import UserStats from '../components/UserStats';
 import Leaderboard from '../components/Leaderboard';
 import LoadingSkeleton from '../components/LoadingSkeleton';
 import Timer from '../components/Timer';
+import KudosButton from '../components/KudosButton';
 import { useToast } from '../lib/useToast';
 
 function HomeContent() {
@@ -527,37 +528,14 @@ function HomeContent() {
                 return (
                   <div key={trick.id} className="trick-card reddit-style">
                     <div className="trick-votes">
-                      <button 
-                        onClick={() => handleKudosGive(trick.id)}
-                        className={`vote-btn upvote ${userKudos[trick.id] ? 'active' : ''}`}
-                        disabled={userKudos[trick.id]}
-                        aria-label={`Give kudos to ${trick.title}`}
-                        tabIndex={0}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault();
-                            handleKudosGive(trick.id);
-                          }
-                        }}
-                      >
-                        ▲
-                      </button>
-                      <span className="vote-count" aria-label={`${trick.kudos} kudos`}>{trick.kudos}</span>
-                      <button 
-                        onClick={() => handleKudosRemove(trick.id)}
-                        className={`vote-btn downvote ${userKudos[trick.id] ? 'active' : ''}`}
-                        disabled={!userKudos[trick.id]}
-                        aria-label={`Remove kudos from ${trick.title}`}
-                        tabIndex={0}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault();
-                            handleKudosRemove(trick.id);
-                          }
-                        }}
-                      >
-                        ▼
-                      </button>
+                      <KudosButton
+                        trickId={trick.id}
+                        kudosCount={trick.kudos}
+                        hasUserKudos={userKudos[trick.id] || false}
+                        onKudosGive={handleKudosGive}
+                        onKudosRemove={handleKudosRemove}
+                        disabled={!user}
+                      />
                     </div>
                     
                     <div className="trick-content">
@@ -667,7 +645,6 @@ function HomeContent() {
         }
 
         /* Accessibility improvements */
-        .vote-btn:focus,
         .sort-btn:focus,
         .view-btn:focus,
         .action-btn:focus {
@@ -675,7 +652,6 @@ function HomeContent() {
           outline-offset: 2px;
         }
 
-        .vote-btn:focus-visible,
         .sort-btn:focus-visible,
         .view-btn:focus-visible,
         .action-btn:focus-visible {
@@ -1396,34 +1372,6 @@ function HomeContent() {
           background: var(--surface-elevated);
           border-right: 1px solid var(--border-light);
           min-width: 60px;
-        }
-
-        .vote-btn {
-          background: none;
-          border: none;
-          color: var(--text-secondary);
-          font-size: var(--text-lg);
-          cursor: pointer;
-          padding: var(--space-1);
-          transition: var(--transition-fast);
-          border-radius: var(--radius-sm);
-        }
-
-        .vote-btn.upvote:hover {
-          color: var(--accent);
-          background: var(--accent-light);
-        }
-
-        .vote-btn:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-        }
-
-        .vote-count {
-          font-weight: var(--font-bold);
-          color: var(--text-primary);
-          margin: var(--space-1) 0;
-          font-size: var(--text-sm);
         }
 
         .trick-content {
