@@ -40,7 +40,7 @@ const KudosButton: React.FC<KudosButtonProps> = ({
         onClick={handleKudosAction}
         className={`kudos-btn ${hasUserKudos ? 'active' : ''} ${isLoading ? 'loading' : ''}`}
         disabled={disabled || isLoading}
-        aria-label={hasUserKudos ? `Remove kudos (${kudosCount})` : `Give kudos (${kudosCount})`}
+        aria-label={hasUserKudos ? `Remove like (${kudosCount})` : `Give like (${kudosCount})`}
       >
         <div className="kudos-icon">
           {isLoading ? (
@@ -52,7 +52,7 @@ const KudosButton: React.FC<KudosButtonProps> = ({
           )}
         </div>
         <span className="kudos-count">{kudosCount}</span>
-        <span className="kudos-text">{hasUserKudos ? 'Liked' : 'Like'}</span>
+        <span className="kudos-text">{hasUserKudos ? 'Unlike' : 'Like'}</span>
       </button>
     </div>
   );
