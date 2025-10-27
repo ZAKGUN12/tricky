@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { useAuth } from '../components/AuthProvider';
 
 export default function SignIn() {
   const router = useRouter();
+  const { refreshUser } = useAuth();
   const [isSignUp, setIsSignUp] = useState(false);
   const [showVerification, setShowVerification] = useState(false);
   const [formData, setFormData] = useState({
@@ -66,6 +68,9 @@ export default function SignIn() {
           localStorage.setItem('access_token', data.AccessToken || '');
           localStorage.setItem('id_token', data.IdToken || '');
           localStorage.setItem('username', data.username || (isSignUp ? formData.username : formData.emailOrUsername));
+          
+          // Refresh auth state immediately
+          await refreshUser();
           
           // Use router.push instead of window.location.href
           const returnUrl = router.query.returnUrl as string || '/';

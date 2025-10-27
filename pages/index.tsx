@@ -55,9 +55,34 @@ function HomeContent() {
       document.body.className = theme;
     }
   }, [theme]);
+
   const { showToast, ToastContainer } = useToast();
   const { user, signOut } = useAuth();
   const router = useRouter();
+
+  // Protect scroll for unauthenticated users
+  useEffect(() => {
+    let scrollTimeout: NodeJS.Timeout;
+    
+    const handleScroll = () => {
+      if (!user && !loading) {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+          const currentUrl = window.location.pathname + window.location.search;
+          router.push(`/signin?returnUrl=${encodeURIComponent(currentUrl)}`);
+        }, 3000); // Redirect after 3 seconds of scrolling
+      }
+    };
+
+    if (!user && !loading) {
+      window.addEventListener('scroll', handleScroll, { passive: true });
+    }
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearTimeout(scrollTimeout);
+    };
+  }, [user, loading, router]);
 
   // Memoize sorted tricks to prevent unnecessary re-renders
   const sortedTricks = useMemo(() => {
@@ -157,7 +182,9 @@ function HomeContent() {
   const handleUnauthenticatedAction = (e?: React.MouseEvent) => {
     if (!user) {
       if (e) e.preventDefault();
-      showToast('Please sign in to interact with tricks', 'info');
+      // Redirect to login with return URL
+      const currentUrl = window.location.pathname + window.location.search;
+      router.push(`/signin?returnUrl=${encodeURIComponent(currentUrl)}`);
       return true;
     }
     return false;

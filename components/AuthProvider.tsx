@@ -88,7 +88,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     refreshUser();
-  }, []);
+    
+    // Listen for storage changes (when user logs in from another tab)
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'access_token') {
+        refreshUser();
+      }
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    
+    // Also check for auth state changes periodically
+    const interval = setInterval(() => {
+      const token = localStorage.getItem('access_token');
+      if (token && !user) {
+        refreshUser();
+      } else if (!token && user) {
+        setUser(null);
+      }
+    }, 1000);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      clearInterval(interval);
+    };
+  }, [user]);
 
   const value: AuthContextType = {
     user,
