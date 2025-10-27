@@ -4,8 +4,7 @@ interface KudosButtonProps {
   trickId: string;
   kudosCount: number;
   hasUserKudos: boolean;
-  onKudosGive: (trickId: string) => Promise<void>;
-  onKudosRemove: (trickId: string) => Promise<void>;
+  onKudosToggle: (trickId: string) => Promise<void>;
   disabled?: boolean;
 }
 
@@ -13,22 +12,17 @@ const KudosButton: React.FC<KudosButtonProps> = ({
   trickId,
   kudosCount,
   hasUserKudos,
-  onKudosGive,
-  onKudosRemove,
+  onKudosToggle,
   disabled = false
 }) => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleKudosAction = async () => {
+  const handleClick = async () => {
     if (isLoading || disabled) return;
     
     setIsLoading(true);
     try {
-      if (hasUserKudos) {
-        await onKudosRemove(trickId);
-      } else {
-        await onKudosGive(trickId);
-      }
+      await onKudosToggle(trickId);
     } finally {
       setIsLoading(false);
     }
@@ -37,7 +31,7 @@ const KudosButton: React.FC<KudosButtonProps> = ({
   return (
     <div className="kudos-button-container">
       <button
-        onClick={handleKudosAction}
+        onClick={handleClick}
         className={`kudos-btn ${hasUserKudos ? 'active' : ''} ${isLoading ? 'loading' : ''}`}
         disabled={disabled || isLoading}
         aria-label={hasUserKudos ? `Remove like (${kudosCount})` : `Give like (${kudosCount})`}

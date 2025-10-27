@@ -195,8 +195,11 @@ function HomeContent() {
     fetchTricks();
   }, [fetchTricks]);
 
-  const handleKudosGive = async (trickId: string) => {
+  const handleKudosToggle = async (trickId: string) => {
     if (handleUnauthenticatedAction()) return;
+
+    const currentState = userKudos[trickId] || false;
+    const action = currentState ? 'remove' : 'give';
 
     try {
       const response = await fetch(`/api/tricks/${trickId}/kudos`, {
@@ -204,7 +207,7 @@ function HomeContent() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
           userEmail: user?.email,
-          action: 'give'
+          action: action
         })
       });
       
@@ -219,53 +222,16 @@ function HomeContent() {
         
         setUserKudos(prev => ({
           ...prev,
-          [trickId]: true
+          [trickId]: !currentState
         }));
         
-        showToast('Kudos given! 👍', 'success');
+        showToast(currentState ? 'Kudos removed! 👎' : 'Kudos given! 👍', 'success');
       } else {
-        showToast(result.error || 'Failed to give kudos', 'error');
+        showToast(result.error || `Failed to ${action} kudos`, 'error');
       }
     } catch (error: any) {
-      console.error('Error giving kudos:', error);
-      showToast('Error giving kudos', 'error');
-    }
-  };
-
-  const handleKudosRemove = async (trickId: string) => {
-    if (handleUnauthenticatedAction()) return;
-
-    try {
-      const response = await fetch(`/api/tricks/${trickId}/kudos`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          userEmail: user?.email,
-          action: 'remove'
-        })
-      });
-      
-      const result = await response.json();
-      
-      if (response.ok && result.success) {
-        setTricks(prev => prev.map(trick => 
-          trick.id === trickId 
-            ? { ...trick, kudos: result.newKudosCount }
-            : trick
-        ));
-        
-        setUserKudos(prev => ({
-          ...prev,
-          [trickId]: false
-        }));
-        
-        showToast('Kudos removed! 👎', 'success');
-      } else {
-        showToast(result.error || 'Failed to remove kudos', 'error');
-      }
-    } catch (error: any) {
-      console.error('Error removing kudos:', error);
-      showToast('Error removing kudos', 'error');
+      console.error(`Error ${action}ing kudos:`, error);
+      showToast(`Error ${action}ing kudos`, 'error');
     }
   };
 
@@ -531,8 +497,7 @@ function HomeContent() {
                         trickId={trick.id}
                         kudosCount={trick.kudos}
                         hasUserKudos={userKudos[trick.id] || false}
-                        onKudosGive={handleKudosGive}
-                        onKudosRemove={handleKudosRemove}
+                        onKudosToggle={handleKudosToggle}
                         disabled={!user}
                       />
                     </div>
