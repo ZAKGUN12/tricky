@@ -24,6 +24,7 @@ function HomeContent() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [filtering, setFiltering] = useState(false);
+  const [userKudos, setUserKudos] = useState<Record<string, boolean>>({});
   const [error, setError] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState('hot');
   const [viewMode, setViewMode] = useState('card');
@@ -79,6 +80,28 @@ function HomeContent() {
     }
   }, [tricks, sortBy]);
 
+  const fetchUserKudos = useCallback(async (trickIds: string[]) => {
+    if (!user?.email || trickIds.length === 0) return;
+    
+    try {
+      const response = await fetch('/api/user/kudos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          userEmail: user.email, 
+          trickIds 
+        })
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setUserKudos(data.kudosStatus);
+      }
+    } catch (error) {
+      console.error('Error fetching user kudos:', error);
+    }
+  }, [user?.email]);
+
   const fetchTricks = useCallback(async () => {
     try {
       setError(null);
@@ -108,6 +131,12 @@ function HomeContent() {
       // Also fetch all tricks for category counting if we don't have them
       if (allTricks.length === 0 || (!selectedCountry && !selectedCategory && !searchQuery)) {
         setAllTricks(Array.isArray(data) ? data : []);
+      }
+      
+      // Fetch user kudos status for loaded tricks
+      if (user?.email && Array.isArray(data) && data.length > 0) {
+        const trickIds = data.map(trick => trick.id);
+        fetchUserKudos(trickIds);
       }
     } catch (error) {
       console.error('Error fetching tricks:', error);
@@ -142,18 +171,41 @@ function HomeContent() {
     if (handleUnauthenticatedAction()) return;
 
     try {
-      await fetch(`/api/tricks/${trickId}/kudos`, {
+      const response = await fetch(`/api/tricks/${trickId}/kudos`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userEmail: user?.email })
+        body: JSON.stringify({ 
+          userEmail: user?.email,
+          action: 'toggle'
+        })
       });
       
-      setTricks(prev => prev.map(trick => 
-        trick.id === trickId ? { ...trick, kudos: trick.kudos + 1 } : trick
-      ));
-      showToast('Kudos given! 👍', 'success');
+      const result = await response.json();
+      
+      if (response.ok) {
+        // Update tricks state with new kudos count
+        setTricks(prev => prev.map(trick => 
+          trick.id === trickId 
+            ? { ...trick, kudos: result.newKudosCount }
+            : trick
+        ));
+        
+        // Update user kudos state
+        setUserKudos(prev => ({
+          ...prev,
+          [trickId]: result.hasKudos
+        }));
+        
+        showToast(
+          result.hasKudos ? 'Kudos given! 👍' : 'Kudos removed! 👎', 
+          'success'
+        );
+      } else {
+        showToast(result.error || 'Failed to update kudos', 'error');
+      }
     } catch (error: any) {
-      showToast('Error giving kudos', 'error');
+      console.error('Error handling kudos:', error);
+      showToast('Error updating kudos', 'error');
     }
   };
 
@@ -416,8 +468,8 @@ function HomeContent() {
                     <div className="trick-votes">
                       <button 
                         onClick={() => handleKudos(trick.id)}
-                        className="vote-btn upvote"
-                        aria-label={`Give kudos to ${trick.title}`}
+                        className={`vote-btn upvote ${userKudos[trick.id] ? 'active' : ''}`}
+                        aria-label={`${userKudos[trick.id] ? 'Remove kudos from' : 'Give kudos to'} ${trick.title}`}
                         tabIndex={0}
                         onKeyDown={(e) => {
                           if (e.key === 'Enter' || e.key === ' ') {
@@ -426,7 +478,7 @@ function HomeContent() {
                           }
                         }}
                       >
-                        ▲
+                        {userKudos[trick.id] ? '▲' : '△'}
                       </button>
                       <span className="vote-count" aria-label={`${trick.kudos} kudos`}>{trick.kudos}</span>
                       <button className="vote-btn downvote" disabled aria-label="Downvote disabled">

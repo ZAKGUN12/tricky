@@ -561,7 +561,43 @@ body.dark {
   }
 }
 
-/* Loading */
+/* Vote Button States */
+.vote-btn {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-secondary) !important;
+  padding: 0.5rem !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  font-size: 1.2rem !important;
+  font-weight: bold !important;
+}
+
+.vote-btn:hover {
+  background: var(--accent-color) !important;
+  color: var(--text-primary) !important;
+  transform: scale(1.1) !important;
+}
+
+.vote-btn.upvote.active {
+  background: linear-gradient(135deg, #ff6b35, #ff8e53) !important;
+  color: #ffffff !important;
+  border-color: #ff6b35 !important;
+  box-shadow: 0 0 12px rgba(255, 107, 53, 0.4) !important;
+}
+
+.vote-btn.upvote.active:hover {
+  background: linear-gradient(135deg, #ff8e53, #ffab73) !important;
+  transform: scale(1.15) !important;
+}
+
+.vote-count {
+  color: var(--text-primary) !important;
+  font-weight: 700 !important;
+  font-size: 1rem !important;
+  padding: 0.25rem 0 !important;
+}
 .loading {
   color: rgba(255, 255, 255, 0.8) !important;
   text-align: center !important;
