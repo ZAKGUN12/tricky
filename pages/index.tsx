@@ -46,7 +46,6 @@ function HomeContent() {
     };
   }, [sidebarCollapsed]);
   const [theme, setTheme] = useState('dark');
-  const [rightSidebarOpen, setRightSidebarOpen] = useState(false);
   const { showToast, ToastContainer } = useToast();
   const { user, signOut } = useAuth();
   const router = useRouter();
@@ -226,46 +225,46 @@ function HomeContent() {
               >
                 ☰
               </button>
-              <Timer />
+              <div className="logo">
+                <span className="logo-icon">🌍</span>
+                <span className="logo-text">TrickShare</span>
+              </div>
             </div>
             <div className="header-center">
+              <div className="search-container">
+                <input
+                  type="text"
+                  placeholder="Search tricks..."
+                  className="search-input"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      fetchTricks();
+                    }
+                  }}
+                />
+                <button 
+                  className="search-btn"
+                  onClick={fetchTricks}
+                  aria-label="Search"
+                >
+                  🔍
+                </button>
+              </div>
               {user ? (
                 <Link 
                   href="/submit" 
                   className="share-btn"
-                  style={{
-                    background: 'rgba(15, 15, 35, 0.8)',
-                    backdropFilter: 'blur(20px)',
-                    border: '2px solid rgba(120, 119, 198, 0.8)',
-                    color: '#7877c6',
-                    padding: '0.75rem 2rem',
-                    borderRadius: 'var(--radius-full)',
-                    textDecoration: 'none',
-                    fontWeight: '600',
-                    boxShadow: '0 4px 16px rgba(120, 119, 198, 0.4)',
-                    textShadow: '0 0 10px rgba(120, 119, 198, 0.5)'
-                  }}
                 >
-                  Share Your Trick
+                  + Share Trick
                 </Link>
               ) : (
                 <button 
                   onClick={() => router.push(`/signin?returnUrl=${encodeURIComponent('/submit')}`)}
                   className="share-btn"
-                  style={{
-                    background: 'rgba(15, 15, 35, 0.8)',
-                    backdropFilter: 'blur(20px)',
-                    border: '2px solid rgba(120, 119, 198, 0.8)',
-                    color: '#7877c6',
-                    padding: '0.75rem 2rem',
-                    borderRadius: 'var(--radius-full)',
-                    fontWeight: '600',
-                    boxShadow: '0 4px 16px rgba(120, 119, 198, 0.4)',
-                    textShadow: '0 0 10px rgba(120, 119, 198, 0.5)',
-                    cursor: 'pointer'
-                  }}
                 >
-                  Share Your Trick
+                  + Share Trick
                 </button>
               )}
             </div>
@@ -276,13 +275,6 @@ function HomeContent() {
                 aria-label="Toggle theme"
               >
                 {theme === 'dark' ? '☀️' : '🌙'}
-              </button>
-              <button 
-                className="right-sidebar-toggle"
-                onClick={() => setRightSidebarOpen(!rightSidebarOpen)}
-                aria-label="Toggle right sidebar"
-              >
-                ⚙️
               </button>
               {user ? (
                 <div className="user-section">
@@ -296,7 +288,7 @@ function HomeContent() {
                     }}
                     className="sign-out-btn"
                   >
-                    🚪 Sign Out
+                    Sign Out
                   </button>
                 </div>
               ) : (
@@ -337,9 +329,6 @@ function HomeContent() {
           )}
 
           <div className="content">
-            <div className="search-section">
-              <AdvancedSearch onSearch={handleSearch} onFilter={handleFilter} />
-            </div>
 
             {/* Reddit-style controls */}
             <div className="reddit-controls">
@@ -498,33 +487,6 @@ function HomeContent() {
             )}
           </div>
 
-          {rightSidebarOpen && (
-            <div className="right-sidebar">
-              <button 
-                className="right-sidebar-close"
-                onClick={() => setRightSidebarOpen(false)}
-                aria-label="Close right sidebar"
-              >
-                ✕
-              </button>
-              <div className="reddit-sidebar-section">
-                <div className="reddit-header">
-                  <h3>Settings</h3>
-                </div>
-                <div className="reddit-content">
-                  <div className="setting-item">
-                    <span>Theme</span>
-                    <button 
-                      className="setting-btn"
-                      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                    >
-                      {theme === 'dark' ? 'Dark' : 'Light'}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </div>
 

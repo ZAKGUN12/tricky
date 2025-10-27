@@ -1,11 +1,229 @@
 /* Premium Left Sidebar - Fixed Visibility */
 
+/* Reddit-Style Header */
+.header {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 60px !important;
+  background: rgba(15, 15, 35, 0.98) !important;
+  backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid rgba(120, 119, 198, 0.3) !important;
+  z-index: 1001 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+.header-content {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  height: 100% !important;
+  max-width: 1400px !important;
+  margin: 0 auto !important;
+  padding: 0 1rem !important;
+  gap: 1rem !important;
+}
+
+.header-left {
+  display: flex !important;
+  align-items: center !important;
+  gap: 1rem !important;
+  flex-shrink: 0 !important;
+}
+
+.logo {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  font-size: 1.2rem !important;
+}
+
+.logo-icon {
+  font-size: 1.5rem !important;
+  filter: drop-shadow(0 0 8px rgba(120, 119, 198, 0.6)) !important;
+}
+
+.header-center {
+  display: flex !important;
+  align-items: center !important;
+  gap: 1rem !important;
+  flex: 1 !important;
+  max-width: 600px !important;
+}
+
+.search-container {
+  display: flex !important;
+  align-items: center !important;
+  flex: 1 !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(120, 119, 198, 0.3) !important;
+  border-radius: 20px !important;
+  overflow: hidden !important;
+  transition: all 0.2s ease !important;
+}
+
+.search-container:focus-within {
+  border-color: rgba(120, 119, 198, 0.6) !important;
+  box-shadow: 0 0 12px rgba(120, 119, 198, 0.3) !important;
+}
+
+.search-input {
+  flex: 1 !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 0.75rem 1rem !important;
+  color: #ffffff !important;
+  font-size: 0.9rem !important;
+  outline: none !important;
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.search-btn {
+  background: transparent !important;
+  border: none !important;
+  padding: 0.75rem !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.search-btn:hover {
+  color: #ffffff !important;
+  background: rgba(120, 119, 198, 0.2) !important;
+}
+
+.share-btn {
+  background: linear-gradient(135deg, #ff6b35, #ff8e53) !important;
+  border: none !important;
+  color: #ffffff !important;
+  padding: 0.6rem 1.2rem !important;
+  border-radius: 20px !important;
+  font-weight: 600 !important;
+  font-size: 0.9rem !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+  transition: all 0.2s ease !important;
+  white-space: nowrap !important;
+}
+
+.share-btn:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4) !important;
+}
+
+.header-right {
+  display: flex !important;
+  align-items: center !important;
+  gap: 1rem !important;
+  flex-shrink: 0 !important;
+}
+
+.theme-toggle {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(120, 119, 198, 0.3) !important;
+  color: #ffffff !important;
+  padding: 0.5rem !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  font-size: 1.1rem !important;
+  transition: all 0.2s ease !important;
+}
+
+.theme-toggle:hover {
+  background: rgba(120, 119, 198, 0.2) !important;
+  transform: scale(1.05) !important;
+}
+
+.user-section {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+}
+
+.welcome {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+}
+
+.sign-out-btn,
+.login-btn {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(120, 119, 198, 0.3) !important;
+  color: #ffffff !important;
+  padding: 0.5rem 1rem !important;
+  border-radius: 16px !important;
+  font-size: 0.85rem !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  text-decoration: none !important;
+}
+
+.sign-out-btn:hover,
+.login-btn:hover {
+  background: rgba(120, 119, 198, 0.2) !important;
+  transform: translateY(-1px) !important;
+}
+
+.mobile-sidebar-toggle {
+  display: none !important;
+  background: rgba(120, 119, 198, 0.3) !important;
+  border: 1px solid rgba(120, 119, 198, 0.5) !important;
+  color: #ffffff !important;
+  padding: 0.5rem !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  font-size: 1.1rem !important;
+}
+
+/* Mobile Header */
+@media (max-width: 1024px) {
+  .mobile-sidebar-toggle {
+    display: block !important;
+  }
+  
+  .logo-text {
+    display: none !important;
+  }
+  
+  .header-center {
+    max-width: none !important;
+  }
+  
+  .welcome {
+    display: none !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .header-content {
+    padding: 0 0.5rem !important;
+    gap: 0.5rem !important;
+  }
+  
+  .search-container {
+    min-width: 0 !important;
+  }
+  
+  .share-btn {
+    padding: 0.5rem 0.8rem !important;
+    font-size: 0.8rem !important;
+  }
+}
+
 /* Main Layout - Fixed Scrolling */
 .main-content {
   margin-left: 340px !important;
-  margin-top: 0 !important;
+  margin-top: 60px !important;
   padding: 2rem !important;
-  min-height: 100vh !important;
+  min-height: calc(100vh - 60px) !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
 }
@@ -25,16 +243,16 @@
 /* Premium Sidebar - Fixed Height and Scrolling */
 .sidebar {
   position: fixed !important;
-  top: 0 !important;
+  top: 60px !important;
   left: 0 !important;
   width: 340px !important;
-  height: 100vh !important;
+  height: calc(100vh - 60px) !important;
   background: linear-gradient(145deg, #0a0a1a 0%, #1a1a2e 50%, #16213e 100%) !important;
   border-right: 2px solid rgba(120, 119, 198, 0.4) !important;
   padding: 1rem !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
-  z-index: 1000 !important;
+  z-index: 100 !important;
   box-shadow: 4px 0 40px rgba(0, 0, 0, 0.5) !important;
   display: flex !important;
   flex-direction: column !important;
