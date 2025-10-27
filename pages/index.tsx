@@ -46,6 +46,14 @@ function HomeContent() {
     };
   }, [sidebarCollapsed]);
   const [theme, setTheme] = useState('dark');
+
+  // Apply theme to document
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      document.documentElement.setAttribute('data-theme', theme);
+      document.body.className = theme;
+    }
+  }, [theme]);
   const { showToast, ToastContainer } = useToast();
   const { user, signOut } = useAuth();
   const router = useRouter();
