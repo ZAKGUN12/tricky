@@ -69,7 +69,12 @@ async function handleGiveKudos(req: NextApiRequest, res: NextApiResponse, trickI
     }));
 
     if (existingKudo.Item) {
-      return res.status(409).json({ error: 'Already gave kudos to this trick', hasKudos: true });
+      return res.status(200).json({ 
+        success: false, 
+        error: 'Already gave kudos to this trick', 
+        hasKudos: true,
+        newKudosCount: null
+      });
     }
 
     // Get trick to find author and current kudos count
@@ -94,8 +99,7 @@ async function handleGiveKudos(req: NextApiRequest, res: NextApiResponse, trickI
             userEmail,
             trickId,
             createdAt: new Date().toISOString()
-          },
-          ConditionExpression: 'attribute_not_exists(userEmail)'
+          }
         }
       },
       {
@@ -135,10 +139,8 @@ async function handleGiveKudos(req: NextApiRequest, res: NextApiResponse, trickI
       newKudosCount: currentKudos + 1 
     });
   } catch (error: any) {
-    if (error.name === 'TransactionCanceledException') {
-      return res.status(409).json({ error: 'Already gave kudos to this trick', hasKudos: true });
-    }
-    throw error;
+    console.error('Give kudos error:', error);
+    res.status(500).json({ error: 'Failed to give kudos' });
   }
 }
 
@@ -151,7 +153,12 @@ async function handleRemoveKudos(req: NextApiRequest, res: NextApiResponse, tric
     }));
 
     if (!existingKudo.Item) {
-      return res.status(404).json({ error: 'Kudo not found', hasKudos: false });
+      return res.status(200).json({ 
+        success: false, 
+        error: 'No kudos to remove', 
+        hasKudos: false,
+        newKudosCount: null
+      });
     }
 
     // Get trick to find author and current kudos count
@@ -213,7 +220,7 @@ async function handleRemoveKudos(req: NextApiRequest, res: NextApiResponse, tric
     });
   } catch (error) {
     console.error('Remove kudos error:', error);
-    throw error;
+    res.status(500).json({ error: 'Failed to remove kudos' });
   }
 }
 

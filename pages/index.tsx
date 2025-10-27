@@ -210,7 +210,7 @@ function HomeContent() {
       
       const result = await response.json();
       
-      if (response.ok) {
+      if (response.ok && result.success) {
         setTricks(prev => prev.map(trick => 
           trick.id === trickId 
             ? { ...trick, kudos: result.newKudosCount }
@@ -248,7 +248,7 @@ function HomeContent() {
       
       const result = await response.json();
       
-      if (response.ok) {
+      if (response.ok && result.success) {
         setTricks(prev => prev.map(trick => 
           trick.id === trickId 
             ? { ...trick, kudos: result.newKudosCount }
