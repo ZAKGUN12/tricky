@@ -197,7 +197,6 @@ function HomeContent() {
 
   const handleKudosGive = async (trickId: string) => {
     if (handleUnauthenticatedAction()) return;
-    if (userKudos[trickId]) return; // Already has kudos
 
     try {
       const response = await fetch(`/api/tricks/${trickId}/kudos`, {
@@ -235,7 +234,6 @@ function HomeContent() {
 
   const handleKudosRemove = async (trickId: string) => {
     if (handleUnauthenticatedAction()) return;
-    if (!userKudos[trickId]) return; // No kudos to remove
 
     try {
       const response = await fetch(`/api/tricks/${trickId}/kudos`, {
