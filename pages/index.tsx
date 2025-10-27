@@ -171,7 +171,7 @@ function HomeContent() {
       setLoading(false);
       setFiltering(false);
     }
-  }, [selectedCountry, selectedCategory, searchQuery, allTricks.length, tricks.length]);
+  }, [selectedCountry, selectedCategory, searchQuery, allTricks.length, tricks.length, fetchUserKudos, user?.email]);
 
   const clearFilters = () => {
     setSelectedCountry('');
