@@ -574,10 +574,15 @@ body.dark {
   font-weight: bold !important;
 }
 
-.vote-btn:hover {
+.vote-btn:hover:not(:disabled) {
   background: var(--accent-color) !important;
   color: var(--text-primary) !important;
   transform: scale(1.1) !important;
+}
+
+.vote-btn:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
 }
 
 .vote-btn.upvote.active {
@@ -589,6 +594,18 @@ body.dark {
 
 .vote-btn.upvote.active:hover {
   background: linear-gradient(135deg, #ff8e53, #ffab73) !important;
+  transform: scale(1.15) !important;
+}
+
+.vote-btn.downvote.active {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+  color: #ffffff !important;
+  border-color: #6366f1 !important;
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.4) !important;
+}
+
+.vote-btn.downvote.active:hover {
+  background: linear-gradient(135deg, #8b5cf6, #a78bfa) !important;
   transform: scale(1.15) !important;
 }
 

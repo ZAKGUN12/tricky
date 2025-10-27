@@ -21,6 +21,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (req.method === 'POST') {
       if (action === 'toggle') {
         return await handleToggleKudos(req, res, id, userEmail);
+      } else if (action === 'give') {
+        return await handleGiveKudos(req, res, id, userEmail);
+      } else if (action === 'remove') {
+        return await handleRemoveKudos(req, res, id, userEmail);
       } else {
         return await handleGiveKudos(req, res, id, userEmail);
       }

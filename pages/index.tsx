@@ -194,8 +194,9 @@ function HomeContent() {
     fetchTricks();
   }, [fetchTricks]);
 
-  const handleKudos = async (trickId: string) => {
+  const handleKudosGive = async (trickId: string) => {
     if (handleUnauthenticatedAction()) return;
+    if (userKudos[trickId]) return; // Already has kudos
 
     try {
       const response = await fetch(`/api/tricks/${trickId}/kudos`, {
@@ -203,36 +204,69 @@ function HomeContent() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
           userEmail: user?.email,
-          action: 'toggle'
+          action: 'give'
         })
       });
       
       const result = await response.json();
       
       if (response.ok) {
-        // Update tricks state with new kudos count
         setTricks(prev => prev.map(trick => 
           trick.id === trickId 
             ? { ...trick, kudos: result.newKudosCount }
             : trick
         ));
         
-        // Update user kudos state
         setUserKudos(prev => ({
           ...prev,
-          [trickId]: result.hasKudos
+          [trickId]: true
         }));
         
-        showToast(
-          result.hasKudos ? 'Kudos given! 👍' : 'Kudos removed! 👎', 
-          'success'
-        );
+        showToast('Kudos given! 👍', 'success');
       } else {
-        showToast(result.error || 'Failed to update kudos', 'error');
+        showToast(result.error || 'Failed to give kudos', 'error');
       }
     } catch (error: any) {
-      console.error('Error handling kudos:', error);
-      showToast('Error updating kudos', 'error');
+      console.error('Error giving kudos:', error);
+      showToast('Error giving kudos', 'error');
+    }
+  };
+
+  const handleKudosRemove = async (trickId: string) => {
+    if (handleUnauthenticatedAction()) return;
+    if (!userKudos[trickId]) return; // No kudos to remove
+
+    try {
+      const response = await fetch(`/api/tricks/${trickId}/kudos`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          userEmail: user?.email,
+          action: 'remove'
+        })
+      });
+      
+      const result = await response.json();
+      
+      if (response.ok) {
+        setTricks(prev => prev.map(trick => 
+          trick.id === trickId 
+            ? { ...trick, kudos: result.newKudosCount }
+            : trick
+        ));
+        
+        setUserKudos(prev => ({
+          ...prev,
+          [trickId]: false
+        }));
+        
+        showToast('Kudos removed! 👎', 'success');
+      } else {
+        showToast(result.error || 'Failed to remove kudos', 'error');
+      }
+    } catch (error: any) {
+      console.error('Error removing kudos:', error);
+      showToast('Error removing kudos', 'error');
     }
   };
 
@@ -494,21 +528,34 @@ function HomeContent() {
                   <div key={trick.id} className="trick-card reddit-style">
                     <div className="trick-votes">
                       <button 
-                        onClick={() => handleKudos(trick.id)}
+                        onClick={() => handleKudosGive(trick.id)}
                         className={`vote-btn upvote ${userKudos[trick.id] ? 'active' : ''}`}
-                        aria-label={`${userKudos[trick.id] ? 'Remove kudos from' : 'Give kudos to'} ${trick.title}`}
+                        disabled={userKudos[trick.id]}
+                        aria-label={`Give kudos to ${trick.title}`}
                         tabIndex={0}
                         onKeyDown={(e) => {
                           if (e.key === 'Enter' || e.key === ' ') {
                             e.preventDefault();
-                            handleKudos(trick.id);
+                            handleKudosGive(trick.id);
                           }
                         }}
                       >
-                        {userKudos[trick.id] ? '▲' : '△'}
+                        ▲
                       </button>
                       <span className="vote-count" aria-label={`${trick.kudos} kudos`}>{trick.kudos}</span>
-                      <button className="vote-btn downvote" disabled aria-label="Downvote disabled">
+                      <button 
+                        onClick={() => handleKudosRemove(trick.id)}
+                        className={`vote-btn downvote ${userKudos[trick.id] ? 'active' : ''}`}
+                        disabled={!userKudos[trick.id]}
+                        aria-label={`Remove kudos from ${trick.title}`}
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            handleKudosRemove(trick.id);
+                          }
+                        }}
+                      >
                         ▼
                       </button>
                     </div>
