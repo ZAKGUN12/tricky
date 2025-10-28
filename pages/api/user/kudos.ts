@@ -21,6 +21,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
+    // Return empty kudos status if no tricks
+    if (trickIds.length === 0) {
+      return res.status(200).json({ kudosStatus: {} });
+    }
+
     // Batch get kudos for all tricks
     const keys = trickIds.map(trickId => ({
       userEmail,
@@ -61,6 +66,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(200).json({ kudosStatus });
   } catch (error) {
     console.error('Get user kudos error:', error);
-    res.status(500).json({ error: 'Failed to get kudos status' });
+    // Return empty kudos status on error instead of failing
+    const kudosStatus: Record<string, boolean> = {};
+    trickIds.forEach(trickId => {
+      kudosStatus[trickId] = false;
+    });
+    res.status(200).json({ kudosStatus });
   }
 }
