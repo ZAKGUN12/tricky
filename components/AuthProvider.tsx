@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { getCognitoLogoutUrl } from '../lib/cognito-auth';
 
 interface User {
   email: string;
@@ -18,7 +17,7 @@ interface User {
 interface AuthContextType {
   user: User | null;
   loading: boolean;
-  signOut: () => Promise<void>;
+  signOut: () => void;
   refreshUser: () => Promise<void>;
 }
 
@@ -29,100 +28,57 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   const refreshUser = async () => {
-    try {
-      const accessToken = localStorage.getItem('access_token');
-      const profileData = localStorage.getItem('user_profile');
-      
-      if (accessToken) {
-        // Validate token server-side and get user info
-        const response = await fetch('/api/auth/user', {
-          headers: {
-            'Authorization': `Bearer ${accessToken}`
-          }
-        });
+    const token = localStorage.getItem('access_token');
+    
+    if (!token) {
+      setUser(null);
+      setLoading(false);
+      return;
+    }
 
-        if (response.ok) {
-          const userData = await response.json();
-          setUser({
-            email: userData.email,
-            name: userData.name,
-            username: userData.preferredUsername || userData.name,
-            sub: userData.sub,
-            profile: profileData ? JSON.parse(profileData) : undefined
-          });
-        } else {
-          // Token is invalid, clear storage
-          localStorage.removeItem('access_token');
-          localStorage.removeItem('id_token');
-          localStorage.removeItem('username');
-          localStorage.removeItem('user_profile');
-          setUser(null);
-        }
+    try {
+      const response = await fetch('/api/auth/user', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+
+      if (response.ok) {
+        const userData = await response.json();
+        setUser({
+          email: userData.email,
+          name: userData.name,
+          username: userData.preferredUsername || userData.name,
+          sub: userData.sub
+        });
       } else {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('id_token');
+        localStorage.removeItem('username');
         setUser(null);
       }
     } catch (error) {
-      console.error('Error refreshing user:', error);
-      setUser(null);
       localStorage.removeItem('access_token');
       localStorage.removeItem('id_token');
       localStorage.removeItem('username');
-      localStorage.removeItem('user_profile');
-    } finally {
-      setLoading(false);
+      setUser(null);
     }
+    
+    setLoading(false);
   };
 
-  const signOut = async () => {
-    try {
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('id_token');
-      localStorage.removeItem('username');
-      localStorage.removeItem('user_profile');
-      setUser(null);
-      window.location.href = '/';
-    } catch (error) {
-      console.error('Sign out error:', error);
-    }
+  const signOut = () => {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('id_token');
+    localStorage.removeItem('username');
+    setUser(null);
+    window.location.href = '/';
   };
 
   useEffect(() => {
     refreshUser();
-    
-    // Listen for storage changes (when user logs in from another tab)
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'access_token') {
-        refreshUser();
-      }
-    };
-    
-    window.addEventListener('storage', handleStorageChange);
-    
-    // Also check for auth state changes periodically
-    const interval = setInterval(() => {
-      const token = localStorage.getItem('access_token');
-      if (token && !user) {
-        refreshUser();
-      } else if (!token && user) {
-        setUser(null);
-      }
-    }, 1000);
-    
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      clearInterval(interval);
-    };
-  }, [user]);
-
-  const value: AuthContextType = {
-    user,
-    loading,
-    signOut,
-    refreshUser
-  };
+  }, []);
 
   return (
-    <AuthContext.Provider value={value}>
+    <AuthContext.Provider value={{ user, loading, signOut, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );
@@ -130,7 +86,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 export function useAuth() {
   const context = useContext(AuthContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
