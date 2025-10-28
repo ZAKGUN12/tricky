@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 interface KudosButtonProps {
   trickId: string;
@@ -16,10 +16,6 @@ const KudosButton: React.FC<KudosButtonProps> = ({
   disabled = false
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    console.log(`KudosButton ${trickId}: hasUserKudos=${hasUserKudos}, count=${kudosCount}`);
-  }, [trickId, hasUserKudos, kudosCount]);
 
   const handleClick = async () => {
     if (isLoading || disabled) return;

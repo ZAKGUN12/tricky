@@ -109,8 +109,6 @@ function HomeContent() {
   const fetchUserKudos = useCallback(async (trickIds: string[]) => {
     if (!user?.email || trickIds.length === 0) return;
     
-    console.log('Fetching kudos for user:', user.email, 'tricks:', trickIds.length);
-    
     try {
       const response = await fetch('/api/user/kudos', {
         method: 'POST',
@@ -123,7 +121,6 @@ function HomeContent() {
       
       if (response.ok) {
         const data = await response.json();
-        console.log('Kudos data received:', data.kudosStatus);
         setUserKudos(data.kudosStatus);
       }
     } catch (error) {
