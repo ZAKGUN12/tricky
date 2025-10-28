@@ -159,11 +159,8 @@ function HomeContent() {
         setAllTricks(Array.isArray(data) ? data : []);
       }
       
-      // Fetch user kudos status for loaded tricks
-      if (user?.email && Array.isArray(data) && data.length > 0) {
-        const trickIds = data.map(trick => trick.id);
-        fetchUserKudos(trickIds);
-      }
+      // Don't fetch user kudos here to avoid overriding current state
+      // Kudos will be fetched when user logs in via useEffect
     } catch (error) {
       console.error('Error fetching tricks:', error);
       setError(error instanceof Error ? error.message : 'Failed to load tricks');
@@ -204,7 +201,15 @@ function HomeContent() {
       // Clear kudos state when user logs out
       setUserKudos({});
     }
-  }, [user?.email, tricks.length, fetchUserKudos]);
+  }, [user?.email, fetchUserKudos]); // Remove tricks.length dependency
+
+  // Initial kudos load when tricks are first loaded
+  useEffect(() => {
+    if (user?.email && tricks.length > 0 && Object.keys(userKudos).length === 0) {
+      const trickIds = tricks.map(trick => trick.id);
+      fetchUserKudos(trickIds);
+    }
+  }, [tricks.length, user?.email, userKudos, fetchUserKudos]);
 
   const handleKudosToggle = async (trickId: string) => {
     if (handleUnauthenticatedAction()) return;
