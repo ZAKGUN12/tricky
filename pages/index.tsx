@@ -999,9 +999,10 @@ function HomeContent() {
           display: flex;
           flex-direction: column;
           gap: 1rem;
-          position: sticky;
-          top: 140px;
-          height: calc(100vh - 160px);
+          position: fixed;
+          top: 80px;
+          left: 0;
+          height: calc(100vh - 80px);
           overflow-y: auto;
           padding-right: 0.5rem;
           scrollbar-width: thin;
@@ -1014,6 +1015,10 @@ function HomeContent() {
         .sidebar.collapsed {
           width: 60px;
           overflow: hidden;
+        }
+
+        .sidebar.collapsed + .content {
+          margin-left: 60px;
         }
 
         .sidebar-close {
@@ -1050,6 +1055,7 @@ function HomeContent() {
         .content {
           flex: 1;
           min-width: 0;
+          margin-left: 300px;
           transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
