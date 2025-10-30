@@ -1,74 +1,83 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { validateSecureInput } from './validation';
+import { z } from 'zod';
 
-export function securityMiddleware(req: NextApiRequest, res: NextApiResponse, next: () => void) {
-  // Check for suspicious patterns in request
-  if (req.body && typeof req.body === 'object') {
-    const hasUnsafeContent = checkObjectForUnsafeContent(req.body);
-    if (hasUnsafeContent) {
-      res.status(400).json({ error: 'Invalid request content' });
-      return;
+// XSS Protection
+export function sanitizeInput(input: string): string {
+  if (typeof input !== 'string') return '';
+  
+  return input
+    .replace(/[<>]/g, '') // Remove < and >
+    .replace(/javascript:/gi, '') // Remove javascript: protocol
+    .replace(/on\w+=/gi, '') // Remove event handlers
+    .trim()
+    .slice(0, 1000); // Limit length
+}
+
+export function sanitizeHtml(html: string): string {
+  if (typeof html !== 'string') return '';
+  
+  // Basic HTML sanitization - remove script tags and dangerous attributes
+  return html
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+    .replace(/on\w+\s*=\s*"[^"]*"/gi, '')
+    .replace(/on\w+\s*=\s*'[^']*'/gi, '')
+    .replace(/javascript:/gi, '')
+    .trim();
+}
+
+// CSRF Protection
+export function generateCSRFToken(): string {
+  return Math.random().toString(36).substring(2) + Date.now().toString(36);
+}
+
+export function validateCSRFToken(token: string, sessionToken: string): boolean {
+  return token === sessionToken && token.length > 10;
+}
+
+// Rate limiting helper
+export function createRateLimiter(windowMs: number, maxRequests: number) {
+  const requests = new Map();
+  
+  return (identifier: string): boolean => {
+    const now = Date.now();
+    const windowStart = now - windowMs;
+    
+    if (!requests.has(identifier)) {
+      requests.set(identifier, [now]);
+      return true;
     }
-  }
-  
-  // Add security headers
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('X-Frame-Options', 'DENY');
-  res.setHeader('X-XSS-Protection', '1; mode=block');
-  
-  // Log suspicious requests
-  if (isSuspiciousRequest(req)) {
-    console.warn('Suspicious request detected:', {
-      ip: req.headers['x-forwarded-for'] || req.socket.remoteAddress,
-      userAgent: req.headers['user-agent'],
-      url: req.url,
-      method: req.method
-    });
-  }
-  
-  next();
+    
+    const userRequests = requests.get(identifier).filter((time: number) => time > windowStart);
+    
+    if (userRequests.length >= maxRequests) {
+      return false;
+    }
+    
+    userRequests.push(now);
+    requests.set(identifier, userRequests);
+    return true;
+  };
 }
 
-function checkObjectForUnsafeContent(obj: any): boolean {
-  if (typeof obj === 'string') {
-    return !validateSecureInput(obj);
-  }
-  
-  if (Array.isArray(obj)) {
-    return obj.some(item => checkObjectForUnsafeContent(item));
-  }
-  
-  if (typeof obj === 'object' && obj !== null) {
-    return Object.values(obj).some(value => checkObjectForUnsafeContent(value));
-  }
-  
-  return false;
-}
+// Input validation schemas
+export const trickSchema = z.object({
+  title: z.string().min(5).max(100).transform(sanitizeInput),
+  description: z.string().min(10).max(500).transform(sanitizeInput),
+  steps: z.array(z.string().min(1).max(200).transform(sanitizeInput)).min(1).max(5),
+  country: z.string().min(2).max(50).transform(sanitizeInput),
+  countryCode: z.string().length(2),
+  difficulty: z.enum(['easy', 'medium', 'hard']),
+  tags: z.array(z.string().min(1).max(20).transform(sanitizeInput)).max(5),
+  category: z.string().min(1).max(50).transform(sanitizeInput),
+});
 
-function isSuspiciousRequest(req: NextApiRequest): boolean {
-  const suspiciousPatterns = [
-    /\.\./,  // Path traversal
-    /union.*select/i,  // SQL injection
-    /script.*alert/i,  // XSS attempts
-    /eval\s*\(/i,  // Code injection
-    /base64/i,  // Encoded payloads
-  ];
-  
-  const url = req.url || '';
-  const userAgent = req.headers['user-agent'] || '';
-  
-  return suspiciousPatterns.some(pattern => 
-    pattern.test(url) || pattern.test(userAgent)
-  );
-}
+export const commentSchema = z.object({
+  text: z.string().min(1).max(500).transform(sanitizeInput),
+  authorName: z.string().min(1).max(50).transform(sanitizeInput),
+  authorEmail: z.string().email(),
+});
 
-export function validateOrigin(req: NextApiRequest): boolean {
-  const origin = req.headers.origin;
-  const allowedOrigins = [
-    'http://localhost:3000',
-    'https://tricky-peach.vercel.app',
-    process.env.NEXT_PUBLIC_SITE_URL
-  ].filter(Boolean);
-  
-  return !origin || allowedOrigins.includes(origin);
-}
+export const userSchema = z.object({
+  email: z.string().email(),
+  name: z.string().min(1).max(50).transform(sanitizeInput),
+  username: z.string().min(3).max(30).transform(sanitizeInput),
+});

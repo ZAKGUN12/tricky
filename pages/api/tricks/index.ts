@@ -34,8 +34,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(405).json({ error: 'Method not allowed' });
     }
   } catch (error) {
-    logger.error('API Error in /api/tricks', { 
-      error: (error as Error).message, 
+    logger.error('API Error in /api/tricks', error instanceof Error ? error : new Error(String(error)), { 
       method: req.method,
       ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress
     });
@@ -74,7 +73,7 @@ async function handleGet(req: NextApiRequest, res: NextApiResponse) {
     logger.info('Tricks fetched successfully', { count: tricks.length });
     res.status(200).json(tricks);
   } catch (error) {
-    logger.error('DynamoDB error', { error: (error as Error).message });
+    logger.error('DynamoDB error', error instanceof Error ? error : new Error(String(error)));
     res.status(500).json({ error: 'Failed to fetch tricks from database' });
   }
 }
