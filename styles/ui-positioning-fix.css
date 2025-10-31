@@ -1,0 +1,339 @@
+/* UI Positioning Fixes - Squares, Boxes, Buttons */
+
+/* Grid Layout Fixes */
+.tricks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem 0;
+}
+
+.tricks-grid.compact-view {
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+/* Card Layout - Reddit Style */
+.trick-card.reddit-style {
+  display: flex;
+  background: var(--surface-glass);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  transition: all 0.2s ease;
+}
+
+.trick-card.reddit-style:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(120, 119, 198, 0.2);
+}
+
+/* Vote Section - Left Side */
+.trick-votes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 0.75rem;
+  background: rgba(0, 0, 0, 0.1);
+  border-right: 1px solid var(--border-light);
+  min-width: 60px;
+}
+
+/* Content Section - Right Side */
+.trick-content {
+  flex: 1;
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Meta Information */
+.trick-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+
+.country-flag {
+  font-size: 1rem;
+}
+
+.subreddit {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.difficulty-badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-left: auto;
+}
+
+.difficulty-badge.easy {
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+}
+
+.difficulty-badge.medium {
+  background: rgba(245, 158, 11, 0.2);
+  color: #f59e0b;
+}
+
+.difficulty-badge.hard {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+/* Title and Description */
+.trick-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.4;
+  margin: 0;
+  text-decoration: none;
+}
+
+.trick-title:hover {
+  color: var(--primary);
+}
+
+.trick-description {
+  color: var(--text-secondary);
+  line-height: 1.5;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+/* Tags */
+.trick-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tag {
+  background: rgba(120, 119, 198, 0.1);
+  color: var(--primary);
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* Action Buttons */
+.trick-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  background: transparent;
+  border: 1px solid var(--border-light);
+  border-radius: 20px;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.action-btn:hover {
+  background: var(--border-light);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+}
+
+.action-btn.comments:hover {
+  border-color: var(--secondary);
+  color: var(--secondary);
+}
+
+.action-btn.share:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.action-btn.save:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* Control Buttons */
+.reddit-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--surface-glass);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+  backdrop-filter: blur(10px);
+}
+
+.sort-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.sort-btn {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 1px solid var(--border-light);
+  border-radius: 20px;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sort-btn:hover {
+  background: var(--border-light);
+  color: var(--text-primary);
+}
+
+.sort-btn.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
+
+.view-controls {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.view-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.view-btn:hover {
+  background: var(--border-light);
+  color: var(--text-primary);
+}
+
+.view-btn.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
+
+.clear-filters-btn {
+  padding: 0.5rem 1rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 20px;
+  color: #ef4444;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.clear-filters-btn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  transform: translateY(-1px);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .tricks-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0.5rem 0;
+  }
+  
+  .trick-card.reddit-style {
+    flex-direction: column;
+  }
+  
+  .trick-votes {
+    flex-direction: row;
+    justify-content: center;
+    padding: 0.75rem;
+    border-right: none;
+    border-bottom: 1px solid var(--border-light);
+    min-width: auto;
+  }
+  
+  .trick-content {
+    padding: 1rem;
+  }
+  
+  .reddit-controls {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+  
+  .sort-controls {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .view-controls {
+    justify-content: center;
+  }
+  
+  .trick-actions {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .action-btn {
+    flex: 1;
+    justify-content: center;
+    min-width: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tricks-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .trick-content {
+    padding: 0.75rem;
+  }
+  
+  .trick-title {
+    font-size: 1rem;
+  }
+  
+  .trick-description {
+    font-size: 0.8rem;
+  }
+  
+  .sort-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+}
