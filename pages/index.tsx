@@ -393,7 +393,7 @@ function HomeContent() {
         </header>
 
         <div className="main-content">
-          <div className={`sidebar ${sidebarCollapsed ? 'collapsed' : ''}`}>
+          <nav className={`sidebar z-2 box-border flex flex-col mt-0 mb-0 pt-md shrink-0 w-full min-h-screen-without-header select-none ${sidebarCollapsed ? 'collapsed' : ''}`} aria-label="Primary">
             <button 
               className="sidebar-close"
               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
@@ -401,14 +401,122 @@ function HomeContent() {
             >
               {sidebarCollapsed ? '☰' : '✕'}
             </button>
-            <Categories 
-              selectedCategory={selectedCategory}
-              onCategorySelect={(categoryId) => handleCategorySelect(categoryId || '')}
-              tricks={allTricks}
-            />
-            <TopTricks />
-            <Leaderboard />
-          </div>
+            
+            {/* Top Navigation Section */}
+            <div className="left-nav-top-section">
+              <ul className="nav-list">
+                <li className="relative list-none mt-0" role="presentation">
+                  <Link href="/" className="flex justify-between relative px-md gap-[0.5rem] text-secondary hover:text-secondary-hover hover:bg-neutral-background-hover hover:no-underline cursor-pointer py-2xs -outline-offset-1 s:rounded-2 bg-transparent no-underline">
+                    <span className="flex items-center gap-xs min-w-0 shrink">
+                      <span className="flex shrink-0 items-center justify-center h-xl w-xl text-20 leading-4">
+                        🏠
+                      </span>
+                      <span className="flex flex-col justify-center min-w-0 shrink py-[var(--rem6)]">
+                        <span className="text-14">Home</span>
+                      </span>
+                    </span>
+                  </Link>
+                </li>
+                <li className="relative list-none mt-0" role="presentation">
+                  <Link href="/submit" className="flex justify-between relative px-md gap-[0.5rem] text-secondary hover:text-secondary-hover hover:bg-neutral-background-hover hover:no-underline cursor-pointer py-2xs -outline-offset-1 s:rounded-2 bg-transparent no-underline">
+                    <span className="flex items-center gap-xs min-w-0 shrink">
+                      <span className="flex shrink-0 items-center justify-center h-xl w-xl text-20 leading-4">
+                        ✨
+                      </span>
+                      <span className="flex flex-col justify-center min-w-0 shrink py-[var(--rem6)]">
+                        <span className="text-14">Submit Trick</span>
+                      </span>
+                    </span>
+                  </Link>
+                </li>
+                <li className="relative list-none mt-0" role="presentation">
+                  <Link href="/" className="flex justify-between relative px-md gap-[0.5rem] text-secondary hover:text-secondary-hover hover:bg-neutral-background-hover hover:no-underline cursor-pointer py-2xs -outline-offset-1 s:rounded-2 bg-transparent no-underline">
+                    <span className="flex items-center gap-xs min-w-0 shrink">
+                      <span className="flex shrink-0 items-center justify-center h-xl w-xl text-20 leading-4">
+                        🌍
+                      </span>
+                      <span className="flex flex-col justify-center min-w-0 shrink py-[var(--rem6)]">
+                        <span className="text-14">Global Network</span>
+                      </span>
+                    </span>
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            <hr className="w-100 my-sm border-neutral-border-weak" />
+
+            {/* Categories Section */}
+            <div className="expandable-section">
+              <div className="section-header">
+                <div className="flex justify-between relative px-md gap-[0.5rem] text-secondary py-2xs -outline-offset-1 bg-transparent s:rounded-2">
+                  <span className="flex items-center gap-xs min-w-0 shrink">
+                    <span className="flex flex-col justify-center min-w-0 shrink py-[var(--rem6)]">
+                      <span className="text-14">
+                        <span className="text-12 text-secondary-weak tracking-widest">CATEGORIES</span>
+                      </span>
+                    </span>
+                  </span>
+                </div>
+              </div>
+              <div className="section-content">
+                <Categories 
+                  selectedCategory={selectedCategory}
+                  onCategorySelect={(categoryId) => handleCategorySelect(categoryId || '')}
+                  tricks={allTricks}
+                />
+              </div>
+            </div>
+
+            <hr className="w-100 my-sm border-neutral-border-weak" />
+
+            {/* Top Tricks Section */}
+            <div className="expandable-section">
+              <div className="section-header">
+                <div className="flex justify-between relative px-md gap-[0.5rem] text-secondary py-2xs -outline-offset-1 bg-transparent s:rounded-2">
+                  <span className="flex items-center gap-xs min-w-0 shrink">
+                    <span className="flex flex-col justify-center min-w-0 shrink py-[var(--rem6)]">
+                      <span className="text-14">
+                        <span className="text-12 text-secondary-weak tracking-widest">TOP TRICKS</span>
+                      </span>
+                    </span>
+                  </span>
+                </div>
+              </div>
+              <div className="section-content">
+                <TopTricks />
+              </div>
+            </div>
+
+            <hr className="w-100 my-sm border-neutral-border-weak" />
+
+            {/* Leaderboard Section */}
+            <div className="expandable-section">
+              <div className="section-header">
+                <div className="flex justify-between relative px-md gap-[0.5rem] text-secondary py-2xs -outline-offset-1 bg-transparent s:rounded-2">
+                  <span className="flex items-center gap-xs min-w-0 shrink">
+                    <span className="flex flex-col justify-center min-w-0 shrink py-[var(--rem6)]">
+                      <span className="text-14">
+                        <span className="text-12 text-secondary-weak tracking-widest">LEADERBOARD</span>
+                      </span>
+                    </span>
+                  </span>
+                </div>
+              </div>
+              <div className="section-content">
+                <Leaderboard />
+              </div>
+            </div>
+
+            <hr className="w-100 my-sm border-neutral-border-weak" />
+
+            {/* Footer */}
+            <div className="visible py-md grow flex flex-col justify-end">
+              <a className="no-underline text-tone-2 text-10 px-md" href="https://tricky-peach.vercel.app">
+                TrickShare © 2025. All rights reserved.
+              </a>
+            </div>
+          </nav>
           {sidebarCollapsed && (
             <div 
               className="sidebar-overlay"
