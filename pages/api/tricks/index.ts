@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, ScanCommand, PutCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
+import { v4 as uuidv4 } from 'uuid';
 import { rateLimit } from '../../../lib/rateLimit';
 import { validateTrick } from '../../../lib/validation';
 import { logger } from '../../../lib/logger';
-import { cache } from '../../../lib/cache';
 import { matchesCategory } from '../../../lib/categoryMatcher';
 import { countries } from '../../../lib/mockData';
 
@@ -123,9 +123,6 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
         logger.warn('User stats update failed', { error: (error as Error).message });
       }
     }
-
-    // Clear relevant caches
-    cache.clear(); // Simple approach - clear all caches when new data is added
     
     logger.info('Trick created successfully', { 
       id: trick.id, 

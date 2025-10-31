@@ -8,11 +8,9 @@ import AdvancedSearch from '../components/AdvancedSearch';
 import CountryChain from '../components/CountryChain';
 import TopTricks from '../components/TopTricks';
 import Categories from '../components/Categories';
-import UserRace from '../components/UserRace';
 import UserStats from '../components/UserStats';
 import Leaderboard from '../components/Leaderboard';
 import LoadingSkeleton from '../components/LoadingSkeleton';
-import Timer from '../components/Timer';
 import KudosButton from '../components/KudosButton';
 import { useToast } from '../lib/useToast';
 
@@ -30,6 +28,13 @@ function HomeContent() {
   const [sortBy, setSortBy] = useState('hot');
   const [viewMode, setViewMode] = useState('card');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
+  useEffect(() => {
+    document.body.classList.add('reddit-header-active');
+    return () => {
+      document.body.classList.remove('reddit-header-active');
+    };
+  }, []);
 
   // Prevent body scroll when sidebar is open on mobile
   useEffect(() => {
@@ -314,92 +319,77 @@ function HomeContent() {
     <div className="home">
       <ToastContainer />
       <div className="container">
-        <header className="header">
-          <div className="header-content">
-            <div className="header-left">
+        {/* Reddit-Style Header */}
+        <header className="reddit-header">
+          <nav className="reddit-header-nav">
+            {/* Logo Section */}
+            <div className="reddit-logo-section">
               <button 
-                className="mobile-sidebar-toggle"
+                className="hamburger-btn"
                 onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-                aria-label="Toggle sidebar"
+                aria-label="Toggle menu"
               >
                 ☰
               </button>
-              <div className="logo">
-                <span className="logo-icon">🌍</span>
-                <span className="logo-text">TrickShare</span>
-              </div>
+              <Link href="/" className="reddit-logo">
+                <div className="logo-icon">T</div>
+                <span>TrickShare</span>
+              </Link>
             </div>
-            <div className="header-center">
-              <div className="search-container">
+
+            {/* Search Section */}
+            <div className="reddit-search-section">
+              <form className="reddit-search-form" onSubmit={(e) => e.preventDefault()}>
+                <div className="search-icon">🔍</div>
                 <input
                   type="text"
+                  className="reddit-search-input"
                   placeholder="Search tricks..."
-                  className="search-input"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                      fetchTricks();
-                    }
-                  }}
                 />
-                <button 
-                  className="search-btn"
-                  onClick={fetchTricks}
-                  aria-label="Search"
-                >
-                  🔍
-                </button>
-              </div>
-              {user ? (
-                <Link 
-                  href="/submit" 
-                  className="share-btn"
-                >
-                  + Share Trick
-                </Link>
-              ) : (
-                <button 
-                  onClick={() => router.push(`/signin?returnUrl=${encodeURIComponent('/submit')}`)}
-                  className="share-btn"
-                >
-                  + Share Trick
-                </button>
-              )}
+              </form>
             </div>
-            <div className="header-right">
-              <button 
-                className="theme-toggle"
-                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                aria-label="Toggle theme"
-              >
-                {theme === 'dark' ? '☀️' : '🌙'}
+
+            {/* Actions Section */}
+            <div className="reddit-actions">
+              <Link href="/submit" className="reddit-action-btn primary">
+                <span>+</span>
+                <span>Create</span>
+              </Link>
+              
+              <button className="reddit-action-btn icon-only notification-badge">
+                🔔
               </button>
+              
+              <button className="reddit-action-btn icon-only">
+                💬
+              </button>
+
               {user ? (
-                <div className="user-section">
-                  <span className="welcome">👋 {user.name}</span>
+                <div className="reddit-user-menu">
                   <button 
+                    className="reddit-user-btn"
                     onClick={async () => {
                       if (confirm('Are you sure you want to sign out?')) {
                         await signOut();
                         router.push('/');
                       }
                     }}
-                    className="sign-out-btn"
                   >
-                    Sign Out
+                    <div className="user-avatar">
+                      {user.name?.charAt(0).toUpperCase() || 'U'}
+                    </div>
+                    <span>{user.name}</span>
                   </button>
                 </div>
               ) : (
-                <button 
-                  onClick={() => router.push('/signin')}
-                  className="login-btn"
-                >
-                  Sign In
-                </button>
+                <Link href="/signin" className="reddit-action-btn">
+                  Log In
+                </Link>
               )}
             </div>
-          </div>
+          </nav>
         </header>
 
         <div className="main-content">
