@@ -812,22 +812,111 @@ function HomeContent() {
           justify-content: flex-start !important;
         }
 
-        /* Global Network Section - High Specificity Override + Debug */
+        /* Global Network Section - Smaller Size */
         .main-content .global-network-section {
           background: rgba(15, 15, 35, 0.95) !important;
           backdrop-filter: blur(20px) !important;
-          border-radius: var(--radius-lg) !important;
-          padding: 2rem !important;
-          border: 3px solid rgba(120, 119, 198, 0.8) !important;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(120, 119, 198, 0.5) !important;
-          margin-bottom: 2rem !important;
+          border-radius: 12px !important;
+          padding: 1rem !important;
+          border: 2px solid rgba(120, 119, 198, 0.6) !important;
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
+          margin-bottom: 1rem !important;
           position: relative !important;
           overflow: visible !important;
           display: block !important;
           visibility: visible !important;
           opacity: 1 !important;
           z-index: 999 !important;
-          min-height: 300px !important;
+          min-height: 150px !important;
+        }
+
+        .main-content .global-network-header h2 {
+          font-size: 1.2rem !important;
+          font-weight: 700 !important;
+          color: white !important;
+          margin-bottom: 0.3rem !important;
+          background: linear-gradient(135deg, #7877c6, #ff77c6, #78dbff) !important;
+          -webkit-background-clip: text !important;
+          -webkit-text-fill-color: transparent !important;
+          background-clip: text !important;
+        }
+
+        .main-content .global-network-header {
+          text-align: center !important;
+          margin-bottom: 1rem !important;
+        }
+
+        .main-content .global-network-header p {
+          color: rgba(120, 219, 255, 0.8) !important;
+          font-size: 0.8rem !important;
+          margin: 0 !important;
+        }
+
+        .main-content .global-counters {
+          display: grid !important;
+          grid-template-columns: 1fr 1fr !important;
+          gap: 1rem !important;
+          max-width: 400px !important;
+          margin: 0 auto !important;
+        }
+
+        .main-content .counter-card {
+          background: rgba(15, 15, 35, 0.6) !important;
+          backdrop-filter: blur(15px) !important;
+          border-radius: 8px !important;
+          padding: 1rem !important;
+          text-align: center !important;
+          border: 1px solid rgba(120, 219, 255, 0.3) !important;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+        }
+
+        .main-content .counter-value {
+          font-size: 1.8rem !important;
+          font-weight: 800 !important;
+          color: white !important;
+          margin-bottom: 0.2rem !important;
+          line-height: 1 !important;
+        }
+
+        .main-content .counter-header {
+          font-size: 0.7rem !important;
+          font-weight: 600 !important;
+          color: rgba(120, 219, 255, 0.8) !important;
+          text-transform: uppercase !important;
+          letter-spacing: 1px !important;
+          margin-bottom: 0.5rem !important;
+        }
+
+        .main-content .counter-label {
+          font-size: 0.7rem !important;
+          color: rgba(255, 255, 255, 0.7) !important;
+          font-weight: 500 !important;
+        }
+
+        /* Country Chain - Force Visibility */
+        .main-content .country-chain-wrapper {
+          background: rgba(15, 15, 35, 0.95) !important;
+          backdrop-filter: blur(20px) !important;
+          border-radius: 12px !important;
+          padding: 1rem !important;
+          margin-bottom: 1rem !important;
+          position: relative !important;
+          overflow: visible !important;
+          border: 2px solid rgba(255, 119, 198, 0.6) !important;
+          box-shadow: 0 4px 16px rgba(255, 119, 198, 0.3) !important;
+          display: block !important;
+          visibility: visible !important;
+          opacity: 1 !important;
+          z-index: 998 !important;
+          min-height: 100px !important;
+        }
+
+        .main-content .chain-title {
+          font-size: 1rem !important;
+          font-weight: 700 !important;
+          color: white !important;
+          margin: 0 0 0.5rem 0 !important;
+          text-align: center !important;
         }
 
         .main-content .global-network-section::before {
