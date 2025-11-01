@@ -510,9 +510,10 @@ body.dark {
   }
 }
 
-/* Main Layout - Fixed Scrolling */
+/* Main Layout - Three Column Design */
 .main-content {
   margin-left: 340px !important;
+  margin-right: 320px !important;
   margin-top: 60px !important;
   padding: 2rem !important;
   min-height: calc(100vh - 60px) !important;
@@ -524,6 +525,109 @@ body.dark {
   width: 100% !important;
   max-width: none !important;
   overflow: visible !important;
+}
+
+/* Right Sidebar */
+.right-sidebar {
+  position: fixed !important;
+  top: 60px !important;
+  right: 0 !important;
+  width: 320px !important;
+  height: calc(100vh - 60px) !important;
+  background: var(--bg-primary) !important;
+  border-left: 2px solid var(--border-color) !important;
+  padding: 1rem !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  z-index: 100 !important;
+  box-shadow: -4px 0 40px rgba(0, 0, 0, 0.5) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1rem !important;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) transparent;
+}
+
+.right-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.right-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.right-sidebar::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 2px;
+}
+
+/* Right sidebar sections */
+.right-sidebar .expandable-section {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid rgba(120, 119, 198, 0.3) !important;
+  border-radius: 12px !important;
+  overflow: visible !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+  backdrop-filter: blur(20px) !important;
+  flex-shrink: 0 !important;
+}
+
+.right-sidebar .section-header {
+  background: linear-gradient(135deg, rgba(120, 119, 198, 0.3), rgba(120, 219, 255, 0.2)) !important;
+  padding: 0.75rem 1rem !important;
+  border-bottom: 1px solid rgba(120, 119, 198, 0.4) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+}
+
+.right-sidebar .section-content {
+  padding: 0.75rem !important;
+}
+
+/* Mobile responsive for three-column layout */
+@media (max-width: 1400px) {
+  .main-content {
+    margin-right: 0 !important;
+  }
+  
+  .right-sidebar {
+    display: none !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  .main-content {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  
+  .sidebar {
+    transform: translateX(-100%) !important;
+    transition: transform 0.3s ease !important;
+  }
+  
+  .sidebar:not(.collapsed) {
+    transform: translateX(0) !important;
+  }
+  
+  .sidebar-close {
+    display: block !important;
+  }
+  
+  .sidebar-overlay {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+  
+  .right-sidebar {
+    display: none !important;
+  }
 }
 
 /* Tricks Grid Layout */
@@ -930,22 +1034,6 @@ body.dark {
 .stat {
   color: rgba(255, 255, 255, 0.8) !important;
   font-weight: 500 !important;
-}
-
-/* Mobile */
-@media (max-width: 1024px) {
-  .main-content {
-    margin-left: 0 !important;
-  }
-  
-  .sidebar {
-    transform: translateX(-100%) !important;
-    transition: transform 0.3s ease !important;
-  }
-  
-  .sidebar.collapsed {
-    transform: translateX(0) !important;
-  }
 }
 
 /* Vote Button States */

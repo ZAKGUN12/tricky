@@ -470,46 +470,6 @@ function HomeContent() {
 
             <hr className="w-100 my-sm border-neutral-border-weak" />
 
-            {/* Top Tricks Section */}
-            <div className="expandable-section">
-              <div className="section-header">
-                <div className="flex justify-between relative px-md gap-[0.5rem] text-secondary py-2xs -outline-offset-1 bg-transparent s:rounded-2">
-                  <span className="flex items-center gap-xs min-w-0 shrink">
-                    <span className="flex flex-col justify-center min-w-0 shrink py-[var(--rem6)]">
-                      <span className="text-14">
-                        <span className="text-12 text-secondary-weak tracking-widest">TOP TRICKS</span>
-                      </span>
-                    </span>
-                  </span>
-                </div>
-              </div>
-              <div className="section-content">
-                <TopTricks />
-              </div>
-            </div>
-
-            <hr className="w-100 my-sm border-neutral-border-weak" />
-
-            {/* Leaderboard Section */}
-            <div className="expandable-section">
-              <div className="section-header">
-                <div className="flex justify-between relative px-md gap-[0.5rem] text-secondary py-2xs -outline-offset-1 bg-transparent s:rounded-2">
-                  <span className="flex items-center gap-xs min-w-0 shrink">
-                    <span className="flex flex-col justify-center min-w-0 shrink py-[var(--rem6)]">
-                      <span className="text-14">
-                        <span className="text-12 text-secondary-weak tracking-widest">LEADERBOARD</span>
-                      </span>
-                    </span>
-                  </span>
-                </div>
-              </div>
-              <div className="section-content">
-                <Leaderboard />
-              </div>
-            </div>
-
-            <hr className="w-100 my-sm border-neutral-border-weak" />
-
             {/* Footer */}
             <div className="visible py-md grow flex flex-col justify-end">
               <a className="no-underline text-tone-2 text-10 px-md" href="https://tricky-peach.vercel.app">
@@ -673,6 +633,47 @@ function HomeContent() {
               </div>
             )}
           </div>
+
+          {/* Right Sidebar */}
+          <aside className="right-sidebar">
+            {/* Top Tricks Section */}
+            <div className="expandable-section">
+              <div className="section-header">
+                <div className="flex justify-between relative px-md gap-[0.5rem] text-secondary py-2xs -outline-offset-1 bg-transparent s:rounded-2">
+                  <span className="flex items-center gap-xs min-w-0 shrink">
+                    <span className="flex flex-col justify-center min-w-0 shrink py-[var(--rem6)]">
+                      <span className="text-14">
+                        <span className="text-12 text-secondary-weak tracking-widest">TOP TRICKS</span>
+                      </span>
+                    </span>
+                  </span>
+                </div>
+              </div>
+              <div className="section-content">
+                <TopTricks />
+              </div>
+            </div>
+
+            <hr className="w-100 my-sm border-neutral-border-weak" />
+
+            {/* Leaderboard Section */}
+            <div className="expandable-section">
+              <div className="section-header">
+                <div className="flex justify-between relative px-md gap-[0.5rem] text-secondary py-2xs -outline-offset-1 bg-transparent s:rounded-2">
+                  <span className="flex items-center gap-xs min-w-0 shrink">
+                    <span className="flex flex-col justify-center min-w-0 shrink py-[var(--rem6)]">
+                      <span className="text-14">
+                        <span className="text-12 text-secondary-weak tracking-widest">LEADERBOARD</span>
+                      </span>
+                    </span>
+                  </span>
+                </div>
+              </div>
+              <div className="section-content">
+                <Leaderboard />
+              </div>
+            </div>
+          </aside>
 
         </div>
       </div>
