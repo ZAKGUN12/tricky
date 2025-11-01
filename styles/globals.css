@@ -210,7 +210,7 @@ input, textarea, select {
 /* Main Layout - Override for three-column design */
 .main-content {
   position: fixed !important;
-  top: 80px !important;
+  top: 50px !important;
   left: 340px !important;
   right: 320px !important;
   bottom: 0 !important;
