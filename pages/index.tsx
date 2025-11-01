@@ -710,6 +710,84 @@ function HomeContent() {
           --border-light: ${theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'};
         }
 
+        /* Country Chain and Flags - High Specificity Override */
+        .main-content .country-chain-wrapper {
+          background: rgba(15, 15, 35, 0.8) !important;
+          backdrop-filter: blur(20px) !important;
+          border-radius: 16px !important;
+          padding: 20px !important;
+          margin-bottom: 20px !important;
+          position: relative !important;
+          overflow: hidden !important;
+          border: 1px solid rgba(120, 119, 198, 0.3) !important;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+          display: block !important;
+          visibility: visible !important;
+        }
+
+        .main-content .country-flag {
+          font-size: 1.5rem !important;
+          filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2)) !important;
+          transition: transform 0.2s ease !important;
+          flex-shrink: 0 !important;
+          display: inline-block !important;
+          visibility: visible !important;
+          opacity: 1 !important;
+        }
+
+        .main-content .country-link {
+          display: flex !important;
+          align-items: center !important;
+          gap: 8px !important;
+          background: rgba(255, 255, 255, 0.1) !important;
+          backdrop-filter: blur(10px) !important;
+          border: 1px solid rgba(255, 255, 255, 0.2) !important;
+          border-radius: 12px !important;
+          padding: 12px !important;
+          cursor: pointer !important;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+          position: relative !important;
+          overflow: hidden !important;
+          visibility: visible !important;
+        }
+
+        .main-content .country-link:hover .country-flag {
+          transform: scale(1.05) !important;
+        }
+
+        .main-content .country-details {
+          flex: 1 !important;
+          min-width: 0 !important;
+        }
+
+        .main-content .country-name {
+          display: block !important;
+          font-size: 0.875rem !important;
+          font-weight: 600 !important;
+          color: white !important;
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+          margin-bottom: 2px !important;
+          white-space: nowrap !important;
+          overflow: hidden !important;
+          text-overflow: ellipsis !important;
+        }
+
+        .main-content .trick-count {
+          display: block !important;
+          font-size: 0.75rem !important;
+          color: #fbbf24 !important;
+          font-weight: 500 !important;
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+        }
+
+        .main-content .chain-track {
+          display: flex !important;
+          flex-wrap: wrap !important;
+          gap: 8px !important;
+          margin-bottom: 16px !important;
+          justify-content: flex-start !important;
+        }
+
         /* Global Network Section - High Specificity Override + Debug */
         .main-content .global-network-section {
           background: rgba(15, 15, 35, 0.95) !important;
