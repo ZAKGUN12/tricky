@@ -553,13 +553,13 @@ function HomeContent() {
               <div className="global-counters">
                 <div className="counter-card countries">
                   <div className="counter-header">Countries</div>
-                  <div className="counter-value">{countries.length}</div>
+                  <div className="counter-value">{countries?.length || 0}</div>
                   <div className="counter-label">Connected</div>
                 </div>
                 
                 <div className="counter-card tricks">
                   <div className="counter-header">Tricks</div>
-                  <div className="counter-value">{allTricks.length}</div>
+                  <div className="counter-value">{allTricks?.length || 0}</div>
                   <div className="counter-label">Shared</div>
                 </div>
               </div>
@@ -710,20 +710,22 @@ function HomeContent() {
           --border-light: ${theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'};
         }
 
-        /* Global Network Section - High Specificity Override */
+        /* Global Network Section - High Specificity Override + Debug */
         .main-content .global-network-section {
-          background: rgba(15, 15, 35, 0.8) !important;
+          background: rgba(15, 15, 35, 0.95) !important;
           backdrop-filter: blur(20px) !important;
           border-radius: var(--radius-lg) !important;
           padding: 2rem !important;
-          border: 1px solid rgba(120, 119, 198, 0.3) !important;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+          border: 3px solid rgba(120, 119, 198, 0.8) !important;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(120, 119, 198, 0.5) !important;
           margin-bottom: 2rem !important;
           position: relative !important;
-          overflow: hidden !important;
+          overflow: visible !important;
           display: block !important;
           visibility: visible !important;
           opacity: 1 !important;
+          z-index: 999 !important;
+          min-height: 300px !important;
         }
 
         .main-content .global-network-section::before {
