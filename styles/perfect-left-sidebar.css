@@ -513,7 +513,7 @@ body.dark {
 /* Main Layout - Three Column Design */
 .main-content {
   position: fixed !important;
-  top: 50px !important;
+  top: 100px !important;
   left: 340px !important;
   right: 320px !important;
   bottom: 0 !important;
