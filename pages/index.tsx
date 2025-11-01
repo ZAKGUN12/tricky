@@ -543,6 +543,28 @@ function HomeContent() {
               </div>
             </div>
 
+            {/* Global Network Section */}
+            <div className="global-network-section">
+              <div className="global-network-header">
+                <h2>🌍 Global Network</h2>
+                <p>Connecting life hackers worldwide</p>
+              </div>
+              
+              <div className="global-counters">
+                <div className="counter-card countries">
+                  <div className="counter-header">Countries</div>
+                  <div className="counter-value">{countries.length}</div>
+                  <div className="counter-label">Connected</div>
+                </div>
+                
+                <div className="counter-card tricks">
+                  <div className="counter-header">Tricks</div>
+                  <div className="counter-value">{allTricks.length}</div>
+                  <div className="counter-label">Shared</div>
+                </div>
+              </div>
+            </div>
+
             <CountryChain 
               tricks={tricks}
               onCountrySelect={handleCountrySelect}
@@ -686,6 +708,155 @@ function HomeContent() {
           --bg-primary: ${theme === 'dark' ? 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)' : 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%)'};
           --surface-glass: ${theme === 'dark' ? 'rgba(0, 0, 0, 0.4)' : 'rgba(255, 255, 255, 0.8)'};
           --border-light: ${theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'};
+        }
+
+        /* Global Network Section */
+        .global-network-section {
+          background: rgba(15, 15, 35, 0.8);
+          backdrop-filter: blur(20px);
+          border-radius: var(--radius-lg);
+          padding: 2rem;
+          border: 1px solid rgba(120, 119, 198, 0.3);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+          margin-bottom: 2rem;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .global-network-section::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(135deg, 
+            rgba(120, 119, 198, 0.05) 0%, 
+            rgba(120, 219, 255, 0.05) 50%, 
+            rgba(255, 119, 198, 0.05) 100%);
+          pointer-events: none;
+          z-index: -1;
+        }
+
+        .global-network-header {
+          text-align: center;
+          margin-bottom: 2rem;
+        }
+
+        .global-network-header h2 {
+          font-size: 2rem;
+          font-weight: 700;
+          color: white;
+          margin-bottom: 0.5rem;
+          background: linear-gradient(135deg, #7877c6, #ff77c6, #78dbff);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          text-shadow: 0 0 20px rgba(120, 119, 198, 0.5);
+        }
+
+        .global-network-header p {
+          color: rgba(120, 219, 255, 0.8);
+          font-size: 1.1rem;
+          margin: 0;
+        }
+
+        .global-counters {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 2rem;
+          max-width: 600px;
+          margin: 0 auto;
+        }
+
+        .counter-card {
+          background: rgba(15, 15, 35, 0.6);
+          backdrop-filter: blur(15px);
+          border-radius: 16px;
+          padding: 2rem;
+          text-align: center;
+          border: 1px solid rgba(120, 219, 255, 0.3);
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .counter-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 4px;
+          transition: all 0.3s ease;
+        }
+
+        .counter-card.countries::before {
+          background: linear-gradient(90deg, #7877c6, #ff77c6);
+        }
+
+        .counter-card.tricks::before {
+          background: linear-gradient(90deg, #78dbff, #7877c6);
+        }
+
+        .counter-card:hover {
+          transform: translateY(-8px) scale(1.02);
+          border-color: rgba(120, 219, 255, 0.6);
+          box-shadow: 0 16px 40px rgba(120, 219, 255, 0.3);
+        }
+
+        .counter-card:hover::before {
+          height: 100%;
+          opacity: 0.1;
+        }
+
+        .counter-header {
+          font-size: 0.9rem;
+          font-weight: 600;
+          color: rgba(120, 219, 255, 0.8);
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          margin-bottom: 1rem;
+        }
+
+        .counter-value {
+          font-size: 3rem;
+          font-weight: 800;
+          color: white;
+          margin-bottom: 0.5rem;
+          text-shadow: 0 0 20px rgba(120, 219, 255, 0.5);
+          line-height: 1;
+        }
+
+        .counter-label {
+          font-size: 1rem;
+          color: rgba(255, 255, 255, 0.7);
+          font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+          .global-network-section {
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+          }
+
+          .global-network-header h2 {
+            font-size: 1.5rem;
+          }
+
+          .global-counters {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+          }
+
+          .counter-card {
+            padding: 1.5rem;
+          }
+
+          .counter-value {
+            font-size: 2.5rem;
+          }
         }
 
         /* Error state styles */
