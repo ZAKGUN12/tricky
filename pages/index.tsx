@@ -710,6 +710,134 @@ function HomeContent() {
           --border-light: ${theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'};
         }
 
+        /* Global Network Section - High Specificity Override */
+        .main-content .global-network-section {
+          background: rgba(15, 15, 35, 0.8) !important;
+          backdrop-filter: blur(20px) !important;
+          border-radius: var(--radius-lg) !important;
+          padding: 2rem !important;
+          border: 1px solid rgba(120, 119, 198, 0.3) !important;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+          margin-bottom: 2rem !important;
+          position: relative !important;
+          overflow: hidden !important;
+          display: block !important;
+          visibility: visible !important;
+          opacity: 1 !important;
+        }
+
+        .main-content .global-network-section::before {
+          content: '' !important;
+          position: absolute !important;
+          top: 0 !important;
+          left: 0 !important;
+          right: 0 !important;
+          bottom: 0 !important;
+          background: linear-gradient(135deg, 
+            rgba(120, 119, 198, 0.05) 0%, 
+            rgba(120, 219, 255, 0.05) 50%, 
+            rgba(255, 119, 198, 0.05) 100%) !important;
+          pointer-events: none !important;
+          z-index: -1 !important;
+        }
+
+        .main-content .global-network-header {
+          text-align: center !important;
+          margin-bottom: 2rem !important;
+        }
+
+        .main-content .global-network-header h2 {
+          font-size: 2rem !important;
+          font-weight: 700 !important;
+          color: white !important;
+          margin-bottom: 0.5rem !important;
+          background: linear-gradient(135deg, #7877c6, #ff77c6, #78dbff) !important;
+          -webkit-background-clip: text !important;
+          -webkit-text-fill-color: transparent !important;
+          background-clip: text !important;
+          text-shadow: 0 0 20px rgba(120, 119, 198, 0.5) !important;
+        }
+
+        .main-content .global-network-header p {
+          color: rgba(120, 219, 255, 0.8) !important;
+          font-size: 1.1rem !important;
+          margin: 0 !important;
+        }
+
+        .main-content .global-counters {
+          display: grid !important;
+          grid-template-columns: 1fr 1fr !important;
+          gap: 2rem !important;
+          max-width: 600px !important;
+          margin: 0 auto !important;
+        }
+
+        .main-content .counter-card {
+          background: rgba(15, 15, 35, 0.6) !important;
+          backdrop-filter: blur(15px) !important;
+          border-radius: 16px !important;
+          padding: 2rem !important;
+          text-align: center !important;
+          border: 1px solid rgba(120, 219, 255, 0.3) !important;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2) !important;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+          position: relative !important;
+          overflow: hidden !important;
+        }
+
+        .main-content .counter-card::before {
+          content: '' !important;
+          position: absolute !important;
+          top: 0 !important;
+          left: 0 !important;
+          right: 0 !important;
+          height: 4px !important;
+          transition: all 0.3s ease !important;
+        }
+
+        .main-content .counter-card.countries::before {
+          background: linear-gradient(90deg, #7877c6, #ff77c6) !important;
+        }
+
+        .main-content .counter-card.tricks::before {
+          background: linear-gradient(90deg, #78dbff, #7877c6) !important;
+        }
+
+        .main-content .counter-card:hover {
+          transform: translateY(-8px) scale(1.02) !important;
+          border-color: rgba(120, 219, 255, 0.6) !important;
+          box-shadow: 0 16px 40px rgba(120, 219, 255, 0.3) !important;
+        }
+
+        .main-content .counter-card:hover::before {
+          height: 100% !important;
+          opacity: 0.1 !important;
+        }
+
+        .main-content .counter-header {
+          font-size: 0.9rem !important;
+          font-weight: 600 !important;
+          color: rgba(120, 219, 255, 0.8) !important;
+          text-transform: uppercase !important;
+          letter-spacing: 1px !important;
+          margin-bottom: 1rem !important;
+        }
+
+        .main-content .counter-value {
+          font-size: 3rem !important;
+          font-weight: 800 !important;
+          color: white !important;
+          margin-bottom: 0.5rem !important;
+          text-shadow: 0 0 20px rgba(120, 219, 255, 0.5) !important;
+          line-height: 1 !important;
+        }
+
+        .main-content .counter-label {
+          font-size: 1rem !important;
+          color: rgba(255, 255, 255, 0.7) !important;
+          font-weight: 500 !important;
+        }
+
         /* Global Network Section */
         .global-network-section {
           background: rgba(15, 15, 35, 0.8);
