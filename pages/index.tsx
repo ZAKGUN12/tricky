@@ -174,7 +174,7 @@ function HomeContent() {
       setLoading(false);
       setFiltering(false);
     }
-  }, [selectedCountry, selectedCategory, searchQuery, allTricks.length, tricks.length, fetchUserKudos, user?.email]);
+  }, [selectedCountry, selectedCategory, searchQuery, allTricks.length, tricks.length]);
 
   const clearFilters = () => {
     setSelectedCountry('');
@@ -206,7 +206,7 @@ function HomeContent() {
       // Clear kudos state when user logs out
       setUserKudos({});
     }
-  }, [user?.email, fetchUserKudos]); // Remove tricks.length dependency
+  }, [user?.email, fetchUserKudos, tricks]);
 
   // Initial kudos load when tricks are first loaded
   useEffect(() => {
@@ -214,7 +214,7 @@ function HomeContent() {
       const trickIds = tricks.map(trick => trick.id);
       fetchUserKudos(trickIds);
     }
-  }, [tricks.length, user?.email, userKudos, fetchUserKudos]);
+  }, [tricks, user?.email, userKudos, fetchUserKudos]);
 
   const handleKudosToggle = async (trickId: string) => {
     if (handleUnauthenticatedAction()) return;
