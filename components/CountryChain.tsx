@@ -17,7 +17,7 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
       ...country,
       trickCount: getCountryTrickCount(country.code)
     }))
-    .filter(country => country.trickCount > 0)
+    // Show all countries, not just those with tricks
     .sort((a, b) => b.trickCount - a.trickCount);
 
   return (
