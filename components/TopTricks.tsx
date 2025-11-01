@@ -34,15 +34,7 @@ export default function TopTricks() {
   };
 
   if (loading) {
-    return (
-      <div className="sidebar-section">
-        <div className="sidebar-header">
-          <div className="header-icon">🏆</div>
-          <h3>Top Tricks</h3>
-        </div>
-        <div className="loading">Loading top tricks...</div>
-      </div>
-    );
+    return <div className="loading">Loading top tricks...</div>;
   }
 
   // Fallback tricks if API fails
@@ -55,11 +47,7 @@ export default function TopTricks() {
   const displayTricks = topTricks.length > 0 ? topTricks : fallbackTricks;
 
   return (
-    <div className="sidebar-section">
-      <div className="sidebar-header">
-        <div className="header-icon">🏆</div>
-        <h3>Top Tricks</h3>
-      </div>
+    <>
       <div className="top-tricks-list">
         {displayTricks.slice(0, 3).map((trick, index) => {
           const country = countries.find(c => c.code === trick.countryCode);
@@ -79,6 +67,13 @@ export default function TopTricks() {
       </div>
       
       <style jsx>{`
+        .loading {
+          color: rgba(255, 255, 255, 0.8);
+          text-align: center;
+          padding: 1rem;
+          font-size: 0.85rem;
+        }
+        
         .top-tricks-list {
           display: flex;
           flex-direction: column;
@@ -100,24 +95,22 @@ export default function TopTricks() {
         
         .top-trick-item:hover {
           background: rgba(255, 119, 198, 0.2);
-          border-color: rgba(255, 119, 198, 0.4);
+          border-color: rgba(255, 119, 198, 0.5);
           transform: translateX(4px);
-          box-shadow: 0 4px 16px rgba(255, 119, 198, 0.2);
         }
         
         .trick-rank {
-          background: linear-gradient(135deg, #ff77c6, #ff4da6);
-          color: #ffffff;
           width: 32px;
           height: 32px;
           border-radius: 50%;
+          background: linear-gradient(135deg, #ff77c6, #ff4da6);
           display: flex;
           align-items: center;
           justify-content: center;
           font-weight: 700;
-          font-size: 0.9rem;
+          font-size: 0.8rem;
+          color: #ffffff;
           flex-shrink: 0;
-          box-shadow: 0 2px 8px rgba(255, 119, 198, 0.4);
         }
         
         .trick-info {
@@ -157,6 +150,6 @@ export default function TopTricks() {
           outline-offset: 2px;
         }
       `}</style>
-    </div>
+    </>
   );
 }
