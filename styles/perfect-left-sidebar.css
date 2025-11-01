@@ -1041,7 +1041,198 @@ body.dark {
   font-weight: 500 !important;
 }
 
-/* Vote Button States */
+/* Reddit Controls and Country Chain Styling */
+.reddit-controls {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 8px !important;
+  padding: 0.75rem !important;
+  margin-bottom: 1rem !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+
+.sort-controls {
+  display: flex !important;
+  gap: 0.5rem !important;
+}
+
+.sort-btn {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-primary) !important;
+  padding: 0.5rem 1rem !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  font-size: 0.875rem !important;
+}
+
+.sort-btn.active {
+  background: var(--accent-color) !important;
+  color: var(--text-primary) !important;
+}
+
+.sort-btn:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+.view-controls {
+  display: flex !important;
+  gap: 0.25rem !important;
+}
+
+.view-btn {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-primary) !important;
+  padding: 0.5rem !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  font-size: 1rem !important;
+}
+
+.view-btn.active {
+  background: var(--accent-color) !important;
+  color: var(--text-primary) !important;
+}
+
+.view-btn:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Country Chain Styling */
+.country-chain-wrapper {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 12px !important;
+  margin-bottom: 1rem !important;
+  overflow: hidden !important;
+}
+
+.chain-header {
+  background: linear-gradient(135deg, rgba(120, 119, 198, 0.3), rgba(120, 219, 255, 0.2)) !important;
+  padding: 1rem !important;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+.chain-title {
+  color: var(--text-primary) !important;
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  margin: 0 !important;
+}
+
+.counters-section {
+  display: flex !important;
+  gap: 1rem !important;
+  margin-top: 0.5rem !important;
+}
+
+.calendar-badge, .tricks-badge {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 8px !important;
+  padding: 0.5rem !important;
+  text-align: center !important;
+  min-width: 60px !important;
+}
+
+.calendar-number, .tricks-number {
+  color: var(--text-primary) !important;
+  font-size: 1.2rem !important;
+  font-weight: 700 !important;
+  margin: 0 !important;
+}
+
+.calendar-label, .tricks-label {
+  color: var(--text-secondary) !important;
+  font-size: 0.75rem !important;
+  margin: 0 !important;
+}
+
+.chain-container {
+  padding: 1rem !important;
+}
+
+.chain-track {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0.5rem !important;
+}
+
+.country-link {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 8px !important;
+  padding: 0.5rem !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+}
+
+.country-link:hover {
+  background: var(--accent-color) !important;
+  transform: translateY(-1px) !important;
+}
+
+.country-flag {
+  font-size: 1.2rem !important;
+}
+
+.country-details {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+}
+
+.country-name {
+  color: var(--text-primary) !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+}
+
+.trick-count {
+  color: var(--text-secondary) !important;
+  font-size: 0.75rem !important;
+}
+
+.chain-footer {
+  padding: 1rem !important;
+  border-top: 1px solid var(--border-color) !important;
+}
+
+.all-countries-button {
+  background: var(--accent-color) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 0.75rem 1rem !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  width: 100% !important;
+  justify-content: center !important;
+}
+
+.all-countries-button:hover {
+  background: rgba(120, 119, 198, 0.8) !important;
+  transform: translateY(-1px) !important;
+}
+
+.button-icon {
+  font-size: 1.2rem !important;
+}
+
+.button-title {
+  color: var(--text-primary) !important;
+  font-weight: 600 !important;
+}
 .vote-btn {
   background: rgba(255, 255, 255, 0.1) !important;
   border: 1px solid var(--border-color) !important;
