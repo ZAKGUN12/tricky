@@ -151,10 +151,25 @@
   visibility: visible !important;
   opacity: 1 !important;
   z-index: 100 !important;
-  order: 2 !important;
+  order: 1 !important;
   width: 100% !important;
-  min-height: 150px !important;
+  min-height: 300px !important;
   clear: both !important;
+}
+
+/* Force country flags visibility */
+.chain-track {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.country-link {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 .country-chain-wrapper::before {

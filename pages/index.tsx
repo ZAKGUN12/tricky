@@ -487,28 +487,6 @@ function HomeContent() {
           )}
 
           <div className="content">
-            {/* Global Network Section */}
-            <div className="global-network-section">
-              <div className="global-network-header">
-                <h2>🌍 Global Network</h2>
-                <p>Connecting life hackers worldwide</p>
-              </div>
-              
-              <div className="global-counters">
-                <div className="counter-card countries">
-                  <div className="counter-header">Countries</div>
-                  <div className="counter-value">{countries?.length || 0}</div>
-                  <div className="counter-label">Connected</div>
-                </div>
-                
-                <div className="counter-card tricks">
-                  <div className="counter-header">Tricks</div>
-                  <div className="counter-value">{allTricks?.length || 0}</div>
-                  <div className="counter-label">Shared</div>
-                </div>
-              </div>
-            </div>
-
             <CountryChain 
               tricks={allTricks}
               onCountrySelect={handleCountrySelect}
