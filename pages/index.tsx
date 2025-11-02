@@ -694,10 +694,18 @@ function HomeContent() {
 
         /* Country chain styles handled by middle-column-fix.css */
 
-        /* Country Chain Visibility Fix */
+        /* Country Chain Visibility Fix - Override JSX Styles */
         .main-content .country-chain-wrapper {
-          min-height: 200px !important;
+          min-height: 300px !important;
           overflow: visible !important;
+          height: auto !important;
+          max-height: none !important;
+        }
+
+        .main-content .chain-container {
+          overflow: visible !important;
+          height: auto !important;
+          max-height: none !important;
         }
 
         .main-content .chain-track {
@@ -705,6 +713,9 @@ function HomeContent() {
           flex-wrap: wrap !important;
           gap: 12px !important;
           overflow: visible !important;
+          height: auto !important;
+          max-height: none !important;
+          padding-bottom: 1rem !important;
         }
 
         .main-content .country-link {
@@ -715,6 +726,8 @@ function HomeContent() {
           min-width: 120px !important;
           visibility: visible !important;
           opacity: 1 !important;
+          position: relative !important;
+          z-index: 10 !important;
         }
 
         .main-content .country-flag {
@@ -736,6 +749,11 @@ function HomeContent() {
           font-size: 0.8rem !important;
           color: #fbbf24 !important;
           font-weight: 600 !important;
+        }
+
+        .main-content .chain-footer {
+          margin-top: 1rem !important;
+          overflow: visible !important;
         }
 
         /* Global Network styles handled by middle-column-fix.css */
