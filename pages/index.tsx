@@ -148,6 +148,7 @@ function HomeContent() {
       if (selectedCategory) params.append('category', selectedCategory);
       if (searchQuery) params.append('search', searchQuery);
 
+      console.log('Fetching tricks from API:', `/api/tricks?${params}`);
       const response = await fetch(`/api/tricks?${params}`);
       
       if (!response.ok) {
@@ -156,6 +157,8 @@ function HomeContent() {
       }
       
       const data = await response.json();
+      console.log('Tricks fetched from DynamoDB:', data.length, 'tricks');
+      console.log('Sample trick:', data[0]);
       
       setTricks(Array.isArray(data) ? data : []);
       
