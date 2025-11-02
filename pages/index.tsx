@@ -487,11 +487,68 @@ function HomeContent() {
           )}
 
           <div className="content">
-            <CountryChain 
+            {/* Global Network Section */}
+            <div className="global-network-section">
+              <div className="global-network-header">
+                <h2>🌍 Global Network</h2>
+                <p>Connecting life hackers worldwide</p>
+              </div>
+              
+              <div className="global-counters">
+                <div className="counter-card countries">
+                  <div className="counter-header">Countries</div>
+                  <div className="counter-value">{countries?.length || 0}</div>
+                  <div className="counter-label">Connected</div>
+                </div>
+                
+                <div className="counter-card tricks">
+                  <div className="counter-header">Tricks</div>
+                  <div className="counter-value">{allTricks?.length || 0}</div>
+                  <div className="counter-label">Shared</div>
+                </div>
+              </div>
+
+              {/* Countries Grid */}
+              <div className="countries-section">
+                <h3 style={{color: 'white', fontSize: '1.1rem', marginBottom: '15px', textAlign: 'center'}}>🌍 Countries</h3>
+                <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '10px'}}>
+                  {countries.slice(0, 12).map((country) => {
+                    const count = allTricks.filter(trick => trick.countryCode === country.code).length;
+                    return (
+                      <button
+                        key={country.code}
+                        className={`country-item ${selectedCountry === country.code ? 'active' : ''}`}
+                        onClick={() => handleCountrySelect(country.code)}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          background: 'rgba(255, 255, 255, 0.1)',
+                          border: '1px solid rgba(255, 255, 255, 0.2)',
+                          borderRadius: '8px',
+                          padding: '10px',
+                          cursor: 'pointer',
+                          color: 'white'
+                        }}
+                      >
+                        <span style={{fontSize: '1.2rem'}}>{country.flag}</span>
+                        <div style={{flex: 1, textAlign: 'left'}}>
+                          <div style={{fontSize: '0.9rem', fontWeight: '600'}}>{country.name}</div>
+                          <div style={{fontSize: '0.8rem', color: '#fbbf24'}}>{count}</div>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* CountryChain hidden - integrated above */}
+            {false && <CountryChain 
               tricks={allTricks}
               onCountrySelect={handleCountrySelect}
               selectedCountry={selectedCountry}
-            />
+            />}
 
             {/* Reddit-style controls */}
             <div className="reddit-controls">
