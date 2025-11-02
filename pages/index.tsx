@@ -608,13 +608,13 @@ function HomeContent() {
               </div>
             )}
             
-            {!loading && (sortedTricks || []).length > 0 && (
+            {!loading && sortedTricks && sortedTricks.length > 0 && (
               <div className={`tricks-grid ${viewMode === 'compact' ? 'compact-view' : 'card-view'} ${filtering ? 'filtering' : ''}`}>
                 {(() => {
-                  console.log('Rendering tricks:', (sortedTricks || []).length);
+                  console.log('Rendering tricks:', sortedTricks.length);
                   return null;
                 })()}
-                {(sortedTricks || []).map((trick) => {
+                {sortedTricks.map((trick) => {
                 const country = countries.find(c => c.code === trick.countryCode);
                 return (
                   <div key={trick.id} className="trick-card reddit-style">
@@ -670,7 +670,7 @@ function HomeContent() {
               </div>
             )}
 
-            {(sortedTricks || []).length === 0 && !loading && (
+            {!loading && (!sortedTricks || sortedTricks.length === 0) && (
               <div className="no-tricks">
                 <h3>🔍 No tricks found</h3>
                 <p>Try adjusting your filters or search terms</p>
