@@ -136,22 +136,25 @@
   font-weight: 500 !important;
 }
 
-/* Country Chain Section - Fixed positioning */
+/* Country Chain Section - Force visibility */
 .country-chain-wrapper {
   background: rgba(15, 15, 35, 0.95) !important;
   backdrop-filter: blur(20px) !important;
   border-radius: 16px !important;
   padding: 1.5rem !important;
-  margin-bottom: 1rem !important;
-  position: relative !important;
-  overflow: hidden !important;
+  margin: 1rem 0 !important;
+  position: static !important;
+  overflow: visible !important;
   border: 1px solid rgba(255, 119, 198, 0.4) !important;
   box-shadow: 0 8px 24px rgba(255, 119, 198, 0.2) !important;
   display: block !important;
   visibility: visible !important;
   opacity: 1 !important;
-  z-index: 10 !important;
+  z-index: 100 !important;
   order: 2 !important;
+  width: 100% !important;
+  min-height: 150px !important;
+  clear: both !important;
 }
 
 .country-chain-wrapper::before {
