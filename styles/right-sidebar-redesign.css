@@ -35,12 +35,11 @@
 }
 
 .right-sidebar .section-header .text-12 {
-  font-size: 0.8rem !important;
+  font-size: 0.9rem !important;
   font-weight: 700 !important;
   color: white !important;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
-  letter-spacing: 0.5px !important;
-  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
 }
 
 .right-sidebar .section-content {
@@ -223,21 +222,9 @@
   gap: 1rem !important;
 }
 
-/* Enhanced responsive behavior */
+/* Mobile responsive */
 @media (max-width: 1400px) {
   .right-sidebar {
-    width: 280px !important;
-  }
-}
-
-@media (max-width: 1200px) {
-  .right-sidebar {
     display: none !important;
-  }
-}
-
-@media (min-width: 1401px) {
-  .right-sidebar {
-    width: 320px !important;
   }
 }
