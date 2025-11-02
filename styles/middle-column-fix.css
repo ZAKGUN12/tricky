@@ -47,7 +47,9 @@
 
 .global-network-header {
   text-align: center !important;
-  margin-bottom: 1.5rem !important;
+  margin-bottom: 2rem !important;
+  padding-bottom: 1rem !important;
+  border-bottom: 1px solid rgba(120, 119, 198, 0.3) !important;
 }
 
 .global-network-header h2 {
@@ -157,19 +159,40 @@
   clear: both !important;
 }
 
-/* Force country flags visibility */
+/* Countries section with proper hierarchy */
+.chain-container {
+  margin-top: 2rem !important;
+}
+
+.chain-container::before {
+  content: '🌍 Countries' !important;
+  display: block !important;
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  color: rgba(120, 219, 255, 0.9) !important;
+  margin-bottom: 1rem !important;
+  text-align: center !important;
+}
+
 .chain-track {
   display: flex !important;
   flex-wrap: wrap !important;
-  gap: 8px !important;
+  gap: 12px !important;
   visibility: visible !important;
   opacity: 1 !important;
+  justify-content: center !important;
 }
 
 .country-link {
   display: flex !important;
   visibility: visible !important;
   opacity: 1 !important;
+  transition: all 0.2s ease !important;
+}
+
+.country-link:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(120, 119, 198, 0.3) !important;
 }
 
 .country-chain-wrapper::before {
@@ -194,20 +217,21 @@
   background-clip: text !important;
 }
 
-/* Reddit Controls - Fixed positioning */
+/* Reddit Controls - Better spacing */
 .reddit-controls {
   background: rgba(15, 15, 35, 0.8) !important;
   backdrop-filter: blur(20px) !important;
   border: 1px solid rgba(120, 119, 198, 0.3) !important;
   border-radius: 12px !important;
   padding: 1rem !important;
-  margin-bottom: 1rem !important;
+  margin: 2rem 0 1.5rem 0 !important;
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
   position: relative !important;
   z-index: 10 !important;
   order: 3 !important;
+  border-top: 2px solid rgba(120, 219, 255, 0.2) !important;
 }
 
 /* Tricks Grid - Fixed positioning */
