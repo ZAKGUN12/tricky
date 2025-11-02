@@ -574,29 +574,32 @@ function HomeContent() {
             {/* Debug Country Chain - Always Visible */}
             <div className="country-chain-wrapper">
               <div className="chain-header">
-                <h3 className="chain-title">🌍 Countries</h3>
+                <h3 className="chain-title">🌍 Countries ({allTricks.length} total tricks)</h3>
               </div>
               <div className="chain-container">
                 <div className="chain-track">
-                  {countries.slice(0, 8).map((country, index) => (
-                    <button
-                      key={country.code}
-                      className={`country-link ${selectedCountry === country.code ? 'active' : ''}`}
-                      onClick={() => handleCountrySelect(country.code)}
-                    >
-                      <span className="country-flag">{country.flag}</span>
-                      <div className="country-details">
-                        <span className="country-name">{country.name}</span>
-                        <span className="trick-count">0</span>
-                      </div>
-                    </button>
-                  ))}
+                  {countries.slice(0, 8).map((country, index) => {
+                    const count = allTricks.filter(trick => trick.countryCode === country.code).length;
+                    return (
+                      <button
+                        key={country.code}
+                        className={`country-link ${selectedCountry === country.code ? 'active' : ''}`}
+                        onClick={() => handleCountrySelect(country.code)}
+                      >
+                        <span className="country-flag">{country.flag}</span>
+                        <div className="country-details">
+                          <span className="country-name">{country.name}</span>
+                          <span className="trick-count">{count}</span>
+                        </div>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             </div>
 
             <CountryChain 
-              tricks={tricks}
+              tricks={allTricks}
               onCountrySelect={handleCountrySelect}
               selectedCountry={selectedCountry}
             />
