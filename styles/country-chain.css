@@ -27,20 +27,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   position: relative;
   z-index: 2;
-  padding: 0.5rem 0;
+  padding: 0.25rem 0;
   border-bottom: 1px solid rgba(255, 119, 198, 0.3);
 }
 
-.header-content {
-  flex: 1;
-  text-align: center;
-}
-
 .chain-title {
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: white;
   margin: 0;
@@ -49,22 +44,22 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
 }
 
 .counters-section {
   display: flex;
-  gap: 1rem;
+  gap: 0.75rem;
   align-items: center;
 }
 
 .calendar-badge, .tricks-badge {
   background: rgba(255, 255, 255, 0.95);
   border: 2px solid rgba(120, 119, 198, 0.4);
-  border-radius: 10px;
+  border-radius: 8px;
   text-align: center;
-  min-width: 70px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  min-width: 60px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
   position: relative;
   backdrop-filter: blur(10px);
 }
@@ -76,9 +71,9 @@
   left: 50%;
   transform: translateX(-50%);
   width: 85%;
-  height: 10px;
+  height: 6px;
   background: linear-gradient(135deg, #7877c6 0%, #ff77c6 100%);
-  border-radius: 6px 6px 0 0;
+  border-radius: 4px 4px 0 0;
 }
 
 .tricks-badge::before {
@@ -88,16 +83,16 @@
   left: 50%;
   transform: translateX(-50%);
   width: 85%;
-  height: 10px;
+  height: 6px;
   background: linear-gradient(135deg, #78dbff 0%, #7877c6 100%);
-  border-radius: 6px 6px 0 0;
+  border-radius: 4px 4px 0 0;
 }
 
 .calendar-number, .tricks-number {
-  font-size: 1.6rem;
+  font-size: 1.3rem;
   font-weight: 800;
   color: #7877c6;
-  padding: 10px 4px 4px 4px;
+  padding: 6px 4px 2px 4px;
   line-height: 1;
 }
 
@@ -106,23 +101,22 @@
 }
 
 .calendar-label, .tricks-label {
-  font-size: 0.7rem;
+  font-size: 0.6rem;
   font-weight: 600;
   color: #666;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  padding: 0 4px 8px 4px;
+  padding: 0 4px 6px 4px;
   border-top: 1px solid rgba(120, 119, 198, 0.2);
 }
 
 .chain-container {
   position: relative;
   z-index: 2;
-  overflow: hidden;
-  margin-top: 1.5rem;
-  margin-bottom: 1.5rem;
+  overflow: visible;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   padding: 0 1rem;
-  max-height: 200px;
 }
 
 .chain-track {
@@ -132,10 +126,8 @@
   margin-bottom: 0;
   justify-content: center;
   align-items: flex-start;
-  padding: 1rem 0;
+  padding: 0.5rem 0;
   animation: chainMove 25s linear infinite;
-  overflow-y: auto;
-  max-height: 180px;
 }
 
 @keyframes chainMove {
