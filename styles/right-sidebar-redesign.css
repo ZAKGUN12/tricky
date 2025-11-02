@@ -1,0 +1,202 @@
+/* Right Sidebar Redesign - Modern & Engaging */
+
+.right-sidebar .expandable-section {
+  background: linear-gradient(135deg, rgba(15, 15, 35, 0.95), rgba(25, 25, 45, 0.9)) !important;
+  border: 1px solid rgba(120, 119, 198, 0.4) !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+  backdrop-filter: blur(20px) !important;
+  margin-bottom: 1.5rem !important;
+}
+
+.right-sidebar .section-header {
+  background: linear-gradient(135deg, rgba(120, 119, 198, 0.8), rgba(255, 119, 198, 0.6)) !important;
+  padding: 1rem 1.5rem !important;
+  border-bottom: none !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.right-sidebar .section-header::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: -100% !important;
+  width: 100% !important;
+  height: 100% !important;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent) !important;
+  animation: shimmer 3s infinite !important;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.right-sidebar .section-header .text-12 {
+  font-size: 0.9rem !important;
+  font-weight: 700 !important;
+  color: white !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+  letter-spacing: 1px !important;
+}
+
+.right-sidebar .section-content {
+  padding: 1rem !important;
+}
+
+/* Top Tricks Cards */
+.top-trick-item {
+  background: linear-gradient(135deg, rgba(120, 119, 198, 0.1), rgba(255, 119, 198, 0.05)) !important;
+  border: 1px solid rgba(120, 119, 198, 0.3) !important;
+  border-radius: 12px !important;
+  padding: 1rem !important;
+  margin-bottom: 0.75rem !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.top-trick-item::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 2px !important;
+  background: linear-gradient(90deg, #ff77c6, #7877c6, #78dbff) !important;
+}
+
+.top-trick-item:hover {
+  transform: translateY(-4px) scale(1.02) !important;
+  border-color: rgba(120, 119, 198, 0.6) !important;
+  box-shadow: 0 12px 24px rgba(120, 119, 198, 0.3) !important;
+}
+
+.trick-rank {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.rank-number {
+  background: linear-gradient(135deg, #ff77c6, #ff4da6) !important;
+  color: white !important;
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 12px rgba(255, 119, 198, 0.4) !important;
+}
+
+.trick-kudos {
+  color: #78dbff !important;
+  font-size: 0.8rem !important;
+  font-weight: 600 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.25rem !important;
+}
+
+.trick-mini-title {
+  font-size: 0.9rem !important;
+  font-weight: 600 !important;
+  color: white !important;
+  line-height: 1.3 !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.trick-mini-meta {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  font-size: 0.75rem !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Leaderboard Cards */
+.leaderboard-item {
+  background: linear-gradient(135deg, rgba(120, 219, 255, 0.1), rgba(120, 119, 198, 0.05)) !important;
+  border: 1px solid rgba(120, 219, 255, 0.3) !important;
+  border-radius: 12px !important;
+  padding: 1rem !important;
+  margin-bottom: 0.75rem !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.leaderboard-item::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 2px !important;
+  background: linear-gradient(90deg, #78dbff, #7877c6, #ff77c6) !important;
+}
+
+.leaderboard-item:hover {
+  transform: translateY(-4px) scale(1.02) !important;
+  border-color: rgba(120, 219, 255, 0.6) !important;
+  box-shadow: 0 12px 24px rgba(120, 219, 255, 0.3) !important;
+}
+
+.rank-badge {
+  width: 32px !important;
+  height: 32px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 50% !important;
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+.rank-badge.rank-1 {
+  background: linear-gradient(135deg, #ffd700, #ffed4e) !important;
+  color: #92400e !important;
+}
+
+.rank-badge.rank-2 {
+  background: linear-gradient(135deg, #c0c0c0, #e5e7eb) !important;
+  color: #374151 !important;
+}
+
+.rank-badge.rank-3 {
+  background: linear-gradient(135deg, #cd7f32, #d97706) !important;
+  color: white !important;
+}
+
+.user-name {
+  font-weight: 600 !important;
+  color: white !important;
+  font-size: 0.9rem !important;
+  margin-bottom: 0.25rem !important;
+}
+
+.user-stats {
+  color: rgba(120, 219, 255, 0.8) !important;
+  font-size: 0.75rem !important;
+  font-weight: 500 !important;
+}
+
+/* Compact spacing */
+.right-sidebar {
+  padding: 1rem !important;
+  gap: 1rem !important;
+}
+
+/* Mobile responsive */
+@media (max-width: 1400px) {
+  .right-sidebar {
+    display: none !important;
+  }
+}
