@@ -694,6 +694,50 @@ function HomeContent() {
 
         /* Country chain styles handled by middle-column-fix.css */
 
+        /* Country Chain Visibility Fix */
+        .main-content .country-chain-wrapper {
+          min-height: 200px !important;
+          overflow: visible !important;
+        }
+
+        .main-content .chain-track {
+          display: flex !important;
+          flex-wrap: wrap !important;
+          gap: 12px !important;
+          overflow: visible !important;
+        }
+
+        .main-content .country-link {
+          display: flex !important;
+          align-items: center !important;
+          gap: 10px !important;
+          padding: 12px 16px !important;
+          min-width: 120px !important;
+          visibility: visible !important;
+          opacity: 1 !important;
+        }
+
+        .main-content .country-flag {
+          font-size: 1.8rem !important;
+          display: inline-block !important;
+          visibility: visible !important;
+          opacity: 1 !important;
+          flex-shrink: 0 !important;
+        }
+
+        .main-content .country-name {
+          font-size: 0.9rem !important;
+          font-weight: 600 !important;
+          color: white !important;
+          white-space: nowrap !important;
+        }
+
+        .main-content .trick-count {
+          font-size: 0.8rem !important;
+          color: #fbbf24 !important;
+          font-weight: 600 !important;
+        }
+
         /* Global Network styles handled by middle-column-fix.css */
 
         /* All layout styles handled by middle-column-fix.css */
