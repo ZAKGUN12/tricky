@@ -991,111 +991,159 @@ function HomeContent() {
           justify-content: flex-start !important;
         }
 
-        /* Global Network Section - Smaller Size */
+        /* Global Network Section - Better Integration */
         .main-content .global-network-section {
           background: rgba(15, 15, 35, 0.95) !important;
           backdrop-filter: blur(20px) !important;
-          border-radius: 12px !important;
-          padding: 1rem !important;
-          border: 2px solid rgba(120, 119, 198, 0.6) !important;
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
-          margin-bottom: 1rem !important;
+          border-radius: 16px !important;
+          padding: 1.5rem !important;
+          border: 1px solid rgba(120, 119, 198, 0.4) !important;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+          margin-bottom: 1.5rem !important;
           position: relative !important;
-          overflow: visible !important;
+          overflow: hidden !important;
           display: block !important;
           visibility: visible !important;
           opacity: 1 !important;
-          z-index: 999 !important;
-          min-height: 150px !important;
+        }
+
+        .main-content .global-network-section::before {
+          content: '' !important;
+          position: absolute !important;
+          top: 0 !important;
+          left: 0 !important;
+          right: 0 !important;
+          height: 3px !important;
+          background: linear-gradient(90deg, #7877c6, #ff77c6, #78dbff) !important;
+        }
+
+        .main-content .global-network-header {
+          text-align: center !important;
+          margin-bottom: 1.5rem !important;
         }
 
         .main-content .global-network-header h2 {
-          font-size: 1.2rem !important;
+          font-size: 1.5rem !important;
           font-weight: 700 !important;
           color: white !important;
-          margin-bottom: 0.3rem !important;
+          margin-bottom: 0.5rem !important;
           background: linear-gradient(135deg, #7877c6, #ff77c6, #78dbff) !important;
           -webkit-background-clip: text !important;
           -webkit-text-fill-color: transparent !important;
           background-clip: text !important;
         }
 
-        .main-content .global-network-header {
-          text-align: center !important;
-          margin-bottom: 1rem !important;
-        }
-
         .main-content .global-network-header p {
           color: rgba(120, 219, 255, 0.8) !important;
-          font-size: 0.8rem !important;
+          font-size: 0.9rem !important;
           margin: 0 !important;
         }
 
         .main-content .global-counters {
           display: grid !important;
           grid-template-columns: 1fr 1fr !important;
-          gap: 1rem !important;
-          max-width: 400px !important;
+          gap: 1.5rem !important;
+          max-width: 500px !important;
           margin: 0 auto !important;
         }
 
         .main-content .counter-card {
-          background: rgba(15, 15, 35, 0.6) !important;
+          background: rgba(15, 15, 35, 0.7) !important;
           backdrop-filter: blur(15px) !important;
-          border-radius: 8px !important;
-          padding: 1rem !important;
+          border-radius: 12px !important;
+          padding: 1.5rem !important;
           text-align: center !important;
           border: 1px solid rgba(120, 219, 255, 0.3) !important;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2) !important;
+          transition: all 0.3s ease !important;
+          position: relative !important;
+          overflow: hidden !important;
         }
 
-        .main-content .counter-value {
-          font-size: 1.8rem !important;
-          font-weight: 800 !important;
-          color: white !important;
-          margin-bottom: 0.2rem !important;
-          line-height: 1 !important;
+        .main-content .counter-card::before {
+          content: '' !important;
+          position: absolute !important;
+          top: 0 !important;
+          left: 0 !important;
+          right: 0 !important;
+          height: 2px !important;
+          transition: all 0.3s ease !important;
+        }
+
+        .main-content .counter-card.countries::before {
+          background: linear-gradient(90deg, #7877c6, #ff77c6) !important;
+        }
+
+        .main-content .counter-card.tricks::before {
+          background: linear-gradient(90deg, #78dbff, #7877c6) !important;
+        }
+
+        .main-content .counter-card:hover {
+          transform: translateY(-4px) !important;
+          border-color: rgba(120, 219, 255, 0.6) !important;
+          box-shadow: 0 8px 24px rgba(120, 219, 255, 0.3) !important;
         }
 
         .main-content .counter-header {
-          font-size: 0.7rem !important;
+          font-size: 0.8rem !important;
           font-weight: 600 !important;
           color: rgba(120, 219, 255, 0.8) !important;
           text-transform: uppercase !important;
           letter-spacing: 1px !important;
-          margin-bottom: 0.5rem !important;
+          margin-bottom: 0.8rem !important;
+        }
+
+        .main-content .counter-value {
+          font-size: 2.2rem !important;
+          font-weight: 800 !important;
+          color: white !important;
+          margin-bottom: 0.3rem !important;
+          line-height: 1 !important;
+          text-shadow: 0 0 10px rgba(120, 219, 255, 0.3) !important;
         }
 
         .main-content .counter-label {
-          font-size: 0.7rem !important;
+          font-size: 0.8rem !important;
           color: rgba(255, 255, 255, 0.7) !important;
           font-weight: 500 !important;
         }
 
-        /* Country Chain - Force Visibility */
+        /* Country Chain - Better Integration */
         .main-content .country-chain-wrapper {
           background: rgba(15, 15, 35, 0.95) !important;
           backdrop-filter: blur(20px) !important;
-          border-radius: 12px !important;
-          padding: 1rem !important;
-          margin-bottom: 1rem !important;
+          border-radius: 16px !important;
+          padding: 1.5rem !important;
+          margin-bottom: 1.5rem !important;
           position: relative !important;
-          overflow: visible !important;
-          border: 2px solid rgba(255, 119, 198, 0.6) !important;
-          box-shadow: 0 4px 16px rgba(255, 119, 198, 0.3) !important;
+          overflow: hidden !important;
+          border: 1px solid rgba(255, 119, 198, 0.4) !important;
+          box-shadow: 0 8px 24px rgba(255, 119, 198, 0.2) !important;
           display: block !important;
           visibility: visible !important;
           opacity: 1 !important;
-          z-index: 998 !important;
-          min-height: 100px !important;
+        }
+
+        .main-content .country-chain-wrapper::before {
+          content: '' !important;
+          position: absolute !important;
+          top: 0 !important;
+          left: 0 !important;
+          right: 0 !important;
+          height: 3px !important;
+          background: linear-gradient(90deg, #ff77c6, #7877c6, #78dbff) !important;
         }
 
         .main-content .chain-title {
-          font-size: 1rem !important;
+          font-size: 1.2rem !important;
           font-weight: 700 !important;
           color: white !important;
-          margin: 0 0 0.5rem 0 !important;
+          margin: 0 0 1rem 0 !important;
           text-align: center !important;
+          background: linear-gradient(135deg, #ff77c6, #7877c6) !important;
+          -webkit-background-clip: text !important;
+          -webkit-text-fill-color: transparent !important;
+          background-clip: text !important;
         }
 
         .main-content .global-network-section::before {
