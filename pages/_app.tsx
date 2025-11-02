@@ -4,6 +4,7 @@ import ErrorBoundary from '../components/ErrorBoundary';
 import '../styles/globals.css';
 import '../styles/kudos-button.css';
 import '../styles/country-chain.css';
+import '../styles/global-network.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
