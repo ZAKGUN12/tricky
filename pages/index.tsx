@@ -744,6 +744,72 @@ function HomeContent() {
           --border-light: ${theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'};
         }
 
+        /* Force Tricks Visibility - Override All Styles */
+        .main-content .tricks-grid {
+          display: flex !important;
+          flex-direction: column !important;
+          gap: 1rem !important;
+          width: 100% !important;
+          visibility: visible !important;
+          opacity: 1 !important;
+          z-index: 100 !important;
+          position: relative !important;
+        }
+
+        .main-content .trick-card.reddit-style {
+          background: rgba(15, 15, 35, 0.95) !important;
+          backdrop-filter: blur(20px) !important;
+          border: 2px solid rgba(120, 119, 198, 0.8) !important;
+          border-radius: 12px !important;
+          padding: 0 !important;
+          display: flex !important;
+          overflow: visible !important;
+          transition: all 0.3s ease !important;
+          visibility: visible !important;
+          opacity: 1 !important;
+          position: relative !important;
+          z-index: 99 !important;
+          min-height: 120px !important;
+          margin-bottom: 1rem !important;
+        }
+
+        .main-content .trick-votes {
+          background: rgba(15, 15, 35, 0.8) !important;
+          border-right: 2px solid rgba(120, 119, 198, 0.6) !important;
+          padding: 1rem !important;
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          min-width: 80px !important;
+          visibility: visible !important;
+        }
+
+        .main-content .trick-content {
+          flex: 1 !important;
+          padding: 1rem !important;
+          visibility: visible !important;
+          display: block !important;
+        }
+
+        .main-content .trick-title {
+          color: white !important;
+          font-size: 1.2rem !important;
+          font-weight: 700 !important;
+          margin-bottom: 0.5rem !important;
+          line-height: 1.4 !important;
+          visibility: visible !important;
+          display: block !important;
+        }
+
+        .main-content .trick-description {
+          color: rgba(255, 255, 255, 0.9) !important;
+          font-size: 1rem !important;
+          line-height: 1.5 !important;
+          margin-bottom: 1rem !important;
+          visibility: visible !important;
+          display: block !important;
+        }
+
         /* Middle Column Content - Better UI */
         .content {
           display: flex !important;
