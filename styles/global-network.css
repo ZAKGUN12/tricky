@@ -1,58 +1,94 @@
-/* Global Network - Simple & Clean */
+/* Global Network - Simple & Clean - Override Everything */
 .global-network-section {
-  background: rgba(15, 15, 35, 0.9);
-  border: 1px solid rgba(120, 119, 198, 0.5);
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 20px;
+  background: rgba(15, 15, 35, 0.9) !important;
+  border: 1px solid rgba(120, 119, 198, 0.5) !important;
+  border-radius: 12px !important;
+  padding: 20px !important;
+  margin-bottom: 20px !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+  position: relative !important;
+  overflow: visible !important;
+}
+
+.global-network-section::before {
+  display: none !important;
 }
 
 .global-network-header {
-  text-align: center;
-  margin-bottom: 20px;
+  text-align: center !important;
+  margin-bottom: 20px !important;
 }
 
 .global-network-header h2 {
-  color: white;
-  font-size: 1.3rem;
-  margin: 0 0 5px 0;
+  color: white !important;
+  font-size: 1.3rem !important;
+  margin: 0 0 5px 0 !important;
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: unset !important;
+  background-clip: unset !important;
+  text-shadow: none !important;
 }
 
 .global-network-header p {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.9rem;
-  margin: 0;
+  color: rgba(255, 255, 255, 0.7) !important;
+  font-size: 0.9rem !important;
+  margin: 0 !important;
 }
 
 .global-counters {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 15px !important;
+  max-width: none !important;
+  margin: 0 !important;
 }
 
 .counter-card {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  padding: 15px;
-  text-align: center;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 8px !important;
+  padding: 15px !important;
+  text-align: center !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+  transition: none !important;
+  position: static !important;
+  overflow: visible !important;
+  transform: none !important;
+}
+
+.counter-card::before {
+  display: none !important;
+}
+
+.counter-card:hover {
+  transform: none !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  box-shadow: none !important;
 }
 
 .counter-header {
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  margin-bottom: 8px;
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-size: 0.8rem !important;
+  text-transform: uppercase !important;
+  margin-bottom: 8px !important;
+  font-weight: normal !important;
+  letter-spacing: normal !important;
 }
 
 .counter-value {
-  color: white;
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 5px;
+  color: white !important;
+  font-size: 2rem !important;
+  font-weight: bold !important;
+  margin-bottom: 5px !important;
+  text-shadow: none !important;
+  line-height: normal !important;
 }
 
 .counter-label {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6) !important;
+  font-size: 0.8rem !important;
+  font-weight: normal !important;
 }
