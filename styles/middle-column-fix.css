@@ -1,392 +1,53 @@
-/* Middle Column Layout Fix - Global Network & Countries Positioning */
+/* Middle Column Layout Fix - Minimal fixes only */
 
-/* Only fix content flow, don't override main-content positioning */
-
-/* Content wrapper - proper flow layout */
+/* Content wrapper - basic flow */
 .content {
   display: flex !important;
   flex-direction: column !important;
   gap: 1rem !important;
   width: 100% !important;
-  max-width: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  min-height: 100% !important;
 }
 
-/* Global Network Section - Force visibility */
-.global-network-section {
-  background: rgba(15, 15, 35, 0.95) !important;
-  backdrop-filter: blur(20px) !important;
-  border-radius: 16px !important;
-  padding: 1.5rem !important;
-  border: 1px solid rgba(120, 119, 198, 0.4) !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
-  margin: 1rem 0 !important;
-  position: static !important;
-  overflow: visible !important;
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  z-index: 100 !important;
-  order: 1 !important;
-  width: 100% !important;
-  min-height: 200px !important;
-  clear: both !important;
-}
-
-.global-network-section::before {
-  content: '' !important;
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  height: 3px !important;
-  background: linear-gradient(90deg, #7877c6, #ff77c6, #78dbff) !important;
-}
-
-.global-network-header {
-  text-align: center !important;
-  margin-bottom: 2rem !important;
-  padding-bottom: 1rem !important;
-  border-bottom: 1px solid rgba(120, 119, 198, 0.3) !important;
-}
-
-.global-network-header h2 {
-  font-size: 1.5rem !important;
-  font-weight: 700 !important;
-  color: white !important;
-  margin-bottom: 0.5rem !important;
-  background: linear-gradient(135deg, #7877c6, #ff77c6, #78dbff) !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  background-clip: text !important;
-}
-
-.global-network-header p {
-  color: rgba(120, 219, 255, 0.8) !important;
-  font-size: 0.9rem !important;
-  margin: 0 !important;
-}
-
-.global-counters {
-  display: grid !important;
-  grid-template-columns: 1fr 1fr !important;
-  gap: 1.5rem !important;
-  max-width: 500px !important;
-  margin: 0 auto !important;
-}
-
-.counter-card {
-  background: rgba(15, 15, 35, 0.7) !important;
-  backdrop-filter: blur(15px) !important;
-  border-radius: 12px !important;
-  padding: 1.5rem !important;
-  text-align: center !important;
-  border: 1px solid rgba(120, 219, 255, 0.3) !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2) !important;
-  transition: all 0.3s ease !important;
-  position: relative !important;
-  overflow: hidden !important;
-}
-
-.counter-card::before {
-  content: '' !important;
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  height: 2px !important;
-  transition: all 0.3s ease !important;
-}
-
-.counter-card.countries::before {
-  background: linear-gradient(90deg, #7877c6, #ff77c6) !important;
-}
-
-.counter-card.tricks::before {
-  background: linear-gradient(90deg, #78dbff, #7877c6) !important;
-}
-
-.counter-card:hover {
-  transform: translateY(-4px) !important;
-  border-color: rgba(120, 219, 255, 0.6) !important;
-  box-shadow: 0 8px 24px rgba(120, 219, 255, 0.3) !important;
-}
-
-.counter-header {
-  font-size: 0.8rem !important;
-  font-weight: 600 !important;
-  color: rgba(120, 219, 255, 0.8) !important;
-  text-transform: uppercase !important;
-  letter-spacing: 1px !important;
-  margin-bottom: 0.8rem !important;
-}
-
-.counter-value {
-  font-size: 2.2rem !important;
-  font-weight: 800 !important;
-  color: white !important;
-  margin-bottom: 0.3rem !important;
-  line-height: 1 !important;
-  text-shadow: 0 0 10px rgba(120, 219, 255, 0.3) !important;
-}
-
-.counter-label {
-  font-size: 0.8rem !important;
-  color: rgba(255, 255, 255, 0.7) !important;
-  font-weight: 500 !important;
-}
-
-/* Country Chain Section - Force visibility */
+/* Country Chain - ensure visibility */
 .country-chain-wrapper {
-  background: rgba(15, 15, 35, 0.95) !important;
-  backdrop-filter: blur(20px) !important;
-  border-radius: 16px !important;
-  padding: 1.5rem !important;
-  margin: 1rem 0 !important;
-  position: static !important;
-  overflow: visible !important;
-  border: 1px solid rgba(255, 119, 198, 0.4) !important;
-  box-shadow: 0 8px 24px rgba(255, 119, 198, 0.2) !important;
   display: block !important;
   visibility: visible !important;
   opacity: 1 !important;
-  z-index: 100 !important;
-  order: 1 !important;
-  width: 100% !important;
-  min-height: 300px !important;
-  clear: both !important;
+  position: relative !important;
+  z-index: 10 !important;
 }
 
-/* Countries section with proper hierarchy */
 .chain-container {
-  margin-top: 2rem !important;
-}
-
-.chain-container::before {
-  content: '🌍 Countries' !important;
   display: block !important;
-  font-size: 1.1rem !important;
-  font-weight: 600 !important;
-  color: rgba(120, 219, 255, 0.9) !important;
-  margin-bottom: 1rem !important;
-  text-align: center !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 .chain-track {
   display: flex !important;
-  flex-wrap: wrap !important;
-  gap: 12px !important;
   visibility: visible !important;
   opacity: 1 !important;
-  justify-content: center !important;
 }
 
 .country-link {
   display: flex !important;
   visibility: visible !important;
   opacity: 1 !important;
-  transition: all 0.2s ease !important;
 }
 
-.country-link:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 4px 12px rgba(120, 119, 198, 0.3) !important;
-}
-
-.country-chain-wrapper::before {
-  content: '' !important;
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  height: 3px !important;
-  background: linear-gradient(90deg, #ff77c6, #7877c6, #78dbff) !important;
-}
-
-.chain-title {
-  font-size: 1.2rem !important;
-  font-weight: 700 !important;
-  color: white !important;
-  margin: 0 0 1rem 0 !important;
-  text-align: center !important;
-  background: linear-gradient(135deg, #ff77c6, #7877c6) !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  background-clip: text !important;
-}
-
-/* Reddit Controls - Better spacing */
-.reddit-controls {
-  background: rgba(15, 15, 35, 0.8) !important;
-  backdrop-filter: blur(20px) !important;
-  border: 1px solid rgba(120, 119, 198, 0.3) !important;
-  border-radius: 12px !important;
-  padding: 1rem !important;
-  margin: 2rem 0 1.5rem 0 !important;
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  position: relative !important;
-  z-index: 10 !important;
-  order: 3 !important;
-  border-top: 2px solid rgba(120, 219, 255, 0.2) !important;
-}
-
-/* Tricks Grid - Fixed positioning */
+/* Tricks Grid - ensure proper display */
 .tricks-grid {
   display: flex !important;
   flex-direction: column !important;
   gap: 1rem !important;
-  width: 100% !important;
-  position: relative !important;
-  z-index: 10 !important;
-  order: 4 !important;
   visibility: visible !important;
   opacity: 1 !important;
 }
 
-/* Trick Cards - Ensure visibility */
 .trick-card.reddit-style {
-  background: rgba(15, 15, 35, 0.95) !important;
-  backdrop-filter: blur(20px) !important;
-  border: 2px solid rgba(120, 119, 198, 0.8) !important;
-  border-radius: 12px !important;
-  padding: 0 !important;
   display: flex !important;
-  overflow: visible !important;
-  transition: all 0.3s ease !important;
   visibility: visible !important;
   opacity: 1 !important;
-  position: relative !important;
-  z-index: 9 !important;
-  min-height: 120px !important;
-  margin-bottom: 1rem !important;
 }
 
-.trick-card.reddit-style:hover {
-  border-color: rgba(120, 119, 198, 0.6) !important;
-  transform: translateY(-2px) !important;
-  box-shadow: 0 8px 24px rgba(120, 119, 198, 0.3) !important;
-}
-
-.trick-votes {
-  background: rgba(15, 15, 35, 0.8) !important;
-  border-right: 2px solid rgba(120, 119, 198, 0.6) !important;
-  padding: 1rem !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  min-width: 80px !important;
-  visibility: visible !important;
-}
-
-.trick-content {
-  flex: 1 !important;
-  padding: 1rem !important;
-  visibility: visible !important;
-  display: block !important;
-}
-
-.trick-title {
-  color: white !important;
-  font-size: 1.2rem !important;
-  font-weight: 700 !important;
-  margin-bottom: 0.5rem !important;
-  line-height: 1.4 !important;
-  visibility: visible !important;
-  display: block !important;
-}
-
-.trick-description {
-  color: rgba(255, 255, 255, 0.9) !important;
-  font-size: 1rem !important;
-  line-height: 1.5 !important;
-  margin-bottom: 1rem !important;
-  visibility: visible !important;
-  display: block !important;
-}
-
-/* Mobile responsive - don't override main layout */
-
-@media (max-width: 768px) {
-  .global-network-section {
-    padding: 1rem !important;
-    margin-bottom: 1rem !important;
-  }
-
-  .global-network-header h2 {
-    font-size: 1.2rem !important;
-  }
-
-  .global-counters {
-    grid-template-columns: 1fr !important;
-    gap: 1rem !important;
-  }
-
-  .counter-card {
-    padding: 1rem !important;
-  }
-
-  .counter-value {
-    font-size: 1.8rem !important;
-  }
-
-  .country-chain-wrapper {
-    padding: 1rem !important;
-    margin-bottom: 1rem !important;
-  }
-
-  .chain-title {
-    font-size: 1rem !important;
-  }
-}
-
-/* Loading and error states */
-.loading-tricks {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  padding: 3rem !important;
-  color: rgba(255, 255, 255, 0.8) !important;
-  gap: 1rem !important;
-  order: 4 !important;
-}
-
-.no-tricks {
-  text-align: center !important;
-  padding: 3rem !important;
-  color: rgba(255, 255, 255, 0.8) !important;
-  order: 4 !important;
-}
-
-/* Ensure proper stacking order */
-.content > * {
-  position: relative !important;
-  z-index: 10 !important;
-}
-
-/* Fix any potential overflow issues */
-.main-content {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(120, 119, 198, 0.5) transparent;
-}
-
-.main-content::-webkit-scrollbar {
-  width: 6px;
-}
-
-.main-content::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.main-content::-webkit-scrollbar-thumb {
-  background: rgba(120, 119, 198, 0.5);
-  border-radius: 3px;
-}
-
-.main-content::-webkit-scrollbar-thumb:hover {
-  background: rgba(120, 119, 198, 0.7);
-}
+/* Remove conflicting styles */

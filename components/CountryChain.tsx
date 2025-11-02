@@ -17,7 +17,8 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
       ...country,
       trickCount: getCountryTrickCount(country.code)
     }))
-    // Show all countries, not just those with tricks
+    // Show only countries with tricks to fit in Global Network box
+    .filter(country => country.trickCount > 0)
     .sort((a, b) => b.trickCount - a.trickCount);
 
   return (
