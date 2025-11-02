@@ -223,9 +223,21 @@
   gap: 1rem !important;
 }
 
-/* Mobile responsive */
+/* Enhanced responsive behavior */
 @media (max-width: 1400px) {
   .right-sidebar {
+    width: 280px !important;
+  }
+}
+
+@media (max-width: 1200px) {
+  .right-sidebar {
     display: none !important;
+  }
+}
+
+@media (min-width: 1401px) {
+  .right-sidebar {
+    width: 320px !important;
   }
 }
