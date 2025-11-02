@@ -734,6 +734,115 @@ function HomeContent() {
           --border-light: ${theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'};
         }
 
+        /* Middle Column Content - Better UI */
+        .content {
+          display: flex !important;
+          flex-direction: column !important;
+          gap: 1rem !important;
+          padding: 1rem !important;
+          max-width: none !important;
+          width: 100% !important;
+        }
+
+        .main-content .reddit-controls {
+          background: rgba(15, 15, 35, 0.8) !important;
+          backdrop-filter: blur(20px) !important;
+          border: 1px solid rgba(120, 119, 198, 0.3) !important;
+          border-radius: 12px !important;
+          padding: 1rem !important;
+          margin-bottom: 1rem !important;
+          display: flex !important;
+          justify-content: space-between !important;
+          align-items: center !important;
+        }
+
+        .main-content .tricks-grid {
+          display: flex !important;
+          flex-direction: column !important;
+          gap: 1rem !important;
+          width: 100% !important;
+        }
+
+        .main-content .trick-card.reddit-style {
+          background: rgba(15, 15, 35, 0.8) !important;
+          backdrop-filter: blur(20px) !important;
+          border: 1px solid rgba(120, 119, 198, 0.3) !important;
+          border-radius: 12px !important;
+          padding: 0 !important;
+          display: flex !important;
+          overflow: hidden !important;
+          transition: all 0.3s ease !important;
+        }
+
+        .main-content .trick-card.reddit-style:hover {
+          border-color: rgba(120, 119, 198, 0.6) !important;
+          transform: translateY(-2px) !important;
+          box-shadow: 0 8px 24px rgba(120, 119, 198, 0.3) !important;
+        }
+
+        .main-content .trick-votes {
+          background: rgba(15, 15, 35, 0.6) !important;
+          border-right: 1px solid rgba(120, 119, 198, 0.3) !important;
+          padding: 1rem !important;
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          min-width: 60px !important;
+        }
+
+        .main-content .trick-content {
+          flex: 1 !important;
+          padding: 1rem !important;
+        }
+
+        .main-content .trick-title {
+          color: white !important;
+          font-size: 1.1rem !important;
+          font-weight: 600 !important;
+          margin-bottom: 0.5rem !important;
+          line-height: 1.4 !important;
+        }
+
+        .main-content .trick-description {
+          color: rgba(255, 255, 255, 0.8) !important;
+          font-size: 0.9rem !important;
+          line-height: 1.5 !important;
+          margin-bottom: 1rem !important;
+        }
+
+        .main-content .trick-meta {
+          display: flex !important;
+          align-items: center !important;
+          gap: 0.5rem !important;
+          margin-bottom: 0.5rem !important;
+          font-size: 0.8rem !important;
+          color: rgba(255, 255, 255, 0.6) !important;
+        }
+
+        .main-content .trick-actions {
+          display: flex !important;
+          gap: 1rem !important;
+          align-items: center !important;
+          margin-top: 1rem !important;
+        }
+
+        .main-content .action-btn {
+          background: none !important;
+          border: none !important;
+          color: rgba(255, 255, 255, 0.6) !important;
+          font-size: 0.8rem !important;
+          cursor: pointer !important;
+          padding: 0.25rem 0.5rem !important;
+          border-radius: 4px !important;
+          transition: all 0.2s ease !important;
+          text-decoration: none !important;
+        }
+
+        .main-content .action-btn:hover {
+          background: rgba(120, 119, 198, 0.2) !important;
+          color: white !important;
+        }
+
         /* Country Chain and Flags - High Specificity Override */
         .main-content .country-chain-wrapper {
           background: rgba(15, 15, 35, 0.8) !important;

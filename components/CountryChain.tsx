@@ -1,4 +1,4 @@
-import { countries, mockTricks } from '../lib/mockData';
+import { countries } from '../lib/mockData';
 import { Trick } from '../lib/types';
 
 interface CountryChainProps {
@@ -9,9 +9,7 @@ interface CountryChainProps {
 
 export default function CountryChain({ selectedCountry, onCountrySelect, tricks }: CountryChainProps) {
   const getCountryTrickCount = (countryCode: string) => {
-    // Use real tricks if available, otherwise fall back to mock data
-    const tricksToCount = tricks.length > 0 ? tricks : mockTricks;
-    return tricksToCount.filter(trick => trick.countryCode === countryCode).length;
+    return tricks.filter(trick => trick.countryCode === countryCode).length;
   };
 
   const countriesWithTricks = countries
