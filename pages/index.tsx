@@ -92,6 +92,7 @@ function HomeContent() {
 
   // Memoize sorted tricks to prevent unnecessary re-renders
   const sortedTricks = useMemo(() => {
+    console.log('Computing sortedTricks from tricks:', tricks?.length || 0);
     const sorted = [...(tricks || [])];
     switch (sortBy) {
       case 'hot':
@@ -159,11 +160,13 @@ function HomeContent() {
       const data = await response.json();
       console.log('Tricks fetched from DynamoDB:', data.length, 'tricks');
       console.log('Sample trick:', data[0]);
+      console.log('Setting tricks state with:', data.length, 'items');
       
       setTricks(Array.isArray(data) ? data : []);
       
       // Also fetch all tricks for category counting if we don't have them
       if (allTricks.length === 0 || (!selectedCountry && !selectedCategory && !searchQuery)) {
+        console.log('Setting allTricks state with:', data.length, 'items');
         setAllTricks(Array.isArray(data) ? data : []);
       }
       
@@ -607,6 +610,10 @@ function HomeContent() {
             
             {!loading && (sortedTricks || []).length > 0 && (
               <div className={`tricks-grid ${viewMode === 'compact' ? 'compact-view' : 'card-view'} ${filtering ? 'filtering' : ''}`}>
+                {(() => {
+                  console.log('Rendering tricks:', (sortedTricks || []).length);
+                  return null;
+                })()}
                 {(sortedTricks || []).map((trick) => {
                 const country = countries.find(c => c.code === trick.countryCode);
                 return (
