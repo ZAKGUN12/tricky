@@ -43,7 +43,7 @@
 }
 
 .right-sidebar .section-content {
-  padding: 1rem !important;
+  padding: 0.75rem !important;
 }
 
 /* Top Tricks Cards */
@@ -51,12 +51,12 @@
   background: linear-gradient(135deg, rgba(120, 119, 198, 0.1), rgba(255, 119, 198, 0.05)) !important;
   border: 1px solid rgba(120, 119, 198, 0.3) !important;
   border-radius: 12px !important;
-  padding: 1rem !important;
-  margin-bottom: 0.75rem !important;
+  padding: 0.75rem !important;
+  margin-bottom: 0.5rem !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
   position: relative !important;
   overflow: hidden !important;
-  min-height: 100px !important;
+  min-height: 90px !important;
   display: flex !important;
   flex-direction: column !important;
   justify-content: space-between !important;
@@ -109,17 +109,16 @@
 }
 
 .trick-mini-title {
-  font-size: 0.85rem !important;
+  font-size: 0.8rem !important;
   font-weight: 600 !important;
   color: white !important;
-  line-height: 1.2 !important;
-  margin-bottom: 0.5rem !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  display: -webkit-box !important;
-  -webkit-line-clamp: 2 !important;
-  -webkit-box-orient: vertical !important;
-  word-break: break-word !important;
+  line-height: 1.1 !important;
+  margin-bottom: 0.25rem !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
+  display: block !important;
+  word-wrap: break-word !important;
+  hyphens: auto !important;
 }
 
 .trick-mini-meta {
