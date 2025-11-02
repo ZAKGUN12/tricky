@@ -9,14 +9,7 @@ interface CountryChainProps {
 
 export default function CountryChain({ selectedCountry, onCountrySelect, tricks }: CountryChainProps) {
   const getCountryTrickCount = (countryCode: string) => {
-    console.log('Counting tricks for', countryCode, 'from', tricks.length, 'total tricks');
-    if (tricks.length > 0) {
-      console.log('Sample trick structure:', tricks[0]);
-      console.log('Sample trick countryCode:', tricks[0]?.countryCode);
-    }
-    const count = tricks.filter(trick => trick.countryCode === countryCode).length;
-    console.log('Count for', countryCode, ':', count);
-    return count;
+    return tricks.filter(trick => trick.countryCode === countryCode).length;
   };
 
   const countriesWithTricks = countries
