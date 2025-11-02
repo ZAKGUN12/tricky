@@ -107,7 +107,8 @@
 .chain-container {
   position: relative;
   z-index: 2;
-  overflow: visible;
+  overflow: hidden;
+  max-height: 400px;
 }
 
 .chain-track {
@@ -116,8 +117,30 @@
   gap: 12px;
   margin-bottom: 1rem;
   justify-content: flex-start;
-  overflow: visible;
+  overflow-y: auto;
+  overflow-x: hidden;
   padding-bottom: 1rem;
+  max-height: 300px;
+  padding-right: 8px;
+}
+
+/* Custom scrollbar for countries */
+.chain-track::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chain-track::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.chain-track::-webkit-scrollbar-thumb {
+  background: rgba(255, 119, 198, 0.6);
+  border-radius: 3px;
+}
+
+.chain-track::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 119, 198, 0.8);
 }
 
 .country-link {
