@@ -2,13 +2,13 @@
 .country-chain-wrapper {
   background: rgba(15, 15, 35, 0.95);
   backdrop-filter: blur(20px);
-  border-radius: 16px;
-  padding: 1.5rem;
+  border-radius: 20px;
+  padding: 2rem;
   margin-bottom: 1.5rem;
   position: relative;
   overflow: visible;
   border: 1px solid rgba(255, 119, 198, 0.4);
-  box-shadow: 0 8px 24px rgba(255, 119, 198, 0.2);
+  box-shadow: 0 8px 32px rgba(255, 119, 198, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.1);
   min-height: 300px;
 }
 
@@ -18,44 +18,55 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 3px;
+  height: 4px;
   background: linear-gradient(90deg, #ff77c6, #7877c6, #78dbff);
+  border-radius: 20px 20px 0 0;
 }
 
 .chain-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   position: relative;
   z-index: 2;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(255, 119, 198, 0.3);
+}
+
+.header-content {
+  flex: 1;
+  text-align: center;
 }
 
 .chain-title {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: 700;
   color: white;
   margin: 0;
-  background: linear-gradient(135deg, #ff77c6, #7877c6);
+  background: linear-gradient(135deg, #ff77c6, #7877c6, #78dbff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.5px;
 }
 
 .counters-section {
   display: flex;
-  gap: 0.75rem;
+  gap: 1rem;
   align-items: center;
 }
 
 .calendar-badge, .tricks-badge {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.95);
   border: 2px solid rgba(120, 119, 198, 0.4);
-  border-radius: 8px;
+  border-radius: 10px;
   text-align: center;
-  min-width: 60px;
+  min-width: 70px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   position: relative;
+  backdrop-filter: blur(10px);
 }
 
 .calendar-badge::before {
@@ -64,10 +75,10 @@
   top: -2px;
   left: 50%;
   transform: translateX(-50%);
-  width: 80%;
-  height: 8px;
+  width: 85%;
+  height: 10px;
   background: linear-gradient(135deg, #7877c6 0%, #ff77c6 100%);
-  border-radius: 4px 4px 0 0;
+  border-radius: 6px 6px 0 0;
 }
 
 .tricks-badge::before {
@@ -76,17 +87,17 @@
   top: -2px;
   left: 50%;
   transform: translateX(-50%);
-  width: 80%;
-  height: 8px;
+  width: 85%;
+  height: 10px;
   background: linear-gradient(135deg, #78dbff 0%, #7877c6 100%);
-  border-radius: 4px 4px 0 0;
+  border-radius: 6px 6px 0 0;
 }
 
 .calendar-number, .tricks-number {
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 1.6rem;
+  font-weight: 800;
   color: #7877c6;
-  padding: 8px 4px 2px 4px;
+  padding: 10px 4px 4px 4px;
   line-height: 1;
 }
 
@@ -95,12 +106,12 @@
 }
 
 .calendar-label, .tricks-label {
-  font-size: 0.65rem;
+  font-size: 0.7rem;
   font-weight: 600;
   color: #666;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  padding: 0 4px 6px 4px;
+  padding: 0 4px 8px 4px;
   border-top: 1px solid rgba(120, 119, 198, 0.2);
 }
 
@@ -165,9 +176,9 @@
 
 .country-details {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: 2px;
+  gap: 6px;
   min-width: 0;
 }
 
@@ -186,12 +197,16 @@
 }
 
 .trick-count {
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   color: #fbbf24;
-  font-weight: 600;
+  font-weight: 700;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
   margin: 0;
   line-height: 1;
+  background: rgba(251, 191, 36, 0.2);
+  padding: 2px 6px;
+  border-radius: 10px;
+  border: 1px solid rgba(251, 191, 36, 0.4);
 }
 
 .country-link:hover {
