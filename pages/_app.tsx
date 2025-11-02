@@ -3,6 +3,7 @@ import { AuthProvider } from '../components/AuthProvider';
 import ErrorBoundary from '../components/ErrorBoundary';
 import '../styles/globals.css';
 import '../styles/kudos-button.css';
+import '../styles/country-chain.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
