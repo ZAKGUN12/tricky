@@ -299,6 +299,7 @@ function HomeContent() {
         body: JSON.stringify({
           title: formData.title.trim(),
           description: formData.description.trim(),
+          steps: [formData.description.trim()], // API requires steps array
           difficulty: formData.difficulty,
           countryCode: formData.countryCode,
           tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
