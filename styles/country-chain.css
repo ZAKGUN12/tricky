@@ -5,13 +5,12 @@
   background: rgba(15, 15, 35, 0.95);
   backdrop-filter: blur(20px);
   border-radius: 20px;
-  padding: 2rem;
+  padding: 1.5rem;
   margin-bottom: 1.5rem;
   position: relative;
   overflow: visible;
   border: 1px solid rgba(255, 119, 198, 0.4);
   box-shadow: 0 8px 32px rgba(255, 119, 198, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.1);
-  min-height: 300px;
 }
 
 .country-chain-wrapper::before {
@@ -30,8 +29,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
-  padding: 0.25rem 0;
+  margin-bottom: 0.75rem;
+  padding: 0;
   border-bottom: 1px solid rgba(255, 119, 198, 0.3);
 }
 
@@ -118,21 +117,20 @@
   position: relative;
   z-index: 2;
   overflow: visible;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  padding: 0 1rem;
-  min-height: 220px;
+  margin: 0.5rem 0;
+  padding: 0;
 }
 
 /* Countries Track with Grid Layout */
 .chain-track {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  gap: 8px;
-  margin-bottom: 0;
-  padding: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  gap: 6px;
+  margin: 0;
+  padding: 0.5rem;
   overflow: visible;
-  min-height: 200px;
+  justify-items: center;
+  align-items: start;
 }
 
 
@@ -142,17 +140,20 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: 4px;
   background: rgba(15, 15, 35, 0.8);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(120, 119, 198, 0.3);
-  border-radius: 12px;
-  padding: 1rem;
+  border-radius: 8px;
+  padding: 0.75rem 0.5rem;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
-  min-height: 100px;
+  width: 100%;
+  max-width: 110px;
+  height: 85px;
   text-align: center;
 }
 
@@ -171,10 +172,10 @@
 
 /* Country Flag */
 .country-flag {
-  font-size: 2rem;
+  font-size: 1.5rem;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
   line-height: 1;
-  margin-bottom: 4px;
+  flex-shrink: 0;
 }
 
 .country-link:hover .country-flag {
@@ -191,33 +192,38 @@
 }
 
 .country-name {
-  font-size: 0.9rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: white;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
   margin: 0;
-  line-height: 1.2;
+  line-height: 1.1;
   text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .trick-count {
-  font-size: 0.55rem;
+  font-size: 0.65rem;
   color: #fbbf24;
   font-weight: 700;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
   margin: 0;
   line-height: 1;
   background: rgba(251, 191, 36, 0.2);
-  padding: 1px 4px;
-  border-radius: 6px;
+  padding: 2px 6px;
+  border-radius: 8px;
   border: 1px solid rgba(251, 191, 36, 0.4);
+  min-width: 20px;
 }
 
 /* Footer Section */
 .chain-footer {
   position: relative;
   z-index: 2;
-  margin-top: 1rem;
+  margin-top: 0.75rem;
 }
 
 .all-countries-button {
@@ -280,25 +286,27 @@
 /* Mobile Responsive */
 @media (max-width: 768px) {
   .chain-track {
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 8px;
-    padding: 0.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 4px;
+    padding: 0.25rem;
   }
   
   .country-link {
-    padding: 0.8rem;
-    min-height: 80px;
+    padding: 0.5rem 0.25rem;
+    height: 70px;
+    max-width: 90px;
   }
   
   .country-flag {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
   
   .country-name {
-    font-size: 0.8rem;
+    font-size: 0.65rem;
   }
   
   .trick-count {
-    font-size: 0.7rem;
+    font-size: 0.6rem;
+    padding: 1px 4px;
   }
 }
