@@ -24,9 +24,7 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
   return (
     <div className="country-chain-wrapper">
       <div className="chain-header">
-        <div className="header-content">
-          <h3 className="chain-title">🌍 Global Network</h3>
-        </div>
+        <h3 className="chain-title">🌍 Global Network</h3>
         <div className="counters-section">
           <div className="calendar-badge">
             <div className="calendar-number">{countriesWithTricks.length}</div>
