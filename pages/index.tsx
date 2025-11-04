@@ -208,6 +208,20 @@ function HomeContent() {
     fetchTricks();
   }, [fetchTricks]);
 
+  // Ensure Global Network always has data
+  useEffect(() => {
+    if (allTricks.length === 0) {
+      fetch('/api/tricks')
+        .then(res => res.json())
+        .then(data => {
+          if (Array.isArray(data)) {
+            setAllTricks(data);
+          }
+        })
+        .catch(console.error);
+    }
+  }, [allTricks.length]);
+
   // Fetch user kudos when user logs in and we have tricks
   useEffect(() => {
     if (user?.email && tricks.length > 0) {
@@ -424,10 +438,13 @@ function HomeContent() {
 
             {/* Actions Section */}
             <div className="reddit-actions">
-              <Link href="/submit" className="reddit-action-btn primary">
+              <button 
+                className="reddit-action-btn primary"
+                onClick={() => setShowCreateForm(true)}
+              >
                 <span>+</span>
                 <span>Create</span>
-              </Link>
+              </button>
               
               <button className="reddit-action-btn icon-only notification-badge">
                 🔔
@@ -747,15 +764,6 @@ function HomeContent() {
           </aside>
 
         </div>
-
-        {/* Floating Create Button */}
-        <button 
-          className="floating-create-btn"
-          onClick={() => setShowCreateForm(true)}
-          title="Create New Trick"
-        >
-          ✏️
-        </button>
 
         {/* Create Trick Modal */}
         {showCreateForm && (
@@ -2539,32 +2547,6 @@ function HomeContent() {
           }
         }
 
-        /* Floating Create Button */
-        .floating-create-btn {
-          position: fixed;
-          bottom: 2rem;
-          right: 2rem;
-          width: 60px;
-          height: 60px;
-          background: linear-gradient(135deg, #ff77c6, #7877c6);
-          border: none;
-          border-radius: 50%;
-          color: white;
-          font-size: 1.5rem;
-          cursor: pointer;
-          box-shadow: 0 4px 20px rgba(255, 119, 198, 0.4);
-          transition: all 0.3s ease;
-          z-index: 1000;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .floating-create-btn:hover {
-          transform: scale(1.1);
-          box-shadow: 0 6px 25px rgba(255, 119, 198, 0.6);
-        }
-
         /* Create Modal */
         .create-modal-overlay {
           position: fixed;
@@ -2734,14 +2716,6 @@ function HomeContent() {
         }
 
         @media (max-width: 768px) {
-          .floating-create-btn {
-            bottom: 1rem;
-            right: 1rem;
-            width: 50px;
-            height: 50px;
-            font-size: 1.2rem;
-          }
-
           .create-modal {
             width: 95%;
             height: 85vh;
