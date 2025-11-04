@@ -170,8 +170,8 @@ function HomeContent() {
       
       setTricks(Array.isArray(data) ? data : []);
       
-      // Also fetch all tricks for category counting if we don't have them
-      if (allTricks.length === 0 || (!selectedCountry && !selectedCategory && !searchQuery)) {
+      // Also fetch all tricks for category counting
+      if (allTricks.length === 0) {
         setAllTricks(Array.isArray(data) ? data : []);
       }
       
@@ -557,9 +557,9 @@ function HomeContent() {
           )}
 
           <div className="content">
-            {/* CountryChain with integrated Global Network */}
+            {/* CountryChain with integrated Global Network - Always visible */}
             <CountryChain 
-              tricks={allTricks}
+              tricks={allTricks.length > 0 ? allTricks : tricks}
               onCountrySelect={handleCountrySelect}
               selectedCountry={selectedCountry}
             />
