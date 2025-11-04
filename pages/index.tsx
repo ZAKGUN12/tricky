@@ -28,6 +28,16 @@ function HomeContent() {
   const [sortBy, setSortBy] = useState('hot');
   const [viewMode, setViewMode] = useState('card');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    difficulty: '',
+    countryCode: '',
+    tags: ''
+  });
+  const [formLoading, setFormLoading] = useState(false);
+  const [formError, setFormError] = useState('');
 
   useEffect(() => {
     document.body.classList.add('reddit-header-active');
@@ -261,6 +271,65 @@ function HomeContent() {
   const handleFilter = (filters: any) => {
     if (filters.country) setSelectedCountry(filters.country);
     if (filters.category) setSelectedCategory(filters.category);
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validation
+    if (!formData.title.trim() || !formData.description.trim() || !formData.difficulty || !formData.countryCode) {
+      setFormError('Please fill in all required fields');
+      return;
+    }
+
+    if (!user) {
+      setFormError('Please sign in to create tricks');
+      return;
+    }
+
+    setFormLoading(true);
+    setFormError('');
+
+    try {
+      const response = await fetch('/api/tricks', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: formData.title.trim(),
+          description: formData.description.trim(),
+          difficulty: formData.difficulty,
+          countryCode: formData.countryCode,
+          tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
+          authorName: user.name,
+          authorEmail: user.email
+        }),
+      });
+
+      if (response.ok) {
+        // Success - reset form and refresh tricks
+        setFormData({ title: '', description: '', difficulty: '', countryCode: '', tags: '' });
+        setShowCreateForm(false);
+        showToast('🎉 Trick created successfully!', 'success');
+        
+        // Refresh tricks list
+        fetchTricks();
+      } else {
+        const errorData = await response.json();
+        setFormError(errorData.error || 'Failed to create trick');
+      }
+    } catch (error) {
+      setFormError('Network error. Please try again.');
+    } finally {
+      setFormLoading(false);
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    if (formError) setFormError(''); // Clear error on input
   };
 
   const handleCountrySelect = (countryCode: string) => {
@@ -677,6 +746,116 @@ function HomeContent() {
           </aside>
 
         </div>
+
+        {/* Floating Create Button */}
+        <button 
+          className="floating-create-btn"
+          onClick={() => setShowCreateForm(true)}
+          title="Create New Trick"
+        >
+          ✏️
+        </button>
+
+        {/* Create Trick Modal */}
+        {showCreateForm && (
+          <div className="create-modal-overlay" onClick={() => setShowCreateForm(false)}>
+            <div className="create-modal" onClick={(e) => e.stopPropagation()}>
+              <div className="modal-header">
+                <h3>🌍 Create New Trick</h3>
+                <button 
+                  className="close-btn"
+                  onClick={() => setShowCreateForm(false)}
+                >
+                  ✕
+                </button>
+              </div>
+              <div className="create-form-container">
+                <form className="inline-create-form" onSubmit={handleFormSubmit}>
+                  {formError && (
+                    <div className="form-error">
+                      ⚠️ {formError}
+                    </div>
+                  )}
+                  <input 
+                    type="text" 
+                    name="title"
+                    placeholder="Enter your life trick title..."
+                    className="form-input title-input"
+                    value={formData.title}
+                    onChange={handleInputChange}
+                    required
+                    disabled={formLoading}
+                  />
+                  <textarea 
+                    name="description"
+                    placeholder="Describe your trick in detail..."
+                    className="form-input description-input"
+                    rows={4}
+                    value={formData.description}
+                    onChange={handleInputChange}
+                    required
+                    disabled={formLoading}
+                  />
+                  <div className="form-row">
+                    <select 
+                      name="difficulty"
+                      className="form-input difficulty-select" 
+                      value={formData.difficulty}
+                      onChange={handleInputChange}
+                      required
+                      disabled={formLoading}
+                    >
+                      <option value="">Select difficulty</option>
+                      <option value="easy">Easy</option>
+                      <option value="medium">Medium</option>
+                      <option value="hard">Hard</option>
+                    </select>
+                    <select 
+                      name="countryCode"
+                      className="form-input country-select" 
+                      value={formData.countryCode}
+                      onChange={handleInputChange}
+                      required
+                      disabled={formLoading}
+                    >
+                      <option value="">Select country</option>
+                      <option value="TR">🇹🇷 Turkey</option>
+                      <option value="JP">🇯🇵 Japan</option>
+                      <option value="FR">🇫🇷 France</option>
+                      <option value="DE">🇩🇪 Germany</option>
+                      <option value="IT">🇮🇹 Italy</option>
+                      <option value="BR">🇧🇷 Brazil</option>
+                      <option value="CN">🇨🇳 China</option>
+                      <option value="CA">🍁 Canada</option>
+                    </select>
+                  </div>
+                  <input 
+                    type="text" 
+                    name="tags"
+                    placeholder="Tags (comma separated)"
+                    className="form-input tags-input"
+                    value={formData.tags}
+                    onChange={handleInputChange}
+                    disabled={formLoading}
+                  />
+                  <div className="form-actions">
+                    <button 
+                      type="button" 
+                      className="cancel-btn"
+                      onClick={() => setShowCreateForm(false)}
+                      disabled={formLoading}
+                    >
+                      Cancel
+                    </button>
+                    <button type="submit" className="submit-btn" disabled={formLoading}>
+                      {formLoading ? '⏳ Creating...' : '🚀 Share Trick'}
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       <style jsx>{`
@@ -2356,6 +2535,223 @@ function HomeContent() {
           to { 
             opacity: 1;
             transform: translateY(0) scale(1);
+          }
+        }
+
+        /* Floating Create Button */
+        .floating-create-btn {
+          position: fixed;
+          bottom: 2rem;
+          right: 2rem;
+          width: 60px;
+          height: 60px;
+          background: linear-gradient(135deg, #ff77c6, #7877c6);
+          border: none;
+          border-radius: 50%;
+          color: white;
+          font-size: 1.5rem;
+          cursor: pointer;
+          box-shadow: 0 4px 20px rgba(255, 119, 198, 0.4);
+          transition: all 0.3s ease;
+          z-index: 1000;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .floating-create-btn:hover {
+          transform: scale(1.1);
+          box-shadow: 0 6px 25px rgba(255, 119, 198, 0.6);
+        }
+
+        /* Create Modal */
+        .create-modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.8);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 2000;
+          padding: 1rem;
+        }
+
+        .create-modal {
+          background: rgba(15, 15, 35, 0.95);
+          backdrop-filter: blur(20px);
+          border-radius: 16px;
+          width: 90%;
+          max-width: 800px;
+          height: 80vh;
+          border: 1px solid rgba(255, 119, 198, 0.4);
+          box-shadow: 0 8px 32px rgba(255, 119, 198, 0.3);
+          display: flex;
+          flex-direction: column;
+          overflow: hidden;
+        }
+
+        .modal-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 1rem 1.5rem;
+          border-bottom: 1px solid rgba(255, 119, 198, 0.3);
+          background: linear-gradient(90deg, rgba(255, 119, 198, 0.1), rgba(120, 119, 198, 0.1));
+        }
+
+        .modal-header h3 {
+          margin: 0;
+          color: white;
+          font-size: 1.2rem;
+          background: linear-gradient(135deg, #ff77c6, #7877c6);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+
+        .close-btn {
+          background: none;
+          border: none;
+          color: white;
+          font-size: 1.5rem;
+          cursor: pointer;
+          padding: 0.5rem;
+          border-radius: 50%;
+          transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+          background: rgba(255, 119, 198, 0.2);
+          transform: scale(1.1);
+        }
+
+        .create-form-container {
+          flex: 1;
+          padding: 1.5rem;
+          overflow-y: auto;
+        }
+
+        .inline-create-form {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .form-error {
+          background: rgba(255, 77, 77, 0.2);
+          border: 1px solid rgba(255, 77, 77, 0.4);
+          border-radius: 8px;
+          padding: 0.75rem;
+          color: #ff6b6b;
+          font-size: 0.9rem;
+          text-align: center;
+        }
+
+        .form-input {
+          background: rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(255, 119, 198, 0.3);
+          border-radius: 8px;
+          padding: 0.75rem;
+          color: white;
+          font-size: 0.9rem;
+          transition: all 0.3s ease;
+        }
+
+        .form-input:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+
+        .form-input:focus {
+          outline: none;
+          border-color: rgba(255, 119, 198, 0.6);
+          box-shadow: 0 0 0 2px rgba(255, 119, 198, 0.2);
+        }
+
+        .form-input::placeholder {
+          color: rgba(255, 255, 255, 0.6);
+        }
+
+        .title-input {
+          font-size: 1rem;
+          font-weight: 600;
+        }
+
+        .description-input {
+          resize: vertical;
+          min-height: 100px;
+        }
+
+        .form-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1rem;
+        }
+
+        .form-actions {
+          display: flex;
+          gap: 1rem;
+          justify-content: flex-end;
+          margin-top: 1rem;
+        }
+
+        .cancel-btn, .submit-btn {
+          padding: 0.75rem 1.5rem;
+          border-radius: 8px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          border: none;
+        }
+
+        .cancel-btn:disabled, .submit-btn:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+
+        .cancel-btn {
+          background: rgba(255, 255, 255, 0.1);
+          color: white;
+          border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .cancel-btn:hover {
+          background: rgba(255, 255, 255, 0.2);
+        }
+
+        .submit-btn {
+          background: linear-gradient(135deg, #ff77c6, #7877c6);
+          color: white;
+        }
+
+        .submit-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(255, 119, 198, 0.4);
+        }
+
+        @media (max-width: 768px) {
+          .floating-create-btn {
+            bottom: 1rem;
+            right: 1rem;
+            width: 50px;
+            height: 50px;
+            font-size: 1.2rem;
+          }
+
+          .create-modal {
+            width: 95%;
+            height: 85vh;
+          }
+
+          .modal-header {
+            padding: 0.75rem 1rem;
+          }
+
+          .modal-header h3 {
+            font-size: 1rem;
           }
         }
       `}</style>
