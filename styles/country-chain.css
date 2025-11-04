@@ -121,16 +121,18 @@
   margin-top: 1rem;
   margin-bottom: 1rem;
   padding: 0 1rem;
+  min-height: 220px;
 }
 
 /* Countries Track with Grid Layout */
 .chain-track {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 8px;
   margin-bottom: 0;
   padding: 1rem;
   overflow: visible;
+  min-height: 200px;
 }
 
 
