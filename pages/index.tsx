@@ -208,19 +208,12 @@ function HomeContent() {
     fetchTricks();
   }, [fetchTricks]);
 
-  // Ensure Global Network always has data
+  // Keep allTricks in sync with tricks for stable Global Network
   useEffect(() => {
-    if (allTricks.length === 0) {
-      fetch('/api/tricks')
-        .then(res => res.json())
-        .then(data => {
-          if (Array.isArray(data)) {
-            setAllTricks(data);
-          }
-        })
-        .catch(console.error);
+    if (tricks.length > 0 && allTricks.length === 0) {
+      setAllTricks(tricks);
     }
-  }, [allTricks.length]);
+  }, [tricks, allTricks.length]);
 
   // Fetch user kudos when user logs in and we have tricks
   useEffect(() => {
@@ -328,8 +321,17 @@ function HomeContent() {
         setShowCreateForm(false);
         showToast('🎉 Trick created successfully!', 'success');
         
-        // Refresh tricks list
-        fetchTricks();
+        // Refresh tricks list and sync allTricks
+        await fetchTricks();
+        
+        // Ensure allTricks stays in sync
+        const response = await fetch('/api/tricks');
+        if (response.ok) {
+          const data = await response.json();
+          if (Array.isArray(data)) {
+            setAllTricks(data);
+          }
+        }
       } else {
         const errorData = await response.json();
         setFormError(errorData.error || 'Failed to create trick');
@@ -576,7 +578,7 @@ function HomeContent() {
           <div className="content">
             {/* CountryChain with integrated Global Network - Always visible */}
             <CountryChain 
-              tricks={allTricks.length > 0 ? allTricks : tricks}
+              tricks={allTricks}
               onCountrySelect={handleCountrySelect}
               selectedCountry={selectedCountry}
             />
