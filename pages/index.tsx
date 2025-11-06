@@ -27,7 +27,7 @@ function HomeContent() {
   const [error, setError] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState('hot');
   const [viewMode, setViewMode] = useState('card');
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(true); // Start collapsed on mobile
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
@@ -483,7 +483,7 @@ function HomeContent() {
         </header>
 
         <div className="main-content">
-          <nav className={`sidebar z-2 box-border flex flex-col mt-0 mb-0 pt-md shrink-0 w-full min-h-screen-without-header select-none ${sidebarCollapsed ? 'collapsed' : ''}`} aria-label="Primary">
+          <nav className={`sidebar z-2 box-border flex flex-col mt-0 mb-0 pt-md shrink-0 w-full min-h-screen-without-header select-none ${!sidebarCollapsed ? 'open' : ''}`} aria-label="Primary">
             <button 
               className="sidebar-close"
               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
@@ -567,10 +567,10 @@ function HomeContent() {
               </a>
             </div>
           </nav>
-          {sidebarCollapsed && (
+          {!sidebarCollapsed && (
             <div 
-              className="sidebar-overlay"
-              onClick={() => setSidebarCollapsed(false)}
+              className="sidebar-overlay active"
+              onClick={() => setSidebarCollapsed(true)}
               onTouchStart={(e) => e.preventDefault()}
             />
           )}
