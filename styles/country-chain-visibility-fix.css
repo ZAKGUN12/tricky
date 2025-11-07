@@ -1,0 +1,97 @@
+/* Country Chain Visibility Fix */
+
+/* Ensure Global Network is always visible */
+.country-chain-wrapper {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  min-height: 200px !important;
+}
+
+.chain-header {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.chain-container {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  min-height: 120px !important;
+}
+
+.chain-track {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  min-height: 80px !important;
+}
+
+/* Loading state for when no countries have tricks */
+.no-countries-message {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 2rem !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  text-align: center !important;
+  min-height: 80px !important;
+}
+
+.loading-icon {
+  font-size: 2rem !important;
+  margin-bottom: 0.5rem !important;
+  animation: pulse 2s infinite !important;
+}
+
+.loading-text {
+  font-size: 0.875rem !important;
+  color: rgba(120, 219, 255, 0.8) !important;
+  font-weight: 500 !important;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.05); }
+}
+
+/* Ensure counters are always visible */
+.counters-section {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.calendar-badge,
+.tricks-badge {
+  display: flex !important;
+  flex-direction: column !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Mobile specific fixes */
+@media (max-width: 768px) {
+  .country-chain-wrapper {
+    min-height: 180px !important;
+  }
+  
+  .chain-container {
+    min-height: 100px !important;
+  }
+  
+  .no-countries-message {
+    padding: 1.5rem !important;
+    min-height: 60px !important;
+  }
+  
+  .loading-icon {
+    font-size: 1.5rem !important;
+  }
+  
+  .loading-text {
+    font-size: 0.75rem !important;
+  }
+}

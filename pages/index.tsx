@@ -486,10 +486,10 @@ function HomeContent() {
           <nav className={`sidebar z-2 box-border flex flex-col mt-0 mb-0 pt-md shrink-0 w-full min-h-screen-without-header select-none ${!sidebarCollapsed ? 'open' : ''}`} aria-label="Primary">
             <button 
               className="sidebar-close"
-              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              aria-label="Toggle sidebar"
+              onClick={() => setSidebarCollapsed(true)}
+              aria-label="Close sidebar"
             >
-              {sidebarCollapsed ? '☰' : '✕'}
+              ✕
             </button>
             
             {/* Top Navigation Section */}

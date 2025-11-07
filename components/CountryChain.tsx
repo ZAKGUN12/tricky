@@ -17,9 +17,9 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
       ...country,
       trickCount: getCountryTrickCount(country.code)
     }))
-    // Show only countries with tricks to fit in Global Network box
-    .filter(country => country.trickCount > 0)
     .sort((a, b) => b.trickCount - a.trickCount);
+
+  const activeCountries = countriesWithTricks.filter(country => country.trickCount > 0);
 
   return (
     <div className="country-chain-wrapper">
@@ -27,7 +27,7 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
         <h3 className="chain-title">🌍 Global Network</h3>
         <div className="counters-section">
           <div className="calendar-badge">
-            <div className="calendar-number">{countriesWithTricks.length}</div>
+            <div className="calendar-number">{activeCountries.length}</div>
             <div className="calendar-label">Countries</div>
           </div>
           <div className="tricks-badge">
@@ -39,20 +39,27 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
 
       <div className="chain-container">
         <div className="chain-track">
-          {countriesWithTricks.map((country, index) => (
-            <button
-              key={country.code}
-              className={`country-link ${selectedCountry === country.code ? 'active' : ''}`}
-              onClick={() => onCountrySelect(country.code)}
-              style={{ '--delay': `${index * 0.05}s` } as React.CSSProperties}
-            >
-              <span className="country-flag">{country.flag}</span>
-              <div className="country-details">
-                <span className="country-name">{country.name}</span>
-                <span className="trick-count">{country.trickCount}</span>
-              </div>
-            </button>
-          ))}
+          {activeCountries.length > 0 ? (
+            activeCountries.map((country, index) => (
+              <button
+                key={country.code}
+                className={`country-link ${selectedCountry === country.code ? 'active' : ''}`}
+                onClick={() => onCountrySelect(country.code)}
+                style={{ '--delay': `${index * 0.05}s` } as React.CSSProperties}
+              >
+                <span className="country-flag">{country.flag}</span>
+                <div className="country-details">
+                  <span className="country-name">{country.name}</span>
+                  <span className="trick-count">{country.trickCount}</span>
+                </div>
+              </button>
+            ))
+          ) : (
+            <div className="no-countries-message">
+              <span className="loading-icon">🌍</span>
+              <span className="loading-text">Loading global network...</span>
+            </div>
+          )}
         </div>
       </div>
 
