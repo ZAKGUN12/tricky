@@ -571,7 +571,6 @@ function HomeContent() {
             <div 
               className="sidebar-overlay active"
               onClick={() => setSidebarCollapsed(true)}
-              onTouchStart={(e) => e.preventDefault()}
             />
           )}
 
