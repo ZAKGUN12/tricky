@@ -9,6 +9,9 @@
 @import './right-sidebar-redesign.css';
 @import './mobile-fixes.css';
 @import './mobile-critical-fix.css';
+@import './mobile-ultimate-fix.css';
+@import './mobile-body-scroll-fix.css';
+@import './mobile-performance-optimization.css';
 
 /* TrickShare Web-First Global Styles - Compact Version */
 

@@ -49,7 +49,7 @@ function HomeContent() {
   // Prevent body scroll when sidebar is open on mobile
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      if (sidebarCollapsed && window.innerWidth <= 768) {
+      if (!sidebarCollapsed && window.innerWidth <= 768) {
         document.body.classList.add('sidebar-open');
       } else {
         document.body.classList.remove('sidebar-open');
