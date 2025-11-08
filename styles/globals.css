@@ -7,13 +7,7 @@
 @import './reddit-header.css';
 @import './middle-column-fix.css';
 @import './right-sidebar-redesign.css';
-@import './mobile-fixes.css';
-@import './mobile-critical-fix.css';
-@import './mobile-ultimate-fix.css';
-@import './mobile-body-scroll-fix.css';
-@import './mobile-performance-optimization.css';
-@import './sidebar-close-fix.css';
-@import './country-chain-visibility-fix.css';
+@import './mobile-clean.css';
 
 /* TrickShare Web-First Global Styles - Compact Version */
 

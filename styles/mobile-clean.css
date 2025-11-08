@@ -1,12 +1,7 @@
-/* Critical Mobile Fixes - Override All Conflicts */
+/* Clean Mobile CSS - Based on Working Sign-in Page */
 
-/* Force proper mobile layout */
 @media (max-width: 768px) {
-  /* Reset everything for mobile */
-  * {
-    box-sizing: border-box !important;
-  }
-  
+  /* Reset and base */
   html, body {
     width: 100% !important;
     max-width: 100vw !important;
@@ -15,7 +10,6 @@
     padding: 0 !important;
   }
   
-  /* Container fixes */
   .container {
     width: 100% !important;
     max-width: 100vw !important;
@@ -23,23 +17,23 @@
     margin: 0 !important;
   }
   
-  /* Header mobile fix */
+  /* Header - Keep it simple like sign-in */
   .reddit-header {
     position: sticky !important;
     top: 0 !important;
     z-index: 1000 !important;
-    width: 100% !important;
     background: rgba(30, 30, 46, 0.95) !important;
     backdrop-filter: blur(10px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
   }
   
   .reddit-header-nav {
-    padding: 0.5rem !important;
-    width: 100% !important;
+    padding: 0.75rem !important;
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
-    gap: 0.5rem !important;
+    gap: 1rem !important;
+    height: 60px !important;
   }
   
   /* Logo section */
@@ -47,7 +41,6 @@
     display: flex !important;
     align-items: center !important;
     gap: 0.5rem !important;
-    flex-shrink: 0 !important;
   }
   
   .hamburger-btn {
@@ -60,61 +53,67 @@
     border: none !important;
     color: white !important;
     font-size: 1.2rem !important;
-    cursor: pointer !important;
+    border-radius: 8px !important;
+    transition: background 0.2s ease !important;
   }
   
-  /* Search section */
+  .hamburger-btn:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+  }
+  
+  .reddit-logo span {
+    font-size: 0.9rem !important;
+  }
+  
+  /* Search */
   .reddit-search-section {
     flex: 1 !important;
-    margin: 0 0.5rem !important;
-  }
-  
-  .reddit-search-form {
-    position: relative !important;
-    width: 100% !important;
+    max-width: 300px !important;
   }
   
   .reddit-search-input {
     width: 100% !important;
     padding: 0.5rem 0.75rem !important;
-    font-size: 16px !important; /* Prevent zoom */
+    font-size: 16px !important;
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
     border-radius: 20px !important;
     background: rgba(255, 255, 255, 0.1) !important;
     color: white !important;
   }
   
-  /* Actions section */
+  /* Actions */
   .reddit-actions {
     display: flex !important;
-    gap: 0.25rem !important;
-    flex-shrink: 0 !important;
+    gap: 0.5rem !important;
   }
   
   .reddit-action-btn {
-    padding: 0.5rem !important;
-    min-width: 40px !important;
+    padding: 0.5rem 0.75rem !important;
     height: 40px !important;
     border-radius: 8px !important;
     display: flex !important;
     align-items: center !important;
-    justify-content: center !important;
+    gap: 0.25rem !important;
+    font-size: 0.875rem !important;
   }
   
-  .reddit-action-btn span:last-child {
-    display: none !important;
-  }
-  
-  /* Main content layout */
+  /* Main layout - Simple like sign-in */
   .main-content {
     display: block !important;
     width: 100% !important;
     padding: 0 !important;
     margin: 0 !important;
-    position: relative !important;
   }
   
-  /* Sidebar mobile */
+  /* Content area */
+  .content {
+    width: 100% !important;
+    padding: 1rem !important;
+    margin: 0 !important;
+    min-height: calc(100vh - 60px) !important;
+  }
+  
+  /* Sidebar - Hidden by default like sign-in approach */
   .sidebar {
     position: fixed !important;
     top: 60px !important;
@@ -135,7 +134,6 @@
     transform: translateX(0) !important;
   }
   
-  /* Sidebar overlay */
   .sidebar-overlay {
     position: fixed !important;
     top: 60px !important;
@@ -154,39 +152,29 @@
     visibility: visible !important;
   }
   
-  /* Content area */
-  .content {
-    width: 100% !important;
-    padding: 1rem !important;
-    margin: 0 !important;
-    min-height: calc(100vh - 60px) !important;
-  }
-  
-  /* Country chain mobile */
+  /* Country Chain - Simple mobile version */
   .country-chain-wrapper {
     width: 100% !important;
     margin-bottom: 1rem !important;
     background: rgba(30, 30, 46, 0.8) !important;
     border-radius: 12px !important;
-    overflow: hidden !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
   }
   
   .chain-header {
     padding: 1rem !important;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 1rem !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
   }
   
   .chain-title {
     font-size: 1.1rem !important;
-    margin: 0 !important;
+    margin-bottom: 0.75rem !important;
+    color: white !important;
   }
   
   .counters-section {
     display: flex !important;
     gap: 1rem !important;
-    width: 100% !important;
   }
   
   .calendar-badge,
@@ -196,6 +184,22 @@
     padding: 0.75rem !important;
     background: rgba(120, 119, 198, 0.2) !important;
     border-radius: 8px !important;
+    border: 1px solid rgba(120, 119, 198, 0.3) !important;
+  }
+  
+  .calendar-number,
+  .tricks-number {
+    font-size: 1.5rem !important;
+    font-weight: bold !important;
+    color: white !important;
+    display: block !important;
+  }
+  
+  .calendar-label,
+  .tricks-label {
+    font-size: 0.75rem !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+    margin-top: 0.25rem !important;
   }
   
   /* Country track */
@@ -215,11 +219,17 @@
     padding: 0.5rem 0.25rem !important;
     background: rgba(255, 255, 255, 0.05) !important;
     border-radius: 8px !important;
-    border: none !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
     color: white !important;
     text-decoration: none !important;
     transition: all 0.2s ease !important;
-    min-height: 60px !important;
+    min-height: 65px !important;
+  }
+  
+  .country-link:hover,
+  .country-link.active {
+    background: rgba(120, 119, 198, 0.3) !important;
+    border-color: rgba(120, 119, 198, 0.5) !important;
   }
   
   .country-flag {
@@ -240,9 +250,37 @@
     color: white !important;
     padding: 2px 4px !important;
     border-radius: 4px !important;
+    min-width: 16px !important;
+    text-align: center !important;
   }
   
-  /* Trick cards mobile */
+  /* All Countries button */
+  .chain-footer {
+    padding: 1rem !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+  }
+  
+  .all-countries-button {
+    width: 100% !important;
+    padding: 0.75rem !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 8px !important;
+    color: white !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    transition: all 0.2s ease !important;
+  }
+  
+  .all-countries-button:hover,
+  .all-countries-button.active {
+    background: rgba(120, 119, 198, 0.3) !important;
+    border-color: rgba(120, 119, 198, 0.5) !important;
+  }
+  
+  /* Trick cards */
   .trick-card {
     width: 100% !important;
     margin-bottom: 1rem !important;
@@ -266,7 +304,7 @@
     margin-bottom: 0.75rem !important;
   }
   
-  /* Form modal mobile */
+  /* Forms - Like sign-in page */
   .modal-overlay {
     position: fixed !important;
     top: 0 !important;
@@ -289,6 +327,7 @@
     border-radius: 16px !important;
     padding: 1.5rem !important;
     overflow-y: auto !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
   }
   
   .form-input,
@@ -296,35 +335,43 @@
   .form-select {
     width: 100% !important;
     padding: 0.75rem !important;
-    font-size: 16px !important; /* Prevent zoom */
+    font-size: 16px !important;
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
     border-radius: 8px !important;
     background: rgba(255, 255, 255, 0.1) !important;
     color: white !important;
+    margin-bottom: 1rem !important;
   }
   
-  /* Button improvements */
+  /* Buttons */
   .btn {
     min-height: 44px !important;
     padding: 0.75rem 1rem !important;
     border-radius: 8px !important;
     font-size: 0.875rem !important;
     touch-action: manipulation !important;
+    border: none !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
   }
   
-  /* Hide desktop-only elements */
+  /* Hide elements that cause issues */
   .sidebar-close {
     display: none !important;
   }
 }
 
-/* Extra small phones */
+/* Small phones */
 @media (max-width: 480px) {
   .reddit-header-nav {
-    padding: 0.375rem !important;
+    padding: 0.5rem !important;
   }
   
   .reddit-logo span {
+    display: none !important;
+  }
+  
+  .reddit-action-btn span:last-child {
     display: none !important;
   }
   
@@ -334,9 +381,5 @@
   
   .chain-track {
     grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)) !important;
-  }
-  
-  .country-link {
-    min-height: 50px !important;
   }
 }
