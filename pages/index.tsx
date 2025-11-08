@@ -1858,6 +1858,7 @@ function HomeContent() {
           margin: 0 auto;
         }
 
+        /* Standardized Trick Card Dimensions */
         .trick-card.reddit-style {
           display: flex;
           background: var(--surface-glass);
@@ -1868,6 +1869,68 @@ function HomeContent() {
           box-shadow: var(--shadow-md);
           transition: var(--transition-base);
           overflow: hidden;
+          min-height: 180px;
+          max-height: 250px;
+          width: 100%;
+        }
+
+        .trick-card.reddit-style .trick-content {
+          flex: 1;
+          padding: var(--space-3);
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          min-height: 180px;
+          max-height: 250px;
+          overflow: hidden;
+        }
+
+        .trick-card.reddit-style .trick-title {
+          font-size: 1rem;
+          font-weight: 600;
+          line-height: 1.3;
+          margin-bottom: 0.5rem;
+          color: var(--text-primary);
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          height: 2.6rem;
+        }
+
+        .trick-card.reddit-style .trick-description {
+          font-size: 0.875rem;
+          line-height: 1.4;
+          color: var(--text-secondary);
+          margin-bottom: 1rem;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          flex: 1;
+          min-height: 3.6rem;
+          max-height: 3.6rem;
+        }
+
+        .trick-card.reddit-style .trick-meta {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-size: 0.75rem;
+          color: var(--text-muted);
+          margin-bottom: 0.75rem;
+          height: 1.2rem;
+          flex-shrink: 0;
+        }
+
+        .trick-card.reddit-style .trick-actions {
+          display: flex;
+          gap: 0.5rem;
+          margin-top: auto;
+          height: 2rem;
+          flex-shrink: 0;
         }
 
         .trick-card.reddit-style:hover {
@@ -1994,54 +2057,7 @@ function HomeContent() {
           color: white;
         }
 
-        .trick-card {
-          background: rgba(15, 15, 35, 0.85);
-          backdrop-filter: blur(25px);
-          border-radius: var(--radius-lg);
-          padding: 1.5rem;
-          border: 1px solid rgba(120, 119, 198, 0.3);
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(120, 119, 198, 0.1);
-          position: relative;
-          overflow: hidden;
-        }
-
-        .trick-card::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(120, 119, 198, 0.15), transparent);
-          transition: left 0.6s;
-        }
-
-        .trick-card::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 3px;
-          background: linear-gradient(90deg, #7877c6, #ff77c6, #78dbff);
-          opacity: 0;
-          transition: opacity 0.3s;
-        }
-
-        .trick-card:hover::before {
-          left: 100%;
-        }
-
-        .trick-card:hover::after {
-          opacity: 1;
-        }
-
-        .trick-card:hover {
-          transform: translateY(-12px) scale(1.02);
-          box-shadow: 0 20px 60px rgba(120, 119, 198, 0.4), 0 0 40px rgba(120, 119, 198, 0.2);
-          border-color: rgba(120, 119, 198, 0.6);
-        }
+        /* Removed duplicate .trick-card styles - using only .trick-card.reddit-style */
 
         .trick-header {
           display: flex;
@@ -2428,8 +2444,27 @@ function HomeContent() {
             gap: 1rem;
           }
 
-          .trick-card {
-            padding: 1rem;
+          .trick-card.reddit-style {
+            min-height: 160px;
+            max-height: 220px;
+          }
+
+          .trick-card.reddit-style .trick-content {
+            min-height: 140px;
+            max-height: 200px;
+          }
+
+          .trick-card.reddit-style .trick-title {
+            font-size: 0.9rem;
+            height: 2.4rem;
+            -webkit-line-clamp: 2;
+          }
+
+          .trick-card.reddit-style .trick-description {
+            font-size: 0.8rem;
+            min-height: 3.2rem;
+            max-height: 3.2rem;
+            -webkit-line-clamp: 3;
           }
 
           .country-chain-wrapper {
@@ -2455,7 +2490,7 @@ function HomeContent() {
             animation: none;
           }
 
-          .trick-card:hover {
+          .trick-card.reddit-style:hover {
             transform: translateY(-4px) scale(1.01);
           }
 
