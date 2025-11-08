@@ -97,41 +97,62 @@
     font-size: 0.875rem !important;
   }
   
-  /* Main layout - Simple like sign-in */
+  /* Main layout - Force single column and override desktop fixed positioning */
   .main-content {
     display: block !important;
     width: 100% !important;
     padding: 0 !important;
     margin: 0 !important;
+    grid-template-columns: none !important;
+    grid: none !important;
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    overflow: visible !important;
   }
   
-  /* Content area */
+  /* Content area - Full width */
   .content {
     width: 100% !important;
     padding: 1rem !important;
     margin: 0 !important;
     min-height: calc(100vh - 60px) !important;
+    margin-left: 0 !important;
+    left: 0 !important;
   }
   
-  /* Sidebar - Hidden by default like sign-in approach */
+  /* Sidebar - Completely hidden by default */
   .sidebar {
     position: fixed !important;
     top: 60px !important;
-    left: 0 !important;
+    left: -100% !important;
     width: 280px !important;
     height: calc(100vh - 60px) !important;
     background: rgba(30, 30, 46, 0.98) !important;
     backdrop-filter: blur(20px) !important;
-    transform: translateX(-100%) !important;
-    transition: transform 0.3s ease !important;
+    transition: left 0.3s ease !important;
     z-index: 999 !important;
     overflow-y: auto !important;
     padding: 1rem !important;
     border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+    transform: none !important;
   }
   
   .sidebar.open {
-    transform: translateX(0) !important;
+    left: 0 !important;
+  }
+  
+  /* Override desktop sidebar transforms */
+  .sidebar:not(.collapsed) {
+    transform: none !important;
+    left: 0 !important;
+  }
+  
+  .sidebar.collapsed {
+    left: -100% !important;
+    transform: none !important;
   }
   
   .sidebar-overlay {
@@ -152,29 +173,35 @@
     visibility: visible !important;
   }
   
-  /* Country Chain - Simple mobile version */
+  /* Country Chain - Enhanced mobile version */
   .country-chain-wrapper {
     width: 100% !important;
     margin-bottom: 1rem !important;
     background: rgba(30, 30, 46, 0.8) !important;
     border-radius: 12px !important;
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    overflow: hidden !important;
   }
   
   .chain-header {
     padding: 1rem !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.75rem !important;
   }
   
   .chain-title {
     font-size: 1.1rem !important;
-    margin-bottom: 0.75rem !important;
+    margin: 0 !important;
     color: white !important;
+    font-weight: 600 !important;
   }
   
   .counters-section {
     display: flex !important;
     gap: 1rem !important;
+    width: 100% !important;
   }
   
   .calendar-badge,
@@ -193,6 +220,7 @@
     font-weight: bold !important;
     color: white !important;
     display: block !important;
+    line-height: 1 !important;
   }
   
   .calendar-label,
@@ -200,22 +228,25 @@
     font-size: 0.75rem !important;
     color: rgba(255, 255, 255, 0.7) !important;
     margin-top: 0.25rem !important;
+    display: block !important;
   }
   
-  /* Country track */
+  /* Country track - Optimized grid */
   .chain-track {
     display: grid !important;
-    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)) !important;
+    grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)) !important;
     gap: 0.5rem !important;
     padding: 1rem !important;
     max-height: 200px !important;
     overflow-y: auto !important;
+    overflow-x: hidden !important;
   }
   
   .country-link {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
+    justify-content: center !important;
     padding: 0.5rem 0.25rem !important;
     background: rgba(255, 255, 255, 0.05) !important;
     border-radius: 8px !important;
@@ -223,35 +254,49 @@
     color: white !important;
     text-decoration: none !important;
     transition: all 0.2s ease !important;
-    min-height: 65px !important;
+    min-height: 70px !important;
+    position: relative !important;
+    cursor: pointer !important;
   }
   
   .country-link:hover,
   .country-link.active {
     background: rgba(120, 119, 198, 0.3) !important;
     border-color: rgba(120, 119, 198, 0.5) !important;
+    transform: scale(1.02) !important;
   }
   
   .country-flag {
-    font-size: 1.2rem !important;
+    font-size: 1.3rem !important;
     margin-bottom: 0.25rem !important;
+    display: block !important;
+    line-height: 1 !important;
+    text-align: center !important;
   }
   
   .country-name {
-    font-size: 0.6rem !important;
+    font-size: 0.65rem !important;
     text-align: center !important;
     line-height: 1.1 !important;
     margin-bottom: 0.25rem !important;
+    color: white !important;
+    font-weight: 500 !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
   }
   
   .trick-count {
-    font-size: 0.55rem !important;
+    font-size: 0.6rem !important;
     background: rgba(120, 119, 198, 0.8) !important;
     color: white !important;
-    padding: 2px 4px !important;
-    border-radius: 4px !important;
-    min-width: 16px !important;
+    padding: 2px 6px !important;
+    border-radius: 10px !important;
+    min-width: 18px !important;
     text-align: center !important;
+    font-weight: 600 !important;
+    line-height: 1 !important;
   }
   
   /* All Countries button */
@@ -379,7 +424,38 @@
     padding: 0.75rem !important;
   }
   
+  /* Smaller country grid for small phones */
   .chain-track {
-    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)) !important;
+    grid-template-columns: repeat(auto-fill, minmax(65px, 1fr)) !important;
+    gap: 0.375rem !important;
+  }
+  
+  .country-link {
+    min-height: 60px !important;
+    padding: 0.375rem 0.25rem !important;
+  }
+  
+  .country-flag {
+    font-size: 1.1rem !important;
+  }
+  
+  .country-name {
+    font-size: 0.6rem !important;
+  }
+  
+  .trick-count {
+    font-size: 0.55rem !important;
+    padding: 1px 4px !important;
+  }
+  
+  /* Smaller counters for small phones */
+  .calendar-number,
+  .tricks-number {
+    font-size: 1.3rem !important;
+  }
+  
+  .calendar-label,
+  .tricks-label {
+    font-size: 0.7rem !important;
   }
 }
