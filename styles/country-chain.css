@@ -9,12 +9,14 @@
   padding: 1.5rem !important;
   margin-bottom: 1.5rem !important;
   position: relative !important;
-  overflow: hidden !important;
+  overflow: visible !important;
   border: 1px solid rgba(255, 119, 198, 0.4) !important;
   box-shadow: 0 8px 32px rgba(255, 119, 198, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.1) !important;
   transition: all 0.3s ease !important;
   width: 100% !important;
   max-width: 100% !important;
+  min-height: auto !important;
+  height: auto !important;
 }
 
 .country-chain-wrapper:hover {
@@ -128,27 +130,34 @@
 }
 
 /* Countries Container */
-.chain-container {
-  position: relative;
-  z-index: 2;
-  overflow: visible;
-  margin: 1rem 0;
-  padding: 0;
+.content .chain-container,
+.main-content .chain-container {
+  position: relative !important;
+  z-index: 2 !important;
+  overflow: visible !important;
+  margin: 1rem 0 !important;
+  padding: 0 !important;
+  height: auto !important;
+  min-height: auto !important;
 }
 
 /* Countries Track with Enhanced Grid Layout */
-.chain-track {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-  gap: 12px;
-  margin: 0;
-  padding: 1rem;
-  overflow: visible;
-  justify-items: center;
-  align-items: start;
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+.content .chain-track,
+.main-content .chain-track {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)) !important;
+  gap: 12px !important;
+  margin: 0 !important;
+  padding: 1rem !important;
+  overflow: visible !important;
+  justify-items: center !important;
+  align-items: start !important;
+  background: rgba(0, 0, 0, 0.1) !important;
+  border-radius: 16px !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  height: auto !important;
+  min-height: 200px !important;
+  max-height: none !important;
 }
 
 /* Country Boxes */
