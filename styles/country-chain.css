@@ -1,17 +1,19 @@
 /* 🌍 Global Network - Enhanced Desktop & Mobile Design */
 
-/* Main Container */
+/* Override any conflicting styles from other CSS files */
 .country-chain-wrapper {
-  background: rgba(15, 15, 35, 0.95);
-  backdrop-filter: blur(20px);
-  border-radius: 20px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(255, 119, 198, 0.4);
-  box-shadow: 0 8px 32px rgba(255, 119, 198, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.1);
-  transition: all 0.3s ease;
+  background: rgba(15, 15, 35, 0.95) !important;
+  backdrop-filter: blur(20px) !important;
+  border-radius: 20px !important;
+  padding: 1.5rem !important;
+  margin-bottom: 1.5rem !important;
+  position: relative !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(255, 119, 198, 0.4) !important;
+  box-shadow: 0 8px 32px rgba(255, 119, 198, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.1) !important;
+  transition: all 0.3s ease !important;
+  width: 100% !important;
+  max-width: 100% !important;
 }
 
 .country-chain-wrapper:hover {
@@ -32,12 +34,15 @@
 
 /* Header Section */
 .chain-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-  position: relative;
-  z-index: 3;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-bottom: 1rem !important;
+  position: relative !important;
+  z-index: 3 !important;
+  background: transparent !important;
+  padding: 0 !important;
+  border-bottom: none !important;
 }
 
 .chain-title {
@@ -248,6 +253,29 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* No Countries Loading State */
+.no-countries-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  min-height: 120px;
+}
+
+.loading-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  animation: float 2s ease-in-out infinite;
+}
+
+.loading-text {
+  font-size: 0.875rem;
+  font-weight: 500;
 }
 
 /* All Countries Button */

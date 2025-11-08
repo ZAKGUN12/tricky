@@ -170,11 +170,6 @@ function HomeContent() {
       
       setTricks(Array.isArray(data) ? data : []);
       
-      // Also fetch all tricks for category counting
-      if (allTricks.length === 0) {
-        setAllTricks(Array.isArray(data) ? data : []);
-      }
-      
       // Don't fetch user kudos here to avoid overriding current state
       // Kudos will be fetched when user logs in via useEffect
     } catch (error) {
@@ -185,7 +180,7 @@ function HomeContent() {
       setLoading(false);
       setFiltering(false);
     }
-  }, [selectedCountry, selectedCategory, searchQuery, allTricks.length, tricks.length]);
+  }, [selectedCountry, selectedCategory, searchQuery, tricks.length]);
 
   const clearFilters = () => {
     setSelectedCountry('');
@@ -208,12 +203,26 @@ function HomeContent() {
     fetchTricks();
   }, [fetchTricks]);
 
-  // Keep allTricks in sync with tricks for stable Global Network
+  // Fetch all tricks for Global Network on initial load only
   useEffect(() => {
-    if (tricks.length > 0 && allTricks.length === 0) {
-      setAllTricks(tricks);
+    const fetchAllTricks = async () => {
+      try {
+        const response = await fetch('/api/tricks');
+        if (response.ok) {
+          const data = await response.json();
+          if (Array.isArray(data)) {
+            setAllTricks(data);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching all tricks for Global Network:', error);
+      }
+    };
+
+    if (allTricks.length === 0) {
+      fetchAllTricks();
     }
-  }, [tricks, allTricks.length]);
+  }, [allTricks.length]);
 
   // Fetch user kudos when user logs in and we have tricks
   useEffect(() => {
@@ -324,12 +333,12 @@ function HomeContent() {
         // Refresh tricks list and sync allTricks
         await fetchTricks();
         
-        // Ensure allTricks stays in sync
-        const response = await fetch('/api/tricks');
-        if (response.ok) {
-          const data = await response.json();
-          if (Array.isArray(data)) {
-            setAllTricks(data);
+        // Update allTricks with fresh data for Global Network
+        const allTricksResponse = await fetch('/api/tricks');
+        if (allTricksResponse.ok) {
+          const allTricksData = await allTricksResponse.json();
+          if (Array.isArray(allTricksData)) {
+            setAllTricks(allTricksData);
           }
         }
       } else {

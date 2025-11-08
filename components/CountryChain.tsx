@@ -24,7 +24,7 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
   return (
     <div className="country-chain-wrapper">
       <div className="chain-header">
-        <h3 className="chain-title">🌍 Global Network</h3>
+        <h3 className="chain-title">Global Network</h3>
         <div className="counters-section">
           <div className="calendar-badge">
             <div className="calendar-number">{activeCountries.length}</div>
@@ -68,10 +68,8 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
           className={`all-countries-button ${!selectedCountry ? 'active' : ''}`}
           onClick={() => onCountrySelect('')}
         >
-          <div className="button-icon">🌐</div>
-          <div className="button-content">
-            <span className="button-title">All Countries</span>
-          </div>
+          <span className="button-icon">🌐</span>
+          <span className="button-title">All Countries</span>
         </button>
       </div>
     </div>
