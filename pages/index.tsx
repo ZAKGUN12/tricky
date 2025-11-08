@@ -170,6 +170,11 @@ function HomeContent() {
       
       setTricks(Array.isArray(data) ? data : []);
       
+      // If no filters are applied, this is our complete dataset for Global Network
+      if (!selectedCountry && !selectedCategory && !searchQuery) {
+        setAllTricks(Array.isArray(data) ? data : []);
+      }
+      
       // Don't fetch user kudos here to avoid overriding current state
       // Kudos will be fetched when user logs in via useEffect
     } catch (error) {
@@ -186,6 +191,8 @@ function HomeContent() {
     setSelectedCountry('');
     setSelectedCategory('');
     setSearchQuery('');
+    // Force refresh of allTricks when clearing filters
+    setAllTricks([]);
   };
 
   const handleUnauthenticatedAction = (e?: React.MouseEvent) => {
