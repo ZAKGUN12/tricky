@@ -1,8 +1,28 @@
-/* 🌍 Global Network - Enhanced Desktop & Mobile Design */
+/* 
+ * ⚠️  PROTECTED GLOBAL NETWORK COMPONENT ⚠️
+ * 
+ * This file contains critical styles for the Global Network component.
+ * DO NOT modify or override these styles without updating all selectors.
+ * 
+ * Protected Elements:
+ * - .country-chain-wrapper (main container)
+ * - .chain-header (title and counters)
+ * - .chain-container (countries wrapper)
+ * - .chain-track (country grid)
+ * - .country-link (individual countries)
+ * - .chain-footer (all countries button)
+ * 
+ * All styles use highest specificity with body selector and !important
+ * to prevent conflicts with other CSS files.
+ */
 
-/* Override any conflicting styles from other CSS files with higher specificity */
+/* 🌍 Global Network - Enhanced Desktop & Mobile Design */
+/* PROTECTED STRUCTURE - DO NOT OVERRIDE */
+
+/* Override any conflicting styles from other CSS files with highest specificity */
 .content .country-chain-wrapper,
-.main-content .country-chain-wrapper {
+.main-content .country-chain-wrapper,
+body .country-chain-wrapper {
   background: rgba(15, 15, 35, 0.95) !important;
   backdrop-filter: blur(20px) !important;
   border-radius: 20px !important;
@@ -17,6 +37,9 @@
   max-width: 100% !important;
   min-height: auto !important;
   height: auto !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 .country-chain-wrapper:hover {
@@ -35,9 +58,10 @@
   border-radius: 20px 20px 0 0;
 }
 
-/* Header Section */
+/* Header Section - PROTECTED */
 .content .chain-header,
-.main-content .chain-header {
+.main-content .chain-header,
+body .chain-header {
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
@@ -47,6 +71,10 @@
   background: transparent !important;
   padding: 0 !important;
   border-bottom: none !important;
+  width: 100% !important;
+  height: auto !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 .chain-title {
@@ -129,9 +157,10 @@
   display: block;
 }
 
-/* Countries Container */
+/* Countries Container - PROTECTED */
 .content .chain-container,
-.main-content .chain-container {
+.main-content .chain-container,
+body .chain-container {
   position: relative !important;
   z-index: 2 !important;
   overflow: visible !important;
@@ -139,11 +168,16 @@
   padding: 0 !important;
   height: auto !important;
   min-height: auto !important;
+  width: 100% !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
-/* Countries Track with Enhanced Grid Layout */
+/* Countries Track with Enhanced Grid Layout - PROTECTED */
 .content .chain-track,
-.main-content .chain-track {
+.main-content .chain-track,
+body .chain-track {
   display: grid !important;
   grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)) !important;
   gap: 12px !important;
@@ -158,6 +192,9 @@
   height: auto !important;
   min-height: 200px !important;
   max-height: none !important;
+  width: 100% !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 /* Country Boxes */
