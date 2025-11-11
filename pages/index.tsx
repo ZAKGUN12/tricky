@@ -247,69 +247,78 @@ function HomeContent() {
     if (!currentTrick) return;
 
     const currentHasKudos = userKudos[trickId] || false;
-    const willHaveKudos = !currentHasKudos;
     
-    // Calculate the CORRECT optimistic count based on current state
-    const optimisticCount = willHaveKudos 
-      ? currentTrick.kudos + 1  // Adding like: +1
-      : Math.max(0, currentTrick.kudos - 1); // Removing like: -1
+    // Simple optimistic calculation
+    let newCount;
+    if (currentHasKudos) {
+      // Currently liked, will unlike: decrease by 1
+      newCount = Math.max(0, currentTrick.kudos - 1);
+    } else {
+      // Currently not liked, will like: increase by 1
+      newCount = currentTrick.kudos + 1;
+    }
 
-    // Apply optimistic updates immediately
-    const updateTrickState = (prev: any[]) => prev.map(trick => 
-      trick.id === trickId ? { ...trick, kudos: optimisticCount } : trick
-    );
-
-    setTricks(updateTrickState);
-    setAllTricks(updateTrickState);
-    setUserKudos(prev => ({ ...prev, [trickId]: willHaveKudos }));
+    // Apply optimistic updates
+    setTricks(prev => prev.map(trick => 
+      trick.id === trickId ? { ...trick, kudos: newCount } : trick
+    ));
+    
+    setAllTricks(prev => prev.map(trick => 
+      trick.id === trickId ? { ...trick, kudos: newCount } : trick
+    ));
+    
+    setUserKudos(prev => ({ ...prev, [trickId]: !currentHasKudos }));
 
     try {
       const response = await fetch(`/api/tricks/${trickId}/kudos`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          userEmail: user?.email,
-          action: 'toggle'
-        })
+        body: JSON.stringify({ userEmail: user?.email })
       });
       
       const result = await response.json();
       
       if (response.ok && result.success) {
-        // Sync with server response (should match our optimistic update)
-        const serverUpdateTrickState = (prev: any[]) => prev.map(trick => 
+        // Update with server response
+        setTricks(prev => prev.map(trick => 
           trick.id === trickId ? { ...trick, kudos: result.newKudosCount } : trick
-        );
-
-        setTricks(serverUpdateTrickState);
-        setAllTricks(serverUpdateTrickState);
+        ));
+        
+        setAllTricks(prev => prev.map(trick => 
+          trick.id === trickId ? { ...trick, kudos: result.newKudosCount } : trick
+        ));
+        
         setUserKudos(prev => ({ ...prev, [trickId]: result.hasKudos }));
         
-        showToast(result.hasKudos ? 'Kudos given! 👍' : 'Kudos removed! 👎', 'success');
+        showToast(result.hasKudos ? 'Liked! 👍' : 'Unliked! 👎', 'success');
       } else {
         // Revert on error
-        const revertTrickState = (prev: any[]) => prev.map(trick => 
+        setTricks(prev => prev.map(trick => 
           trick.id === trickId ? { ...trick, kudos: currentTrick.kudos } : trick
-        );
-
-        setTricks(revertTrickState);
-        setAllTricks(revertTrickState);
+        ));
+        
+        setAllTricks(prev => prev.map(trick => 
+          trick.id === trickId ? { ...trick, kudos: currentTrick.kudos } : trick
+        ));
+        
         setUserKudos(prev => ({ ...prev, [trickId]: currentHasKudos }));
         
-        showToast(result.error || 'Failed to toggle kudos', 'error');
+        showToast('Failed to update like', 'error');
       }
-    } catch (error: any) {
+    } catch (error) {
       // Revert on error
-      const revertTrickState = (prev: any[]) => prev.map(trick => 
+      setTricks(prev => prev.map(trick => 
         trick.id === trickId ? { ...trick, kudos: currentTrick.kudos } : trick
-      );
-
-      setTricks(revertTrickState);
-      setAllTricks(revertTrickState);
+      ));
+      
+      setAllTricks(prev => prev.map(trick => 
+        trick.id === trickId ? { ...trick, kudos: currentTrick.kudos } : trick
+      ));
+      
       setUserKudos(prev => ({ ...prev, [trickId]: currentHasKudos }));
       
       console.error('Error toggling kudos:', error);
-      showToast('Error toggling kudos', 'error');
+      showToast('Error updating like', 'error');
     }
   };
 

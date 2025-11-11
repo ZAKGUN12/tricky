@@ -20,6 +20,8 @@ const KudosButton: React.FC<KudosButtonProps> = ({
   const handleClick = async () => {
     if (isLoading || disabled) return;
     
+    console.log(`Before click - Count: ${kudosCount}, HasKudos: ${hasUserKudos}`);
+    
     setIsLoading(true);
     
     try {
@@ -28,6 +30,8 @@ const KudosButton: React.FC<KudosButtonProps> = ({
       setIsLoading(false);
     }
   };
+
+  console.log(`Render - TrickId: ${trickId}, Count: ${kudosCount}, HasKudos: ${hasUserKudos}`);
 
   return (
     <div className="kudos-button-container">
