@@ -256,12 +256,21 @@ function HomeContent() {
       const result = await response.json();
       
       if (response.ok && result.success) {
+        // Update tricks state with new kudos count
         setTricks(prev => prev.map(trick => 
           trick.id === trickId 
             ? { ...trick, kudos: result.newKudosCount }
             : trick
         ));
         
+        // Update allTricks state as well for consistency
+        setAllTricks(prev => prev.map(trick => 
+          trick.id === trickId 
+            ? { ...trick, kudos: result.newKudosCount }
+            : trick
+        ));
+        
+        // Update user kudos state
         setUserKudos(prev => ({
           ...prev,
           [trickId]: result.hasKudos

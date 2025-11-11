@@ -4,7 +4,7 @@ import { docClient, TABLES, handleDynamoError } from '../../../../lib/aws-config
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.query;
-  const { userEmail, action } = req.body;
+  const { userEmail } = req.body;
 
   if (!userEmail) {
     return res.status(400).json({ error: 'User email required' });
@@ -31,35 +31,37 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 async function handleToggleKudos(req: NextApiRequest, res: NextApiResponse, trickId: string, userEmail: string) {
   try {
-    // Check current kudos status
-    const existingKudo = await docClient.send(new GetCommand({
-      TableName: TABLES.KUDOS,
-      Key: { userEmail, trickId }
-    }));
-
-    const hasKudos = !!existingKudo.Item;
-    const kudosChange = hasKudos ? -1 : 1;
-    const scoreChange = hasKudos ? -5 : 5; // Points for receiving kudos
-
-    // Get trick to find author
-    const trick = await docClient.send(new GetCommand({
-      TableName: TABLES.TRICKS,
-      Key: { id: trickId }
-    }));
+    // Get current state in parallel
+    const [existingKudo, trick] = await Promise.all([
+      docClient.send(new GetCommand({
+        TableName: TABLES.KUDOS,
+        Key: { userEmail, trickId }
+      })),
+      docClient.send(new GetCommand({
+        TableName: TABLES.TRICKS,
+        Key: { id: trickId }
+      }))
+    ]);
 
     if (!trick.Item) {
       return res.status(404).json({ error: 'Trick not found' });
     }
 
-    // Atomic transaction to update all related data
+    const hasKudos = !!existingKudo.Item;
+    const currentKudos = trick.Item.kudos || 0;
+    const newKudosCount = hasKudos ? Math.max(0, currentKudos - 1) : currentKudos + 1;
+    const kudosChange = hasKudos ? -1 : 1;
+    const scoreChange = hasKudos ? -5 : 5;
+
+    // Atomic transaction
     const transactItems: any[] = [
       {
         Update: {
           TableName: TABLES.TRICKS,
           Key: { id: trickId },
-          UpdateExpression: 'ADD kudos :change SET updatedAt = :now',
+          UpdateExpression: 'SET kudos = :newCount, updatedAt = :now',
           ExpressionAttributeValues: {
-            ':change': kudosChange,
+            ':newCount': newKudosCount,
             ':now': new Date().toISOString()
           },
           ConditionExpression: 'attribute_exists(id)'
@@ -68,7 +70,6 @@ async function handleToggleKudos(req: NextApiRequest, res: NextApiResponse, tric
     ];
 
     if (hasKudos) {
-      // Remove kudos
       transactItems.push({
         Delete: {
           TableName: TABLES.KUDOS,
@@ -77,7 +78,6 @@ async function handleToggleKudos(req: NextApiRequest, res: NextApiResponse, tric
         }
       });
     } else {
-      // Add kudos
       transactItems.push({
         Put: {
           TableName: TABLES.KUDOS,
@@ -110,19 +110,18 @@ async function handleToggleKudos(req: NextApiRequest, res: NextApiResponse, tric
     await docClient.send(new TransactWriteCommand({
       TransactItems: transactItems
     }));
-
-    const newKudosCount = (trick.Item.kudos || 0) + kudosChange;
     
+    // Return consistent response format
     res.status(200).json({
       success: true,
       hasKudos: !hasKudos,
-      kudosCount: Math.max(0, newKudosCount),
+      newKudosCount: newKudosCount,
+      kudosCount: newKudosCount, // For backward compatibility
       action: hasKudos ? 'removed' : 'added'
     });
 
   } catch (error: any) {
     if (error.name === 'TransactionCanceledException') {
-      // Handle race conditions gracefully
       return res.status(409).json({ 
         error: 'Kudos operation conflict, please try again' 
       });
@@ -147,9 +146,12 @@ async function handleGetKudosStatus(req: NextApiRequest, res: NextApiResponse, t
       }))
     ]);
 
+    const kudosCount = trickResult.Item?.kudos || 0;
+
     res.status(200).json({
       hasKudos: !!kudoResult.Item,
-      kudosCount: trickResult.Item?.kudos || 0
+      kudosCount: kudosCount,
+      newKudosCount: kudosCount // For consistency
     });
 
   } catch (error) {

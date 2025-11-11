@@ -1,9 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, BatchGetCommand } from '@aws-sdk/lib-dynamodb';
-
-const client = new DynamoDBClient({ region: process.env.AWS_REGION || 'eu-west-1' });
-const docClient = DynamoDBDocumentClient.from(client);
+import { BatchGetCommand } from '@aws-sdk/lib-dynamodb';
+import { docClient, TABLES, handleDynamoError } from '../../../lib/aws-config';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -43,14 +40,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     for (const chunk of chunks) {
       const result = await docClient.send(new BatchGetCommand({
         RequestItems: {
-          'TrickShare-Kudos': {
+          [TABLES.KUDOS]: {
             Keys: chunk
           }
         }
       }));
 
-      if (result.Responses && result.Responses['TrickShare-Kudos']) {
-        result.Responses['TrickShare-Kudos'].forEach(item => {
+      if (result.Responses && result.Responses[TABLES.KUDOS]) {
+        result.Responses[TABLES.KUDOS].forEach(item => {
           kudosStatus[item.trickId] = true;
         });
       }
@@ -66,11 +63,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(200).json({ kudosStatus });
   } catch (error) {
     console.error('Get user kudos error:', error);
+    const { statusCode, message } = handleDynamoError(error);
+    
     // Return empty kudos status on error instead of failing
     const kudosStatus: Record<string, boolean> = {};
     trickIds.forEach(trickId => {
       kudosStatus[trickId] = false;
     });
-    res.status(200).json({ kudosStatus });
+    
+    res.status(statusCode === 500 ? 200 : statusCode).json({ 
+      kudosStatus,
+      warning: statusCode !== 500 ? message : undefined
+    });
   }
 }
