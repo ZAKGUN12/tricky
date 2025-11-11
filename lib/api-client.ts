@@ -45,46 +45,69 @@ class ApiClient {
   private async request<T>(
     endpoint: string,
     options: RequestInit = {},
-    useCache = false
+    useCache = false,
+    retries = 3
   ): Promise<ApiResponse<T>> {
     const cacheKey = `${options.method || 'GET'}:${endpoint}`;
     
-    // Check cache for GET requests
     if (useCache && (!options.method || options.method === 'GET')) {
       const cached = getCached(cacheKey);
       if (cached) return { data: cached };
     }
 
-    try {
-      const response = await fetch(`${this.baseUrl}${endpoint}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          ...options.headers,
-        },
-        ...options,
-      });
+    for (let attempt = 0; attempt <= retries; attempt++) {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-      const data = await response.json();
+        const response = await fetch(`${this.baseUrl}${endpoint}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            ...options.headers,
+          },
+          signal: controller.signal,
+          ...options,
+        });
 
-      if (!response.ok) {
-        return { error: data.error || 'Request failed' };
+        clearTimeout(timeoutId);
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          if (response.status >= 500 && attempt < retries) {
+            await new Promise(resolve => setTimeout(resolve, Math.pow(2, attempt) * 1000));
+            continue;
+          }
+          return { error: errorData.error || `Request failed (${response.status})` };
+        }
+
+        const data = await response.json();
+
+        if (useCache && (!options.method || options.method === 'GET')) {
+          setCache(cacheKey, data);
+        }
+
+        if (options.method && options.method !== 'GET') {
+          const resource = endpoint.split('/')[1];
+          clearCache(resource);
+        }
+
+        return { data };
+      } catch (error: any) {
+        if (error.name === 'AbortError') {
+          if (attempt < retries) {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            continue;
+          }
+          return { error: 'Request timeout' };
+        }
+        if (attempt < retries) {
+          await new Promise(resolve => setTimeout(resolve, Math.pow(2, attempt) * 1000));
+          continue;
+        }
+        return { error: 'Network error' };
       }
-
-      // Cache successful GET requests
-      if (useCache && (!options.method || options.method === 'GET')) {
-        setCache(cacheKey, data);
-      }
-
-      // Clear related cache on mutations
-      if (options.method && options.method !== 'GET') {
-        const resource = endpoint.split('/')[1];
-        clearCache(resource);
-      }
-
-      return { data };
-    } catch (error) {
-      return { error: 'Network error' };
     }
+    return { error: 'Max retries exceeded' };
   }
 
   // Tricks API

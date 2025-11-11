@@ -1,17 +1,29 @@
 import { z } from 'zod';
 
-// Trick validation schema
+// XSS protection function
+function sanitizeHtml(input: string): string {
+  return input
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;')
+    .replace(/\//g, '&#x2F;');
+}
+
+// Enhanced trick validation schema
 export const TrickSchema = z.object({
   title: z.string()
     .min(5, 'Title must be at least 5 characters')
     .max(100, 'Title must be less than 100 characters')
-    .regex(/^[a-zA-Z0-9\s\-_.,!?()]+$/, 'Title contains invalid characters'),
+    .regex(/^[a-zA-Z0-9\s\-_.,!?()]+$/, 'Title contains invalid characters')
+    .transform(sanitizeHtml),
   
   description: z.string()
     .min(10, 'Description must be at least 10 characters')
-    .max(500, 'Description must be less than 500 characters'),
+    .max(500, 'Description must be less than 500 characters')
+    .transform(sanitizeHtml),
   
-  steps: z.array(z.string().min(5).max(200))
+  steps: z.array(z.string().min(5).max(200).transform(sanitizeHtml))
     .min(1, 'At least one step is required')
     .max(5, 'Maximum 5 steps allowed'),
   
@@ -25,87 +37,49 @@ export const TrickSchema = z.object({
   
   category: z.string().optional(),
   
-  tags: z.array(z.string().min(2).max(20))
+  tags: z.array(z.string().min(2).max(20).transform(sanitizeHtml))
     .max(5, 'Maximum 5 tags allowed')
-    .optional(),
-  
-  authorName: z.string().optional(),
-  
-  authorEmail: z.string().email('Invalid email format')
-});
-
-// Comment validation schema
-export const CommentSchema = z.object({
-  text: z.string()
-    .min(1, 'Comment cannot be empty')
-    .max(500, 'Comment must be less than 500 characters')
-    .transform(sanitizeInput),
+    .optional()
+    .default([]),
   
   authorName: z.string()
-    .min(1, 'Author name is required')
+    .min(2, 'Author name must be at least 2 characters')
     .max(50, 'Author name must be less than 50 characters')
-    .transform(sanitizeInput)
+    .regex(/^[a-zA-Z0-9\s\-_.]+$/, 'Author name contains invalid characters')
+    .transform(sanitizeHtml),
+  
+  authorEmail: z.string()
+    .email('Invalid email format')
+    .max(100, 'Email must be less than 100 characters')
+    .toLowerCase()
 });
 
-// Comprehensive input sanitization to prevent XSS and injection attacks
-export function sanitizeInput(input: string): string {
-  return input
-    .replace(/[<>"'&]/g, (match) => {
-      const htmlEntities: { [key: string]: string } = {
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#x27;',
-        '&': '&amp;'
-      };
-      return htmlEntities[match];
-    })
-    .replace(/javascript:/gi, '')
-    .replace(/on\w+\s*=/gi, '')
-    .replace(/data:/gi, '')
-    .replace(/vbscript:/gi, '')
-    .replace(/expression\s*\(/gi, '')
-    .replace(/url\s*\(/gi, '')
-    .replace(/import\s+/gi, '')
-    .replace(/eval\s*\(/gi, '')
-    .replace(/[\x00-\x1f\x7f-\x9f]/g, '')
-    .replace(/\s+/g, ' ')
-    .trim();
-}
-
-// Additional security validation
-export function validateSecureInput(input: string): boolean {
-  const dangerousPatterns = [
-    /<script/i,
-    /javascript:/i,
-    /on\w+\s*=/i,
-    /data:text\/html/i,
-    /vbscript:/i,
-    /expression\s*\(/i,
-    /url\s*\(/i,
-    /import\s+/i,
-    /eval\s*\(/i,
-    /<iframe/i,
-    /<object/i,
-    /<embed/i,
-    /<link/i,
-    /<meta/i
-  ];
-  
-  return !dangerousPatterns.some(pattern => pattern.test(input));
-}
-
-// Validate and sanitize trick data
+// Validation functions
 export function validateTrick(data: any) {
-  // Sanitize string fields
-  if (data.title) data.title = sanitizeInput(data.title);
-  if (data.description) data.description = sanitizeInput(data.description);
-  if (data.steps) {
-    data.steps = data.steps.map((step: string) => sanitizeInput(step));
+  try {
+    return TrickSchema.parse(data);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      const formattedErrors = error.issues.map((err: any) => ({
+        field: err.path.join('.'),
+        message: err.message,
+        code: err.code
+      }));
+      
+      const validationError = new Error('Validation failed');
+      (validationError as any).name = 'ZodError';
+      (validationError as any).errors = formattedErrors;
+      throw validationError;
+    }
+    throw error;
   }
-  if (data.tags) {
-    data.tags = data.tags.map((tag: string) => sanitizeInput(tag.toLowerCase()));
-  }
-  
-  return TrickSchema.parse(data);
+}
+
+// Input sanitization for search queries
+export function sanitizeSearchQuery(query: string): string {
+  return query
+    .replace(/[<>\"']/g, '')
+    .replace(/[^\w\s-]/g, '')
+    .trim()
+    .substring(0, 100);
 }

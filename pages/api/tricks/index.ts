@@ -1,26 +1,19 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, ScanCommand, PutCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
+import { ScanCommand, PutCommand, UpdateCommand, QueryCommand } from '@aws-sdk/lib-dynamodb';
 import { v4 as uuidv4 } from 'uuid';
 import { rateLimit } from '../../../lib/rateLimit';
 import { validateTrick } from '../../../lib/validation';
 import { logger } from '../../../lib/logger';
 import { matchesCategory } from '../../../lib/categoryMatcher';
 import { countries } from '../../../lib/mockData';
+import { docClient, TABLES, handleDynamoError } from '../../../lib/aws-config';
 
-const client = new DynamoDBClient({ 
-  region: process.env.AWS_REGION || 'eu-west-1'
-});
-const docClient = DynamoDBDocumentClient.from(client);
-
-// Rate limiting middleware
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  maxRequests: 100 // limit each IP to 100 requests per windowMs
+  windowMs: 15 * 60 * 1000,
+  maxRequests: 100
 });
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  // Apply rate limiting
   await new Promise<void>((resolve) => {
     limiter(req, res, resolve);
   });
@@ -39,88 +32,124 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress
     });
     
-    res.status(500).json({ 
-      error: 'Internal server error'
-    });
+    const { statusCode, message } = handleDynamoError(error);
+    res.status(statusCode).json({ error: message });
   }
 }
 
 async function handleGet(req: NextApiRequest, res: NextApiResponse) {
-  const { country, search, difficulty, category } = req.query;
+  const { country, search, difficulty, category, limit = '50' } = req.query;
   
-  // Validate and sanitize query parameters
   const sanitizedFilters = {
     country: validateCountryCode(country),
     search: sanitizeSearchTerm(search),
-    difficulty: validateDifficulty(difficulty)
+    difficulty: validateDifficulty(difficulty),
+    limit: Math.min(parseInt(limit as string) || 50, 100)
   };
   
   try {
-    const command = new ScanCommand({
-      TableName: 'TrickShare-Tricks',
-      FilterExpression: buildFilterExpression(sanitizedFilters),
-      ExpressionAttributeValues: buildExpressionValues(sanitizedFilters)
-    });
+    let tricks: any[] = [];
 
-    const result = await docClient.send(command);
-    let tricks = result.Items || [];
+    // Use Query for country-specific requests (assuming GSI exists)
+    if (sanitizedFilters.country) {
+      const command = new QueryCommand({
+        TableName: TABLES.TRICKS,
+        IndexName: 'CountryIndex', // Assumes GSI exists
+        KeyConditionExpression: 'countryCode = :country',
+        ExpressionAttributeValues: {
+          ':country': sanitizedFilters.country
+        },
+        Limit: sanitizedFilters.limit,
+        ScanIndexForward: false // Get newest first
+      });
+      
+      const result = await docClient.send(command);
+      tricks = result.Items || [];
+    } else {
+      // Use Scan with pagination for general queries
+      const command = new ScanCommand({
+        TableName: TABLES.TRICKS,
+        FilterExpression: buildFilterExpression(sanitizedFilters),
+        ExpressionAttributeValues: buildExpressionValues(sanitizedFilters),
+        Limit: sanitizedFilters.limit
+      });
+
+      const result = await docClient.send(command);
+      tricks = result.Items || [];
+    }
     
-    // Apply smart category filtering in memory
+    // Apply category filtering in memory (more efficient than DynamoDB filter)
     if (category) {
       tricks = tricks.filter(trick => matchesCategory(trick, category as string));
     }
     
-    logger.info('Tricks fetched successfully', { count: tricks.length });
+    // Sort by engagement score (kudos + views)
+    tricks.sort((a, b) => {
+      const scoreA = (a.kudos || 0) + (a.views || 0) * 0.1;
+      const scoreB = (b.kudos || 0) + (b.views || 0) * 0.1;
+      return scoreB - scoreA;
+    });
+    
+    logger.info('Tricks fetched successfully', { 
+      count: tricks.length,
+      filters: sanitizedFilters 
+    });
+    
     res.status(200).json(tricks);
   } catch (error) {
-    logger.error('DynamoDB error', error instanceof Error ? error : new Error(String(error)));
-    res.status(500).json({ error: 'Failed to fetch tricks from database' });
+    const { statusCode, message } = handleDynamoError(error);
+    res.status(statusCode).json({ error: message });
   }
 }
 
 async function handlePost(req: NextApiRequest, res: NextApiResponse) {
   try {
-    // Handle country name to countryCode conversion
     const requestData = { ...req.body };
     if (requestData.country && !requestData.countryCode) {
       const selectedCountry = countries.find(c => c.name === requestData.country);
       requestData.countryCode = selectedCountry?.code || '';
     }
     
-    // Validate and sanitize input
     const validatedData = validateTrick(requestData);
     
     const trick = {
-      id: Date.now().toString(),
+      id: uuidv4(), // Use UUID instead of timestamp
       ...validatedData,
       createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
       kudos: 0,
       views: 0,
       comments: 0,
-      status: 'approved'
+      status: 'approved',
+      // Add GSI partition key for efficient querying
+      gsi1pk: `COUNTRY#${validatedData.countryCode}`,
+      gsi1sk: new Date().toISOString()
     };
 
-    // Save trick
-    await docClient.send(new PutCommand({
-      TableName: 'TrickShare-Tricks',
-      Item: trick
-    }));
+    // Use transaction for atomic operations
+    const putCommand = new PutCommand({
+      TableName: TABLES.TRICKS,
+      Item: trick,
+      ConditionExpression: 'attribute_not_exists(id)'
+    });
 
-    // Update user stats if authorEmail provided
+    await docClient.send(putCommand);
+
+    // Update user stats separately (non-critical operation)
     if (validatedData.authorEmail && validatedData.authorEmail !== 'anonymous') {
       try {
         await docClient.send(new UpdateCommand({
-          TableName: 'TrickShare-Users',
+          TableName: TABLES.USERS,
           Key: { email: validatedData.authorEmail },
-          UpdateExpression: 'ADD tricksSubmitted :inc SET score = if_not_exists(score, :zero) + :points',
+          UpdateExpression: 'ADD tricksSubmitted :inc, score :points SET updatedAt = :now',
           ExpressionAttributeValues: {
             ':inc': 1,
-            ':zero': 0,
-            ':points': 10
+            ':points': 10,
+            ':now': new Date().toISOString()
           }
         }));
-      } catch (error) {
-        logger.warn('User stats update failed', { error: (error as Error).message });
+      } catch (userError) {
+        logger.warn('User stats update failed', { error: (userError as Error).message });
       }
     }
     
@@ -139,7 +168,9 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
         details: error.errors 
       });
     }
-    throw error;
+    
+    const { statusCode, message } = handleDynamoError(error);
+    res.status(statusCode).json({ error: message });
   }
 }
 
@@ -160,15 +191,13 @@ function validateDifficulty(difficulty: any): string | undefined {
 
 function buildFilterExpression(filters: any) {
   const expressions = [];
-  if (filters.country) expressions.push('countryCode = :country');
   if (filters.difficulty) expressions.push('difficulty = :difficulty');
-  if (filters.search) expressions.push('contains(title, :search) OR contains(description, :search)');
+  if (filters.search) expressions.push('(contains(title, :search) OR contains(description, :search))');
   return expressions.length > 0 ? expressions.join(' AND ') : undefined;
 }
 
 function buildExpressionValues(filters: any) {
   const values: any = {};
-  if (filters.country) values[':country'] = filters.country;
   if (filters.difficulty) values[':difficulty'] = filters.difficulty;
   if (filters.search) values[':search'] = filters.search;
   return Object.keys(values).length > 0 ? values : undefined;

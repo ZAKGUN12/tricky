@@ -1,9 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, UpdateCommand, GetCommand, PutCommand, DeleteCommand, TransactWriteCommand } from '@aws-sdk/lib-dynamodb';
-
-const client = new DynamoDBClient({ region: process.env.AWS_REGION || 'eu-west-1' });
-const docClient = DynamoDBDocumentClient.from(client);
+import { UpdateCommand, GetCommand, TransactWriteCommand } from '@aws-sdk/lib-dynamodb';
+import { docClient, TABLES, handleDynamoError } from '../../../../lib/aws-config';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.query;
@@ -19,15 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     if (req.method === 'POST') {
-      if (action === 'toggle') {
-        return await handleToggleKudos(req, res, id, userEmail);
-      } else if (action === 'give') {
-        return await handleGiveKudos(req, res, id, userEmail);
-      } else if (action === 'remove') {
-        return await handleRemoveKudos(req, res, id, userEmail);
-      } else {
-        return await handleGiveKudos(req, res, id, userEmail);
-      }
+      return await handleToggleKudos(req, res, id, userEmail);
     } else if (req.method === 'GET') {
       return await handleGetKudosStatus(req, res, id, userEmail);
     } else {
@@ -35,95 +24,84 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
   } catch (error) {
     console.error('Kudos API error:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    const { statusCode, message } = handleDynamoError(error);
+    return res.status(statusCode).json({ error: message });
   }
 }
 
 async function handleToggleKudos(req: NextApiRequest, res: NextApiResponse, trickId: string, userEmail: string) {
   try {
-    // Check if user already gave kudos
+    // Check current kudos status
     const existingKudo = await docClient.send(new GetCommand({
-      TableName: 'TrickShare-Kudos',
+      TableName: TABLES.KUDOS,
       Key: { userEmail, trickId }
     }));
 
-    if (existingKudo.Item) {
-      // Remove kudos
-      return await handleRemoveKudos(req, res, trickId, userEmail);
-    } else {
-      // Give kudos
-      return await handleGiveKudos(req, res, trickId, userEmail);
-    }
-  } catch (error) {
-    console.error('Toggle kudos error:', error);
-    return res.status(500).json({ error: 'Failed to toggle kudos' });
-  }
-}
+    const hasKudos = !!existingKudo.Item;
+    const kudosChange = hasKudos ? -1 : 1;
+    const scoreChange = hasKudos ? -5 : 5; // Points for receiving kudos
 
-async function handleGiveKudos(req: NextApiRequest, res: NextApiResponse, trickId: string, userEmail: string) {
-  try {
-    // Check if user already gave kudos
-    const existingKudo = await docClient.send(new GetCommand({
-      TableName: 'TrickShare-Kudos',
-      Key: { userEmail, trickId }
-    }));
-
-    if (existingKudo.Item) {
-      return res.status(200).json({ 
-        success: false, 
-        error: 'Already gave kudos to this trick', 
-        hasKudos: true,
-        newKudosCount: null
-      });
-    }
-
-    // Get trick to find author and current kudos count
-    const trickResult = await docClient.send(new GetCommand({
-      TableName: 'TrickShare-Tricks',
+    // Get trick to find author
+    const trick = await docClient.send(new GetCommand({
+      TableName: TABLES.TRICKS,
       Key: { id: trickId }
     }));
 
-    if (!trickResult.Item) {
+    if (!trick.Item) {
       return res.status(404).json({ error: 'Trick not found' });
     }
 
-    const currentKudos = trickResult.Item.kudos || 0;
-    const authorEmail = trickResult.Item.authorEmail;
-
-    // Use transaction to ensure consistency
+    // Atomic transaction to update all related data
     const transactItems: any[] = [
       {
+        Update: {
+          TableName: TABLES.TRICKS,
+          Key: { id: trickId },
+          UpdateExpression: 'ADD kudos :change SET updatedAt = :now',
+          ExpressionAttributeValues: {
+            ':change': kudosChange,
+            ':now': new Date().toISOString()
+          },
+          ConditionExpression: 'attribute_exists(id)'
+        }
+      }
+    ];
+
+    if (hasKudos) {
+      // Remove kudos
+      transactItems.push({
+        Delete: {
+          TableName: TABLES.KUDOS,
+          Key: { userEmail, trickId },
+          ConditionExpression: 'attribute_exists(userEmail)'
+        }
+      });
+    } else {
+      // Add kudos
+      transactItems.push({
         Put: {
-          TableName: 'TrickShare-Kudos',
+          TableName: TABLES.KUDOS,
           Item: {
             userEmail,
             trickId,
             createdAt: new Date().toISOString()
-          }
+          },
+          ConditionExpression: 'attribute_not_exists(userEmail)'
         }
-      },
-      {
-        Update: {
-          TableName: 'TrickShare-Tricks',
-          Key: { id: trickId },
-          UpdateExpression: 'SET kudos = :newKudos',
-          ExpressionAttributeValues: {
-            ':newKudos': currentKudos + 1
-          }
-        }
-      }
-    ];
+      });
+    }
 
-    // Update author stats if valid author
-    if (authorEmail && authorEmail !== 'anonymous' && authorEmail !== userEmail) {
+    // Update author's score if not anonymous
+    if (trick.Item.authorEmail && trick.Item.authorEmail !== 'anonymous' && trick.Item.authorEmail !== userEmail) {
       transactItems.push({
         Update: {
-          TableName: 'TrickShare-Users',
-          Key: { email: authorEmail },
-          UpdateExpression: 'ADD kudosReceived :inc, score :points',
+          TableName: TABLES.USERS,
+          Key: { email: trick.Item.authorEmail },
+          UpdateExpression: 'ADD score :scoreChange, kudosReceived :kudosChange SET updatedAt = :now',
           ExpressionAttributeValues: {
-            ':inc': 1,
-            ':points': 5
+            ':scoreChange': scoreChange,
+            ':kudosChange': kudosChange,
+            ':now': new Date().toISOString()
           }
         }
       });
@@ -133,109 +111,49 @@ async function handleGiveKudos(req: NextApiRequest, res: NextApiResponse, trickI
       TransactItems: transactItems
     }));
 
-    res.status(200).json({ 
-      success: true, 
-      hasKudos: true, 
-      newKudosCount: currentKudos + 1 
+    const newKudosCount = (trick.Item.kudos || 0) + kudosChange;
+    
+    res.status(200).json({
+      success: true,
+      hasKudos: !hasKudos,
+      kudosCount: Math.max(0, newKudosCount),
+      action: hasKudos ? 'removed' : 'added'
     });
+
   } catch (error: any) {
-    console.error('Give kudos error:', error);
-    res.status(500).json({ error: 'Failed to give kudos' });
-  }
-}
-
-async function handleRemoveKudos(req: NextApiRequest, res: NextApiResponse, trickId: string, userEmail: string) {
-  try {
-    // Check if kudo exists
-    const existingKudo = await docClient.send(new GetCommand({
-      TableName: 'TrickShare-Kudos',
-      Key: { userEmail, trickId }
-    }));
-
-    if (!existingKudo.Item) {
-      return res.status(200).json({ 
-        success: false, 
-        error: 'No kudos to remove', 
-        hasKudos: false,
-        newKudosCount: null
+    if (error.name === 'TransactionCanceledException') {
+      // Handle race conditions gracefully
+      return res.status(409).json({ 
+        error: 'Kudos operation conflict, please try again' 
       });
     }
-
-    // Get trick to find author and current kudos count
-    const trickResult = await docClient.send(new GetCommand({
-      TableName: 'TrickShare-Tricks',
-      Key: { id: trickId }
-    }));
-
-    if (!trickResult.Item) {
-      return res.status(404).json({ error: 'Trick not found' });
-    }
-
-    const currentKudos = Math.max(0, (trickResult.Item.kudos || 1) - 1);
-    const authorEmail = trickResult.Item.authorEmail;
-
-    // Use transaction to ensure consistency
-    const transactItems: any[] = [
-      {
-        Delete: {
-          TableName: 'TrickShare-Kudos',
-          Key: { userEmail, trickId }
-        }
-      },
-      {
-        Update: {
-          TableName: 'TrickShare-Tricks',
-          Key: { id: trickId },
-          UpdateExpression: 'SET kudos = :newKudos',
-          ExpressionAttributeValues: {
-            ':newKudos': currentKudos
-          }
-        }
-      }
-    ];
-
-    // Update author stats if valid author
-    if (authorEmail && authorEmail !== 'anonymous' && authorEmail !== userEmail) {
-      transactItems.push({
-        Update: {
-          TableName: 'TrickShare-Users',
-          Key: { email: authorEmail },
-          UpdateExpression: 'ADD kudosReceived :dec, score :points',
-          ExpressionAttributeValues: {
-            ':dec': -1,
-            ':points': -5
-          }
-        }
-      });
-    }
-
-    await docClient.send(new TransactWriteCommand({
-      TransactItems: transactItems
-    }));
-
-    res.status(200).json({ 
-      success: true, 
-      hasKudos: false, 
-      newKudosCount: currentKudos 
-    });
-  } catch (error) {
-    console.error('Remove kudos error:', error);
-    res.status(500).json({ error: 'Failed to remove kudos' });
+    
+    const { statusCode, message } = handleDynamoError(error);
+    res.status(statusCode).json({ error: message });
   }
 }
 
 async function handleGetKudosStatus(req: NextApiRequest, res: NextApiResponse, trickId: string, userEmail: string) {
   try {
-    const existingKudo = await docClient.send(new GetCommand({
-      TableName: 'TrickShare-Kudos',
-      Key: { userEmail, trickId }
-    }));
+    const [kudoResult, trickResult] = await Promise.all([
+      docClient.send(new GetCommand({
+        TableName: TABLES.KUDOS,
+        Key: { userEmail, trickId }
+      })),
+      docClient.send(new GetCommand({
+        TableName: TABLES.TRICKS,
+        Key: { id: trickId },
+        ProjectionExpression: 'kudos'
+      }))
+    ]);
 
-    res.status(200).json({ 
-      hasKudos: !!existingKudo.Item 
+    res.status(200).json({
+      hasKudos: !!kudoResult.Item,
+      kudosCount: trickResult.Item?.kudos || 0
     });
+
   } catch (error) {
-    console.error('Get kudos status error:', error);
-    return res.status(500).json({ error: 'Failed to get kudos status' });
+    const { statusCode, message } = handleDynamoError(error);
+    res.status(statusCode).json({ error: message });
   }
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Trick } from '../lib/types';
@@ -16,7 +16,7 @@ import { useToast } from '../lib/useToast';
 
 function HomeContent() {
   const [tricks, setTricks] = useState<Trick[]>([]);
-  const [allTricks, setAllTricks] = useState<Trick[]>([]); // Keep all tricks for category counting
+  const [allTricks, setAllTricks] = useState<Trick[]>([]);
   const [filteredTricks, setFilteredTricks] = useState<Trick[]>([]);
   const [selectedCountry, setSelectedCountry] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<string>('');
@@ -27,7 +27,7 @@ function HomeContent() {
   const [error, setError] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState('hot');
   const [viewMode, setViewMode] = useState('card');
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(true); // Start collapsed on mobile
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
@@ -39,6 +39,11 @@ function HomeContent() {
   const [formLoading, setFormLoading] = useState(false);
   const [formError, setFormError] = useState('');
 
+  const scrollTimeoutRef = useRef<NodeJS.Timeout>();
+  const { showToast, ToastContainer } = useToast();
+  const { user, signOut } = useAuth();
+  const router = useRouter();
+
   useEffect(() => {
     document.body.classList.add('reddit-header-active');
     return () => {
@@ -46,47 +51,32 @@ function HomeContent() {
     };
   }, []);
 
-  // Prevent body scroll when sidebar is open on mobile
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      if (!sidebarCollapsed && window.innerWidth <= 768) {
-        document.body.classList.add('sidebar-open');
-      } else {
-        document.body.classList.remove('sidebar-open');
-      }
+      const shouldPreventScroll = !sidebarCollapsed && window.innerWidth <= 768;
+      document.body.classList.toggle('sidebar-open', shouldPreventScroll);
     }
     
     return () => {
-      if (typeof document !== 'undefined') {
-        document.body.classList.remove('sidebar-open');
-      }
+      document.body.classList.remove('sidebar-open');
     };
   }, [sidebarCollapsed]);
-  const [theme, setTheme] = useState('dark');
 
-  // Apply theme to document
   useEffect(() => {
     if (typeof document !== 'undefined') {
-      document.documentElement.setAttribute('data-theme', theme);
-      document.body.className = theme;
+      document.documentElement.setAttribute('data-theme', 'dark');
+      document.body.className = 'dark';
     }
-  }, [theme]);
+  }, []);
 
-  const { showToast, ToastContainer } = useToast();
-  const { user, signOut } = useAuth();
-  const router = useRouter();
-
-  // Protect scroll for unauthenticated users
   useEffect(() => {
-    let scrollTimeout: NodeJS.Timeout;
-    
     const handleScroll = () => {
       if (!user && !loading) {
-        clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(() => {
+        clearTimeout(scrollTimeoutRef.current);
+        scrollTimeoutRef.current = setTimeout(() => {
           const currentUrl = window.location.pathname + window.location.search;
           router.push(`/signin?returnUrl=${encodeURIComponent(currentUrl)}`);
-        }, 3000); // Redirect after 3 seconds of scrolling
+        }, 3000);
       }
     };
 
@@ -96,7 +86,7 @@ function HomeContent() {
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      clearTimeout(scrollTimeout);
+      clearTimeout(scrollTimeoutRef.current);
     };
   }, [user, loading, router]);
 
@@ -886,12 +876,12 @@ function HomeContent() {
 
       <style jsx>{`
         :root {
-          --text-primary: ${theme === 'dark' ? '#ffffff' : '#1a1a1a'};
-          --text-secondary: ${theme === 'dark' ? '#e5e7eb' : '#4a4a4a'};
-          --text-muted: ${theme === 'dark' ? '#9ca3af' : '#6b7280'};
-          --bg-primary: ${theme === 'dark' ? 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)' : 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%)'};
-          --surface-glass: ${theme === 'dark' ? 'rgba(0, 0, 0, 0.4)' : 'rgba(255, 255, 255, 0.8)'};
-          --border-light: ${theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'};
+          --text-primary: #ffffff;
+          --text-secondary: #e5e7eb;
+          --text-muted: #9ca3af;
+          --bg-primary: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+          --surface-glass: rgba(0, 0, 0, 0.4);
+          --border-light: rgba(255, 255, 255, 0.1);
         }
 
         /* Layout fixes handled by middle-column-fix.css */
