@@ -654,24 +654,15 @@ function HomeContent() {
                 {sortedTricks.map((trick) => {
                 const country = countries.find(c => c.code === trick.countryCode);
                 return (
-                  <div key={trick.id} className="trick-card reddit-style">
-                    <div className="trick-votes">
-                      <KudosButton
-                        key={`kudos-${trick.id}-${userKudos[trick.id] ? 'liked' : 'not-liked'}`}
-                        trickId={trick.id}
-                        kudosCount={trick.kudos}
-                        hasUserKudos={userKudos[trick.id] || false}
-                        onKudosToggle={handleKudosToggle}
-                        disabled={!user}
-                      />
-                    </div>
-                    
+                  <div key={trick.id} className="trick-card modern-style">
                     <div className="trick-content">
-                      <div className="trick-meta">
-                        <span className="country-flag">{country?.flag}</span>
-                        <span className="subreddit">r/lifehacks</span>
-                        <span className="author">• Posted by u/{trick.authorName}</span>
-                        <span className="time">• {new Date(trick.createdAt).toLocaleDateString()}</span>
+                      <div className="trick-header">
+                        <div className="trick-meta">
+                          <span className="country-flag">{country?.flag}</span>
+                          <span className="subreddit">r/lifehacks</span>
+                          <span className="author">• Posted by u/{trick.authorName}</span>
+                          <span className="time">• {new Date(trick.createdAt).toLocaleDateString()}</span>
+                        </div>
                         <span className={`difficulty-badge ${trick.difficulty}`}>
                           {trick.difficulty}
                         </span>
@@ -690,8 +681,16 @@ function HomeContent() {
                       </div>
 
                       <div className="trick-actions">
+                        <KudosButton
+                          key={`kudos-${trick.id}-${userKudos[trick.id] ? 'liked' : 'not-liked'}`}
+                          trickId={trick.id}
+                          kudosCount={trick.kudos}
+                          hasUserKudos={userKudos[trick.id] || false}
+                          onKudosToggle={handleKudosToggle}
+                          disabled={!user}
+                        />
                         <Link href={`/trick/${trick.id}`} className="action-btn comments">
-                          💬 {trick.comments || 0} comments
+                          💬 {trick.comments || 0}
                         </Link>
                         <button className="action-btn share">
                           📤 Share
@@ -1924,6 +1923,260 @@ function HomeContent() {
         .trick-card.reddit-style:hover {
           border-color: var(--border-medium);
           box-shadow: var(--shadow-lg);
+        }
+
+        /* Modern Trick Card Design - Integrated with Global Network Theme */
+        .trick-card.modern-style {
+          background: rgba(15, 15, 35, 0.8);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(120, 119, 198, 0.2);
+          border-radius: 16px;
+          padding: 1.5rem;
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .trick-card.modern-style::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 3px;
+          background: linear-gradient(90deg, #7877c6, #78dbff, #ff77c6);
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+
+        .trick-card.modern-style:hover {
+          border-color: rgba(120, 219, 255, 0.4);
+          box-shadow: 0 8px 32px rgba(120, 119, 198, 0.2);
+          transform: translateY(-2px);
+        }
+
+        .trick-card.modern-style:hover::before {
+          opacity: 1;
+        }
+
+        .trick-card.modern-style .trick-content {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          height: 100%;
+        }
+
+        .trick-card.modern-style .trick-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          gap: 1rem;
+        }
+
+        .trick-card.modern-style .trick-meta {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-size: 0.75rem;
+          color: rgba(255, 255, 255, 0.7);
+          flex-wrap: wrap;
+        }
+
+        .trick-card.modern-style .country-flag {
+          font-size: 1rem;
+          filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+        }
+
+        .trick-card.modern-style .subreddit {
+          color: #78dbff;
+          font-weight: 600;
+        }
+
+        .trick-card.modern-style .author, 
+        .trick-card.modern-style .time {
+          color: rgba(255, 255, 255, 0.6);
+        }
+
+        .trick-card.modern-style .difficulty-badge {
+          padding: 0.25rem 0.75rem;
+          border-radius: 12px;
+          font-size: 0.7rem;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          flex-shrink: 0;
+        }
+
+        .trick-card.modern-style .difficulty-badge.easy {
+          background: rgba(34, 197, 94, 0.2);
+          color: #22c55e;
+          border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .trick-card.modern-style .difficulty-badge.medium {
+          background: rgba(251, 191, 36, 0.2);
+          color: #fbbf24;
+          border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+
+        .trick-card.modern-style .difficulty-badge.hard {
+          background: rgba(239, 68, 68, 0.2);
+          color: #ef4444;
+          border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .trick-card.modern-style .trick-title {
+          font-size: 1.125rem;
+          font-weight: 700;
+          color: white;
+          line-height: 1.4;
+          margin: 0;
+          text-decoration: none;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        .trick-card.modern-style .trick-link {
+          text-decoration: none;
+          color: inherit;
+        }
+
+        .trick-card.modern-style .trick-link:hover .trick-title {
+          color: #78dbff;
+          transition: color 0.2s ease;
+        }
+
+        .trick-card.modern-style .trick-description {
+          font-size: 0.875rem;
+          line-height: 1.5;
+          color: rgba(255, 255, 255, 0.8);
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          margin: 0;
+        }
+
+        .trick-card.modern-style .trick-tags {
+          display: flex;
+          gap: 0.5rem;
+          flex-wrap: wrap;
+        }
+
+        .trick-card.modern-style .tag {
+          background: rgba(120, 119, 198, 0.2);
+          color: #7877c6;
+          padding: 0.25rem 0.75rem;
+          border-radius: 12px;
+          font-size: 0.7rem;
+          font-weight: 500;
+          border: 1px solid rgba(120, 119, 198, 0.3);
+          transition: all 0.2s ease;
+        }
+
+        .trick-card.modern-style .tag:hover {
+          background: rgba(120, 119, 198, 0.3);
+          color: white;
+        }
+
+        .trick-card.modern-style .trick-actions {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          margin-top: auto;
+          padding-top: 1rem;
+          border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .trick-card.modern-style .action-btn {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.5rem 1rem;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 20px;
+          color: rgba(255, 255, 255, 0.8);
+          text-decoration: none;
+          font-size: 0.8rem;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .trick-card.modern-style .action-btn:hover {
+          background: rgba(255, 255, 255, 0.1);
+          border-color: rgba(255, 255, 255, 0.2);
+          color: white;
+          transform: translateY(-1px);
+        }
+
+        .trick-card.modern-style .action-btn.comments:hover {
+          background: rgba(120, 219, 255, 0.2);
+          border-color: rgba(120, 219, 255, 0.3);
+          color: #78dbff;
+        }
+
+        /* Kudos Button Integration */
+        .trick-card.modern-style .kudos-button-container {
+          margin-right: auto;
+        }
+
+        .trick-card.modern-style .kudos-btn {
+          background: rgba(255, 119, 198, 0.1) !important;
+          border: 1px solid rgba(255, 119, 198, 0.3) !important;
+          color: #ff77c6 !important;
+        }
+
+        .trick-card.modern-style .kudos-btn.active {
+          background: linear-gradient(135deg, #ff77c6, #7877c6) !important;
+          border-color: #ff77c6 !important;
+          color: white !important;
+          box-shadow: 0 4px 16px rgba(255, 119, 198, 0.3) !important;
+        }
+
+        .trick-card.modern-style .kudos-btn:hover {
+          background: rgba(255, 119, 198, 0.2) !important;
+          border-color: rgba(255, 119, 198, 0.4) !important;
+          transform: translateY(-1px) !important;
+        }
+
+        .trick-card.modern-style .kudos-btn.active:hover {
+          background: linear-gradient(135deg, #ff88d4, #8988d4) !important;
+          box-shadow: 0 6px 20px rgba(255, 119, 198, 0.4) !important;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+          .trick-card.modern-style {
+            padding: 1rem;
+          }
+
+          .trick-card.modern-style .trick-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+          }
+
+          .trick-card.modern-style .trick-meta {
+            font-size: 0.7rem;
+          }
+
+          .trick-card.modern-style .trick-title {
+            font-size: 1rem;
+          }
+
+          .trick-card.modern-style .trick-actions {
+            flex-wrap: wrap;
+            gap: 0.5rem;
+          }
+
+          .trick-card.modern-style .action-btn {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.75rem;
+          }
         }
 
         .trick-votes {
