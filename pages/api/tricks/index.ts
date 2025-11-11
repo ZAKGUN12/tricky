@@ -50,33 +50,16 @@ async function handleGet(req: NextApiRequest, res: NextApiResponse) {
   try {
     let tricks: any[] = [];
 
-    // Use Query for country-specific requests (assuming GSI exists)
-    if (sanitizedFilters.country) {
-      const command = new QueryCommand({
-        TableName: TABLES.TRICKS,
-        IndexName: 'CountryIndex', // Assumes GSI exists
-        KeyConditionExpression: 'countryCode = :country',
-        ExpressionAttributeValues: {
-          ':country': sanitizedFilters.country
-        },
-        Limit: sanitizedFilters.limit,
-        ScanIndexForward: false // Get newest first
-      });
-      
-      const result = await docClient.send(command);
-      tricks = result.Items || [];
-    } else {
-      // Use Scan with pagination for general queries
-      const command = new ScanCommand({
-        TableName: TABLES.TRICKS,
-        FilterExpression: buildFilterExpression(sanitizedFilters),
-        ExpressionAttributeValues: buildExpressionValues(sanitizedFilters),
-        Limit: sanitizedFilters.limit
-      });
+    // Use Scan for all queries (GSI might not exist)
+    const command = new ScanCommand({
+      TableName: TABLES.TRICKS,
+      FilterExpression: buildFilterExpression(sanitizedFilters),
+      ExpressionAttributeValues: buildExpressionValues(sanitizedFilters),
+      Limit: sanitizedFilters.limit
+    });
 
-      const result = await docClient.send(command);
-      tricks = result.Items || [];
-    }
+    const result = await docClient.send(command);
+    tricks = result.Items || [];
     
     // Apply category filtering in memory (more efficient than DynamoDB filter)
     if (category) {
@@ -97,6 +80,7 @@ async function handleGet(req: NextApiRequest, res: NextApiResponse) {
     
     res.status(200).json(tricks);
   } catch (error) {
+    logger.error('Error fetching tricks', error instanceof Error ? error : new Error(String(error)));
     const { statusCode, message } = handleDynamoError(error);
     res.status(statusCode).json({ error: message });
   }
@@ -191,6 +175,7 @@ function validateDifficulty(difficulty: any): string | undefined {
 
 function buildFilterExpression(filters: any) {
   const expressions = [];
+  if (filters.country) expressions.push('countryCode = :country');
   if (filters.difficulty) expressions.push('difficulty = :difficulty');
   if (filters.search) expressions.push('(contains(title, :search) OR contains(description, :search))');
   return expressions.length > 0 ? expressions.join(' AND ') : undefined;
@@ -198,6 +183,7 @@ function buildFilterExpression(filters: any) {
 
 function buildExpressionValues(filters: any) {
   const values: any = {};
+  if (filters.country) values[':country'] = filters.country;
   if (filters.difficulty) values[':difficulty'] = filters.difficulty;
   if (filters.search) values[':search'] = filters.search;
   return Object.keys(values).length > 0 ? values : undefined;
