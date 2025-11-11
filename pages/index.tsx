@@ -1843,6 +1843,27 @@ function HomeContent() {
           gap: var(--space-2);
           max-width: 800px;
           margin: 0 auto;
+          width: 100%;
+        }
+
+        /* Force consistent card sizing in ALL views */
+        .tricks-grid .trick-card.modern-style {
+          background: rgba(15, 15, 35, 0.8);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(120, 119, 198, 0.2);
+          border-radius: 16px;
+          padding: 1.5rem;
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+          /* FORCED fixed dimensions - override everything */
+          min-height: 280px !important;
+          max-height: 280px !important;
+          height: 280px !important;
+          width: 100% !important;
+          max-width: 100% !important;
+          box-sizing: border-box !important;
+          flex-shrink: 0 !important;
         }
 
         /* Standardized Trick Card Dimensions */
@@ -1925,24 +1946,29 @@ function HomeContent() {
           box-shadow: var(--shadow-lg);
         }
 
-        /* Modern Trick Card Design - Fixed Consistent Sizing */
-        .trick-card.modern-style {
-          background: rgba(15, 15, 35, 0.8);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(120, 119, 198, 0.2);
-          border-radius: 16px;
-          padding: 1.5rem;
-          transition: all 0.3s ease;
-          position: relative;
-          overflow: hidden;
-          /* Fixed dimensions */
-          min-height: 280px;
-          max-height: 280px;
-          width: 100%;
-          max-width: 100%;
+        /* Modern Trick Card Design - FORCED Consistent Sizing */
+        .tricks-grid .trick-card.modern-style {
+          background: rgba(15, 15, 35, 0.8) !important;
+          backdrop-filter: blur(20px) !important;
+          border: 1px solid rgba(120, 119, 198, 0.2) !important;
+          border-radius: 16px !important;
+          padding: 1.5rem !important;
+          transition: all 0.3s ease !important;
+          position: relative !important;
+          overflow: hidden !important;
+          /* ABSOLUTE fixed dimensions - no exceptions */
+          min-height: 280px !important;
+          max-height: 280px !important;
+          height: 280px !important;
+          width: 100% !important;
+          max-width: 100% !important;
+          box-sizing: border-box !important;
+          flex-shrink: 0 !important;
+          flex-grow: 0 !important;
+          display: block !important;
         }
 
-        .trick-card.modern-style::before {
+        .tricks-grid .trick-card.modern-style::before {
           content: '';
           position: absolute;
           top: 0;
@@ -1954,23 +1980,28 @@ function HomeContent() {
           transition: opacity 0.3s ease;
         }
 
-        .trick-card.modern-style:hover {
-          border-color: rgba(120, 219, 255, 0.4);
-          box-shadow: 0 8px 32px rgba(120, 119, 198, 0.2);
-          transform: translateY(-2px);
+        .tricks-grid .trick-card.modern-style:hover {
+          border-color: rgba(120, 219, 255, 0.4) !important;
+          box-shadow: 0 8px 32px rgba(120, 119, 198, 0.2) !important;
+          transform: translateY(-2px) !important;
+          /* Maintain size on hover */
+          min-height: 280px !important;
+          max-height: 280px !important;
+          height: 280px !important;
         }
 
-        .trick-card.modern-style:hover::before {
+        .tricks-grid .trick-card.modern-style:hover::before {
           opacity: 1;
         }
 
-        .trick-card.modern-style .trick-content {
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-          height: 100%;
-          min-height: 248px; /* Total height - padding */
-          max-height: 248px;
+        .tricks-grid .trick-card.modern-style .trick-content {
+          display: flex !important;
+          flex-direction: column !important;
+          gap: 1rem !important;
+          height: 100% !important;
+          min-height: 248px !important; /* Total height - padding */
+          max-height: 248px !important;
+          overflow: hidden !important;
         }
 
         .trick-card.modern-style .trick-header {
@@ -2173,48 +2204,53 @@ function HomeContent() {
           box-shadow: 0 6px 20px rgba(255, 119, 198, 0.4) !important;
         }
 
-        /* Mobile Responsive - Maintain proportions */
+        /* Mobile Responsive - FORCED consistent sizing */
         @media (max-width: 768px) {
-          .trick-card.modern-style {
-            padding: 1rem;
-            min-height: 240px;
-            max-height: 240px;
+          .tricks-grid .trick-card.modern-style {
+            padding: 1rem !important;
+            min-height: 240px !important;
+            max-height: 240px !important;
+            height: 240px !important;
+            width: 100% !important;
           }
 
-          .trick-card.modern-style .trick-content {
-            min-height: 208px;
-            max-height: 208px;
+          .tricks-grid .trick-card.modern-style .trick-content {
+            min-height: 208px !important;
+            max-height: 208px !important;
+            height: 208px !important;
           }
 
-          .trick-card.modern-style .trick-header {
+          .tricks-grid .trick-card.modern-style .trick-header {
             flex-direction: column;
             align-items: flex-start;
             gap: 0.5rem;
-            min-height: 40px;
+            min-height: 40px !important;
+            max-height: 40px !important;
           }
 
-          .trick-card.modern-style .trick-meta {
+          .tricks-grid .trick-card.modern-style .trick-meta {
             font-size: 0.7rem;
           }
 
-          .trick-card.modern-style .trick-title {
+          .tricks-grid .trick-card.modern-style .trick-title {
             font-size: 1rem;
-            min-height: 2.8rem;
-            max-height: 2.8rem;
+            min-height: 2.8rem !important;
+            max-height: 2.8rem !important;
           }
 
-          .trick-card.modern-style .trick-description {
-            min-height: 3.6rem;
-            max-height: 3.6rem;
+          .tricks-grid .trick-card.modern-style .trick-description {
+            min-height: 3.6rem !important;
+            max-height: 3.6rem !important;
           }
 
-          .trick-card.modern-style .trick-actions {
+          .tricks-grid .trick-card.modern-style .trick-actions {
             flex-wrap: wrap;
             gap: 0.5rem;
-            min-height: 2.5rem;
+            min-height: 2.5rem !important;
+            max-height: 2.5rem !important;
           }
 
-          .trick-card.modern-style .action-btn {
+          .tricks-grid .trick-card.modern-style .action-btn {
             padding: 0.4rem 0.8rem;
             font-size: 0.75rem;
           }
