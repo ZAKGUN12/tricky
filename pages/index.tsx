@@ -243,32 +243,6 @@ function HomeContent() {
   const handleKudosToggle = async (trickId: string) => {
     if (handleUnauthenticatedAction()) return;
 
-    const currentTrick = tricks.find(t => t.id === trickId);
-    if (!currentTrick) return;
-
-    const currentHasKudos = userKudos[trickId] || false;
-    
-    // Simple optimistic calculation
-    let newCount;
-    if (currentHasKudos) {
-      // Currently liked, will unlike: decrease by 1
-      newCount = Math.max(0, currentTrick.kudos - 1);
-    } else {
-      // Currently not liked, will like: increase by 1
-      newCount = currentTrick.kudos + 1;
-    }
-
-    // Apply optimistic updates
-    setTricks(prev => prev.map(trick => 
-      trick.id === trickId ? { ...trick, kudos: newCount } : trick
-    ));
-    
-    setAllTricks(prev => prev.map(trick => 
-      trick.id === trickId ? { ...trick, kudos: newCount } : trick
-    ));
-    
-    setUserKudos(prev => ({ ...prev, [trickId]: !currentHasKudos }));
-
     try {
       const response = await fetch(`/api/tricks/${trickId}/kudos`, {
         method: 'POST',
@@ -277,9 +251,10 @@ function HomeContent() {
       });
       
       const result = await response.json();
+      console.log('Server response:', result);
       
       if (response.ok && result.success) {
-        // Update with server response
+        // Only update after server confirms
         setTricks(prev => prev.map(trick => 
           trick.id === trickId ? { ...trick, kudos: result.newKudosCount } : trick
         ));
@@ -292,31 +267,9 @@ function HomeContent() {
         
         showToast(result.hasKudos ? 'Liked! 👍' : 'Unliked! 👎', 'success');
       } else {
-        // Revert on error
-        setTricks(prev => prev.map(trick => 
-          trick.id === trickId ? { ...trick, kudos: currentTrick.kudos } : trick
-        ));
-        
-        setAllTricks(prev => prev.map(trick => 
-          trick.id === trickId ? { ...trick, kudos: currentTrick.kudos } : trick
-        ));
-        
-        setUserKudos(prev => ({ ...prev, [trickId]: currentHasKudos }));
-        
         showToast('Failed to update like', 'error');
       }
     } catch (error) {
-      // Revert on error
-      setTricks(prev => prev.map(trick => 
-        trick.id === trickId ? { ...trick, kudos: currentTrick.kudos } : trick
-      ));
-      
-      setAllTricks(prev => prev.map(trick => 
-        trick.id === trickId ? { ...trick, kudos: currentTrick.kudos } : trick
-      ));
-      
-      setUserKudos(prev => ({ ...prev, [trickId]: currentHasKudos }));
-      
       console.error('Error toggling kudos:', error);
       showToast('Error updating like', 'error');
     }
