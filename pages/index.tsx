@@ -1925,7 +1925,7 @@ function HomeContent() {
           box-shadow: var(--shadow-lg);
         }
 
-        /* Modern Trick Card Design - Integrated with Global Network Theme */
+        /* Modern Trick Card Design - Fixed Consistent Sizing */
         .trick-card.modern-style {
           background: rgba(15, 15, 35, 0.8);
           backdrop-filter: blur(20px);
@@ -1935,6 +1935,11 @@ function HomeContent() {
           transition: all 0.3s ease;
           position: relative;
           overflow: hidden;
+          /* Fixed dimensions */
+          min-height: 280px;
+          max-height: 280px;
+          width: 100%;
+          max-width: 100%;
         }
 
         .trick-card.modern-style::before {
@@ -1964,6 +1969,8 @@ function HomeContent() {
           flex-direction: column;
           gap: 1rem;
           height: 100%;
+          min-height: 248px; /* Total height - padding */
+          max-height: 248px;
         }
 
         .trick-card.modern-style .trick-header {
@@ -1971,6 +1978,8 @@ function HomeContent() {
           justify-content: space-between;
           align-items: flex-start;
           gap: 1rem;
+          flex-shrink: 0;
+          min-height: 24px;
         }
 
         .trick-card.modern-style .trick-meta {
@@ -1980,6 +1989,7 @@ function HomeContent() {
           font-size: 0.75rem;
           color: rgba(255, 255, 255, 0.7);
           flex-wrap: wrap;
+          flex: 1;
         }
 
         .trick-card.modern-style .country-flag {
@@ -2036,11 +2046,15 @@ function HomeContent() {
           -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
           overflow: hidden;
+          flex-shrink: 0;
+          min-height: 3.15rem; /* 2 lines fixed */
+          max-height: 3.15rem;
         }
 
         .trick-card.modern-style .trick-link {
           text-decoration: none;
           color: inherit;
+          flex-shrink: 0;
         }
 
         .trick-card.modern-style .trick-link:hover .trick-title {
@@ -2057,12 +2071,19 @@ function HomeContent() {
           -webkit-box-orient: vertical;
           overflow: hidden;
           margin: 0;
+          flex: 1;
+          min-height: 3.9rem; /* 3 lines fixed */
+          max-height: 3.9rem;
         }
 
         .trick-card.modern-style .trick-tags {
           display: flex;
           gap: 0.5rem;
           flex-wrap: wrap;
+          flex-shrink: 0;
+          min-height: 1.5rem;
+          max-height: 3rem; /* Max 2 rows of tags */
+          overflow: hidden;
         }
 
         .trick-card.modern-style .tag {
@@ -2074,6 +2095,7 @@ function HomeContent() {
           font-weight: 500;
           border: 1px solid rgba(120, 119, 198, 0.3);
           transition: all 0.2s ease;
+          white-space: nowrap;
         }
 
         .trick-card.modern-style .tag:hover {
@@ -2088,6 +2110,8 @@ function HomeContent() {
           margin-top: auto;
           padding-top: 1rem;
           border-top: 1px solid rgba(255, 255, 255, 0.1);
+          flex-shrink: 0;
+          min-height: 3rem;
         }
 
         .trick-card.modern-style .action-btn {
@@ -2104,6 +2128,7 @@ function HomeContent() {
           font-weight: 500;
           cursor: pointer;
           transition: all 0.2s ease;
+          white-space: nowrap;
         }
 
         .trick-card.modern-style .action-btn:hover {
@@ -2148,16 +2173,24 @@ function HomeContent() {
           box-shadow: 0 6px 20px rgba(255, 119, 198, 0.4) !important;
         }
 
-        /* Mobile Responsive */
+        /* Mobile Responsive - Maintain proportions */
         @media (max-width: 768px) {
           .trick-card.modern-style {
             padding: 1rem;
+            min-height: 240px;
+            max-height: 240px;
+          }
+
+          .trick-card.modern-style .trick-content {
+            min-height: 208px;
+            max-height: 208px;
           }
 
           .trick-card.modern-style .trick-header {
             flex-direction: column;
             align-items: flex-start;
             gap: 0.5rem;
+            min-height: 40px;
           }
 
           .trick-card.modern-style .trick-meta {
@@ -2166,11 +2199,19 @@ function HomeContent() {
 
           .trick-card.modern-style .trick-title {
             font-size: 1rem;
+            min-height: 2.8rem;
+            max-height: 2.8rem;
+          }
+
+          .trick-card.modern-style .trick-description {
+            min-height: 3.6rem;
+            max-height: 3.6rem;
           }
 
           .trick-card.modern-style .trick-actions {
             flex-wrap: wrap;
             gap: 0.5rem;
+            min-height: 2.5rem;
           }
 
           .trick-card.modern-style .action-btn {
