@@ -1855,7 +1855,9 @@ function HomeContent() {
           padding: 1.5rem;
           transition: all 0.3s ease;
           position: relative;
-          overflow: hidden;
+          overflow: hidden !important;
+          contain: layout style !important;
+          z-index: 1 !important;
           /* FORCED fixed dimensions - override everything */
           min-height: 280px !important;
           max-height: 280px !important;
@@ -1980,7 +1982,11 @@ function HomeContent() {
           min-height: 3rem;
           visibility: visible !important;
           opacity: 1 !important;
-          z-index: 10 !important;
+          z-index: 2 !important;
+          position: relative !important;
+          width: 100% !important;
+          box-sizing: border-box !important;
+          overflow: hidden !important;
         }
 
         .tricks-grid .trick-card.modern-style .action-btn {
@@ -1997,14 +2003,17 @@ function HomeContent() {
           cursor: pointer !important;
           visibility: visible !important;
           opacity: 1 !important;
-          z-index: 10 !important;
+          z-index: 3 !important;
+          position: relative !important;
+          transform: none !important;
         }
 
         .tricks-grid .trick-card.modern-style .kudos-button-container {
           display: block !important;
           visibility: visible !important;
           opacity: 1 !important;
-          z-index: 10 !important;
+          z-index: 3 !important;
+          position: relative !important;
         }
 
         .trick-card.modern-style .trick-header {
