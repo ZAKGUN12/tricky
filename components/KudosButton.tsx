@@ -20,8 +20,6 @@ const KudosButton: React.FC<KudosButtonProps> = ({
   const handleClick = async () => {
     if (isLoading || disabled) return;
     
-    console.log(`Before click - Count: ${kudosCount}, HasKudos: ${hasUserKudos}`);
-    
     setIsLoading(true);
     
     try {
@@ -31,8 +29,6 @@ const KudosButton: React.FC<KudosButtonProps> = ({
     }
   };
 
-  console.log(`Render - TrickId: ${trickId}, Count: ${kudosCount}, HasKudos: ${hasUserKudos}`);
-
   return (
     <div className="kudos-button-container">
       <button
@@ -40,6 +36,21 @@ const KudosButton: React.FC<KudosButtonProps> = ({
         className={`kudos-btn ${hasUserKudos ? 'active' : ''} ${isLoading ? 'loading' : ''}`}
         disabled={disabled || isLoading}
         aria-label={hasUserKudos ? `Remove like (${kudosCount})` : `Give like (${kudosCount})`}
+        style={{ 
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.5rem',
+          padding: '0.5rem 1rem',
+          background: hasUserKudos ? 'linear-gradient(135deg, #ff77c6, #7877c6)' : 'rgba(255, 119, 198, 0.1)',
+          border: `1px solid ${hasUserKudos ? '#ff77c6' : 'rgba(255, 119, 198, 0.3)'}`,
+          borderRadius: '1.5rem',
+          color: hasUserKudos ? 'white' : '#ff77c6',
+          cursor: disabled ? 'not-allowed' : 'pointer',
+          fontSize: '0.875rem',
+          fontWeight: '500',
+          transition: 'all 0.2s ease',
+          zIndex: 10
+        }}
       >
         <div className="kudos-icon">
           {isLoading ? (
