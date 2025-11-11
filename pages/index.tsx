@@ -680,7 +680,28 @@ function HomeContent() {
                         ))}
                       </div>
 
-                      <div className="trick-actions">
+                      <div className="trick-actions" style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: '1rem', 
+                        marginTop: 'auto', 
+                        paddingTop: '1rem', 
+                        borderTop: '1px solid rgba(255, 255, 255, 0.1)', 
+                        minHeight: '3rem',
+                        backgroundColor: 'rgba(255, 0, 0, 0.1)', // Red background for debugging
+                        border: '2px solid red' // Red border for debugging
+                      }}>
+                        <button style={{
+                          padding: '0.5rem 1rem',
+                          background: 'red',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '4px',
+                          cursor: 'pointer'
+                        }}>
+                          TEST BUTTON
+                        </button>
+                        
                         <KudosButton
                           key={`kudos-${trick.id}-${userKudos[trick.id] ? 'liked' : 'not-liked'}`}
                           trickId={trick.id}
@@ -689,13 +710,42 @@ function HomeContent() {
                           onKudosToggle={handleKudosToggle}
                           disabled={!user}
                         />
-                        <Link href={`/trick/${trick.id}`} className="action-btn comments">
+                        <Link href={`/trick/${trick.id}`} className="action-btn comments" style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.5rem',
+                          padding: '0.5rem 1rem',
+                          background: 'blue',
+                          color: 'white',
+                          textDecoration: 'none',
+                          borderRadius: '4px'
+                        }}>
                           💬 {trick.comments || 0}
                         </Link>
-                        <button className="action-btn share">
+                        <button className="action-btn share" style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.5rem',
+                          padding: '0.5rem 1rem',
+                          background: 'green',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '4px',
+                          cursor: 'pointer'
+                        }}>
                           📤 Share
                         </button>
-                        <button className="action-btn save">
+                        <button className="action-btn save" style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.5rem',
+                          padding: '0.5rem 1rem',
+                          background: 'purple',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '4px',
+                          cursor: 'pointer'
+                        }}>
                           🔖 Save
                         </button>
                       </div>
