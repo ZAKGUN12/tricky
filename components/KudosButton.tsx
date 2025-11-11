@@ -16,56 +16,42 @@ const KudosButton: React.FC<KudosButtonProps> = ({
   disabled = false
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [optimisticKudos, setOptimisticKudos] = useState(kudosCount);
-  const [optimisticHasKudos, setOptimisticHasKudos] = useState(hasUserKudos);
-
-  // Sync with props when they change
-  useEffect(() => {
-    setOptimisticKudos(kudosCount);
-    setOptimisticHasKudos(hasUserKudos);
-  }, [kudosCount, hasUserKudos]);
 
   const handleClick = async () => {
     if (isLoading || disabled) return;
     
-    // Optimistic update
-    const newHasKudos = !optimisticHasKudos;
-    const newKudosCount = newHasKudos ? optimisticKudos + 1 : Math.max(0, optimisticKudos - 1);
-    
-    setOptimisticHasKudos(newHasKudos);
-    setOptimisticKudos(newKudosCount);
     setIsLoading(true);
     
     try {
       await onKudosToggle(trickId);
-    } catch (error) {
-      // Revert optimistic update on error
-      setOptimisticHasKudos(hasUserKudos);
-      setOptimisticKudos(kudosCount);
     } finally {
       setIsLoading(false);
     }
   };
 
+  // Calculate display values based on current props
+  const displayKudos = kudosCount;
+  const displayHasKudos = hasUserKudos;
+
   return (
     <div className="kudos-button-container">
       <button
         onClick={handleClick}
-        className={`kudos-btn ${optimisticHasKudos ? 'active' : ''} ${isLoading ? 'loading' : ''}`}
+        className={`kudos-btn ${displayHasKudos ? 'active' : ''} ${isLoading ? 'loading' : ''}`}
         disabled={disabled || isLoading}
-        aria-label={optimisticHasKudos ? `Remove like (${optimisticKudos})` : `Give like (${optimisticKudos})`}
+        aria-label={displayHasKudos ? `Remove like (${displayKudos})` : `Give like (${displayKudos})`}
       >
         <div className="kudos-icon">
           {isLoading ? (
             <div className="spinner" />
           ) : (
-            <span className={`heart ${optimisticHasKudos ? 'filled' : ''}`}>
-              {optimisticHasKudos ? '❤️' : '🤍'}
+            <span className={`heart ${displayHasKudos ? 'filled' : ''}`}>
+              {displayHasKudos ? '❤️' : '🤍'}
             </span>
           )}
         </div>
-        <span className="kudos-count">{optimisticKudos}</span>
-        <span className="kudos-text">{optimisticHasKudos ? 'Unlike' : 'Like'}</span>
+        <span className="kudos-count">{displayKudos}</span>
+        <span className="kudos-text">{displayHasKudos ? 'Unlike' : 'Like'}</span>
       </button>
     </div>
   );

@@ -243,6 +243,34 @@ function HomeContent() {
   const handleKudosToggle = async (trickId: string) => {
     if (handleUnauthenticatedAction()) return;
 
+    // Get current state for optimistic update
+    const currentTrick = tricks.find(t => t.id === trickId);
+    if (!currentTrick) return;
+
+    const currentHasKudos = userKudos[trickId] || false;
+    const newHasKudos = !currentHasKudos;
+    const optimisticKudosCount = newHasKudos 
+      ? currentTrick.kudos + 1 
+      : Math.max(0, currentTrick.kudos - 1);
+
+    // Apply optimistic updates immediately
+    setTricks(prev => prev.map(trick => 
+      trick.id === trickId 
+        ? { ...trick, kudos: optimisticKudosCount }
+        : trick
+    ));
+    
+    setAllTricks(prev => prev.map(trick => 
+      trick.id === trickId 
+        ? { ...trick, kudos: optimisticKudosCount }
+        : trick
+    ));
+    
+    setUserKudos(prev => ({
+      ...prev,
+      [trickId]: newHasKudos
+    }));
+
     try {
       const response = await fetch(`/api/tricks/${trickId}/kudos`, {
         method: 'POST',
@@ -256,21 +284,19 @@ function HomeContent() {
       const result = await response.json();
       
       if (response.ok && result.success) {
-        // Update tricks state with new kudos count
+        // Update with actual server response (should match optimistic update)
         setTricks(prev => prev.map(trick => 
           trick.id === trickId 
             ? { ...trick, kudos: result.newKudosCount }
             : trick
         ));
         
-        // Update allTricks state as well for consistency
         setAllTricks(prev => prev.map(trick => 
           trick.id === trickId 
             ? { ...trick, kudos: result.newKudosCount }
             : trick
         ));
         
-        // Update user kudos state
         setUserKudos(prev => ({
           ...prev,
           [trickId]: result.hasKudos
@@ -278,9 +304,45 @@ function HomeContent() {
         
         showToast(result.hasKudos ? 'Kudos given! 👍' : 'Kudos removed! 👎', 'success');
       } else {
+        // Revert optimistic update on error
+        setTricks(prev => prev.map(trick => 
+          trick.id === trickId 
+            ? { ...trick, kudos: currentTrick.kudos }
+            : trick
+        ));
+        
+        setAllTricks(prev => prev.map(trick => 
+          trick.id === trickId 
+            ? { ...trick, kudos: currentTrick.kudos }
+            : trick
+        ));
+        
+        setUserKudos(prev => ({
+          ...prev,
+          [trickId]: currentHasKudos
+        }));
+        
         showToast(result.error || 'Failed to toggle kudos', 'error');
       }
     } catch (error: any) {
+      // Revert optimistic update on error
+      setTricks(prev => prev.map(trick => 
+        trick.id === trickId 
+          ? { ...trick, kudos: currentTrick.kudos }
+          : trick
+      ));
+      
+      setAllTricks(prev => prev.map(trick => 
+        trick.id === trickId 
+          ? { ...trick, kudos: currentTrick.kudos }
+          : trick
+      ));
+      
+      setUserKudos(prev => ({
+        ...prev,
+        [trickId]: currentHasKudos
+      }));
+      
       console.error('Error toggling kudos:', error);
       showToast('Error toggling kudos', 'error');
     }

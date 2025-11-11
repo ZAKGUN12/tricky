@@ -1,111 +1,96 @@
+/* Kudos Button Styles with Smooth Animations */
+
 .kudos-button-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
 }
 
 .kudos-btn {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
-  background: var(--surface-elevated);
-  border: 2px solid var(--border-light);
-  border-radius: 25px;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 1.5rem;
+  color: white;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  font-family: inherit;
-  font-size: 14px;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+  font-size: 0.875rem;
   font-weight: 500;
-  color: var(--text-secondary);
-  position: relative;
-  overflow: hidden;
-  min-width: 90px;
-  justify-content: center;
-}
-
-.kudos-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s;
-}
-
-.kudos-btn:hover::before {
-  left: 100%;
 }
 
 .kudos-btn:hover {
-  transform: translateY(-2px);
-  border-color: var(--accent);
-  box-shadow: 0 8px 25px rgba(120, 119, 198, 0.3);
-  background: var(--surface-hover);
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
 }
 
 .kudos-btn.active {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
-  border-color: #ff6b6b;
-  color: white;
-  box-shadow: 0 4px 20px rgba(255, 107, 107, 0.4);
+  background: linear-gradient(135deg, #ff77c6 0%, #7877c6 100%);
+  border-color: #ff77c6;
+  box-shadow: 0 4px 16px rgba(255, 119, 198, 0.3);
 }
 
 .kudos-btn.active:hover {
-  background: linear-gradient(135deg, #ff5252 0%, #e53935 100%);
-  box-shadow: 0 8px 30px rgba(255, 107, 107, 0.6);
-}
-
-.kudos-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
+  background: linear-gradient(135deg, #ff88d4 0%, #8988d4 100%);
+  box-shadow: 0 6px 20px rgba(255, 119, 198, 0.4);
 }
 
 .kudos-btn.loading {
-  cursor: wait;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.kudos-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .kudos-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
 .heart {
-  font-size: 16px;
-  transition: transform 0.3s ease;
+  font-size: 1rem;
+  transition: transform 0.2s ease;
 }
 
-.kudos-btn:hover .heart {
-  transform: scale(1.2);
-}
-
-.kudos-btn.active .heart {
-  animation: heartBeat 0.6s ease-in-out;
+.heart.filled {
+  animation: heartBeat 0.3s ease;
 }
 
 .kudos-count {
   font-weight: 600;
-  font-size: 14px;
+  min-width: 1.5rem;
+  text-align: center;
+  transition: all 0.2s ease;
 }
 
 .kudos-text {
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 0.75rem;
+  opacity: 0.9;
 }
 
 .spinner {
-  width: 16px;
-  height: 16px;
-  border: 2px solid transparent;
-  border-top: 2px solid currentColor;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
   border-radius: 50%;
   animation: spin 1s linear infinite;
+}
+
+/* Animations */
+@keyframes heartBeat {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
 }
 
 @keyframes spin {
@@ -113,39 +98,42 @@
   100% { transform: rotate(360deg); }
 }
 
-@keyframes heartBeat {
-  0% { transform: scale(1); }
-  25% { transform: scale(1.3); }
-  50% { transform: scale(1.1); }
-  75% { transform: scale(1.25); }
-  100% { transform: scale(1); }
+/* Count change animation */
+.kudos-count {
+  position: relative;
+  overflow: hidden;
 }
 
-/* Mobile responsive */
+.kudos-count::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+
+.kudos-btn.active .kudos-count::after {
+  transform: translateX(100%);
+}
+
+/* Mobile optimizations */
 @media (max-width: 768px) {
   .kudos-btn {
-    padding: 8px 12px;
-    font-size: 13px;
-    min-width: 80px;
-    gap: 6px;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+    gap: 0.4rem;
   }
   
-  .kudos-text {
-    display: none;
+  .kudos-icon {
+    width: 1rem;
+    height: 1rem;
   }
   
-  .kudos-count {
-    font-size: 13px;
+  .heart {
+    font-size: 0.9rem;
   }
-}
-
-/* Focus states for accessibility */
-.kudos-btn:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(120, 119, 198, 0.3);
-}
-
-.kudos-btn:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
 }
