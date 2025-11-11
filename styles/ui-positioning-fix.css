@@ -155,17 +155,54 @@
   flex: 1 !important;
 }
 
-/* Action Buttons - Integrated with card design */
+/* Action Buttons - Better alignment */
 .trick-card.modern-style .trick-actions {
   display: flex !important;
   align-items: center !important;
-  gap: 1rem !important;
+  justify-content: flex-start !important;
+  gap: 0.75rem !important;
   margin-top: auto !important;
   padding-top: 1rem !important;
   border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
   min-height: 3rem !important;
   visibility: visible !important;
   opacity: 1 !important;
+  flex-wrap: wrap !important;
+}
+
+.trick-card.modern-style .action-btn {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.25rem !important;
+  padding: 0.5rem 0.75rem !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 20px !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-size: 0.75rem !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  backdrop-filter: blur(10px) !important;
+  height: 36px !important;
+  min-width: fit-content !important;
+}
+
+.trick-card.modern-style .kudos-button-container {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.trick-card.modern-style .kudos-btn {
+  height: 36px !important;
+  min-width: fit-content !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .trick-card.modern-style .action-btn {
