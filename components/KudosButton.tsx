@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 interface KudosButtonProps {
   trickId: string;
@@ -29,29 +29,25 @@ const KudosButton: React.FC<KudosButtonProps> = ({
     }
   };
 
-  // Calculate display values based on current props
-  const displayKudos = kudosCount;
-  const displayHasKudos = hasUserKudos;
-
   return (
     <div className="kudos-button-container">
       <button
         onClick={handleClick}
-        className={`kudos-btn ${displayHasKudos ? 'active' : ''} ${isLoading ? 'loading' : ''}`}
+        className={`kudos-btn ${hasUserKudos ? 'active' : ''} ${isLoading ? 'loading' : ''}`}
         disabled={disabled || isLoading}
-        aria-label={displayHasKudos ? `Remove like (${displayKudos})` : `Give like (${displayKudos})`}
+        aria-label={hasUserKudos ? `Remove like (${kudosCount})` : `Give like (${kudosCount})`}
       >
         <div className="kudos-icon">
           {isLoading ? (
             <div className="spinner" />
           ) : (
-            <span className={`heart ${displayHasKudos ? 'filled' : ''}`}>
-              {displayHasKudos ? '❤️' : '🤍'}
+            <span className={`heart ${hasUserKudos ? 'filled' : ''}`}>
+              {hasUserKudos ? '❤️' : '🤍'}
             </span>
           )}
         </div>
-        <span className="kudos-count">{displayKudos}</span>
-        <span className="kudos-text">{displayHasKudos ? 'Unlike' : 'Like'}</span>
+        <span className="kudos-count" data-count={kudosCount}>{kudosCount}</span>
+        <span className="kudos-text">{hasUserKudos ? 'Unlike' : 'Like'}</span>
       </button>
     </div>
   );
