@@ -155,58 +155,46 @@
   flex: 1 !important;
 }
 
-/* Action Buttons - DEBUG VERSION */
+/* Action Buttons - FORCE CONTENT */
 .trick-card.modern-style .trick-actions {
   display: flex !important;
   align-items: center !important;
   justify-content: flex-start !important;
   gap: 0.75rem !important;
   margin-top: auto !important;
-  padding-top: 1rem !important;
+  padding: 1rem !important;
   border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
-  min-height: 3rem !important;
+  min-height: 60px !important;
   visibility: visible !important;
   opacity: 1 !important;
   flex-wrap: wrap !important;
-  background: red !important; /* DEBUG */
-  border: 2px solid yellow !important; /* DEBUG */
+  background: red !important;
+  border: 2px solid yellow !important;
+  position: relative !important;
+  z-index: 999 !important;
 }
 
-.trick-card.modern-style .action-btn {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 0.25rem !important;
-  padding: 0.5rem 0.75rem !important;
-  background: green !important; /* DEBUG */
-  border: 2px solid blue !important; /* DEBUG */
-  border-radius: 20px !important;
+.trick-card.modern-style .trick-actions::before {
+  content: "BUTTONS SHOULD BE HERE" !important;
   color: white !important;
-  font-size: 0.75rem !important;
-  font-weight: 500 !important;
-  text-decoration: none !important;
-  transition: all 0.2s ease !important;
-  cursor: pointer !important;
+  font-weight: bold !important;
+  background: blue !important;
+  padding: 10px !important;
+  display: block !important;
+}
+
+.trick-card.modern-style .trick-actions > * {
+  display: flex !important;
   visibility: visible !important;
   opacity: 1 !important;
-  height: 36px !important;
+  background: green !important;
+  color: white !important;
+  padding: 10px !important;
+  border: 2px solid blue !important;
   min-width: 80px !important;
-}
-
-.trick-card.modern-style .kudos-button-container {
-  display: flex !important;
-  align-items: center !important;
-  background: orange !important; /* DEBUG */
-}
-
-.trick-card.modern-style .kudos-btn {
-  height: 36px !important;
-  min-width: 80px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  background: purple !important; /* DEBUG */
-  border: 2px solid cyan !important; /* DEBUG */
+  min-height: 40px !important;
+  z-index: 1000 !important;
+  position: relative !important;
 }
 
 .trick-card.modern-style .action-btn {
