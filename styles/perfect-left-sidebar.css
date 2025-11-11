@@ -735,30 +735,14 @@ body.dark {
   border: 1px solid var(--border-color) !important;
 }
 
-/* Actions */
+/* Actions - Let ui-positioning-fix.css handle the styling */
 .trick-actions {
   display: flex !important;
   gap: 1rem !important;
   margin-top: 0.25rem !important;
 }
 
-.action-btn {
-  background: none !important;
-  border: none !important;
-  color: var(--text-muted) !important;
-  font-size: 0.75rem !important;
-  font-weight: 600 !important;
-  cursor: pointer !important;
-  padding: 0.25rem 0.5rem !important;
-  border-radius: 4px !important;
-  transition: all 0.2s ease !important;
-  text-decoration: none !important;
-}
-
-.action-btn:hover {
-  background: var(--hover-background) !important;
-  color: var(--text-primary) !important;
-}
+/* Remove conflicting action-btn styles - handled by ui-positioning-fix.css */
 
 /* Difficulty Badge */
 .difficulty-badge {
