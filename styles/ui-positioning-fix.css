@@ -139,7 +139,7 @@
   border-radius: 12px !important;
   padding: 1.5rem !important;
   margin-bottom: 1rem !important;
-  min-height: 280px !important;
+  min-height: auto !important;
   backdrop-filter: blur(10px) !important;
   transition: all 0.3s ease !important;
   visibility: visible !important;
