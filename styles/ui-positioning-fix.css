@@ -155,8 +155,8 @@
   flex: 1 !important;
 }
 
-/* Action Buttons - MAXIMUM SPECIFICITY */
-div.trick-card.modern-style div.trick-actions {
+/* Action Buttons - Clean Implementation */
+.trick-card.modern-style .trick-actions {
   display: flex !important;
   align-items: center !important;
   justify-content: flex-start !important;
@@ -168,61 +168,10 @@ div.trick-card.modern-style div.trick-actions {
   visibility: visible !important;
   opacity: 1 !important;
   flex-wrap: wrap !important;
-  background: red !important;
-  border: 2px solid yellow !important;
   position: relative !important;
-  z-index: 9999 !important;
+  z-index: 1 !important;
   width: 100% !important;
   box-sizing: border-box !important;
-}
-
-div.trick-card.modern-style div.trick-actions::before {
-  content: "ACTION BUTTONS AREA" !important;
-  color: white !important;
-  font-weight: bold !important;
-  background: blue !important;
-  padding: 10px !important;
-  display: block !important;
-  width: 100% !important;
-}
-
-div.trick-card.modern-style div.trick-actions > * {
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  background: green !important;
-  color: white !important;
-  padding: 10px !important;
-  border: 2px solid blue !important;
-  min-width: 80px !important;
-  min-height: 40px !important;
-  z-index: 10000 !important;
-  position: relative !important;
-  font-size: 14px !important;
-  font-weight: bold !important;
-}
-
-div.trick-card.modern-style div.kudos-button-container {
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  background: orange !important;
-  border: 3px solid purple !important;
-  min-width: 100px !important;
-  min-height: 50px !important;
-}
-
-div.trick-card.modern-style button.kudos-btn {
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  background: magenta !important;
-  color: white !important;
-  border: 3px solid cyan !important;
-  min-width: 90px !important;
-  min-height: 45px !important;
-  font-size: 14px !important;
-  font-weight: bold !important;
 }
 
 .trick-card.modern-style .action-btn {

@@ -53,6 +53,7 @@ body::before {
 @import './web-design-system.css';
 @import './perfect-left-sidebar.css';
 @import './performance-fix.css';
+@import './card-layout-fix.css';
 @import './ui-positioning-fix.css';
 @import './sidebar-positioning-fix.css';
 @import './button-positioning-fix.css';

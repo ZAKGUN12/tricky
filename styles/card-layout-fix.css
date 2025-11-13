@@ -1,0 +1,350 @@
+/* Card Layout Fix - Clean Implementation */
+
+/* Reset and base styles */
+.tricks-grid {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1rem !important;
+  max-width: 800px !important;
+  margin: 0 auto !important;
+  width: 100% !important;
+}
+
+/* Modern Style Cards - Clean Layout */
+.trick-card.modern-style {
+  display: flex !important;
+  flex-direction: column !important;
+  background: rgba(15, 15, 35, 0.8) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(120, 119, 198, 0.2) !important;
+  border-radius: 16px !important;
+  padding: 1.5rem !important;
+  transition: all 0.3s ease !important;
+  position: relative !important;
+  overflow: hidden !important;
+  min-height: 300px !important;
+  max-height: 400px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.trick-card.modern-style:hover {
+  border-color: rgba(120, 119, 198, 0.4) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 32px rgba(120, 119, 198, 0.2) !important;
+}
+
+/* Card Content Layout */
+.trick-card.modern-style .trick-content {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  gap: 1rem !important;
+  flex: 1 !important;
+}
+
+/* Header Section */
+.trick-card.modern-style .trick-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: flex-start !important;
+  gap: 1rem !important;
+  flex-shrink: 0 !important;
+  min-height: 30px !important;
+}
+
+.trick-card.modern-style .trick-meta {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  font-size: 0.75rem !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  flex-wrap: wrap !important;
+  flex: 1 !important;
+}
+
+.trick-card.modern-style .country-flag {
+  font-size: 1rem !important;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3)) !important;
+}
+
+.trick-card.modern-style .subreddit {
+  color: #78dbff !important;
+  font-weight: 600 !important;
+}
+
+.trick-card.modern-style .author, 
+.trick-card.modern-style .time {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.trick-card.modern-style .difficulty-badge {
+  padding: 0.25rem 0.75rem !important;
+  border-radius: 12px !important;
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  flex-shrink: 0 !important;
+}
+
+.trick-card.modern-style .difficulty-badge.easy {
+  background: rgba(34, 197, 94, 0.2) !important;
+  color: #22c55e !important;
+  border: 1px solid rgba(34, 197, 94, 0.3) !important;
+}
+
+.trick-card.modern-style .difficulty-badge.medium {
+  background: rgba(251, 191, 36, 0.2) !important;
+  color: #fbbf24 !important;
+  border: 1px solid rgba(251, 191, 36, 0.3) !important;
+}
+
+.trick-card.modern-style .difficulty-badge.hard {
+  background: rgba(239, 68, 68, 0.2) !important;
+  color: #ef4444 !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+}
+
+/* Title Section */
+.trick-card.modern-style .trick-title {
+  font-size: 1.125rem !important;
+  font-weight: 700 !important;
+  color: white !important;
+  line-height: 1.4 !important;
+  margin: 0 !important;
+  text-decoration: none !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  flex-shrink: 0 !important;
+  min-height: 3.2rem !important;
+  max-height: 3.2rem !important;
+}
+
+.trick-card.modern-style .trick-link {
+  text-decoration: none !important;
+  color: inherit !important;
+  flex-shrink: 0 !important;
+}
+
+.trick-card.modern-style .trick-link:hover .trick-title {
+  color: #78dbff !important;
+  transition: color 0.2s ease !important;
+}
+
+/* Description Section */
+.trick-card.modern-style .trick-description {
+  font-size: 0.875rem !important;
+  line-height: 1.5 !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 3 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  flex: 1 !important;
+  min-height: 4rem !important;
+  max-height: 4rem !important;
+}
+
+/* Tags Section */
+.trick-card.modern-style .trick-tags {
+  display: flex !important;
+  gap: 0.5rem !important;
+  flex-wrap: wrap !important;
+  flex-shrink: 0 !important;
+  min-height: 1.5rem !important;
+  max-height: 3rem !important;
+  overflow: hidden !important;
+}
+
+.trick-card.modern-style .tag {
+  background: rgba(120, 119, 198, 0.2) !important;
+  color: #7877c6 !important;
+  padding: 0.25rem 0.75rem !important;
+  border-radius: 12px !important;
+  font-size: 0.7rem !important;
+  font-weight: 500 !important;
+  border: 1px solid rgba(120, 119, 198, 0.3) !important;
+  transition: all 0.2s ease !important;
+  white-space: nowrap !important;
+}
+
+.trick-card.modern-style .tag:hover {
+  background: rgba(120, 119, 198, 0.3) !important;
+  color: white !important;
+}
+
+/* Actions Section - FIXED */
+.trick-card.modern-style .trick-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 1rem !important;
+  margin-top: auto !important;
+  padding-top: 1rem !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+  flex-shrink: 0 !important;
+  min-height: 3rem !important;
+  max-height: 3rem !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Action Buttons - Clean Styling */
+.trick-card.modern-style .action-btn {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  padding: 0.5rem 1rem !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 20px !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  text-decoration: none !important;
+  font-size: 0.8rem !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  white-space: nowrap !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+.trick-card.modern-style .action-btn:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+  transform: translateY(-1px) !important;
+}
+
+.trick-card.modern-style .action-btn.comments:hover {
+  background: rgba(120, 219, 255, 0.2) !important;
+  border-color: rgba(120, 219, 255, 0.3) !important;
+  color: #78dbff !important;
+}
+
+.trick-card.modern-style .action-btn.share:hover {
+  background: rgba(255, 119, 198, 0.2) !important;
+  border-color: rgba(255, 119, 198, 0.3) !important;
+  color: #ff77c6 !important;
+}
+
+.trick-card.modern-style .action-btn.save:hover {
+  background: rgba(120, 119, 198, 0.2) !important;
+  border-color: rgba(120, 119, 198, 0.3) !important;
+  color: #7877c6 !important;
+}
+
+/* Kudos Button Integration */
+.trick-card.modern-style .kudos-button-container {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+.trick-card.modern-style .kudos-btn {
+  background: rgba(255, 119, 198, 0.1) !important;
+  border: 1px solid rgba(255, 119, 198, 0.3) !important;
+  color: #ff77c6 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  padding: 0.5rem 1rem !important;
+  border-radius: 20px !important;
+  font-size: 0.8rem !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  white-space: nowrap !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.trick-card.modern-style .kudos-btn.active {
+  background: linear-gradient(135deg, #ff77c6, #7877c6) !important;
+  border-color: #ff77c6 !important;
+  color: white !important;
+  box-shadow: 0 4px 16px rgba(255, 119, 198, 0.3) !important;
+}
+
+.trick-card.modern-style .kudos-btn:hover {
+  background: rgba(255, 119, 198, 0.2) !important;
+  border-color: rgba(255, 119, 198, 0.4) !important;
+  transform: translateY(-1px) !important;
+}
+
+.trick-card.modern-style .kudos-btn.active:hover {
+  background: linear-gradient(135deg, #ff88d4, #8988d4) !important;
+  box-shadow: 0 6px 20px rgba(255, 119, 198, 0.4) !important;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .trick-card.modern-style {
+    padding: 1rem !important;
+    min-height: 280px !important;
+    max-height: 350px !important;
+  }
+
+  .trick-card.modern-style .trick-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.5rem !important;
+    min-height: 50px !important;
+  }
+
+  .trick-card.modern-style .trick-meta {
+    font-size: 0.7rem !important;
+  }
+
+  .trick-card.modern-style .trick-title {
+    font-size: 1rem !important;
+    min-height: 2.8rem !important;
+    max-height: 2.8rem !important;
+  }
+
+  .trick-card.modern-style .trick-description {
+    min-height: 3.6rem !important;
+    max-height: 3.6rem !important;
+  }
+
+  .trick-card.modern-style .trick-actions {
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+    min-height: 2.5rem !important;
+    max-height: 4rem !important;
+  }
+
+  .trick-card.modern-style .action-btn {
+    padding: 0.4rem 0.8rem !important;
+    font-size: 0.75rem !important;
+  }
+}
+
+/* Compact View Override */
+.tricks-grid.compact-view .trick-card.modern-style {
+  min-height: 200px !important;
+  max-height: 250px !important;
+  padding: 1rem !important;
+}
+
+.tricks-grid.compact-view .trick-card.modern-style .trick-description {
+  -webkit-line-clamp: 2 !important;
+  min-height: 2.8rem !important;
+  max-height: 2.8rem !important;
+}
+
+.tricks-grid.compact-view .trick-card.modern-style .trick-actions {
+  min-height: 2.5rem !important;
+  max-height: 2.5rem !important;
+}

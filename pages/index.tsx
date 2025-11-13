@@ -680,31 +680,7 @@ function HomeContent() {
                         ))}
                       </div>
 
-                      <div className="trick-actions" style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '1rem',
-                        marginTop: 'auto',
-                        paddingTop: '1rem',
-                        borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-                        minHeight: '60px',
-                        visibility: 'visible',
-                        opacity: 1,
-                        width: '100%',
-                        boxSizing: 'border-box',
-                        position: 'relative',
-                        zIndex: 9999,
-                        background: 'rgba(255, 0, 0, 0.8)', // FORCE RED
-                        border: '3px solid yellow', // FORCE YELLOW
-                        padding: '20px'
-                      } as React.CSSProperties}>
-                        <span style={{
-                          background: 'blue',
-                          color: 'white',
-                          padding: '10px',
-                          fontSize: '16px',
-                          fontWeight: 'bold'
-                        }}>BUTTONS: {new Date().getTime()}</span>
+                      <div className="trick-actions">
                         <KudosButton
                           key={`kudos-${trick.id}-${userKudos[trick.id] ? 'liked' : 'not-liked'}`}
                           trickId={trick.id}
@@ -713,61 +689,13 @@ function HomeContent() {
                           onKudosToggle={handleKudosToggle}
                           disabled={!user}
                         />
-                        <Link href={`/trick/${trick.id}`} className="action-btn comments" style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.25rem',
-                          padding: '15px 20px',
-                          background: 'green',
-                          border: '3px solid blue',
-                          borderRadius: '20px',
-                          color: 'white',
-                          textDecoration: 'none',
-                          fontSize: '16px',
-                          fontWeight: 'bold',
-                          minWidth: '100px',
-                          minHeight: '50px',
-                          zIndex: 10000,
-                          position: 'relative'
-                        } as React.CSSProperties}>
+                        <Link href={`/trick/${trick.id}`} className="action-btn comments">
                           💬 {trick.comments || 0}
                         </Link>
-                        <button className="action-btn share" style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.25rem',
-                          padding: '15px 20px',
-                          background: 'purple',
-                          border: '3px solid orange',
-                          borderRadius: '20px',
-                          color: 'white',
-                          fontSize: '16px',
-                          fontWeight: 'bold',
-                          cursor: 'pointer',
-                          minWidth: '100px',
-                          minHeight: '50px',
-                          zIndex: 10000,
-                          position: 'relative'
-                        } as React.CSSProperties}>
+                        <button className="action-btn share">
                           📤 Share
                         </button>
-                        <button className="action-btn save" style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.25rem',
-                          padding: '15px 20px',
-                          background: 'cyan',
-                          border: '3px solid magenta',
-                          borderRadius: '20px',
-                          color: 'black',
-                          fontSize: '16px',
-                          fontWeight: 'bold',
-                          cursor: 'pointer',
-                          minWidth: '100px',
-                          minHeight: '50px',
-                          zIndex: 10000,
-                          position: 'relative'
-                        } as React.CSSProperties}>
+                        <button className="action-btn save">
                           🔖 Save
                         </button>
                       </div>
@@ -2030,10 +1958,7 @@ function HomeContent() {
           transition: all 0.3s ease;
           position: relative;
           overflow: hidden;
-          min-height: 280px !important;
-          max-height: 280px !important;
-          height: 280px !important;
-          width: 100% !important;
+          width: 100%;
           display: block;
         }
 
@@ -2041,51 +1966,39 @@ function HomeContent() {
           display: flex;
           flex-direction: column;
           gap: 1rem;
-          height: 248px;
+          height: 100%;
         }
 
         .tricks-grid .trick-card.modern-style .trick-actions {
-          display: flex !important;
-          align-items: center !important;
-          gap: 1rem !important;
+          display: flex;
+          align-items: center;
+          gap: 1rem;
           margin-top: auto;
           padding-top: 1rem;
           border-top: 1px solid rgba(255, 255, 255, 0.1);
+          flex-shrink: 0;
           min-height: 3rem;
-          visibility: visible !important;
-          opacity: 1 !important;
-          z-index: 2 !important;
-          position: relative !important;
-          width: 100% !important;
-          box-sizing: border-box !important;
-          overflow: hidden !important;
         }
 
         .tricks-grid .trick-card.modern-style .action-btn {
-          display: flex !important;
-          align-items: center !important;
-          gap: 0.5rem !important;
-          padding: 0.5rem 1rem !important;
-          background: rgba(255, 255, 255, 0.05) !important;
-          border: 1px solid rgba(255, 255, 255, 0.1) !important;
-          border-radius: 20px !important;
-          color: rgba(255, 255, 255, 0.8) !important;
-          text-decoration: none !important;
-          font-size: 0.8rem !important;
-          cursor: pointer !important;
-          visibility: visible !important;
-          opacity: 1 !important;
-          z-index: 3 !important;
-          position: relative !important;
-          transform: none !important;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.5rem 1rem;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 20px;
+          color: rgba(255, 255, 255, 0.8);
+          text-decoration: none;
+          font-size: 0.8rem;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          white-space: nowrap;
         }
 
         .tricks-grid .trick-card.modern-style .kudos-button-container {
-          display: block !important;
-          visibility: visible !important;
-          opacity: 1 !important;
-          z-index: 3 !important;
-          position: relative !important;
+          display: flex;
+          margin-right: auto;
         }
 
         .trick-card.modern-style .trick-header {
