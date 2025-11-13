@@ -1,103 +1,68 @@
-/* Right Sidebar Redesign - Modern & Engaging */
+/* Simplified Right Sidebar - Clean Design */
 
 .right-sidebar .expandable-section {
-  background: linear-gradient(135deg, rgba(15, 15, 35, 0.95), rgba(25, 25, 45, 0.9)) !important;
-  border: 1px solid rgba(120, 119, 198, 0.4) !important;
-  border-radius: 16px !important;
-  overflow: hidden !important;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
-  backdrop-filter: blur(20px) !important;
-  margin-bottom: 1rem !important;
+  background: rgba(15, 15, 35, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px !important;
+  margin-bottom: 1.5rem !important;
+  overflow: visible !important;
+  backdrop-filter: blur(10px) !important;
 }
 
 .right-sidebar .section-header {
-  background: linear-gradient(135deg, rgba(120, 119, 198, 0.8), rgba(255, 119, 198, 0.6)) !important;
-  padding: 0.75rem 1rem !important;
-  border-bottom: 1px solid rgba(120, 119, 198, 0.2) !important;
-  position: relative !important;
-  overflow: hidden !important;
-}
-
-.right-sidebar .section-header::before {
-  content: '' !important;
-  position: absolute !important;
-  top: 0 !important;
-  left: -100% !important;
-  width: 100% !important;
-  height: 100% !important;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent) !important;
-  animation: shimmer 3s infinite !important;
-}
-
-@keyframes shimmer {
-  0% { left: -100%; }
-  100% { left: 100%; }
+  background: rgba(120, 119, 198, 0.2) !important;
+  padding: 1rem !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px 12px 0 0 !important;
 }
 
 .right-sidebar .section-header .text-12 {
   font-size: 0.9rem !important;
-  font-weight: 700 !important;
+  font-weight: 600 !important;
   color: white !important;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
-  letter-spacing: 1px !important;
+  letter-spacing: 0.5px !important;
 }
 
 .right-sidebar .section-content {
-  padding: 0.75rem !important;
-}
-
-/* Top Tricks Cards */
-.top-trick-item {
-  background: linear-gradient(135deg, rgba(120, 119, 198, 0.1), rgba(255, 119, 198, 0.05)) !important;
-  border: 1px solid rgba(120, 119, 198, 0.3) !important;
-  border-radius: 12px !important;
-  padding: 0.75rem !important;
-  margin-bottom: 0.5rem !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  position: relative !important;
-  overflow: visible !important;
-  min-height: auto !important;
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: space-between !important;
   padding: 1rem !important;
 }
 
-.top-trick-item::before {
-  content: '' !important;
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  height: 2px !important;
-  background: linear-gradient(90deg, #ff77c6, #7877c6, #78dbff) !important;
+/* Top Tricks - Simplified */
+.top-trick-item {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 8px !important;
+  padding: 1rem !important;
+  margin-bottom: 0.75rem !important;
+  transition: all 0.2s ease !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.5rem !important;
 }
 
 .top-trick-item:hover {
-  transform: translateY(-4px) scale(1.02) !important;
-  border-color: rgba(120, 119, 198, 0.6) !important;
-  box-shadow: 0 12px 24px rgba(120, 119, 198, 0.3) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(120, 119, 198, 0.3) !important;
+  transform: translateY(-1px) !important;
 }
 
 .trick-rank {
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  margin-bottom: 0.5rem !important;
 }
 
 .rank-number {
-  background: linear-gradient(135deg, #ff77c6, #ff4da6) !important;
+  background: linear-gradient(135deg, #ff77c6, #7877c6) !important;
   color: white !important;
-  width: 28px !important;
-  height: 28px !important;
+  width: 24px !important;
+  height: 24px !important;
   border-radius: 50% !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  font-size: 0.8rem !important;
+  font-size: 0.75rem !important;
   font-weight: 700 !important;
-  box-shadow: 0 4px 12px rgba(255, 119, 198, 0.4) !important;
 }
 
 .trick-kudos {
@@ -110,16 +75,11 @@
 }
 
 .trick-mini-title {
-  font-size: 0.8rem !important;
+  font-size: 0.85rem !important;
   font-weight: 600 !important;
   color: white !important;
-  line-height: 1.1 !important;
-  margin-bottom: 0.25rem !important;
-  overflow: visible !important;
-  text-overflow: unset !important;
-  display: block !important;
-  word-wrap: break-word !important;
-  hyphens: auto !important;
+  line-height: 1.3 !important;
+  margin: 0 !important;
 }
 
 .trick-mini-meta {
@@ -130,58 +90,44 @@
   color: rgba(255, 255, 255, 0.7) !important;
 }
 
-/* Leaderboard Cards */
+/* Leaderboard - Simplified */
 .leaderboard-item {
-  background: linear-gradient(135deg, rgba(120, 219, 255, 0.1), rgba(120, 119, 198, 0.05)) !important;
-  border: 1px solid rgba(120, 219, 255, 0.3) !important;
-  border-radius: 12px !important;
-  padding: 0.75rem !important;
-  margin-bottom: 0.5rem !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  position: relative !important;
-  overflow: visible !important;
-  min-height: auto !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 8px !important;
+  padding: 1rem !important;
+  margin-bottom: 0.75rem !important;
+  transition: all 0.2s ease !important;
   display: flex !important;
   align-items: center !important;
   gap: 0.75rem !important;
 }
 
-.leaderboard-item::before {
-  content: '' !important;
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  height: 2px !important;
-  background: linear-gradient(90deg, #78dbff, #7877c6, #ff77c6) !important;
-}
-
 .leaderboard-item:hover {
-  transform: translateY(-4px) scale(1.02) !important;
-  border-color: rgba(120, 219, 255, 0.6) !important;
-  box-shadow: 0 12px 24px rgba(120, 219, 255, 0.3) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(120, 219, 255, 0.3) !important;
+  transform: translateY(-1px) !important;
 }
 
 .rank-badge {
   width: 28px !important;
   height: 28px !important;
+  border-radius: 50% !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  border-radius: 50% !important;
   font-size: 0.75rem !important;
   font-weight: 700 !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
   flex-shrink: 0 !important;
 }
 
 .rank-badge.rank-1 {
-  background: linear-gradient(135deg, #ffd700, #ffed4e) !important;
+  background: linear-gradient(135deg, gold, #ffed4e) !important;
   color: #92400e !important;
 }
 
 .rank-badge.rank-2 {
-  background: linear-gradient(135deg, #c0c0c0, #e5e7eb) !important;
+  background: linear-gradient(135deg, silver, #e5e7eb) !important;
   color: #374151 !important;
 }
 
@@ -198,32 +144,29 @@
 .user-name {
   font-weight: 600 !important;
   color: white !important;
-  font-size: 0.85rem !important;
-  margin-bottom: 0.2rem !important;
-  overflow: visible !important;
-  text-overflow: unset !important;
-  white-space: normal !important;
-  word-wrap: break-word !important;
+  font-size: 0.9rem !important;
+  margin-bottom: 0.25rem !important;
   line-height: 1.2 !important;
 }
 
 .user-stats {
   color: rgba(120, 219, 255, 0.8) !important;
-  font-size: 0.7rem !important;
+  font-size: 0.75rem !important;
   font-weight: 500 !important;
-  overflow: visible !important;
-  text-overflow: unset !important;
-  white-space: normal !important;
-  line-height: 1.1 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
 }
 
-/* Compact spacing */
-.right-sidebar {
-  padding: 1rem !important;
-  gap: 1rem !important;
+/* Remove all complex animations and effects */
+.right-sidebar .expandable-section::before,
+.right-sidebar .section-header::before,
+.top-trick-item::before,
+.leaderboard-item::before {
+  display: none !important;
 }
 
-/* Mobile responsive */
+/* Responsive */
 @media (max-width: 1400px) {
   .right-sidebar {
     display: none !important;
