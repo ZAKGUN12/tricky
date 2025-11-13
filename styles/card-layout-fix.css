@@ -21,9 +21,9 @@
   padding: 1.5rem !important;
   transition: all 0.3s ease !important;
   position: relative !important;
-  overflow: hidden !important;
-  min-height: 300px !important;
-  max-height: 400px !important;
+  overflow: visible !important;
+  min-height: 350px !important;
+  max-height: none !important;
   width: 100% !important;
   box-sizing: border-box !important;
 }
@@ -292,8 +292,8 @@
 @media (max-width: 768px) {
   .trick-card.modern-style {
     padding: 1rem !important;
-    min-height: 280px !important;
-    max-height: 350px !important;
+    min-height: 350px !important;
+    max-height: none !important;
   }
 
   .trick-card.modern-style .trick-header {
@@ -333,8 +333,8 @@
 
 /* Compact View Override */
 .tricks-grid.compact-view .trick-card.modern-style {
-  min-height: 200px !important;
-  max-height: 250px !important;
+  min-height: 280px !important;
+  max-height: none !important;
   padding: 1rem !important;
 }
 

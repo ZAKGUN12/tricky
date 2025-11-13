@@ -1859,9 +1859,9 @@ function HomeContent() {
           contain: layout style !important;
           z-index: 1 !important;
           /* FORCED fixed dimensions - override everything */
-          min-height: 280px !important;
-          max-height: 280px !important;
-          height: 280px !important;
+          min-height: 350px !important;
+          max-height: none !important;
+          height: auto !important;
           width: 100% !important;
           max-width: 100% !important;
           box-sizing: border-box !important;
@@ -2205,9 +2205,9 @@ function HomeContent() {
         @media (max-width: 768px) {
           .tricks-grid .trick-card.modern-style {
             padding: 1rem;
-            min-height: 240px !important;
-            max-height: 240px !important;
-            height: 240px !important;
+            min-height: 320px !important;
+            max-height: none !important;
+            height: auto !important;
             width: 100% !important;
           }
 
