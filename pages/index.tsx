@@ -687,12 +687,24 @@ function HomeContent() {
                         marginTop: 'auto',
                         paddingTop: '1rem',
                         borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-                        minHeight: '3rem',
+                        minHeight: '60px',
                         visibility: 'visible',
                         opacity: 1,
                         width: '100%',
-                        boxSizing: 'border-box'
-                      }}>
+                        boxSizing: 'border-box',
+                        position: 'relative',
+                        zIndex: 9999,
+                        background: 'rgba(255, 0, 0, 0.8)', // FORCE RED
+                        border: '3px solid yellow', // FORCE YELLOW
+                        padding: '20px'
+                      } as React.CSSProperties}>
+                        <span style={{
+                          background: 'blue',
+                          color: 'white',
+                          padding: '10px',
+                          fontSize: '16px',
+                          fontWeight: 'bold'
+                        }}>BUTTONS: {new Date().getTime()}</span>
                         <KudosButton
                           key={`kudos-${trick.id}-${userKudos[trick.id] ? 'liked' : 'not-liked'}`}
                           trickId={trick.id}
@@ -705,51 +717,57 @@ function HomeContent() {
                           display: 'flex',
                           alignItems: 'center',
                           gap: '0.25rem',
-                          padding: '0.5rem 0.75rem',
-                          background: 'rgba(255, 255, 255, 0.05)',
-                          border: '1px solid rgba(255, 255, 255, 0.2)',
+                          padding: '15px 20px',
+                          background: 'green',
+                          border: '3px solid blue',
                           borderRadius: '20px',
-                          color: 'rgba(255, 255, 255, 0.8)',
+                          color: 'white',
                           textDecoration: 'none',
-                          fontSize: '0.75rem',
-                          fontWeight: 500,
-                          transition: 'all 0.2s ease',
-                          backdropFilter: 'blur(10px)'
-                        }}>
+                          fontSize: '16px',
+                          fontWeight: 'bold',
+                          minWidth: '100px',
+                          minHeight: '50px',
+                          zIndex: 10000,
+                          position: 'relative'
+                        } as React.CSSProperties}>
                           💬 {trick.comments || 0}
                         </Link>
                         <button className="action-btn share" style={{
                           display: 'flex',
                           alignItems: 'center',
                           gap: '0.25rem',
-                          padding: '0.5rem 0.75rem',
-                          background: 'rgba(255, 255, 255, 0.05)',
-                          border: '1px solid rgba(255, 255, 255, 0.2)',
+                          padding: '15px 20px',
+                          background: 'purple',
+                          border: '3px solid orange',
                           borderRadius: '20px',
-                          color: 'rgba(255, 255, 255, 0.8)',
-                          fontSize: '0.75rem',
-                          fontWeight: 500,
+                          color: 'white',
+                          fontSize: '16px',
+                          fontWeight: 'bold',
                           cursor: 'pointer',
-                          transition: 'all 0.2s ease',
-                          backdropFilter: 'blur(10px)'
-                        }}>
+                          minWidth: '100px',
+                          minHeight: '50px',
+                          zIndex: 10000,
+                          position: 'relative'
+                        } as React.CSSProperties}>
                           📤 Share
                         </button>
                         <button className="action-btn save" style={{
                           display: 'flex',
                           alignItems: 'center',
                           gap: '0.25rem',
-                          padding: '0.5rem 0.75rem',
-                          background: 'rgba(255, 255, 255, 0.05)',
-                          border: '1px solid rgba(255, 255, 255, 0.2)',
+                          padding: '15px 20px',
+                          background: 'cyan',
+                          border: '3px solid magenta',
                           borderRadius: '20px',
-                          color: 'rgba(255, 255, 255, 0.8)',
-                          fontSize: '0.75rem',
-                          fontWeight: 500,
+                          color: 'black',
+                          fontSize: '16px',
+                          fontWeight: 'bold',
                           cursor: 'pointer',
-                          transition: 'all 0.2s ease',
-                          backdropFilter: 'blur(10px)'
-                        }}>
+                          minWidth: '100px',
+                          minHeight: '50px',
+                          zIndex: 10000,
+                          position: 'relative'
+                        } as React.CSSProperties}>
                           🔖 Save
                         </button>
                       </div>
