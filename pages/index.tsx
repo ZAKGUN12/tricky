@@ -690,9 +690,6 @@ function HomeContent() {
                         minHeight: '3rem',
                         visibility: 'visible',
                         opacity: 1,
-                        background: 'red',
-                        border: '2px solid yellow',
-                        padding: '1rem',
                         width: '100%',
                         boxSizing: 'border-box'
                       }}>
@@ -709,13 +706,15 @@ function HomeContent() {
                           alignItems: 'center',
                           gap: '0.25rem',
                           padding: '0.5rem 0.75rem',
-                          background: 'green',
-                          border: '2px solid blue',
+                          background: 'rgba(255, 255, 255, 0.05)',
+                          border: '1px solid rgba(255, 255, 255, 0.2)',
                           borderRadius: '20px',
-                          color: 'white',
+                          color: 'rgba(255, 255, 255, 0.8)',
                           textDecoration: 'none',
                           fontSize: '0.75rem',
-                          fontWeight: 500
+                          fontWeight: 500,
+                          transition: 'all 0.2s ease',
+                          backdropFilter: 'blur(10px)'
                         }}>
                           💬 {trick.comments || 0}
                         </Link>
@@ -724,13 +723,15 @@ function HomeContent() {
                           alignItems: 'center',
                           gap: '0.25rem',
                           padding: '0.5rem 0.75rem',
-                          background: 'purple',
-                          border: '2px solid orange',
+                          background: 'rgba(255, 255, 255, 0.05)',
+                          border: '1px solid rgba(255, 255, 255, 0.2)',
                           borderRadius: '20px',
-                          color: 'white',
+                          color: 'rgba(255, 255, 255, 0.8)',
                           fontSize: '0.75rem',
                           fontWeight: 500,
-                          cursor: 'pointer'
+                          cursor: 'pointer',
+                          transition: 'all 0.2s ease',
+                          backdropFilter: 'blur(10px)'
                         }}>
                           📤 Share
                         </button>
@@ -739,13 +740,15 @@ function HomeContent() {
                           alignItems: 'center',
                           gap: '0.25rem',
                           padding: '0.5rem 0.75rem',
-                          background: 'cyan',
-                          border: '2px solid magenta',
+                          background: 'rgba(255, 255, 255, 0.05)',
+                          border: '1px solid rgba(255, 255, 255, 0.2)',
                           borderRadius: '20px',
-                          color: 'black',
+                          color: 'rgba(255, 255, 255, 0.8)',
                           fontSize: '0.75rem',
                           fontWeight: 500,
-                          cursor: 'pointer'
+                          cursor: 'pointer',
+                          transition: 'all 0.2s ease',
+                          backdropFilter: 'blur(10px)'
                         }}>
                           🔖 Save
                         </button>
