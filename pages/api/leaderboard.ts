@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { ScanCommand, QueryCommand } from '@aws-sdk/lib-dynamodb';
+import { ScanCommand } from '@aws-sdk/lib-dynamodb';
 import { docClient, TABLES, handleDynamoError } from '../../lib/aws-config';
 
 // Simple in-memory cache for leaderboard
@@ -19,37 +19,61 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(200).json(leaderboardCache);
     }
 
-    console.log('Fetching fresh leaderboard from DynamoDB...');
+    console.log('Calculating leaderboard from tricks data...');
     
-    // Use scan with projection to minimize data transfer
-    const result = await docClient.send(new ScanCommand({
-      TableName: TABLES.USERS,
-      ProjectionExpression: 'email, score, tricksSubmitted, kudosReceived, updatedAt',
-      FilterExpression: 'attribute_exists(score) AND score > :minScore',
+    // Get all tricks to calculate user stats
+    const tricksResult = await docClient.send(new ScanCommand({
+      TableName: TABLES.TRICKS,
+      ProjectionExpression: 'authorName, authorEmail, kudos, #status',
+      FilterExpression: '#status = :status',
+      ExpressionAttributeNames: {
+        '#status': 'status'
+      },
       ExpressionAttributeValues: {
-        ':minScore': 0
+        ':status': 'approved'
       }
     }));
 
-    console.log('DynamoDB users response:', { itemCount: result.Items?.length || 0 });
+    console.log('DynamoDB tricks response:', { itemCount: tricksResult.Items?.length || 0 });
     
-    const users = (result.Items || [])
-      .filter(user => user.score > 0) // Only users with activity
+    // Calculate user statistics
+    const userStats = new Map();
+    
+    (tricksResult.Items || []).forEach(trick => {
+      const email = trick.authorEmail;
+      const name = trick.authorName;
+      const kudos = trick.kudos || 0;
+      
+      if (!userStats.has(email)) {
+        userStats.set(email, {
+          id: email,
+          name: name,
+          email: email,
+          totalKudos: 0,
+          totalTricks: 0
+        });
+      }
+      
+      const user = userStats.get(email);
+      user.totalKudos += kudos;
+      user.totalTricks += 1;
+    });
+
+    // Convert to array and sort by total score (kudos + tricks * 5)
+    const users = Array.from(userStats.values())
+      .map(user => ({
+        ...user,
+        totalScore: user.totalKudos + (user.totalTricks * 5) // Weight tricks more
+      }))
       .sort((a, b) => {
-        // Sort by score, then by tricks submitted, then by kudos received
-        if (b.score !== a.score) return (b.score || 0) - (a.score || 0);
-        if (b.tricksSubmitted !== a.tricksSubmitted) return (b.tricksSubmitted || 0) - (a.tricksSubmitted || 0);
-        return (b.kudosReceived || 0) - (a.kudosReceived || 0);
+        if (b.totalScore !== a.totalScore) return b.totalScore - a.totalScore;
+        if (b.totalKudos !== a.totalKudos) return b.totalKudos - a.totalKudos;
+        return b.totalTricks - a.totalTricks;
       })
       .slice(0, 10) // Top 10
       .map((user, index) => ({
-        rank: index + 1,
-        email: user.email,
-        username: user.email.split('@')[0],
-        score: user.score || 0,
-        tricksSubmitted: user.tricksSubmitted || 0,
-        kudosReceived: user.kudosReceived || 0,
-        lastActive: user.updatedAt || user.createdAt
+        ...user,
+        rank: index + 1
       }));
 
     // Cache the result

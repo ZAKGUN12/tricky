@@ -6,12 +6,14 @@ interface LeaderboardUser {
   email: string;
   totalKudos: number;
   totalTricks: number;
+  totalScore: number;
   rank: number;
 }
 
 export default function Leaderboard() {
   const [leaders, setLeaders] = useState<LeaderboardUser[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetchLeaderboard();
@@ -19,13 +21,17 @@ export default function Leaderboard() {
 
   const fetchLeaderboard = async () => {
     try {
+      setError(null);
       const response = await fetch('/api/leaderboard');
       if (response.ok) {
         const data = await response.json();
         setLeaders(Array.isArray(data) ? data : []);
+      } else {
+        throw new Error('Failed to fetch leaderboard');
       }
     } catch (error) {
       console.error('Error fetching leaderboard:', error);
+      setError('Failed to load leaderboard');
       setLeaders([]);
     } finally {
       setLoading(false);
@@ -44,14 +50,19 @@ export default function Leaderboard() {
     );
   }
 
-  // Fallback leaders if API fails
-  const fallbackLeaders = [
-    { id: '1', name: 'TrickMaster', totalKudos: 156, totalTricks: 12, rank: 1 },
-    { id: '2', name: 'LifeHacker', totalKudos: 134, totalTricks: 8, rank: 2 },
-    { id: '3', name: 'SmartTips', totalKudos: 98, totalTricks: 15, rank: 3 },
-  ];
-
-  const displayLeaders = leaders.length > 0 ? leaders : fallbackLeaders;
+  if (error || leaders.length === 0) {
+    return (
+      <div className="sidebar-section">
+        <div className="sidebar-header">
+          <div className="header-icon">👑</div>
+          <h3>Top Contributors</h3>
+        </div>
+        <div className="no-data">
+          {error ? error : 'No contributors yet'}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="sidebar-section">
@@ -60,9 +71,9 @@ export default function Leaderboard() {
         <h3>Top Contributors</h3>
       </div>
       <div className="leaderboard-list">
-        {displayLeaders.slice(0, 3).map((user, index) => (
+        {leaders.slice(0, 3).map((user) => (
           <div key={user.id} className="leader-item">
-            <div className="leader-rank">#{index + 1}</div>
+            <div className={`leader-rank rank-${user.rank}`}>#{user.rank}</div>
             <div className="leader-info">
               <div className="leader-name">{user.name}</div>
               <div className="leader-stats">
@@ -101,7 +112,6 @@ export default function Leaderboard() {
         }
         
         .leader-rank {
-          background: linear-gradient(135deg, #78dbff, #4fc3f7);
           color: #ffffff;
           width: 32px;
           height: 32px;
@@ -112,7 +122,22 @@ export default function Leaderboard() {
           font-weight: 700;
           font-size: 0.9rem;
           flex-shrink: 0;
-          box-shadow: 0 2px 8px rgba(120, 219, 255, 0.4);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .leader-rank.rank-1 {
+          background: linear-gradient(135deg, gold, #ffed4e);
+          color: #92400e;
+        }
+        
+        .leader-rank.rank-2 {
+          background: linear-gradient(135deg, silver, #e5e7eb);
+          color: #374151;
+        }
+        
+        .leader-rank.rank-3 {
+          background: linear-gradient(135deg, #cd7f32, #d97706);
+          color: #ffffff;
         }
         
         .leader-info {
@@ -140,6 +165,13 @@ export default function Leaderboard() {
         .stat {
           color: rgba(255, 255, 255, 0.8);
           font-weight: 500;
+        }
+        
+        .loading, .no-data {
+          padding: 1rem;
+          text-align: center;
+          color: rgba(255, 255, 255, 0.7);
+          font-size: 0.9rem;
         }
         
         .leader-item:focus {
