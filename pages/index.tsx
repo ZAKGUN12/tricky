@@ -680,7 +680,22 @@ function HomeContent() {
                         ))}
                       </div>
 
-                      <div className="trick-actions">
+                      <div className="trick-actions" style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '1rem',
+                        marginTop: 'auto',
+                        paddingTop: '1rem',
+                        borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+                        minHeight: '3rem',
+                        visibility: 'visible',
+                        opacity: 1,
+                        background: 'red',
+                        border: '2px solid yellow',
+                        padding: '1rem',
+                        width: '100%',
+                        boxSizing: 'border-box'
+                      }}>
                         <KudosButton
                           key={`kudos-${trick.id}-${userKudos[trick.id] ? 'liked' : 'not-liked'}`}
                           trickId={trick.id}
@@ -689,13 +704,49 @@ function HomeContent() {
                           onKudosToggle={handleKudosToggle}
                           disabled={!user}
                         />
-                        <Link href={`/trick/${trick.id}`} className="action-btn comments">
+                        <Link href={`/trick/${trick.id}`} className="action-btn comments" style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.25rem',
+                          padding: '0.5rem 0.75rem',
+                          background: 'green',
+                          border: '2px solid blue',
+                          borderRadius: '20px',
+                          color: 'white',
+                          textDecoration: 'none',
+                          fontSize: '0.75rem',
+                          fontWeight: 500
+                        }}>
                           💬 {trick.comments || 0}
                         </Link>
-                        <button className="action-btn share">
+                        <button className="action-btn share" style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.25rem',
+                          padding: '0.5rem 0.75rem',
+                          background: 'purple',
+                          border: '2px solid orange',
+                          borderRadius: '20px',
+                          color: 'white',
+                          fontSize: '0.75rem',
+                          fontWeight: 500,
+                          cursor: 'pointer'
+                        }}>
                           📤 Share
                         </button>
-                        <button className="action-btn save">
+                        <button className="action-btn save" style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.25rem',
+                          padding: '0.5rem 0.75rem',
+                          background: 'cyan',
+                          border: '2px solid magenta',
+                          borderRadius: '20px',
+                          color: 'black',
+                          fontSize: '0.75rem',
+                          fontWeight: 500,
+                          cursor: 'pointer'
+                        }}>
                           🔖 Save
                         </button>
                       </div>
