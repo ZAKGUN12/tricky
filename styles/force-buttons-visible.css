@@ -1,0 +1,74 @@
+/* FORCE BUTTONS VISIBLE - MAXIMUM SPECIFICITY */
+
+/* Override ALL possible CSS conflicts */
+div.trick-card.modern-style div.trick-actions,
+.trick-card.modern-style .trick-actions,
+.tricks-grid .trick-card.modern-style .trick-actions {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+  z-index: 999999 !important;
+  background: rgba(255, 0, 0, 0.3) !important;
+  border: 2px solid yellow !important;
+  padding: 1rem !important;
+  margin-top: 1rem !important;
+  width: 100% !important;
+  min-height: 60px !important;
+  box-sizing: border-box !important;
+  align-items: center !important;
+  gap: 1rem !important;
+  flex-wrap: wrap !important;
+}
+
+/* Force all action buttons visible */
+div.trick-card.modern-style div.trick-actions > *,
+div.trick-card.modern-style div.trick-actions .action-btn,
+div.trick-card.modern-style div.trick-actions .kudos-button-container,
+div.trick-card.modern-style div.trick-actions button,
+div.trick-card.modern-style div.trick-actions a,
+.trick-card.modern-style .trick-actions > *,
+.trick-card.modern-style .trick-actions .action-btn,
+.trick-card.modern-style .trick-actions .kudos-button-container,
+.trick-card.modern-style .trick-actions button,
+.trick-card.modern-style .trick-actions a {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+  z-index: 1000000 !important;
+  background: rgba(0, 255, 0, 0.8) !important;
+  color: white !important;
+  border: 2px solid blue !important;
+  padding: 0.75rem 1rem !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+  font-weight: bold !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+  min-width: 80px !important;
+  min-height: 40px !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem !important;
+}
+
+/* Force kudos button specifically */
+div.trick-card.modern-style div.trick-actions .kudos-btn,
+.trick-card.modern-style .trick-actions .kudos-btn {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  background: rgba(255, 0, 255, 0.8) !important;
+  color: white !important;
+  border: 2px solid cyan !important;
+  z-index: 1000001 !important;
+}
+
+/* Override any transform or positioning issues */
+div.trick-card.modern-style div.trick-actions > *:hover,
+.trick-card.modern-style .trick-actions > *:hover {
+  transform: scale(1.05) !important;
+  background: rgba(255, 255, 0, 0.9) !important;
+  color: black !important;
+}
