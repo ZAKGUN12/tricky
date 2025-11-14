@@ -527,7 +527,7 @@ function HomeContent() {
                   <Link href="/" className="flex justify-between relative px-md gap-[0.5rem] text-secondary hover:text-secondary-hover hover:bg-neutral-background-hover hover:no-underline cursor-pointer py-2xs -outline-offset-1 s:rounded-2 bg-transparent no-underline">
                     <span className="flex items-center gap-xs min-w-0 shrink">
                       <span className="flex shrink-0 items-center justify-center h-xl w-xl text-20 leading-4">
-                        🌍
+                        🌐
                       </span>
                       <span className="flex flex-col justify-center min-w-0 shrink py-[var(--rem6)]">
                         <span className="text-14">Global Network</span>
