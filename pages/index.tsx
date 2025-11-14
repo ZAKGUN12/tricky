@@ -530,7 +530,7 @@ function HomeContent() {
                         🌍
                       </span>
                       <span className="flex flex-col justify-center min-w-0 shrink py-[var(--rem6)]">
-                        <span className="text-14">🌍 Global Network</span>
+                        <span className="text-14">Global Network</span>
                       </span>
                     </span>
                   </Link>
