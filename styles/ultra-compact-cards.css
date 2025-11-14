@@ -1,0 +1,174 @@
+/* Ultra-Compact Reddit Cards - Maximum Space Efficiency */
+
+.tricks-grid .trick-card.modern-style {
+  background: rgba(26, 26, 46, 0.95) !important;
+  border: 1px solid rgba(75, 85, 99, 0.3) !important;
+  border-radius: 4px !important;
+  padding: 8px 12px !important;
+  margin-bottom: 4px !important;
+  
+  /* Ultra-compact sizing */
+  min-height: 80px !important;
+  max-height: 80px !important;
+  height: 80px !important;
+  width: 100% !important;
+  
+  /* Remove all effects */
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  transition: background-color 0.1s ease !important;
+}
+
+.tricks-grid .trick-card.modern-style:hover {
+  background: rgba(30, 30, 50, 0.98) !important;
+  border-color: rgba(129, 140, 248, 0.4) !important;
+}
+
+/* Single-line layout */
+.trick-card.modern-style .trick-content {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 12px !important;
+  height: 64px !important;
+  padding: 0 !important;
+}
+
+/* Left section - voting */
+.trick-card.modern-style .trick-voting {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  width: 40px !important;
+  flex-shrink: 0 !important;
+}
+
+/* Main content - single line */
+.trick-card.modern-style .trick-main {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  min-width: 0 !important;
+  height: 64px !important;
+}
+
+/* Compact meta - single line */
+.trick-card.modern-style .trick-meta {
+  font-size: 10px !important;
+  color: rgba(156, 163, 175, 0.7) !important;
+  margin: 0 0 2px 0 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* Single line title */
+.trick-card.modern-style .trick-title {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+  margin: 0 0 2px 0 !important;
+  color: rgba(255, 255, 255, 0.95) !important;
+  
+  /* Single line only */
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* Single line description */
+.trick-card.modern-style .trick-description {
+  font-size: 11px !important;
+  line-height: 1.2 !important;
+  color: rgba(209, 213, 219, 0.7) !important;
+  margin: 0 !important;
+  
+  /* Single line only */
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* Hide elements that take space */
+.trick-card.modern-style .trick-header,
+.trick-card.modern-style .trick-tags,
+.trick-card.modern-style .trick-actions {
+  display: none !important;
+}
+
+/* Compact voting buttons */
+.trick-card.modern-style .kudos-button-container {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 2px !important;
+}
+
+.trick-card.modern-style .kudos-btn {
+  background: none !important;
+  border: none !important;
+  color: rgba(156, 163, 175, 0.8) !important;
+  padding: 2px !important;
+  font-size: 16px !important;
+  cursor: pointer !important;
+  border-radius: 2px !important;
+}
+
+.trick-card.modern-style .kudos-btn:hover {
+  color: rgba(239, 68, 68, 0.9) !important;
+  background: rgba(239, 68, 68, 0.1) !important;
+}
+
+.trick-card.modern-style .kudos-btn.active {
+  color: rgba(239, 68, 68, 1) !important;
+}
+
+/* Right section - minimal actions */
+.trick-card.modern-style .trick-right {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  flex-shrink: 0 !important;
+}
+
+.trick-card.modern-style .comments-count {
+  font-size: 10px !important;
+  color: rgba(156, 163, 175, 0.7) !important;
+  padding: 2px 6px !important;
+  background: rgba(75, 85, 99, 0.3) !important;
+  border-radius: 3px !important;
+  white-space: nowrap !important;
+}
+
+/* Mobile - even more compact */
+@media (max-width: 768px) {
+  .tricks-grid .trick-card.modern-style {
+    min-height: 70px !important;
+    max-height: 70px !important;
+    height: 70px !important;
+    padding: 6px 10px !important;
+  }
+  
+  .trick-card.modern-style .trick-content {
+    height: 58px !important;
+    gap: 8px !important;
+  }
+  
+  .trick-card.modern-style .trick-voting {
+    width: 35px !important;
+  }
+  
+  .trick-card.modern-style .trick-title {
+    font-size: 12px !important;
+  }
+  
+  .trick-card.modern-style .trick-description {
+    font-size: 10px !important;
+  }
+}
+
+/* Grid spacing */
+.tricks-grid {
+  gap: 2px !important;
+}
