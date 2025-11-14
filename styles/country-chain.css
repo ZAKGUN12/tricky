@@ -88,12 +88,6 @@ body .chain-header {
   gap: 0.5rem;
 }
 
-.chain-title::before {
-  content: '🌍';
-  font-size: 1.6rem;
-  animation: float 3s ease-in-out infinite;
-}
-
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-3px); }
@@ -383,10 +377,6 @@ body .chain-track {
   
   .chain-title {
     font-size: 1.1rem;
-  }
-  
-  .chain-title::before {
-    font-size: 1.3rem;
   }
   
   .calendar-number, .tricks-number {
