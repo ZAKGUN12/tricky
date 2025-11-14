@@ -9,10 +9,10 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(75, 85, 99, 0.3);
+  border: 1px solid rgba(75, 85, 99, 0.4);
   border-radius: 1.5rem;
-  color: white;
+  color: rgba(209, 213, 219, 0.8);
   cursor: pointer;
   transition: all 0.2s ease;
   backdrop-filter: blur(10px);
@@ -22,20 +22,22 @@
 }
 
 .kudos-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(75, 85, 99, 0.5);
+  border-color: rgba(75, 85, 99, 0.6);
+  color: rgba(255, 255, 255, 0.9);
   transform: translateY(-1px);
 }
 
 .kudos-btn.active {
-  background: linear-gradient(135deg, #ff77c6 0%, #7877c6 100%);
-  border-color: #ff77c6;
-  box-shadow: 0 4px 16px rgba(255, 119, 198, 0.3);
+  background: rgba(239, 68, 68, 0.9);
+  border-color: rgba(239, 68, 68, 1);
+  color: white;
+  box-shadow: none;
 }
 
 .kudos-btn.active:hover {
-  background: linear-gradient(135deg, #ff88d4 0%, #8988d4 100%);
-  box-shadow: 0 6px 20px rgba(255, 119, 198, 0.4);
+  background: rgba(220, 38, 38, 0.9);
+  box-shadow: none;
 }
 
 .kudos-btn.loading {
