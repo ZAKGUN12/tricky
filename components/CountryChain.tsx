@@ -82,7 +82,7 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
           backdrop-filter: blur(10px) !important;
         }
         
-        .chain-header.compact {
+        .country-chain-wrapper.compact .chain-header.compact {
           display: flex !important;
           justify-content: space-between !important;
           align-items: center !important;
@@ -90,52 +90,52 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
           padding: 0 !important;
         }
         
-        .header-left .chain-title {
+        .country-chain-wrapper.compact .header-left .chain-title {
           font-size: 1rem !important;
           font-weight: 600 !important;
           color: white !important;
           margin: 0 !important;
         }
         
-        .counters-compact {
+        .country-chain-wrapper.compact .counters-compact {
           display: flex !important;
           align-items: center !important;
           gap: 0.5rem !important;
           font-size: 0.8rem !important;
         }
         
-        .counter-item {
+        .country-chain-wrapper.compact .counter-item {
           display: flex !important;
           align-items: center !important;
           gap: 0.25rem !important;
         }
         
-        .counter-number {
+        .country-chain-wrapper.compact .counter-number {
           color: #78dbff !important;
           font-weight: 700 !important;
         }
         
-        .counter-label {
+        .country-chain-wrapper.compact .counter-label {
           color: rgba(255, 255, 255, 0.7) !important;
           font-size: 0.75rem !important;
         }
         
-        .counter-divider {
+        .country-chain-wrapper.compact .counter-divider {
           color: rgba(255, 255, 255, 0.5) !important;
         }
         
-        .chain-container.compact {
+        .country-chain-wrapper.compact .chain-container.compact {
           padding: 0 !important;
         }
         
-        .chain-track.compact {
+        .country-chain-wrapper.compact .chain-track.compact {
           display: flex !important;
           flex-wrap: wrap !important;
           gap: 0.5rem !important;
           align-items: center !important;
         }
         
-        .country-link.compact {
+        .country-chain-wrapper.compact .country-link.compact {
           display: flex !important;
           align-items: center !important;
           gap: 0.5rem !important;
@@ -150,26 +150,26 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
           white-space: nowrap !important;
         }
         
-        .country-link.compact:hover {
+        .country-chain-wrapper.compact .country-link.compact:hover {
           background: rgba(255, 255, 255, 0.1) !important;
           border-color: rgba(120, 119, 198, 0.3) !important;
           transform: translateY(-1px) !important;
         }
         
-        .country-link.compact.active {
+        .country-chain-wrapper.compact .country-link.compact.active {
           background: rgba(120, 119, 198, 0.3) !important;
           border-color: rgba(120, 119, 198, 0.5) !important;
         }
         
-        .country-flag {
+        .country-chain-wrapper.compact .country-flag {
           font-size: 1rem !important;
         }
         
-        .country-name {
+        .country-chain-wrapper.compact .country-name {
           font-weight: 500 !important;
         }
         
-        .trick-count {
+        .country-chain-wrapper.compact .trick-count {
           background: rgba(120, 119, 198, 0.3) !important;
           color: #78dbff !important;
           padding: 0.125rem 0.375rem !important;
@@ -178,7 +178,7 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
           font-weight: 600 !important;
         }
         
-        .clear-filter-btn {
+        .country-chain-wrapper.compact .clear-filter-btn {
           background: rgba(255, 119, 198, 0.2) !important;
           border: 1px solid rgba(255, 119, 198, 0.3) !important;
           color: #ff77c6 !important;
@@ -189,12 +189,12 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
           transition: all 0.2s ease !important;
         }
         
-        .clear-filter-btn:hover {
+        .country-chain-wrapper.compact .clear-filter-btn:hover {
           background: rgba(255, 119, 198, 0.3) !important;
           transform: translateY(-1px) !important;
         }
         
-        .loading-message {
+        .country-chain-wrapper.compact .loading-message {
           color: rgba(255, 255, 255, 0.7) !important;
           font-size: 0.9rem !important;
           padding: 1rem !important;
@@ -202,17 +202,17 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
         }
         
         @media (max-width: 768px) {
-          .chain-header.compact {
+          .country-chain-wrapper.compact .chain-header.compact {
             flex-direction: column !important;
             align-items: flex-start !important;
             gap: 0.5rem !important;
           }
           
-          .counters-compact {
+          .country-chain-wrapper.compact .counters-compact {
             font-size: 0.75rem !important;
           }
           
-          .country-link.compact {
+          .country-chain-wrapper.compact .country-link.compact {
             font-size: 0.75rem !important;
             padding: 0.4rem 0.6rem !important;
           }
