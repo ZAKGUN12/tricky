@@ -7,6 +7,7 @@ import '../styles/country-chain.css';
 import '../styles/global-network.css';
 import '../styles/card-layout-fix.css';
 import '../styles/force-buttons-visible.css';
+import '../styles/reddit-compact-cards.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
