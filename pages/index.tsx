@@ -370,7 +370,7 @@ function HomeContent() {
             <div className="header-content">
               <div className="header-center">
                 <div className="loading-header">
-                  🌍 TrickShare - Loading...
+                  ⏳ TrickShare - Loading...
                 </div>
               </div>
             </div>
@@ -774,7 +774,7 @@ function HomeContent() {
           <div className="create-modal-overlay" onClick={() => setShowCreateForm(false)}>
             <div className="create-modal" onClick={(e) => e.stopPropagation()}>
               <div className="modal-header">
-                <h3>🌍 Create New Trick</h3>
+                <h3>✨ Create New Trick</h3>
                 <button 
                   className="close-btn"
                   onClick={() => setShowCreateForm(false)}

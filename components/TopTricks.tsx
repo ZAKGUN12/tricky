@@ -57,7 +57,7 @@ export default function TopTricks() {
               <div className="trick-info">
                 <div className="trick-title">{trick.title}</div>
                 <div className="trick-meta">
-                  <span className="country-flag">{country?.flag || '🌍'}</span>
+                  <span className="country-flag">{country?.flag || '🏳️'}</span>
                   <span className="kudos">🔥 {trick.kudos}</span>
                 </div>
               </div>

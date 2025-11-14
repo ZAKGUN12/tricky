@@ -96,7 +96,7 @@ export default function SignIn() {
           
           <div className="signin-header">
             <h1 className="signin-title">
-              🌍 {showVerification ? 'Verify Email' : (isSignUp ? 'Join TrickShare' : 'Welcome Back')}
+              🚀 {showVerification ? 'Verify Email' : (isSignUp ? 'Join TrickShare' : 'Welcome Back')}
             </h1>
             <p className="signin-subtitle">
               {showVerification 

@@ -57,7 +57,7 @@ export default function CountryChain({ selectedCountry, onCountrySelect, tricks 
               </button>
             ))
           ) : (
-            <div className="loading-message">🌍 Loading...</div>
+            <div className="loading-message">⏳ Loading...</div>
           )}
           
           {selectedCountry && (
