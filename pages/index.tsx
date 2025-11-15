@@ -657,7 +657,10 @@ function HomeContent() {
                   <div key={trick.id} className="trick-card modern-style">
                     {/* Reddit-style voting section */}
                     <div className="trick-voting">
-                      <div className="vote-arrow upvote" onClick={() => handleKudosToggle(trick.id)}>
+                      <div 
+                        className={`vote-arrow upvote ${userKudos[trick.id] ? 'active' : ''}`}
+                        onClick={() => handleKudosToggle(trick.id)}
+                      >
                         ▲
                       </div>
                       <div className="vote-count">{trick.kudos}</div>
