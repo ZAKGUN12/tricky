@@ -655,17 +655,24 @@ function HomeContent() {
                 const country = countries.find(c => c.code === trick.countryCode);
                 return (
                   <div key={trick.id} className="trick-card modern-style">
+                    {/* Reddit-style voting section */}
+                    <div className="trick-voting">
+                      <div className="vote-arrow upvote" onClick={() => handleKudosToggle(trick.id)}>
+                        ▲
+                      </div>
+                      <div className="vote-count">{trick.kudos}</div>
+                      <div className="vote-arrow downvote">
+                        ▼
+                      </div>
+                    </div>
+                    
+                    {/* Main content */}
                     <div className="trick-content">
-                      <div className="trick-header">
-                        <div className="trick-meta">
-                          <span className="country-flag">{country?.flag}</span>
-                          <span className="subreddit">r/lifehacks</span>
-                          <span className="author">• Posted by u/{trick.authorName}</span>
-                          <span className="time">• {new Date(trick.createdAt).toLocaleDateString()}</span>
-                        </div>
-                        <span className={`difficulty-badge ${trick.difficulty}`}>
-                          {trick.difficulty}
-                        </span>
+                      <div className="trick-meta">
+                        <span className="country-flag">{country?.flag}</span>
+                        <span className="subreddit">r/lifehacks</span>
+                        <span className="author">• Posted by u/{trick.authorName}</span>
+                        <span className="time">• {new Date(trick.createdAt).toLocaleDateString()}</span>
                       </div>
                       
                       <Link href={`/trick/${trick.id}`} className="trick-link">
@@ -681,16 +688,8 @@ function HomeContent() {
                       </div>
 
                       <div className="trick-actions">
-                        <KudosButton
-                          key={`kudos-${trick.id}-${userKudos[trick.id] ? 'liked' : 'not-liked'}`}
-                          trickId={trick.id}
-                          kudosCount={trick.kudos}
-                          hasUserKudos={userKudos[trick.id] || false}
-                          onKudosToggle={handleKudosToggle}
-                          disabled={!user}
-                        />
                         <Link href={`/trick/${trick.id}`} className="action-btn comments">
-                          💬 {trick.comments || 0}
+                          💬 {trick.comments || 0} Comments
                         </Link>
                         <button className="action-btn share">
                           📤 Share

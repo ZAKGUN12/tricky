@@ -1,0 +1,252 @@
+/* True Reddit-Style Trick Cards */
+
+.tricks-grid .trick-card.modern-style {
+  background: rgba(26, 26, 46, 0.95) !important;
+  border: 1px solid rgba(129, 140, 248, 0.15) !important;
+  border-radius: 4px !important;
+  padding: 0 !important;
+  margin-bottom: 8px !important;
+  
+  /* Reddit post sizing */
+  min-height: 120px !important;
+  max-height: none !important;
+  height: auto !important;
+  width: 100% !important;
+  
+  display: flex !important;
+  flex-direction: row !important;
+  
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  transition: background-color 0.1s ease !important;
+}
+
+.tricks-grid .trick-card.modern-style:hover {
+  background: rgba(30, 30, 50, 0.98) !important;
+  border-color: rgba(129, 140, 248, 0.25) !important;
+}
+
+/* Left voting section - Reddit style */
+.trick-card.modern-style .trick-voting {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  width: 40px !important;
+  padding: 8px 4px !important;
+  background: rgba(20, 20, 35, 0.8) !important;
+  border-right: 1px solid rgba(75, 85, 99, 0.2) !important;
+  flex-shrink: 0 !important;
+}
+
+.trick-card.modern-style .vote-arrow {
+  width: 24px !important;
+  height: 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  border-radius: 2px !important;
+  transition: all 0.1s ease !important;
+  color: rgba(156, 163, 175, 0.6) !important;
+  font-size: 16px !important;
+  font-weight: bold !important;
+  user-select: none !important;
+}
+
+.trick-card.modern-style .vote-arrow:hover {
+  background: rgba(75, 85, 99, 0.3) !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.trick-card.modern-style .vote-arrow.upvote.active {
+  color: #ff4500 !important;
+}
+
+.trick-card.modern-style .vote-arrow.downvote.active {
+  color: #7193ff !important;
+}
+
+.trick-card.modern-style .vote-count {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  margin: 2px 0 !important;
+  text-align: center !important;
+  min-width: 20px !important;
+}
+
+/* Main content area */
+.trick-card.modern-style .trick-content {
+  flex: 1 !important;
+  padding: 8px 12px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  min-width: 0 !important;
+}
+
+/* Reddit-style meta line */
+.trick-card.modern-style .trick-meta {
+  font-size: 12px !important;
+  color: rgba(156, 163, 175, 0.7) !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  flex-wrap: wrap !important;
+}
+
+.trick-card.modern-style .subreddit {
+  color: rgba(129, 140, 248, 0.9) !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+}
+
+.trick-card.modern-style .author {
+  color: rgba(156, 163, 175, 0.8) !important;
+}
+
+.trick-card.modern-style .time {
+  color: rgba(156, 163, 175, 0.6) !important;
+}
+
+.trick-card.modern-style .country-flag {
+  font-size: 14px !important;
+}
+
+/* Title - Reddit style */
+.trick-card.modern-style .trick-title {
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  line-height: 1.3 !important;
+  margin: 0 !important;
+  color: rgba(255, 255, 255, 0.95) !important;
+  
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.trick-card.modern-style .trick-link {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+.trick-card.modern-style .trick-link:hover .trick-title {
+  color: rgba(129, 140, 248, 0.9) !important;
+}
+
+/* Description - compact */
+.trick-card.modern-style .trick-description {
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+  color: rgba(209, 213, 219, 0.8) !important;
+  margin: 0 !important;
+  
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* Tags - minimal */
+.trick-card.modern-style .trick-tags {
+  display: flex !important;
+  gap: 6px !important;
+  margin: 4px 0 0 0 !important;
+  overflow: hidden !important;
+  max-height: 20px !important;
+}
+
+.trick-card.modern-style .tag {
+  background: rgba(129, 140, 248, 0.15) !important;
+  color: rgba(129, 140, 248, 0.9) !important;
+  padding: 2px 6px !important;
+  border-radius: 3px !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  white-space: nowrap !important;
+  border: none !important;
+}
+
+/* Bottom actions - Reddit style */
+.trick-card.modern-style .trick-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+  margin-top: 6px !important;
+  padding: 0 !important;
+  border: none !important;
+  min-height: 24px !important;
+}
+
+.trick-card.modern-style .action-btn {
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  padding: 4px 8px !important;
+  background: none !important;
+  border: none !important;
+  border-radius: 2px !important;
+  color: rgba(156, 163, 175, 0.7) !important;
+  text-decoration: none !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.1s ease !important;
+}
+
+.trick-card.modern-style .action-btn:hover {
+  background: rgba(75, 85, 99, 0.3) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Hide header and difficulty badge for clean look */
+.trick-card.modern-style .trick-header,
+.trick-card.modern-style .difficulty-badge {
+  display: none !important;
+}
+
+/* Hide kudos button container - use voting arrows instead */
+.trick-card.modern-style .kudos-button-container {
+  display: none !important;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .tricks-grid .trick-card.modern-style {
+    min-height: 100px !important;
+  }
+  
+  .trick-card.modern-style .trick-voting {
+    width: 35px !important;
+    padding: 6px 2px !important;
+  }
+  
+  .trick-card.modern-style .vote-arrow {
+    width: 20px !important;
+    height: 20px !important;
+    font-size: 14px !important;
+  }
+  
+  .trick-card.modern-style .trick-content {
+    padding: 6px 10px !important;
+  }
+  
+  .trick-card.modern-style .trick-title {
+    font-size: 15px !important;
+  }
+  
+  .trick-card.modern-style .trick-description {
+    font-size: 13px !important;
+  }
+}
+
+/* Grid spacing */
+.tricks-grid {
+  gap: 8px !important;
+}
