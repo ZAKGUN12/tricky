@@ -94,6 +94,11 @@
   color: #ff4500 !important;
 }
 
+.trick-card.modern-style .vote-arrow.downvote:hover {
+  background: #272729 !important;
+  color: #d7dadc !important;
+}
+
 .trick-card.modern-style .vote-count {
   font-size: 12px !important;
   font-weight: 700 !important;

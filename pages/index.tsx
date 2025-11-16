@@ -664,7 +664,10 @@ function HomeContent() {
                         ▲
                       </div>
                       <div className="vote-count">{trick.kudos}</div>
-                      <div className="vote-arrow downvote">
+                      <div 
+                        className="vote-arrow downvote"
+                        onClick={() => handleKudosToggle(trick.id)}
+                      >
                         ▼
                       </div>
                     </div>
